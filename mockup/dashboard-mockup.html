@@ -32,8 +32,7 @@ header{display:flex;justify-content:space-between;align-items:flex-end;
   border-radius:13px;padding:5px;gap:5px;margin-bottom:16px}
 .tab{padding:9px 26px;border-radius:9px;font-size:14px;font-weight:700;color:var(--muted);
   cursor:pointer;border:none;background:none;font-family:inherit;transition:.18s}
-.tab.active{background:linear-gradient(180deg,#1d3160,#16244a);color:#fff;
-  box-shadow:0 1px 10px rgba(59,130,246,.25)}
+.tab.active{background:linear-gradient(180deg,#1d3160,#16244a);color:#fff}
 .pane{display:none}.pane.active{display:block}
 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
 .grid>*{min-width:0}
@@ -42,7 +41,7 @@ header{display:flex;justify-content:space-between;align-items:flex-end;
   border:1px solid var(--border);border-radius:18px;padding:18px 20px}
 .card h2{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;
   letter-spacing:1.2px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
 .col-12{grid-column:span 12}.col-8{grid-column:span 8}.col-7{grid-column:span 7}
 .col-6{grid-column:span 6}.col-5{grid-column:span 5}.col-4{grid-column:span 4}
 .idx-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
@@ -51,16 +50,44 @@ header{display:flex;justify-content:space-between;align-items:flex-end;
 .idx .val{font-size:21px;font-weight:600;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
 .idx .chg{font-size:13px;font-weight:600;margin-top:3px;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
 .up{color:var(--up)}.down{color:var(--down)}
-.gauge{display:flex;align-items:center;gap:18px}
-.ring{width:104px;height:104px;border-radius:50%;flex:none;
-  display:grid;place-items:center;position:relative}
-.ring.greed{background:conic-gradient(var(--up) 68%,#1c2740 0)}
-.ring.adv{background:conic-gradient(var(--up) 66%,#1c2740 0)}
-.ring::before{content:"";position:absolute;width:78px;height:78px;border-radius:50%;background:var(--surface)}
-.ring b{position:relative;font-size:26px;font-weight:700}
-.gauge .lbl{font-size:13px;color:var(--muted)}
-.gauge .lbl strong{color:var(--up);font-size:15px}
-.subgauge{margin-top:12px;font-size:12px;color:var(--muted)}
+.vix{display:flex;align-items:center;gap:20px}
+.vix .num{font-size:44px;font-weight:600;font-family:'IBM Plex Mono',monospace;line-height:1}
+.vix .unit{font-size:12px;color:var(--muted);margin-top:5px;letter-spacing:.5px}
+.vix .meta{flex:1}
+.vix .state{font-size:14px;font-weight:700;font-family:'IBM Plex Mono',monospace}
+.vix .sub{font-size:12px;color:var(--muted);margin-top:7px}
+.vix svg{display:block;margin-top:8px}
+/* clickable hint */
+.idx,.hotrow{cursor:pointer}
+.idx{position:relative;transition:.15s}
+.idx:hover{border-color:var(--accent)}
+.idx .chart-cue{position:absolute;top:11px;right:11px;width:15px;height:15px;opacity:.45}
+.hotrow .name-wrap{display:inline-flex;align-items:center;gap:5px}
+.tap-note{font-size:11px;color:var(--muted);margin-top:11px;display:flex;align-items:center;gap:5px}
+/* chart modal */
+.modal{position:fixed;inset:0;background:rgba(2,6,23,.78);backdrop-filter:blur(3px);
+  display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.modal.show{display:flex}
+.modal-card{background:linear-gradient(180deg,#0c1426,#070d1a);border:1px solid var(--border);
+  border-radius:20px;width:760px;max-width:100%;padding:22px 24px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.modal-head .t{font-size:19px;font-weight:700}
+.modal-head .t .c{color:var(--muted);font-size:13px;font-family:'IBM Plex Mono',monospace;margin-left:8px}
+.modal-head .px{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px}
+.modal-close{background:var(--surface2);border:1px solid var(--border);color:var(--muted);
+  width:32px;height:32px;border-radius:9px;cursor:pointer;font-size:15px}
+.period-tabs{display:inline-flex;gap:5px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:10px;padding:4px;margin:14px 0}
+.period-tabs button{background:none;border:none;color:var(--muted);font-family:inherit;
+  font-size:12.5px;font-weight:600;padding:6px 16px;border-radius:7px;cursor:pointer}
+.period-tabs button.on{background:#1d3160;color:#fff}
+.kwrap{background:#060c18;border:1px solid var(--border);border-radius:14px;padding:14px}
+.kmeta{display:flex;gap:18px;font-size:12px;color:var(--muted);margin-top:12px;flex-wrap:wrap}
+.kmeta b{color:var(--fg);font-family:'IBM Plex Mono',monospace;font-weight:600}
+.mnews{margin-top:16px;border-top:1px solid var(--border);padding-top:14px}
+.mnews h4{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:11px}
+.mnewsrow{font-size:13.5px;margin-bottom:10px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.mnewsrow a{color:var(--accent);text-decoration:none;font-size:11.5px;margin-left:auto;white-space:nowrap}
 /* sector flows two columns */
 .flow2{display:grid;grid-template-columns:1fr 1fr;gap:18px;min-width:0}
 .flow2 .flowcol{min-width:0}
@@ -147,13 +174,17 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin-top:22px}
           <div class="idx"><div class="name">成交金額</div><div class="val">4,120 億</div><div class="chg down">▼ 量縮</div></div>
           <div class="idx"><div class="name">外資買賣超</div><div class="val">+128 億</div><div class="chg up">▲ 連 3 買</div></div>
         </div>
+        <div class="tap-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A98AE" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>點任一指數可展開日 K 線圖</div>
       </section>
       <section class="card col-4">
-        <h2><span class="dot"></span>台股市場情緒</h2>
-        <div class="gauge">
-          <div class="ring adv"><b>66%</b></div>
-          <div><div class="lbl">上漲家數占比<br><strong>偏多</strong></div>
-            <div class="subgauge">漲 612 / 跌 318 · 融資增</div></div>
+        <h2><span class="dot"></span>台股市場情緒 · VIX</h2>
+        <div class="vix">
+          <div><div class="num">18.5</div><div class="unit">台指 VIX</div></div>
+          <div class="meta">
+            <svg width="120" height="40" viewBox="0 0 120 40"><polyline points="0,14 16,12 32,18 48,16 64,22 80,20 96,26 120,28" fill="none" stroke="#22C55E" stroke-width="2"/></svg>
+            <div class="state down">▼ 0.8　波動偏低</div>
+            <div class="sub">市場情緒平穩，無明顯避險</div>
+          </div>
         </div>
       </section>
       <section class="card col-7">
@@ -201,13 +232,17 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin-top:22px}
           <div class="idx"><div class="name">那斯達克</div><div class="val">17,765</div><div class="chg up">▲ 88　+0.50%</div></div>
           <div class="idx"><div class="name">費城半導體</div><div class="val">5,602</div><div class="chg up">▲ 74　+1.34%</div></div>
         </div>
+        <div class="tap-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A98AE" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>點任一指數可展開日 K 線圖</div>
       </section>
       <section class="card col-4">
-        <h2><span class="dot"></span>美股市場情緒</h2>
-        <div class="gauge">
-          <div class="ring greed"><b>68</b></div>
-          <div><div class="lbl">CNN 恐懼貪婪<br><strong>貪婪 Greed</strong></div>
-            <div class="subgauge">較前日 +4 · VIX 14.2</div></div>
+        <h2><span class="dot"></span>美股市場情緒 · VIX</h2>
+        <div class="vix">
+          <div><div class="num">14.2</div><div class="unit">CBOE VIX</div></div>
+          <div class="meta">
+            <svg width="120" height="40" viewBox="0 0 120 40"><polyline points="0,18 16,16 32,20 48,15 64,17 80,13 96,15 120,12" fill="none" stroke="#22C55E" stroke-width="2"/></svg>
+            <div class="state down">▼ 0.5　低波動</div>
+            <div class="sub">恐慌情緒低，多頭氣氛延續</div>
+          </div>
         </div>
       </section>
       <section class="card col-7">
@@ -285,6 +320,32 @@ footer{color:var(--muted);font-size:11px;text-align:center;margin-top:22px}
 
   <footer>※ 本頁為設計示意，數據皆為假資料 · 正式版每日 18:43 自動更新並 Telegram 推送</footer>
 </div>
+
+<!-- K 線圖 modal -->
+<div class="modal" id="chartModal">
+  <div class="modal-card">
+    <div class="modal-head">
+      <div class="t">台積電<span class="c">2330</span></div>
+      <div class="px up">1,085　▲ 22 (+2.07%)</div>
+      <button class="modal-close">✕</button>
+    </div>
+    <div class="period-tabs">
+      <button>1 月</button><button class="on">3 月</button><button>半年</button><button>1 年</button>
+    </div>
+    <div class="kwrap"><svg id="kchart" width="100%" height="280" viewBox="0 0 712 280" preserveAspectRatio="none"></svg></div>
+    <div class="kmeta">
+      <span>開 <b>1,063</b></span><span>高 <b>1,090</b></span><span>低 <b>1,058</b></span>
+      <span>收 <b>1,085</b></span><span>量 <b>4.8 萬張</b></span><span>MA20 <b>1,041</b></span>
+    </div>
+    <div class="mnews">
+      <h4>相關新聞 · 台積電</h4>
+      <div class="mnewsrow"><span class="tag pos">利多</span>外資調升台積電目標價至 1,300 元，看好 AI 晶片需求<a href="#">經濟日報 · 2h</a></div>
+      <div class="mnewsrow"><span class="tag neu">中性</span>台積電法說會在即，市場關注先進製程資本支出指引<a href="#">工商時報 · 5h</a></div>
+      <div class="mnewsrow"><span class="tag neg">利空</span>傳美方研擬擴大對中半導體設備限制，供應鏈評估影響<a href="#">路透 · 1d</a></div>
+    </div>
+  </div>
+</div>
+
 <script>
 document.querySelectorAll('.tab').forEach(t=>{
   t.onclick=()=>{
@@ -294,7 +355,46 @@ document.querySelectorAll('.tab').forEach(t=>{
     document.querySelector('.pane.'+t.dataset.pane).classList.add('active');
   };
 });
-if(location.hash==='#us'){document.querySelector('.tab[data-pane=us]').click();}
+if(location.hash.indexOf('us')>=0){document.querySelector('.tab[data-pane=us]').click();}
+
+// 繪製示意 K 線圖（純前端 SVG，正式版改用 lightweight-charts 接真實資料）
+function drawK(){
+  const W=712,H=280,n=42,pad=8;const cw=(W-pad*2)/n;
+  let price=980;const bars=[];
+  for(let i=0;i<n;i++){
+    const open=price;
+    const drift=(Math.sin(i/4)+ (i/n)*2)*4;
+    const close=open+drift+(((i*37)%11)-5)*3;
+    const high=Math.max(open,close)+4+((i*13)%6);
+    const low=Math.min(open,close)-4-((i*7)%6);
+    bars.push({open,close,high,low});price=close;
+  }
+  const all=bars.flatMap(b=>[b.high,b.low]);
+  const max=Math.max(...all),min=Math.min(...all);
+  const y=v=>pad+(max-v)/(max-min)*(H-pad*2-30);
+  // MA20 線
+  let ma=[];for(let i=0;i<n;i++){const s=Math.max(0,i-19);const seg=bars.slice(s,i+1);ma.push(seg.reduce((a,b)=>a+b.close,0)/seg.length);}
+  let svg='';
+  // 量柱
+  bars.forEach((b,i)=>{const x=pad+i*cw;const up=b.close>=b.open;const vh=10+((i*17)%20);
+    svg+=`<rect x="${x+cw*0.2}" y="${H-vh}" width="${cw*0.6}" height="${vh}" fill="${up?'#F2495C':'#22C55E'}" opacity="0.28"/>`;});
+  // 蠟燭
+  bars.forEach((b,i)=>{const x=pad+i*cw+cw/2;const up=b.close>=b.open;const col=up?'#F2495C':'#22C55E';
+    svg+=`<line x1="${x}" y1="${y(b.high)}" x2="${x}" y2="${y(b.low)}" stroke="${col}" stroke-width="1.2"/>`;
+    const yo=y(b.open),yc=y(b.close);svg+=`<rect x="${x-cw*0.32}" y="${Math.min(yo,yc)}" width="${cw*0.64}" height="${Math.max(2,Math.abs(yc-yo))}" fill="${col}"/>`;});
+  // MA20
+  let pts=ma.map((v,i)=>`${pad+i*cw+cw/2},${y(v)}`).join(' ');
+  svg+=`<polyline points="${pts}" fill="none" stroke="#F5A623" stroke-width="1.6" opacity="0.9"/>`;
+  document.getElementById('kchart').innerHTML=svg;
+}
+drawK();
+
+// 點指數/個股開圖；關閉
+function openChart(){document.getElementById('chartModal').classList.add('show');}
+document.querySelectorAll('.idx,.hotrow').forEach(e=>e.onclick=openChart);
+document.querySelector('.modal-close').onclick=()=>document.getElementById('chartModal').classList.remove('show');
+document.getElementById('chartModal').onclick=e=>{if(e.target.id==='chartModal')e.target.classList.remove('show');};
+if(location.hash.indexOf('chart')>=0){openChart();}
 </script>
 </body>
 </html>
