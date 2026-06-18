@@ -1,13 +1,13 @@
 {
   "date": "2026-06-18",
-  "updated_at": "2026-06-18 18:43",
+  "updated_at": "2026-06-19 00:27",
   "overview": {
     "tw": {
       "featured": {
         "name": "發行量加權股價指數",
-        "close": 45877.39,
-        "change": 68.2,
-        "change_pct": 0.15,
+        "close": 46465.2,
+        "change": 587.81,
+        "change_pct": 1.28,
         "note": "較昨收",
         "spark": [
           45337.91,
@@ -22,22 +22,28 @@
           44169.04,
           45396.99,
           45809.19,
-          45877.39
+          45877.39,
+          46465.2
         ]
       },
       "stats": [
         {
           "name": "成交金額",
-          "value": "11,546 億"
-        },
-        {
-          "name": "櫃買 OTC",
-          "value": "（範例）",
-          "change_pct": 0.0
+          "value": "16,062 億"
         },
         {
           "name": "外資買賣超",
-          "value": "（範例）",
+          "value": "+211.5 億",
+          "dir": "up"
+        },
+        {
+          "name": "投信買賣超",
+          "value": "−53.6 億",
+          "dir": "down"
+        },
+        {
+          "name": "自營買賣超",
+          "value": "+154.9 億",
           "dir": "up"
         }
       ]
@@ -123,34 +129,21 @@
           26376.34,
           26021.66
         ]
-      },
-      {
-        "name": "費城半導體",
-        "close": 5602,
-        "change_pct": 1.34,
-        "spark": [
-          5480,
-          5510,
-          5535,
-          5560,
-          5585,
-          5602
-        ]
       }
     ],
     "vix": {
       "tw": {
-        "value": 18.5,
-        "change": -0.8,
-        "state": "波動偏低",
-        "note": "（範例）台指 VIX 待分身補",
-        "gauge": 0.26
+        "value": 15.8,
+        "change": -0.6,
+        "state": "中性偏低",
+        "note": "（範例）台指 VIX 無免費源、待補",
+        "gauge": 0.22
       },
       "us": {
         "value": 18.44,
         "change": 12.37,
         "state": "波動升高",
-        "note": "VIX 跳升，留意短線避險情緒",
+        "note": "聯準會鷹派，避險情緒升溫",
         "gauge": 0.3688
       }
     }
@@ -272,34 +265,34 @@
   "hot_stocks": {
     "tw": [
       {
-        "code": "1303",
-        "name": "南亞",
+        "code": "6525",
+        "name": "捷敏-KY",
         "change_pct": 10.0,
-        "reason": "（範例）原料報價回升"
+        "reason": "亮燈漲停"
       },
       {
-        "code": "2316",
-        "name": "楠梓電",
-        "change_pct": 10.0,
-        "reason": "（範例）PCB 拉貨"
+        "code": "2472",
+        "name": "立隆電",
+        "change_pct": 9.99,
+        "reason": "強勢逼近漲停"
       },
       {
-        "code": "3090",
-        "name": "日電貿",
-        "change_pct": 10.0,
-        "reason": "（範例）通路備貨"
+        "code": "6919",
+        "name": "康霈*",
+        "change_pct": 9.99,
+        "reason": "強勢逼近漲停"
       },
       {
-        "code": "4722",
-        "name": "國精化",
-        "change_pct": 10.0,
-        "reason": "（範例）題材輪動"
+        "code": "2449",
+        "name": "京元電子",
+        "change_pct": 9.98,
+        "reason": "強勢逼近漲停"
       },
       {
-        "code": "3189",
-        "name": "景碩",
-        "change_pct": 9.97,
-        "reason": "（範例）ABF 載板需求"
+        "code": "7610",
+        "name": "聯友金屬-創",
+        "change_pct": 9.98,
+        "reason": "強勢逼近漲停"
       }
     ],
     "us": [
@@ -335,61 +328,154 @@
       }
     ]
   },
+  "inst_top": {
+    "foreign": [
+      {
+        "code": "2002",
+        "name": "中鋼",
+        "zhang": 319914
+      },
+      {
+        "code": "1301",
+        "name": "台塑",
+        "zhang": 142290
+      },
+      {
+        "code": "2303",
+        "name": "聯電",
+        "zhang": 65777
+      },
+      {
+        "code": "2409",
+        "name": "友達",
+        "zhang": 52384
+      },
+      {
+        "code": "2337",
+        "name": "旺宏",
+        "zhang": 31389
+      }
+    ],
+    "trust": [
+      {
+        "code": "2886",
+        "name": "兆豐金",
+        "zhang": 35367
+      },
+      {
+        "code": "4904",
+        "name": "遠傳",
+        "zhang": 23501
+      },
+      {
+        "code": "2890",
+        "name": "永豐金",
+        "zhang": 22670
+      },
+      {
+        "code": "2892",
+        "name": "第一金",
+        "zhang": 20339
+      },
+      {
+        "code": "4958",
+        "name": "臻鼎-KY",
+        "zhang": 19703
+      }
+    ],
+    "dealer": [
+      {
+        "code": "2303",
+        "name": "聯電",
+        "zhang": 8305
+      },
+      {
+        "code": "2409",
+        "name": "友達",
+        "zhang": 4705
+      },
+      {
+        "code": "3481",
+        "name": "群創",
+        "zhang": 4224
+      },
+      {
+        "code": "0056",
+        "name": "元大高股息",
+        "zhang": 2483
+      },
+      {
+        "code": "0052",
+        "name": "富邦科技",
+        "zhang": 2461
+      }
+    ]
+  },
   "news": [
     {
-      "tag": "neg",
-      "title": "川普表示考慮對半導體進口加徵新關稅",
-      "impact": "恐衝擊台廠美國出貨成本，留意台積電 ADR 反應",
-      "source_name": "路透",
-      "source_url": "https://www.reuters.com/"
+      "tag": "pos",
+      "title": "台股大漲 587 點收 46,465 改寫新高，台積電領軍、外資買超逾 200 億",
+      "impact": "權值股強攻、成交放大至 1.6 兆，多頭氣盛",
+      "source_name": "經濟日報",
+      "source_url": "https://money.udn.com/money/story/5607/9572298"
     },
     {
-      "tag": "pos",
-      "title": "聯準會官員放鴿，暗示年內仍有降息空間",
-      "impact": "美債殖利率走低，利於台美科技成長股",
+      "tag": "neg",
+      "title": "聯準會點陣圖鷹派上修，年底前恐升息",
+      "impact": "今年降息預期落空，美股四大指數收黑、VIX 單日跳升逾 12%",
       "source_name": "CNBC",
-      "source_url": "https://www.cnbc.com/"
+      "source_url": "https://www.cnbc.com/2026/06/17/fed-interest-rate-decision-june-2026.html"
     },
     {
       "tag": "neu",
-      "title": "輝達黃仁勳訪台，供應鏈合作消息受關注",
-      "impact": "AI 供應鏈題材延燒，台美兩地短線情緒偏多",
-      "source_name": "經濟日報",
-      "source_url": "https://money.udn.com/"
+      "title": "川普對先進半導體祭出 25% 關稅，台廠以赴美投資換豁免",
+      "impact": "台美晶片貿易協議使台積電等獲關稅豁免，衝擊有限但供應鏈成本受關注",
+      "source_name": "Supply Chain Dive",
+      "source_url": "https://www.supplychaindive.com/news/trump-tariffs-semiconductors-critical-minerals/809731/"
+    },
+    {
+      "tag": "pos",
+      "title": "美伊簽署臨時和平協議，地緣風險降溫、油價回落",
+      "impact": "避險需求下降，有利風險性資產與科技股",
+      "source_name": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/markets/live/stock-market-today-dow-sp-500-nasdaq-climb-with-focus-on-iran-deal-fed-hike-path-230530576.html"
     }
   ],
   "upcoming_events": [
     {
-      "date": "2026-06-20",
+      "date": "2026-06-19",
       "name": "四巫日（三巫到期）",
-      "analysis": "期權期貨結算，台美盤中波動可能放大"
+      "analysis": "期權期貨同步結算，台美盤中波動可能放大"
     },
     {
-      "date": "2026-06-19",
-      "name": "FOMC 利率決議",
-      "analysis": "市場預期按兵不動，重點在點陣圖與談話"
+      "date": "2026-06-26",
+      "name": "美國 5 月 PCE 物價指數",
+      "analysis": "聯準會偏好通膨指標，鷹派氛圍下牽動升息預期"
     }
   ],
   "past_events_review": [
     {
       "date": "2026-06-17",
-      "name": "美國 5 月零售銷售",
-      "result": "結果 +0.4% 優於預期，消費韌性帶動標普收紅"
+      "name": "FOMC 利率決議",
+      "result": "利率按兵不動，但點陣圖鷹派上修、取消今年降息預期，美股三大指數收黑"
     }
   ],
   "verdict": {
     "bullish": [
-      "費半強漲，AI 供應鏈氣盛",
-      "聯準會偏鴿，資金面寬鬆"
+      "台股創高、量增至 1.6 兆，外資轉買超逾 200 億",
+      "台積電基本面強（5 月營收年增逾 30%）",
+      "美伊和平協議降地緣風險、油價回落"
     ],
     "bearish": [
-      "關稅疑慮壓抑出口股",
-      "道瓊收黑，傳產承壓"
+      "聯準會鷹派、年底恐升息，美股四大指數收黑",
+      "投信賣超逾 50 億，追高轉趨保守",
+      "那斯達克挫逾 1%，科技股隔日恐承壓"
     ],
     "risks": [
-      "四巫日結算波動",
-      "FOMC 前觀望氣氛濃"
+      "VIX 單日跳升逾 12%，避險情緒升溫",
+      "四巫日結算盤中波動放大",
+      "川普半導體關稅政策變數"
     ]
   },
-  "summary": "（硬數據為真實值）台股加權收 45,877.39 +0.15%；美股道瓊/標普/那斯達克收黑、VIX 跳升至 18.4。下方消息與研判為範例，正式版每日由 AI 分身彙整。"
+  "summary": "台股 6/18 大漲 587 點、收 46,465 改寫歷史新高，台積電領軍、外資回補買超逾 200 億、成交放大至 1.6 兆；惟聯準會點陣圖鷹派上修、美股四大指數收黑、VIX 跳升逾 12%，本週四巫日結算留意隔日震盪。"
 }
