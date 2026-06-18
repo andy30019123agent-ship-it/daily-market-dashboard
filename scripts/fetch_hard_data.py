@@ -37,6 +37,10 @@ AV = "https://www.alphavantage.co/query"
 AV_SLEEP = 13  # 免費版 5 次/分
 US_WATCH = [("NVDA", "輝達"), ("TSM", "台積電 ADR"), ("AVGO", "博通"),
             ("AMD", "超微"), ("AAPL", "蘋果"), ("TSLA", "特斯拉")]
+# 美股 11 大類股 SPDR ETF（用當日漲跌幅代表類股表現）
+US_SECTORS = [("XLK", "科技"), ("XLF", "金融"), ("XLV", "醫療保健"), ("XLY", "非必需消費"),
+              ("XLC", "通訊服務"), ("XLI", "工業"), ("XLP", "必需消費"), ("XLE", "能源"),
+              ("XLU", "公用事業"), ("XLRE", "房地產"), ("XLB", "原物料")]
 
 
 def av_key():
@@ -207,6 +211,31 @@ def fetch_hard_data(date: str) -> dict:
         missing.append("費城半導體 SOX（缺 AV 金鑰）")
         missing.append("美股熱門個股（缺 AV 金鑰）")
 
+    # ---- 美股類股表現（11 大 SPDR ETF 漲跌幅）----
+    sectors_us = {"in": [], "out": []}
+    if key:
+        secs = []
+        for sym, name in US_SECTORS:
+            time.sleep(AV_SLEEP)
+            try:
+                q = av_quote(sym, key)
+                secs.append({"name": name, "pct": q["pct"]})
+            except Exception as e:
+                errors.append(f"AV {sym}: {e}")
+        if secs:
+            mx = max((abs(s["pct"]) for s in secs), default=1) or 1
+            def _row(s):
+                return {"name": s["name"],
+                        "amount": f"{'+' if s['pct'] >= 0 else ''}{s['pct']:.2f}%",
+                        "weight": round(abs(s["pct"]) / mx, 2)}
+            up = sorted(secs, key=lambda x: x["pct"], reverse=True)[:5]
+            down = sorted(secs, key=lambda x: x["pct"])[:5]
+            sectors_us = {"in": [_row(s) for s in up], "out": [_row(s) for s in down]}
+        else:
+            missing.append("美股類股表現")
+    else:
+        missing.append("美股類股表現（缺 AV 金鑰）")
+
     # ---- VIX ----
     vix_us = None
     try:
@@ -228,6 +257,7 @@ def fetch_hard_data(date: str) -> dict:
         },
         "hot_stocks": {"tw": hot_tw, "us": us_hot},
         "sectors_tw": sectors_tw,
+        "sectors_us": sectors_us,
         "inst_top": inst_top,
         "_meta": {"errors": errors, "missing": missing, "fetched_at": taipei_today(), "trade_date": trade_ymd},
     }

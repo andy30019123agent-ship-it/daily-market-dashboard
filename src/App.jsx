@@ -112,7 +112,8 @@ export default function App() {
           <div className="grid">
             <OverviewUS us={ov.us} onOpen={openChart} />
             <Vix vix={ov.vix.us} label="美股情緒" />
-            <Sectors sectors={day.sectors.us} meta="ETF 淨流" />
+            <Sectors sectors={day.sectors.us} title="類股漲跌幅" meta="11 大類股 ETF"
+              inLabel="▲ 強勢類股 Top 5" outLabel="▼ 弱勢類股 Top 5" />
             <HotStocks stocks={day.hot_stocks.us} onOpen={openChart} />
           </div>
         </div>

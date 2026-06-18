@@ -1,6 +1,6 @@
 {
   "date": "2026-06-18",
-  "updated_at": "2026-06-19 00:53",
+  "updated_at": "2026-06-19 01:05",
   "overview": {
     "tw": {
       "featured": {
@@ -215,56 +215,56 @@
     "us": {
       "in": [
         {
-          "name": "半導體",
-          "amount": "+38 億$",
-          "weight": 1.0
-        },
-        {
-          "name": "軟體",
-          "amount": "+27 億$",
-          "weight": 0.71
-        },
-        {
-          "name": "通訊服務",
-          "amount": "+19 億$",
-          "weight": 0.5
-        },
-        {
-          "name": "非必需消費",
-          "amount": "+14 億$",
-          "weight": 0.37
-        },
-        {
           "name": "工業",
-          "amount": "+9 億$",
-          "weight": 0.24
+          "amount": "-0.14%",
+          "weight": 0.05
+        },
+        {
+          "name": "科技",
+          "amount": "-0.34%",
+          "weight": 0.12
+        },
+        {
+          "name": "金融",
+          "amount": "-0.55%",
+          "weight": 0.2
+        },
+        {
+          "name": "能源",
+          "amount": "-1.25%",
+          "weight": 0.45
+        },
+        {
+          "name": "公用事業",
+          "amount": "-1.33%",
+          "weight": 0.48
         }
       ],
       "out": [
         {
-          "name": "能源",
-          "amount": "−22 億$",
+          "name": "通訊服務",
+          "amount": "-2.78%",
           "weight": 1.0
         },
         {
-          "name": "金融",
-          "amount": "−17 億$",
-          "weight": 0.77
-        },
-        {
-          "name": "公用事業",
-          "amount": "−11 億$",
-          "weight": 0.5
-        },
-        {
-          "name": "原物料",
-          "amount": "−8 億$",
-          "weight": 0.36
+          "name": "非必需消費",
+          "amount": "-2.51%",
+          "weight": 0.9
         },
         {
           "name": "房地產",
-          "amount": "−6 億$",
-          "weight": 0.27
+          "amount": "-2.51%",
+          "weight": 0.9
+        },
+        {
+          "name": "必需消費",
+          "amount": "-2.23%",
+          "weight": 0.8
+        },
+        {
+          "name": "醫療保健",
+          "amount": "-1.46%",
+          "weight": 0.53
         }
       ]
     }
@@ -508,31 +508,31 @@
   "news": [
     {
       "tag": "pos",
-      "title": "台股大漲 587 點收 46,465 改寫新高，台積電領軍、外資買超逾 200 億",
-      "impact": "權值股強攻、成交放大至 1.6 兆，多頭氣盛",
+      "title": "台股收 46,465 創歷史新高，外資買超 211 億、三大法人買超 310 億",
+      "impact": "中小型科技股領軍、成交放大至 1.54 兆，台指期夜盤一度觸 46,990 點",
       "source_name": "經濟日報",
-      "source_url": "https://money.udn.com/money/story/5607/9572298"
-    },
-    {
-      "tag": "neg",
-      "title": "聯準會點陣圖鷹派上修，年底前恐升息",
-      "impact": "今年降息預期落空，美股四大指數收黑、VIX 單日跳升逾 12%",
-      "source_name": "CNBC",
-      "source_url": "https://www.cnbc.com/2026/06/17/fed-interest-rate-decision-june-2026.html"
-    },
-    {
-      "tag": "neu",
-      "title": "川普對先進半導體祭出 25% 關稅，台廠以赴美投資換豁免",
-      "impact": "台美晶片貿易協議使台積電等獲關稅豁免，衝擊有限但供應鏈成本受關注",
-      "source_name": "Supply Chain Dive",
-      "source_url": "https://www.supplychaindive.com/news/trump-tariffs-semiconductors-critical-minerals/809731/"
+      "source_url": "https://money.udn.com/money/story/5607/9525160"
     },
     {
       "tag": "pos",
-      "title": "美伊簽署臨時和平協議，地緣風險降溫、油價回落",
-      "impact": "避險需求下降，有利風險性資產與科技股",
-      "source_name": "Yahoo Finance",
-      "source_url": "https://finance.yahoo.com/markets/live/stock-market-today-dow-sp-500-nasdaq-climb-with-focus-on-iran-deal-fed-hike-path-230530576.html"
+      "title": "川普稱 Intel 將與 Apple 合作在美設計晶片，激勵半導體股",
+      "impact": "Intel 盤前大漲 9.8%、美光 +4.8%、超微 +3.9%、博通 +3%，AI 供應鏈題材延燒",
+      "source_name": "TheStreet",
+      "source_url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-june-18-2026"
+    },
+    {
+      "tag": "pos",
+      "title": "國際油價 5 日重挫 14%，美國汽油睽違 3 月跌破 4 美元",
+      "impact": "美伊和平協議樂觀情緒推升、能源通膨壓力緩解，利於消費與風險資產",
+      "source_name": "TheStreet",
+      "source_url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-june-18-2026"
+    },
+    {
+      "tag": "neu",
+      "title": "聯準會 Warsh 首會維持利率 3.50–3.75%，18 位官員 9 位預期年底前升息",
+      "impact": "點陣圖鷹派，今年降息預期落空，美股 6/17 一度因此收黑、VIX 跳升",
+      "source_name": "CNBC",
+      "source_url": "https://www.cnbc.com/2026/06/04/stock-market-today-live-updates.html"
     }
   ],
   "upcoming_events": [
@@ -550,26 +550,26 @@
   "past_events_review": [
     {
       "date": "2026-06-17",
-      "name": "FOMC 利率決議",
-      "result": "利率按兵不動，但點陣圖鷹派上修、取消今年降息預期，美股三大指數收黑"
+      "name": "FOMC 利率決議（Warsh 首會）",
+      "result": "利率按兵不動，但點陣圖鷹派上修、取消今年降息預期，美股當日收黑"
     }
   ],
   "verdict": {
     "bullish": [
-      "台股創高、量增至 1.6 兆，外資轉買超逾 200 億",
-      "台積電基本面強（5 月營收年增逾 30%）",
-      "美伊和平協議降地緣風險、油價回落"
+      "台股創高、量增至 1.5 兆，外資回補買超逾 200 億",
+      "川普促成 Intel-Apple 晶片合作，激勵半導體",
+      "油價跌破 4 美元，通膨壓力緩解"
     ],
     "bearish": [
-      "聯準會鷹派、年底恐升息，美股四大指數收黑",
-      "投信賣超逾 50 億，追高轉趨保守",
-      "那斯達克挫逾 1%，科技股隔日恐承壓"
+      "聯準會鷹派，9/18 官員預期年底前升息",
+      "美股 6/17 因 Fed 收黑、VIX 跳升",
+      "台指 VIX 仍處 37 高檔，避險未消"
     ],
     "risks": [
-      "VIX 單日跳升逾 12%，避險情緒升溫",
       "四巫日結算盤中波動放大",
-      "川普半導體關稅政策變數"
+      "升息路徑不確定壓抑評價",
+      "川普關稅與地緣政策變數"
     ]
   },
-  "summary": "台股 6/18 大漲 587 點、收 46,465 改寫歷史新高，台積電領軍、外資回補買超逾 200 億、成交放大至 1.6 兆；惟聯準會點陣圖鷹派上修、美股四大指數收黑、VIX 跳升逾 12%，本週四巫日結算留意隔日震盪。"
+  "summary": "台股 6/18 大漲 587 點收 46,465 改寫新高，外資回補買超逾 200 億、成交 1.5 兆；美股 6/17 因聯準會鷹派收黑，但 6/18 盤前因川普促成 Intel-Apple 晶片合作、油價跌破 4 美元而科技股回神。台指 VIX 仍高、本週四巫日結算，留意波動。"
 }

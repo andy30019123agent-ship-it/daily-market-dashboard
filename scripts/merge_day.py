@@ -48,7 +48,7 @@ def merge_day(partial: dict, soft: dict, date: str, updated_at: str = "") -> dic
         "sectors": {
             # 台股類股用硬數據（真實漲跌幅）；美股仍由軟情報補
             "tw": partial.get("sectors_tw") or soft.get("sectors", {}).get("tw", {"in": [], "out": []}),
-            "us": soft.get("sectors", {}).get("us", {"in": [], "out": []}),
+            "us": partial.get("sectors_us") or soft.get("sectors", {}).get("us", {"in": [], "out": []}),
         },
         "hot_stocks": {
             "tw": hot_tw,
