@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>每日台美股戰略儀表板</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap');
+:root{
+  --bg:#020617; --surface:#0B1220; --surface2:#111A2E; --border:#243044;
+  --fg:#F1F5F9; --muted:#8A98AE; --up:#F2495C; --down:#22C55E;
+  --accent:#3B82F6; --warn:#F59E0B; --chip:#1A2336;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Manrope','PingFang TC','Noto Sans TC',system-ui,sans-serif;
+  background:radial-gradient(1200px 600px at 75% -10%,#0c1a36 0%,var(--bg) 55%);
+  color:var(--fg);padding:28px;line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto}
+header{display:flex;justify-content:space-between;align-items:flex-end;
+  flex-wrap:wrap;gap:16px;margin-bottom:20px}
+.brand h1{font-size:24px;font-weight:700;letter-spacing:-.4px}
+.brand p{color:var(--muted);font-size:13px;margin-top:4px}
+.datebar{display:flex;align-items:center;gap:10px}
+.datebar select{background:var(--surface2);color:var(--fg);border:1px solid var(--border);
+  border-radius:10px;padding:9px 14px;font-size:14px;font-weight:600;font-family:inherit}
+.pill{background:var(--chip);border:1px solid var(--border);border-radius:999px;
+  padding:6px 13px;font-size:12px;color:var(--muted)}
+/* tabs */
+.tabbar{display:inline-flex;background:var(--surface2);border:1px solid var(--border);
+  border-radius:13px;padding:5px;gap:5px;margin-bottom:16px}
+.tab{padding:9px 26px;border-radius:9px;font-size:14px;font-weight:700;color:var(--muted);
+  cursor:pointer;border:none;background:none;font-family:inherit;transition:.18s}
+.tab.active{background:linear-gradient(180deg,#1d3160,#16244a);color:#fff;
+  box-shadow:0 1px 10px rgba(59,130,246,.25)}
+.pane{display:none}.pane.active{display:block}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.grid>*{min-width:0}
+.section-gap{margin-top:16px}
+.card{background:linear-gradient(180deg,var(--surface) 0%,#080F1C 100%);
+  border:1px solid var(--border);border-radius:18px;padding:18px 20px}
+.card h2{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;
+  letter-spacing:1.2px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}
+.col-12{grid-column:span 12}.col-8{grid-column:span 8}.col-7{grid-column:span 7}
+.col-6{grid-column:span 6}.col-5{grid-column:span 5}.col-4{grid-column:span 4}
+.idx-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.idx{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:14px}
+.idx .name{font-size:12px;color:var(--muted);margin-bottom:6px}
+.idx .val{font-size:21px;font-weight:600;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
+.idx .chg{font-size:13px;font-weight:600;margin-top:3px;font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
+.up{color:var(--up)}.down{color:var(--down)}
+.gauge{display:flex;align-items:center;gap:18px}
+.ring{width:104px;height:104px;border-radius:50%;flex:none;
+  display:grid;place-items:center;position:relative}
+.ring.greed{background:conic-gradient(var(--up) 68%,#1c2740 0)}
+.ring.adv{background:conic-gradient(var(--up) 66%,#1c2740 0)}
+.ring::before{content:"";position:absolute;width:78px;height:78px;border-radius:50%;background:var(--surface)}
+.ring b{position:relative;font-size:26px;font-weight:700}
+.gauge .lbl{font-size:13px;color:var(--muted)}
+.gauge .lbl strong{color:var(--up);font-size:15px}
+.subgauge{margin-top:12px;font-size:12px;color:var(--muted)}
+/* sector flows two columns */
+.flow2{display:grid;grid-template-columns:1fr 1fr;gap:18px;min-width:0}
+.flow2 .flowcol{min-width:0}
+.flowrow>span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.flowcol h3{font-size:12px;font-weight:700;margin-bottom:9px}
+.flowcol.in h3{color:var(--up)}.flowcol.out h3{color:var(--down)}
+.flowrow{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;
+  background:var(--surface2);border:1px solid var(--border);border-radius:10px;
+  padding:8px 12px;font-size:13.5px;margin-bottom:7px}
+.flowrow .amt{font-family:'IBM Plex Mono',monospace;font-weight:600;white-space:nowrap;text-align:right}
+.hot{display:flex;flex-direction:column;gap:8px}
+.hotrow{display:flex;justify-content:space-between;align-items:center;font-size:14px;
+  padding:8px 0;border-bottom:1px dashed var(--border)}
+.hotrow:last-child{border-bottom:none}
+.hotrow .code{color:var(--muted);font-size:12px;margin-left:6px}
+.hotrow .reason{color:var(--muted);font-size:12px}
+.hotrow .pct{font-family:'IBM Plex Mono',monospace;font-weight:600}
+.news{display:flex;flex-direction:column;gap:13px}
+.newsrow{font-size:14px}
+.newsrow .impact{color:var(--muted);font-size:12.5px;margin-top:3px}
+.newsrow a{color:var(--accent);text-decoration:none;font-size:12px}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;margin-right:7px}
+.tag.neg{background:rgba(242,73,92,.16);color:var(--up)}
+.tag.pos{background:rgba(34,197,94,.16);color:var(--down)}
+.tag.neu{background:rgba(139,152,174,.16);color:var(--muted)}
+.evt{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);font-size:14px}
+.evt:last-child{border-bottom:none}
+.evt .d{flex:none;width:54px;color:var(--warn);font-weight:700;font-size:12px;font-family:'IBM Plex Mono',monospace}
+.evt .x{color:var(--muted);font-size:12.5px;margin-top:2px}
+.verdict{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.vc{border-radius:14px;padding:14px;border:1px solid var(--border)}
+.vc h3{font-size:13px;margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.vc.good{background:rgba(34,197,94,.07)}.vc.good h3{color:var(--down)}
+.vc.bad{background:rgba(242,73,92,.07)}.vc.bad h3{color:var(--up)}
+.vc.risk{background:rgba(245,158,11,.07)}.vc.risk h3{color:var(--warn)}
+.vc li{list-style:none;font-size:13px;color:#C7D2E0;padding:4px 0 4px 14px;position:relative}
+.vc li::before{content:"";position:absolute;left:0;top:11px;width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.5}
+.divider{display:flex;align-items:center;gap:12px;margin:26px 0 16px;color:var(--muted);font-size:12px;font-weight:700;letter-spacing:1px}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--border)}
+footer{color:var(--muted);font-size:11px;text-align:center;margin-top:22px}
+@media(max-width:780px){
+  body{padding:16px}
+  .grid{grid-template-columns:1fr}
+  .grid>*{grid-column:auto!important}
+  .idx-row{grid-template-columns:repeat(2,1fr)}
+  .flow2{grid-template-columns:1fr;gap:16px}
+  .verdict{grid-template-columns:1fr}
+  .tab{padding:9px 0;flex:1;text-align:center}
+  .tabbar{display:flex;width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <h1>每日台美股戰略儀表板</h1>
+      <p>盤後戰略總覽 · 由 AI 分身彙整</p>
+    </div>
+    <div class="datebar">
+      <span class="pill">更新於 18:43</span>
+      <select>
+        <option>2026-06-18（四）</option>
+        <option>2026-06-17（三）</option>
+        <option>2026-06-16（二）</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- 行情分頁 -->
+  <div class="tabbar">
+    <button class="tab active" data-pane="tw">台股</button>
+    <button class="tab" data-pane="us">美股</button>
+  </div>
+
+  <!-- 台股分頁 -->
+  <div class="pane tw active">
+    <div class="grid">
+      <section class="card col-8">
+        <h2><span class="dot"></span>台股今日總覽</h2>
+        <div class="idx-row">
+          <div class="idx"><div class="name">加權指數</div><div class="val">22,486</div><div class="chg up">▲ 182　+0.82%</div></div>
+          <div class="idx"><div class="name">櫃買 OTC</div><div class="val">238.4</div><div class="chg up">▲ 1.6　+0.68%</div></div>
+          <div class="idx"><div class="name">成交金額</div><div class="val">4,120 億</div><div class="chg down">▼ 量縮</div></div>
+          <div class="idx"><div class="name">外資買賣超</div><div class="val">+128 億</div><div class="chg up">▲ 連 3 買</div></div>
+        </div>
+      </section>
+      <section class="card col-4">
+        <h2><span class="dot"></span>台股市場情緒</h2>
+        <div class="gauge">
+          <div class="ring adv"><b>66%</b></div>
+          <div><div class="lbl">上漲家數占比<br><strong>偏多</strong></div>
+            <div class="subgauge">漲 612 / 跌 318 · 融資增</div></div>
+        </div>
+      </section>
+      <section class="card col-7">
+        <h2><span class="dot"></span>台股板塊資金流向</h2>
+        <div class="flow2">
+          <div class="flowcol in">
+            <h3>▲ 資金流入 Top 5</h3>
+            <div class="flowrow"><span>半導體</span><span class="amt up">+124 億</span></div>
+            <div class="flowrow"><span>AI 伺服器</span><span class="amt up">+86 億</span></div>
+            <div class="flowrow"><span>被動元件</span><span class="amt up">+52 億</span></div>
+            <div class="flowrow"><span>光通訊</span><span class="amt up">+38 億</span></div>
+            <div class="flowrow"><span>軍工航太</span><span class="amt up">+21 億</span></div>
+          </div>
+          <div class="flowcol out">
+            <h3>▼ 資金流出 Top 5</h3>
+            <div class="flowrow"><span>航運</span><span class="amt down">−58 億</span></div>
+            <div class="flowrow"><span>金融</span><span class="amt down">−41 億</span></div>
+            <div class="flowrow"><span>鋼鐵</span><span class="amt down">−33 億</span></div>
+            <div class="flowrow"><span>觀光</span><span class="amt down">−19 億</span></div>
+            <div class="flowrow"><span>生技</span><span class="amt down">−12 億</span></div>
+          </div>
+        </div>
+      </section>
+      <section class="card col-5">
+        <h2><span class="dot"></span>台股熱門個股</h2>
+        <div class="hot">
+          <div class="hotrow"><span>台積電<span class="code">2330</span></span><span><span class="pct up">+2.1%</span> <span class="reason">外資買超 1.8 萬張</span></span></div>
+          <div class="hotrow"><span>緯創<span class="code">3231</span></span><span><span class="pct up">+5.4%</span> <span class="reason">AI 伺服器題材</span></span></div>
+          <div class="hotrow"><span>聯發科<span class="code">2454</span></span><span><span class="pct up">+1.7%</span> <span class="reason">爆量突破前高</span></span></div>
+          <div class="hotrow"><span>鴻海<span class="code">2317</span></span><span><span class="pct up">+1.2%</span> <span class="reason">輝達供應鏈</span></span></div>
+          <div class="hotrow"><span>長榮<span class="code">2603</span></span><span><span class="pct down">−3.2%</span> <span class="reason">運價回檔賣壓</span></span></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- 美股分頁 -->
+  <div class="pane us">
+    <div class="grid">
+      <section class="card col-8">
+        <h2><span class="dot"></span>美股今日總覽</h2>
+        <div class="idx-row">
+          <div class="idx"><div class="name">道瓊</div><div class="val">42,318</div><div class="chg down">▼ 156　−0.37%</div></div>
+          <div class="idx"><div class="name">標普 500</div><div class="val">5,431</div><div class="chg up">▲ 12　+0.23%</div></div>
+          <div class="idx"><div class="name">那斯達克</div><div class="val">17,765</div><div class="chg up">▲ 88　+0.50%</div></div>
+          <div class="idx"><div class="name">費城半導體</div><div class="val">5,602</div><div class="chg up">▲ 74　+1.34%</div></div>
+        </div>
+      </section>
+      <section class="card col-4">
+        <h2><span class="dot"></span>美股市場情緒</h2>
+        <div class="gauge">
+          <div class="ring greed"><b>68</b></div>
+          <div><div class="lbl">CNN 恐懼貪婪<br><strong>貪婪 Greed</strong></div>
+            <div class="subgauge">較前日 +4 · VIX 14.2</div></div>
+        </div>
+      </section>
+      <section class="card col-7">
+        <h2><span class="dot"></span>美股類股資金流向</h2>
+        <div class="flow2">
+          <div class="flowcol in">
+            <h3>▲ 資金流入 Top 5</h3>
+            <div class="flowrow"><span>半導體</span><span class="amt up">+38 億$</span></div>
+            <div class="flowrow"><span>軟體</span><span class="amt up">+27 億$</span></div>
+            <div class="flowrow"><span>通訊服務</span><span class="amt up">+19 億$</span></div>
+            <div class="flowrow"><span>非必需消費</span><span class="amt up">+14 億$</span></div>
+            <div class="flowrow"><span>工業</span><span class="amt up">+9 億$</span></div>
+          </div>
+          <div class="flowcol out">
+            <h3>▼ 資金流出 Top 5</h3>
+            <div class="flowrow"><span>能源</span><span class="amt down">−22 億$</span></div>
+            <div class="flowrow"><span>金融</span><span class="amt down">−17 億$</span></div>
+            <div class="flowrow"><span>公用事業</span><span class="amt down">−11 億$</span></div>
+            <div class="flowrow"><span>原物料</span><span class="amt down">−8 億$</span></div>
+            <div class="flowrow"><span>房地產</span><span class="amt down">−6 億$</span></div>
+          </div>
+        </div>
+      </section>
+      <section class="card col-5">
+        <h2><span class="dot"></span>美股熱門個股</h2>
+        <div class="hot">
+          <div class="hotrow"><span>輝達<span class="code">NVDA</span></span><span><span class="pct up">+3.4%</span> <span class="reason">AI 晶片需求強</span></span></div>
+          <div class="hotrow"><span>超微<span class="code">AMD</span></span><span><span class="pct up">+2.8%</span> <span class="reason">新品發表帶動</span></span></div>
+          <div class="hotrow"><span>美超微<span class="code">SMCI</span></span><span><span class="pct up">+6.1%</span> <span class="reason">伺服器訂單題材</span></span></div>
+          <div class="hotrow"><span>蘋果<span class="code">AAPL</span></span><span><span class="pct up">+0.6%</span> <span class="reason">AI 功能傳聞</span></span></div>
+          <div class="hotrow"><span>特斯拉<span class="code">TSLA</span></span><span><span class="pct down">−2.3%</span> <span class="reason">交車數下修</span></span></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- 綜合區（跨市場，不分頁）-->
+  <div class="divider">跨市場戰略</div>
+  <div class="grid">
+    <section class="card col-7">
+      <h2><span class="dot"></span>川普及影響股市消息</h2>
+      <div class="news">
+        <div class="newsrow"><span class="tag neg">利空</span>川普表示考慮對半導體進口加徵新關稅
+          <div class="impact">恐衝擊台廠美國出貨成本，留意台積電 ADR 反應 · <a href="#">來源：路透</a></div></div>
+        <div class="newsrow"><span class="tag pos">利多</span>聯準會官員放鴿，暗示年內仍有降息空間
+          <div class="impact">美債殖利率走低，利於台美科技成長股 · <a href="#">來源：CNBC</a></div></div>
+        <div class="newsrow"><span class="tag neu">中性</span>輝達黃仁勳訪台，供應鏈合作消息受關注
+          <div class="impact">AI 供應鏈題材延燒，台美兩地短線情緒偏多 · <a href="#">來源：經濟日報</a></div></div>
+      </div>
+    </section>
+    <section class="card col-5">
+      <h2><span class="dot"></span>本週重大日程</h2>
+      <div class="evt"><div class="d">06/20</div><div><b>四巫日（三巫到期）</b><div class="x">期權期貨結算，台美盤中波動可能放大</div></div></div>
+      <div class="evt"><div class="d">06/19</div><div><b>FOMC 利率決議</b><div class="x">市場預期按兵不動，重點在點陣圖與談話</div></div></div>
+    </section>
+    <section class="card col-5">
+      <h2><span class="dot"></span>昨日日程回顧</h2>
+      <div class="evt"><div class="d">06/17</div><div><b>美國 5 月零售銷售</b><div class="x">結果 +0.4% 優於預期，消費韌性帶動標普收紅</div></div></div>
+    </section>
+    <section class="card col-7">
+      <h2><span class="dot"></span>今日綜合研判</h2>
+      <div class="verdict">
+        <div class="vc good"><h3>利多</h3>
+          <li>費半強漲，AI 供應鏈氣盛</li>
+          <li>聯準會偏鴿，資金面寬鬆</li></div>
+        <div class="vc bad"><h3>利空</h3>
+          <li>關稅疑慮壓抑出口股</li>
+          <li>道瓊收黑，傳產承壓</li></div>
+        <div class="vc risk"><h3>隱憂</h3>
+          <li>四巫日結算波動</li>
+          <li>FOMC 前觀望氣氛濃</li></div>
+      </div>
+    </section>
+  </div>
+
+  <footer>※ 本頁為設計示意，數據皆為假資料 · 正式版每日 18:43 自動更新並 Telegram 推送</footer>
+</div>
+<script>
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.pane').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelector('.pane.'+t.dataset.pane).classList.add('active');
+  };
+});
+if(location.hash==='#us'){document.querySelector('.tab[data-pane=us]').click();}
+</script>
+</body>
+</html>
