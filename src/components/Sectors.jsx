@@ -17,7 +17,7 @@ function Col({ title, rows, side }) {
 
 export default function Sectors({ sectors, meta }) {
   return (
-    <section className="card col-7">
+    <section className="card col-7" data-region="③ 板塊資金流向">
       <div className="card-h"><span className="label">板塊資金流向</span><span className="meta">{meta}</span></div>
       <div className="flow2">
         <Col rows={sectors.in} side="in" />

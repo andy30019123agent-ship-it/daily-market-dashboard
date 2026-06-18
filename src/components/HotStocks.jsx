@@ -2,7 +2,7 @@ import { dirClass, pctText } from '../lib/format.js'
 
 export default function HotStocks({ stocks, onOpen }) {
   return (
-    <section className="card col-5">
+    <section className="card col-5" data-region="④ 熱門個股">
       <div className="card-h"><span className="label">熱門個股</span><span className="meta">成交 / 漲幅</span></div>
       <div className="hot">
         {stocks.map((s, i) => {

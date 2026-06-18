@@ -33,6 +33,13 @@ export default function App() {
 
   useEffect(() => { boot() }, [boot])
 
+  // 標註模式：網址帶 ?annotate 顯示各區塊框線與名稱（方便溝通要調整哪一區）
+  useEffect(() => {
+    if (/annotate/.test(window.location.search) || /annotate/.test(window.location.hash)) {
+      document.body.classList.add('annotate')
+    }
+  }, [])
+
   const pick = async (d) => {
     setStatus('loading')
     try {
@@ -68,7 +75,7 @@ export default function App() {
 
   return (
     <div className="wrap">
-      <header className="masthead">
+      <header className="masthead" data-region="標題列 / 日期選單">
         <div>
           <div className="eyebrow">Market Briefing · 盤後戰報</div>
           <h1>每日台美股<b>戰略</b>儀表板</h1>
@@ -83,7 +90,7 @@ export default function App() {
 
       <Ticker day={day} />
 
-      <div className="tabbar">
+      <div className="tabbar" data-region="台股 / 美股 分頁">
         <button className={'tab' + (tab === 'tw' ? ' active' : '')} onClick={() => setTab('tw')}>台股</button>
         <button className={'tab' + (tab === 'us' ? ' active' : '')} onClick={() => setTab('us')}>美股</button>
       </div>

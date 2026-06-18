@@ -3,7 +3,7 @@ export default function Vix({ vix, label }) {
   const d = vix.change <= 0 ? 'down' : 'up'
   const pos = Math.max(0, Math.min(1, vix.gauge ?? 0.5)) * 100
   return (
-    <section className="card col-4">
+    <section className="card col-4" data-region="② 市場情緒 VIX">
       <div className="card-h"><span className="label">{label} · VIX</span></div>
       <div className="vixbox">
         <div className="vix-top">

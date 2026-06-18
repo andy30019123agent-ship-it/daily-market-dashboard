@@ -12,7 +12,7 @@ export function OverviewTW({ tw, onOpen }) {
   const f = tw.featured
   const fd = dirClass(f.change_pct)
   return (
-    <section className="card col-8">
+    <section className="card col-8" data-region="① 今日總覽">
       <div className="card-h"><span className="label">台股今日總覽</span><span className="meta">收盤</span></div>
       <div className="hero" onClick={() => onOpen?.({ name: f.name, type: 'index' })}>
         <div className="lead">
@@ -47,7 +47,7 @@ export function OverviewTW({ tw, onOpen }) {
 // 美股：四指數 tile
 export function OverviewUS({ us, onOpen }) {
   return (
-    <section className="card col-8">
+    <section className="card col-8" data-region="① 今日總覽">
       <div className="card-h"><span className="label">美股今日總覽</span><span className="meta">收盤</span></div>
       <div className="idx4">
         {us.map((u, i) => {

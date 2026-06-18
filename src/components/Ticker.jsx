@@ -34,7 +34,7 @@ export default function Ticker({ day }) {
   const items = buildItems(day)
   if (!items.length) return null
   return (
-    <div className="ticker">
+    <div className="ticker" data-region="跑馬燈行情帶">
       <div className="tracks">
         <Row items={items} />
         <Row items={items} />

@@ -4,7 +4,7 @@ const TAGS = { pos: '利多', neg: '利空', neu: '中性' }
 
 export function News({ news }) {
   return (
-    <section className="card col-7">
+    <section className="card col-7" data-region="⑤ 影響股市消息">
       <div className="card-h"><span className="label">川普及影響股市消息</span></div>
       <div className="news">
         {news.map((n, i) => (
@@ -36,7 +36,7 @@ function EventRow({ ev, field }) {
 
 export function UpcomingEvents({ events }) {
   return (
-    <section className="card col-5">
+    <section className="card col-5" data-region="⑥ 本週重大日程">
       <div className="card-h"><span className="label">本週重大日程</span></div>
       {events.map((ev, i) => <EventRow ev={ev} field="analysis" key={i} />)}
     </section>
@@ -45,7 +45,7 @@ export function UpcomingEvents({ events }) {
 
 export function PastReview({ events }) {
   return (
-    <section className="card col-5">
+    <section className="card col-5" data-region="⑦ 昨日日程回顧">
       <div className="card-h"><span className="label">昨日日程回顧</span></div>
       {events.map((ev, i) => <EventRow ev={ev} field="result" key={i} />)}
     </section>
@@ -59,7 +59,7 @@ export function Verdict({ verdict }) {
     { cls: 'risk', ic: '!', title: '隱憂', items: verdict.risks },
   ]
   return (
-    <section className="card col-7">
+    <section className="card col-7" data-region="⑧ 今日綜合研判">
       <div className="card-h"><span className="label">今日綜合研判</span></div>
       <div className="verdict">
         {cols.map((c) => (
