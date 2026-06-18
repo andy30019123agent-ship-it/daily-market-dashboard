@@ -50,7 +50,11 @@ def merge_day(partial: dict, soft: dict, date: str, updated_at: str = "") -> dic
             "tw": partial.get("sectors_tw") or soft.get("sectors", {}).get("tw", {"in": [], "out": []}),
             "us": soft.get("sectors", {}).get("us", {"in": [], "out": []}),
         },
-        "hot_stocks": {"tw": hot_tw, "us": soft.get("hot_us", [])},
+        "hot_stocks": {
+            "tw": hot_tw,
+            # 美股熱門用硬數據（AV 重點股動向）；無則退軟情報
+            "us": partial.get("hot_stocks", {}).get("us") or soft.get("hot_us", []),
+        },
         "inst_top": partial.get("inst_top", {"foreign": [], "trust": [], "dealer": []}),
         "news": soft.get("news", []),
         "upcoming_events": soft.get("upcoming_events", []),

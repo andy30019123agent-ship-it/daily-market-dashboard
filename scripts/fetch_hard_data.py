@@ -8,6 +8,7 @@
 
 用法：python scripts/fetch_hard_data.py [YYYY-MM-DD]
 """
+import os
 import sys
 import json
 import pathlib
@@ -30,6 +31,31 @@ TWSE_AT = "https://www.twse.com.tw/rwd/zh/afterTrading"
 TWSE_RWD = "https://www.twse.com.tw/rwd/zh/fund"
 FRED = "https://fred.stlouisfed.org/graph/fredgraph.csv?id="
 FRED_IDS = {"道瓊": "DJIA", "標普 500": "SP500", "那斯達克": "NASDAQCOM"}
+
+# Alpha Vantage（費半 SOX 用 SOXX ETF 代理 + 美股重點股動向）
+AV = "https://www.alphavantage.co/query"
+AV_SLEEP = 13  # 免費版 5 次/分
+US_WATCH = [("NVDA", "輝達"), ("TSM", "台積電 ADR"), ("AVGO", "博通"),
+            ("AMD", "超微"), ("AAPL", "蘋果"), ("TSLA", "特斯拉")]
+
+
+def av_key():
+    return os.environ.get("AV_API_KEY") or _secret("alpha_vantage")
+
+
+def _secret(name):
+    p = pathlib.Path(__file__).resolve().parent / "secrets.json"
+    if p.exists():
+        return json.loads(p.read_text(encoding="utf-8")).get(name)
+    return None
+
+
+def av_quote(symbol, key):
+    q = json.loads(get_text(f"{AV}?function=GLOBAL_QUOTE&symbol={symbol}&apikey={key}")).get("Global Quote", {})
+    if not q.get("05. price"):
+        raise RuntimeError(f"AV 無 {symbol} 報價（可能限流）")
+    return {"price": float(q["05. price"]),
+            "pct": round(float(q["10. change percent"].rstrip("%")), 2)}
 
 
 def fmt_yi(v):
@@ -153,14 +179,42 @@ def fetch_hard_data(date: str) -> dict:
         except Exception as e:
             errors.append(f"FRED {fid}: {e}")
         time.sleep(0.8)  # 對來源友善、避免被限流
-    missing.append("費城半導體 SOX（無免費 API，分身 WebSearch 補）")
+
+    # ---- 費半 SOX（Alpha Vantage，SOXX ETF 代理）+ 美股重點股動向 ----
+    us_hot = []
+    key = av_key()
+    if key:
+        try:
+            q = av_quote("SOXX", key)
+            us.append({"name": "費城半導體", "close": round(q["price"], 2),
+                       "change_pct": q["pct"], "proxy": "SOXX", "spark": []})
+        except Exception as e:
+            errors.append(f"AV SOXX: {e}")
+            missing.append("費城半導體 SOX")
+        movers = []
+        for sym, name in US_WATCH:
+            time.sleep(AV_SLEEP)
+            try:
+                q = av_quote(sym, key)
+                movers.append({"code": sym, "name": name, "change_pct": q["pct"], "reason": ""})
+            except Exception as e:
+                errors.append(f"AV {sym}: {e}")
+        movers.sort(key=lambda x: abs(x["change_pct"]), reverse=True)
+        us_hot = movers[:5]
+        if not us_hot:
+            missing.append("美股熱門個股")
+    else:
+        missing.append("費城半導體 SOX（缺 AV 金鑰）")
+        missing.append("美股熱門個股（缺 AV 金鑰）")
 
     # ---- VIX ----
     vix_us = None
     try:
         d = parse_fred_csv(get_text(FRED + "VIXCLS"))
+        # gauge: 恐慌(0)→貪婪(1)；VIX 越高越恐慌（10→1, 40→0）
+        gauge = round(max(0.0, min(1.0, 1 - (d["close"] - 10) / 30)), 2)
         vix_us = {"value": d["close"], "change": d["change_pct"],
-                  "state": "", "note": "", "gauge": min(1.0, d["close"] / 50)}
+                  "state": "", "note": "", "gauge": gauge}
     except Exception as e:
         errors.append(f"FRED VIXCLS: {e}")
     missing.append("台指 VIX（無免費 API，分身 WebSearch 補）")
@@ -172,7 +226,7 @@ def fetch_hard_data(date: str) -> dict:
             "us": us,
             "vix": {"tw": None, "us": vix_us},
         },
-        "hot_stocks": {"tw": hot_tw, "us": []},
+        "hot_stocks": {"tw": hot_tw, "us": us_hot},
         "sectors_tw": sectors_tw,
         "inst_top": inst_top,
         "_meta": {"errors": errors, "missing": missing, "fetched_at": taipei_today(), "trade_date": trade_ymd},
