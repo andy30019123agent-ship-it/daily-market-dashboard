@@ -1,6 +1,6 @@
 {
   "date": "2026-06-18",
-  "updated_at": "2026-06-19 00:40",
+  "updated_at": "2026-06-19 00:53",
   "overview": {
     "tw": {
       "featured": {
@@ -129,22 +129,29 @@
           26376.34,
           26021.66
         ]
+      },
+      {
+        "name": "費城半導體",
+        "close": 599.73,
+        "change_pct": 1.44,
+        "proxy": "SOXX",
+        "spark": []
       }
     ],
     "vix": {
       "tw": {
-        "value": 15.8,
-        "change": -0.6,
-        "state": "中性偏低",
-        "note": "（範例）台指 VIX 無免費源、待補",
-        "gauge": 0.22
+        "value": 37.29,
+        "change": -4.43,
+        "state": "波動偏高",
+        "note": "台指 VIX 仍處高檔，市場避險未消（VIXTWN）",
+        "gauge": 0.09
       },
       "us": {
         "value": 18.44,
         "change": 12.37,
         "state": "波動升高",
         "note": "聯準會鷹派，避險情緒升溫",
-        "gauge": 0.3688
+        "gauge": 0.72
       }
     }
   },
@@ -297,34 +304,34 @@
     ],
     "us": [
       {
-        "code": "NVDA",
-        "name": "輝達",
-        "change_pct": 3.4,
-        "reason": "AI 晶片需求強"
-      },
-      {
-        "code": "AMD",
-        "name": "超微",
-        "change_pct": 2.8,
-        "reason": "新品發表帶動"
-      },
-      {
-        "code": "SMCI",
-        "name": "美超微",
-        "change_pct": 6.1,
-        "reason": "伺服器訂單題材"
-      },
-      {
-        "code": "AAPL",
-        "name": "蘋果",
-        "change_pct": 0.6,
-        "reason": "AI 功能傳聞"
+        "code": "AVGO",
+        "name": "博通",
+        "change_pct": 4.3,
+        "reason": ""
       },
       {
         "code": "TSLA",
         "name": "特斯拉",
-        "change_pct": -2.3,
-        "reason": "交車數下修"
+        "change_pct": -2.05,
+        "reason": ""
+      },
+      {
+        "code": "TSM",
+        "name": "台積電 ADR",
+        "change_pct": 1.48,
+        "reason": ""
+      },
+      {
+        "code": "NVDA",
+        "name": "輝達",
+        "change_pct": -1.33,
+        "reason": ""
+      },
+      {
+        "code": "AAPL",
+        "name": "蘋果",
+        "change_pct": -1.1,
+        "reason": ""
       }
     ]
   },
