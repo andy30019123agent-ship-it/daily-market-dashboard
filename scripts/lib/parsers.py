@@ -82,6 +82,92 @@ def twse_top_gainers(rows: list, n: int = 5, min_value_yi: float = 5) -> list:
     return out[:n]
 
 
+def _col(fields: list, *keys, exact=False):
+    for i, f in enumerate(fields):
+        f = f.strip()
+        for k in keys:
+            if (f == k) if exact else (k in f):
+                return i
+    return None
+
+
+def _sign_from_cell(s) -> int:
+    s = str(s)
+    if "green" in s or "-" in s or "−" in s:
+        return -1
+    return 1
+
+
+def roc_slash_to_ymd(s: str) -> str:
+    """'115/06/18' -> '20260618'。"""
+    p = str(s).strip().split("/")
+    if len(p) == 3:
+        return f"{int(p[0]) + 1911}{p[1]}{p[2]}"
+    return s
+
+
+def parse_rwd_index(payload: dict, name: str = "發行量加權股價指數") -> dict:
+    """RWD afterTrading/MI_INDEX(type=IND) -> 指定指數收盤與漲跌幅。
+
+    回應為多表（tables）結構，價格指數在第一張表。
+    """
+    rows = payload.get("data", [])
+    if not rows:
+        for t in payload.get("tables", []):
+            rows = rows + list(t.get("data", []))
+    for row in rows:
+        if (row[0] or "").strip() == name:
+            sign = _sign_from_cell(row[2])
+            return {"name": name, "close": _f(row[1]),
+                    "change": (_f(row[3]) or 0) * sign,
+                    "change_pct": (_f(row[4]) or 0) * sign}
+    raise KeyError(f"RWD MI_INDEX 找不到 {name}")
+
+
+def parse_rwd_fmtqik(payload: dict, spark_n: int = 20) -> dict:
+    """RWD afterTrading/FMTQIK -> 最新成交金額（億）、TAIEX、走勢、交易日。"""
+    fields, rows = payload.get("fields", []), payload.get("data", [])
+    ci_val = _col(fields, "成交金額")
+    ci_idx = _col(fields, "發行量加權股價指數")
+    ci_date = _col(fields, "日期")
+    valid = [r for r in rows if _f(r[ci_idx]) is not None]
+    if not valid:
+        raise ValueError("RWD FMTQIK 無有效資料")
+    last = valid[-1]
+    tv = _f(last[ci_val])
+    return {
+        "date_ymd": roc_slash_to_ymd(last[ci_date]),
+        "taiex": _f(last[ci_idx]),
+        "trade_value_yi": round(tv / 1e8) if tv else None,
+        "spark": [_f(r[ci_idx]) for r in valid[-spark_n:]],
+    }
+
+
+def parse_rwd_gainers(payload: dict, n: int = 5, min_value_yi: float = 5) -> list:
+    """RWD afterTrading/STOCK_DAY_ALL -> 漲幅榜前 N（濾 4 碼、成交額）。"""
+    fields = payload.get("fields", [])
+    ci_code = _col(fields, "證券代號", exact=True)
+    ci_name = _col(fields, "證券名稱", exact=True)
+    ci_close = _col(fields, "收盤價", exact=True)
+    ci_chg = _col(fields, "漲跌價差", exact=True)
+    ci_val = _col(fields, "成交金額", exact=True)
+    out = []
+    for r in payload.get("data", []):
+        code = (r[ci_code] or "").strip()
+        if len(code) != 4:
+            continue
+        close, chg, val = _f(r[ci_close]), _f(r[ci_chg]), _f(r[ci_val])
+        if None in (close, chg, val) or val < min_value_yi * 1e8:
+            continue
+        prev = close - chg
+        if prev <= 0:
+            continue
+        out.append({"code": code, "name": (r[ci_name] or "").strip(),
+                    "change_pct": round(chg / prev * 100, 2)})
+    out.sort(key=lambda x: x["change_pct"], reverse=True)
+    return out[:n]
+
+
 def parse_bfi82u(payload: dict) -> dict:
     """大盤三大法人買賣超金額（rwd JSON）-> 外資/投信/自營 買賣差額（億元，四捨五入到小數 1 位）。"""
     rows = payload.get("data", [])

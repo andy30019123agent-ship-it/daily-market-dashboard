@@ -18,14 +18,15 @@ import urllib.request
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from scripts.lib.parsers import (  # noqa: E402
-    parse_twse_index, parse_fmtqik, twse_top_gainers, parse_fred_csv,
-    parse_bfi82u, parse_t86_top,
+    parse_fred_csv, parse_bfi82u, parse_t86_top,
+    parse_rwd_index, parse_rwd_fmtqik, parse_rwd_gainers,
 )
 
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 OUT_DIR = pathlib.Path(__file__).resolve().parents[1] / "public" / "data"
 
-TWSE = "https://openapi.twse.com.tw/v1/exchangeReport"
+# 用 TWSE 官網 RWD（afterTrading/fund）：OpenAPI 有約 1~2 日延遲，RWD 是最新交易日
+TWSE_AT = "https://www.twse.com.tw/rwd/zh/afterTrading"
 TWSE_RWD = "https://www.twse.com.tw/rwd/zh/fund"
 FRED = "https://fred.stlouisfed.org/graph/fredgraph.csv?id="
 FRED_IDS = {"道瓊": "DJIA", "標普 500": "SP500", "那斯達克": "NASDAQCOM"}
@@ -80,46 +81,36 @@ def fetch_hard_data(date: str) -> dict:
     errors = []
     missing = []
 
-    # ---- 台股加權 + 成交量走勢 ----
+    # ---- 台股加權 + 成交量 + 交易日（RWD，最新交易日）----
     tw_featured = None
+    trade_value_yi = None
+    trade_ymd = taipei_today().replace("-", "")
     spark = []
     try:
-        mi = get_json(f"{TWSE}/MI_INDEX")
-        idx = parse_twse_index(mi, "發行量加權股價指數")
-        tw_featured = {"name": idx["name"], "close": idx["close"],
-                       "change": idx["change"], "change_pct": idx["change_pct"], "note": "較昨收"}
-    except Exception as e:
-        errors.append(f"TWSE MI_INDEX: {e}")
-
-    trade_value_yi = None
-    try:
-        fm = parse_fmtqik(get_json(f"{TWSE}/FMTQIK"))
+        fm = parse_rwd_fmtqik(get_json(f"{TWSE_AT}/FMTQIK?date={trade_ymd}&response=json"))
+        trade_ymd = fm["date_ymd"]          # 真正最新交易日
         trade_value_yi = fm["trade_value_yi"]
         spark = [v for v in fm["spark"] if v is not None]
-        if tw_featured and tw_featured.get("close") is None:
-            tw_featured["close"] = fm["taiex"]
     except Exception as e:
-        errors.append(f"TWSE FMTQIK: {e}")
-    if tw_featured is not None:
-        tw_featured["spark"] = spark
+        errors.append(f"RWD FMTQIK: {e}")
+
+    try:
+        idx = parse_rwd_index(get_json(f"{TWSE_AT}/MI_INDEX?date={trade_ymd}&type=IND&response=json"))
+        tw_featured = {"name": idx["name"], "close": idx["close"],
+                       "change": idx["change"], "change_pct": idx["change_pct"],
+                       "note": "較昨收", "spark": spark}
+    except Exception as e:
+        errors.append(f"RWD MI_INDEX: {e}")
 
     # ---- 台股漲幅榜熱門股 ----
     hot_tw = []
     try:
-        hot_tw = twse_top_gainers(get_json(f"{TWSE}/STOCK_DAY_ALL"), n=5)
+        sda = get_json(f"{TWSE_AT}/STOCK_DAY_ALL?date={trade_ymd}&response=json")
+        hot_tw = parse_rwd_gainers(sda, n=5)
         for s in hot_tw:
             s["reason"] = ""  # 緣由由分身補
     except Exception as e:
-        errors.append(f"TWSE STOCK_DAY_ALL: {e}")
-
-    # ---- 交易日（給 RWD 端點用）----
-    trade_ymd = None
-    try:
-        if "fm" in dir() or True:
-            iso = parse_fmtqik(get_json(f"{TWSE}/FMTQIK"))["date"]
-            trade_ymd = iso.replace("-", "")
-    except Exception:
-        trade_ymd = taipei_today().replace("-", "")
+        errors.append(f"RWD STOCK_DAY_ALL: {e}")
 
     # ---- 三大法人大盤買賣超（外資/投信/自營）----
     inst_net = {}
