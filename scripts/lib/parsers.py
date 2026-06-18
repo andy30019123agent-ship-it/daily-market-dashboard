@@ -82,6 +82,77 @@ def twse_top_gainers(rows: list, n: int = 5, min_value_yi: float = 5) -> list:
     return out[:n]
 
 
+def parse_bfi82u(payload: dict) -> dict:
+    """大盤三大法人買賣超金額（rwd JSON）-> 外資/投信/自營 買賣差額（億元，四捨五入到小數 1 位）。"""
+    rows = payload.get("data", [])
+    net = {"外資": 0.0, "投信": 0.0, "自營": 0.0}
+    found = False
+    for r in rows:
+        name = (r[0] or "").strip()
+        diff = _f(r[-1])  # 買賣差額
+        if diff is None:
+            continue
+        if name.startswith("外資及陸資") or name == "外資自營商":
+            net["外資"] += diff; found = True
+        elif name == "投信":
+            net["投信"] += diff; found = True
+        elif name.startswith("自營商"):              # 自行買賣 + 避險
+            net["自營"] += diff; found = True
+    if not found:
+        raise ValueError("BFI82U 無法人資料")
+    return {k: round(v / 1e8, 1) for k, v in net.items()}
+
+
+def _t86_index(fields: list) -> dict:
+    """T86 欄位名 -> 索引（容忍名稱微調）。"""
+    idx = {}
+    for i, f in enumerate(fields):
+        f = f.strip()
+        if f.startswith("證券代號"):
+            idx["code"] = i
+        elif f.startswith("證券名稱"):
+            idx["name"] = i
+        elif f == "外陸資買賣超股數(不含外資自營商)":
+            idx["foreign_main"] = i
+        elif f == "外資自營商買賣超股數":
+            idx["foreign_dealer"] = i
+        elif f == "投信買賣超股數":
+            idx["trust"] = i
+        elif f == "自營商買賣超股數":
+            idx["dealer"] = i
+    return idx
+
+
+def parse_t86_top(payload: dict, n: int = 5) -> dict:
+    """個股三大法人買賣超（rwd JSON）-> 外資/投信/自營 各買超前 N（單位：張）。"""
+    fields = payload.get("fields", [])
+    rows = payload.get("data", [])
+    idx = _t86_index(fields)
+    required = ("code", "name", "trust", "dealer")
+    if not all(k in idx for k in required) or not ("foreign_main" in idx):
+        raise ValueError(f"T86 欄位不符：{fields}")
+
+    groups = {"foreign": [], "trust": [], "dealer": []}
+    for r in rows:
+        code = (r[idx["code"]] or "").strip()
+        if len(code) != 4:                      # 只取上市普通股
+            continue
+        name = (r[idx["name"]] or "").strip()
+        foreign = (_f(r[idx["foreign_main"]]) or 0) + (_f(r[idx.get("foreign_dealer", -1)]) or 0 if "foreign_dealer" in idx else 0)
+        trust = _f(r[idx["trust"]]) or 0
+        dealer = _f(r[idx["dealer"]]) or 0
+        groups["foreign"].append({"code": code, "name": name, "net": foreign})
+        groups["trust"].append({"code": code, "name": name, "net": trust})
+        groups["dealer"].append({"code": code, "name": name, "net": dealer})
+
+    out = {}
+    for g, lst in groups.items():
+        lst.sort(key=lambda x: x["net"], reverse=True)
+        out[g] = [{"code": s["code"], "name": s["name"],
+                   "zhang": round(s["net"] / 1000)} for s in lst[:n] if s["net"] > 0]
+    return out
+
+
 def parse_fred_csv(csv_text: str) -> dict:
     """FRED fredgraph.csv -> 最新收盤與漲跌幅（用最後兩個有效值）。"""
     reader = csv.reader(io.StringIO(csv_text))

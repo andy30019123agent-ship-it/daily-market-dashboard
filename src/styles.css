@@ -116,7 +116,7 @@ body.annotate [data-region]::before{
 /* ===== grid ===== */
 .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
 .grid>*{min-width:0}
-.col-8{grid-column:span 8}.col-7{grid-column:span 7}
+.col-12{grid-column:span 12}.col-8{grid-column:span 8}.col-7{grid-column:span 7}
 .col-5{grid-column:span 5}.col-4{grid-column:span 4}
 .section-gap{margin-top:18px}
 
@@ -137,7 +137,7 @@ body.annotate [data-region]::before{
 .hero .lead .c{font-size:15px;font-weight:600;margin-top:9px;display:flex;align-items:center;gap:7px}
 .hero .lead .c .lbl{color:var(--muted);font-weight:500}
 .hero .spark{flex:none;align-self:center}
-.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:12px}
 .tile{background:var(--tile);border:1px solid var(--line-soft);border-radius:12px;padding:13px 14px;
   cursor:pointer;transition:border-color .15s,transform .15s}
 .tile:hover{border-color:var(--gold-line);transform:translateY(-2px)}
@@ -188,6 +188,19 @@ body.annotate [data-region]::before{
 .hotrow .rt{text-align:right}
 .hotrow .pct{font-size:14px;font-weight:700}
 .hotrow .rs{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
+
+/* 三大法人買超 Top5 */
+.inst3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.instcol h3{font-size:12.5px;font-weight:700;color:var(--gold);margin-bottom:10px;
+  padding-bottom:8px;border-bottom:1px solid var(--line-soft)}
+.instrow{display:flex;justify-content:space-between;align-items:center;gap:10px;
+  padding:9px 0;border-bottom:1px solid var(--line-soft);cursor:pointer;transition:transform .15s}
+.instrow:hover{transform:translateX(4px)}
+.instrow:last-child{border-bottom:none}
+.instrow .nm{font-size:13.5px;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.instrow .code{color:var(--faint);font-size:11px;margin-left:6px;font-family:'IBM Plex Mono',monospace}
+.instrow .zh{color:var(--up);font-weight:600;font-size:13.5px;white-space:nowrap}
+.inst-empty{color:var(--faint);font-size:13px;padding:9px 0}
 
 /* divider */
 .divider{display:flex;align-items:center;gap:16px;margin:32px 0 18px}
@@ -242,6 +255,7 @@ footer{color:var(--faint);font-size:11px;text-align:center;margin-top:30px;line-
   .hero .spark{align-self:flex-start;width:100%}
   .hero .lead .v{font-size:40px}
   .flow2{grid-template-columns:1fr;gap:18px}
+  .inst3{grid-template-columns:1fr;gap:20px}
   .verdict{grid-template-columns:1fr}
   .tabbar{gap:22px}
   .calpop{right:auto;left:0}

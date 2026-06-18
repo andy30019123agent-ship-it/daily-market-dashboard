@@ -33,7 +33,11 @@ export function OverviewTW({ tw, onOpen }) {
               <div className="t">{s.name}</div>
               <div className={'v mono ' + (s.dir ? d : '')}>{s.value}</div>
               <div className={'c mono ' + d}>
-                {typeof s.change_pct === 'number' ? pctText(s.change_pct) : (s.note || '')}
+                {typeof s.change_pct === 'number'
+                  ? pctText(s.change_pct)
+                  : s.dir
+                    ? (s.dir === 'up' ? '▲ 買超' : '▼ 賣超')
+                    : (s.note || '')}
               </div>
             </div>
           )

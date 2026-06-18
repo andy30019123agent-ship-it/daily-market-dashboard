@@ -19,14 +19,24 @@ import urllib.request
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from scripts.lib.parsers import (  # noqa: E402
     parse_twse_index, parse_fmtqik, twse_top_gainers, parse_fred_csv,
+    parse_bfi82u, parse_t86_top,
 )
 
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 OUT_DIR = pathlib.Path(__file__).resolve().parents[1] / "public" / "data"
 
 TWSE = "https://openapi.twse.com.tw/v1/exchangeReport"
+TWSE_RWD = "https://www.twse.com.tw/rwd/zh/fund"
 FRED = "https://fred.stlouisfed.org/graph/fredgraph.csv?id="
 FRED_IDS = {"道瓊": "DJIA", "標普 500": "SP500", "那斯達克": "NASDAQCOM"}
+
+
+def fmt_yi(v):
+    """金額（億）格式化為帶正負號字串，回傳 (value_str, dir)。"""
+    if v is None:
+        return None, None
+    sign = "+" if v >= 0 else "−"
+    return f"{sign}{abs(v):,.1f} 億", ("up" if v >= 0 else "down")
 
 
 def _try_urllib(url):
@@ -102,14 +112,43 @@ def fetch_hard_data(date: str) -> dict:
     except Exception as e:
         errors.append(f"TWSE STOCK_DAY_ALL: {e}")
 
-    # ---- 台股子數據 ----
+    # ---- 交易日（給 RWD 端點用）----
+    trade_ymd = None
+    try:
+        if "fm" in dir() or True:
+            iso = parse_fmtqik(get_json(f"{TWSE}/FMTQIK"))["date"]
+            trade_ymd = iso.replace("-", "")
+    except Exception:
+        trade_ymd = taipei_today().replace("-", "")
+
+    # ---- 三大法人大盤買賣超（外資/投信/自營）----
+    inst_net = {}
+    try:
+        bfi = get_json(f"{TWSE_RWD}/BFI82U?type=day&response=json&dayDate={trade_ymd}")
+        inst_net = parse_bfi82u(bfi)
+    except Exception as e:
+        errors.append(f"BFI82U 三大法人: {e}")
+
+    # ---- 三大法人個股買超前 5 ----
+    inst_top = {"foreign": [], "trust": [], "dealer": []}
+    try:
+        t86 = get_json(f"{TWSE_RWD}/T86?date={trade_ymd}&selectType=ALLBUT0999&response=json")
+        inst_top = parse_t86_top(t86, n=5)
+    except Exception as e:
+        errors.append(f"T86 個股法人: {e}")
+
+    # ---- 台股子數據（成交金額 + 三大法人）----
     stats = []
-    missing.append("櫃買 OTC 指數（TPEX 端點待確認）")
     if trade_value_yi is not None:
         stats.append({"name": "成交金額", "value": f"{trade_value_yi:,} 億"})
     else:
         missing.append("成交金額")
-    missing.append("外資買賣超（TWSE 三大法人端點待確認）")
+    for label, key in [("外資買賣超", "外資"), ("投信買賣超", "投信"), ("自營買賣超", "自營")]:
+        if key in inst_net:
+            val, d = fmt_yi(inst_net[key])
+            stats.append({"name": label, "value": val, "dir": d})
+        else:
+            missing.append(label)
 
     # ---- 美股指數（FRED）----
     us = []
@@ -140,7 +179,8 @@ def fetch_hard_data(date: str) -> dict:
             "vix": {"tw": None, "us": vix_us},
         },
         "hot_stocks": {"tw": hot_tw, "us": []},
-        "_meta": {"errors": errors, "missing": missing, "fetched_at": taipei_today()},
+        "inst_top": inst_top,
+        "_meta": {"errors": errors, "missing": missing, "fetched_at": taipei_today(), "trade_date": trade_ymd},
     }
     return partial
 
@@ -155,7 +195,9 @@ def main():
     print(f"加權：{partial['overview']['tw']['featured']}")
     print(f"美股：{[(u['name'], u['close'], u['change_pct']) for u in partial['overview']['us']]}")
     print(f"VIX：{partial['overview']['vix']['us']}")
-    print(f"熱門股：{partial['hot_stocks']['tw']}")
+    print(f"熱門股：{[(s['name'], s['change_pct']) for s in partial['hot_stocks']['tw']]}")
+    print(f"三大法人(stats)：{[(s['name'], s.get('value')) for s in partial['overview']['tw']['stats']]}")
+    print(f"法人買超前5 外資：{[(s['name'], s['zhang']) for s in partial['inst_top']['foreign']]}")
     print(f"errors：{partial['_meta']['errors'] or '（無）'}")
     print(f"missing：{partial['_meta']['missing']}")
 

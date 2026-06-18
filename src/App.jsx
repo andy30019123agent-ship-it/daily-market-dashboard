@@ -5,6 +5,7 @@ import { OverviewTW, OverviewUS } from './components/Overview.jsx'
 import Vix from './components/Vix.jsx'
 import Sectors from './components/Sectors.jsx'
 import HotStocks from './components/HotStocks.jsx'
+import InstTop from './components/InstTop.jsx'
 import { News, UpcomingEvents, PastReview, Verdict } from './components/CrossMarket.jsx'
 import DatePicker from './components/DatePicker.jsx'
 
@@ -102,6 +103,7 @@ export default function App() {
             <Vix vix={ov.vix.tw} label="台股情緒" />
             <Sectors sectors={day.sectors.tw} meta="外資 + 投信合計" />
             <HotStocks stocks={day.hot_stocks.tw} onOpen={openChart} />
+            <InstTop instTop={day.inst_top} onOpen={openChart} />
           </div>
         </div>
       ) : (
