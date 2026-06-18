@@ -1,0 +1,99 @@
+{
+  "date": "2026-06-18",
+  "updated_at": "2026-06-18 18:43",
+  "overview": {
+    "tw": {
+      "featured": {
+        "name": "發行量加權股價指數",
+        "close": 22486.31,
+        "change": 182.4,
+        "change_pct": 0.82,
+        "note": "較昨收",
+        "spark": [22180, 22240, 22120, 22300, 22260, 22380, 22340, 22420, 22486]
+      },
+      "stats": [
+        { "name": "櫃買 OTC", "value": "238.4", "change_pct": 0.68 },
+        { "name": "成交金額", "value": "4,120 億", "change_pct": -6, "note": "量縮 6%" },
+        { "name": "外資買賣超", "value": "+128 億", "dir": "up", "note": "連 3 買" }
+      ]
+    },
+    "us": [
+      { "name": "道瓊", "close": 42318, "change_pct": -0.37, "spark": [42600, 42520, 42480, 42410, 42360, 42318] },
+      { "name": "標普 500", "close": 5431, "change_pct": 0.23, "spark": [5402, 5410, 5418, 5414, 5426, 5431] },
+      { "name": "那斯達克", "close": 17765, "change_pct": 0.5, "spark": [17640, 17680, 17710, 17700, 17740, 17765] },
+      { "name": "費城半導體", "close": 5602, "change_pct": 1.34, "spark": [5480, 5510, 5535, 5560, 5585, 5602] }
+    ],
+    "vix": {
+      "tw": { "value": 18.5, "change": -0.8, "state": "波動偏低", "note": "市場情緒平穩，無明顯避險需求", "gauge": 0.26 },
+      "us": { "value": 14.2, "change": -0.5, "state": "低波動", "note": "恐慌情緒低，多頭氣氛延續", "gauge": 0.18 }
+    }
+  },
+  "sectors": {
+    "tw": {
+      "in": [
+        { "name": "半導體", "amount": "+124 億", "weight": 1.0 },
+        { "name": "AI 伺服器", "amount": "+86 億", "weight": 0.69 },
+        { "name": "被動元件", "amount": "+52 億", "weight": 0.42 },
+        { "name": "光通訊", "amount": "+38 億", "weight": 0.31 },
+        { "name": "軍工航太", "amount": "+21 億", "weight": 0.17 }
+      ],
+      "out": [
+        { "name": "航運", "amount": "−58 億", "weight": 1.0 },
+        { "name": "金融", "amount": "−41 億", "weight": 0.71 },
+        { "name": "鋼鐵", "amount": "−33 億", "weight": 0.57 },
+        { "name": "觀光", "amount": "−19 億", "weight": 0.33 },
+        { "name": "生技", "amount": "−12 億", "weight": 0.21 }
+      ]
+    },
+    "us": {
+      "in": [
+        { "name": "半導體", "amount": "+38 億$", "weight": 1.0 },
+        { "name": "軟體", "amount": "+27 億$", "weight": 0.71 },
+        { "name": "通訊服務", "amount": "+19 億$", "weight": 0.5 },
+        { "name": "非必需消費", "amount": "+14 億$", "weight": 0.37 },
+        { "name": "工業", "amount": "+9 億$", "weight": 0.24 }
+      ],
+      "out": [
+        { "name": "能源", "amount": "−22 億$", "weight": 1.0 },
+        { "name": "金融", "amount": "−17 億$", "weight": 0.77 },
+        { "name": "公用事業", "amount": "−11 億$", "weight": 0.5 },
+        { "name": "原物料", "amount": "−8 億$", "weight": 0.36 },
+        { "name": "房地產", "amount": "−6 億$", "weight": 0.27 }
+      ]
+    }
+  },
+  "hot_stocks": {
+    "tw": [
+      { "code": "2330", "name": "台積電", "change_pct": 2.1, "reason": "外資買超 1.8 萬張" },
+      { "code": "3231", "name": "緯創", "change_pct": 5.4, "reason": "AI 伺服器題材" },
+      { "code": "2454", "name": "聯發科", "change_pct": 1.7, "reason": "爆量突破前高" },
+      { "code": "2317", "name": "鴻海", "change_pct": 1.2, "reason": "輝達供應鏈" },
+      { "code": "2603", "name": "長榮", "change_pct": -3.2, "reason": "運價回檔賣壓" }
+    ],
+    "us": [
+      { "code": "NVDA", "name": "輝達", "change_pct": 3.4, "reason": "AI 晶片需求強" },
+      { "code": "AMD", "name": "超微", "change_pct": 2.8, "reason": "新品發表帶動" },
+      { "code": "SMCI", "name": "美超微", "change_pct": 6.1, "reason": "伺服器訂單題材" },
+      { "code": "AAPL", "name": "蘋果", "change_pct": 0.6, "reason": "AI 功能傳聞" },
+      { "code": "TSLA", "name": "特斯拉", "change_pct": -2.3, "reason": "交車數下修" }
+    ]
+  },
+  "news": [
+    { "tag": "neg", "title": "川普表示考慮對半導體進口加徵新關稅", "impact": "恐衝擊台廠美國出貨成本，留意台積電 ADR 反應", "source_name": "路透", "source_url": "https://www.reuters.com/" },
+    { "tag": "pos", "title": "聯準會官員放鴿，暗示年內仍有降息空間", "impact": "美債殖利率走低，利於台美科技成長股", "source_name": "CNBC", "source_url": "https://www.cnbc.com/" },
+    { "tag": "neu", "title": "輝達黃仁勳訪台，供應鏈合作消息受關注", "impact": "AI 供應鏈題材延燒，台美兩地短線情緒偏多", "source_name": "經濟日報", "source_url": "https://money.udn.com/" }
+  ],
+  "upcoming_events": [
+    { "date": "2026-06-20", "name": "四巫日（三巫到期）", "analysis": "期權期貨結算，台美盤中波動可能放大" },
+    { "date": "2026-06-19", "name": "FOMC 利率決議", "analysis": "市場預期按兵不動，重點在點陣圖與談話" }
+  ],
+  "past_events_review": [
+    { "date": "2026-06-17", "name": "美國 5 月零售銷售", "result": "結果 +0.4% 優於預期，消費韌性帶動標普收紅" }
+  ],
+  "verdict": {
+    "bullish": ["費半強漲，AI 供應鏈氣盛", "聯準會偏鴿，資金面寬鬆"],
+    "bearish": ["關稅疑慮壓抑出口股", "道瓊收黑，傳產承壓"],
+    "risks": ["四巫日結算波動", "FOMC 前觀望氣氛濃"]
+  },
+  "summary": "台股加權收紅 0.82% 站上 22,486，半導體與 AI 伺服器資金強強滾；美股漲跌互見、費半領漲。聯準會偏鴿利多盤勢，但川普半導體關稅疑慮與本週 FOMC、四巫日結算為短線變數，操作宜留意波動。"
+}
