@@ -19,7 +19,7 @@ import urllib.request
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from scripts.lib.parsers import (  # noqa: E402
     parse_fred_csv, parse_bfi82u, parse_t86_top,
-    parse_rwd_index, parse_rwd_fmtqik, parse_rwd_gainers,
+    parse_rwd_index, parse_rwd_fmtqik, parse_rwd_gainers, parse_rwd_sectors,
 )
 
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
@@ -94,11 +94,14 @@ def fetch_hard_data(date: str) -> dict:
     except Exception as e:
         errors.append(f"RWD FMTQIK: {e}")
 
+    sectors_tw = {"in": [], "out": []}
     try:
-        idx = parse_rwd_index(get_json(f"{TWSE_AT}/MI_INDEX?date={trade_ymd}&type=IND&response=json"))
+        mi = get_json(f"{TWSE_AT}/MI_INDEX?date={trade_ymd}&type=IND&response=json")
+        idx = parse_rwd_index(mi)
         tw_featured = {"name": idx["name"], "close": idx["close"],
                        "change": idx["change"], "change_pct": idx["change_pct"],
                        "note": "較昨收", "spark": spark}
+        sectors_tw = parse_rwd_sectors(mi, n=5)   # 同一支取真實類股漲跌
     except Exception as e:
         errors.append(f"RWD MI_INDEX: {e}")
 
@@ -170,6 +173,7 @@ def fetch_hard_data(date: str) -> dict:
             "vix": {"tw": None, "us": vix_us},
         },
         "hot_stocks": {"tw": hot_tw, "us": []},
+        "sectors_tw": sectors_tw,
         "inst_top": inst_top,
         "_meta": {"errors": errors, "missing": missing, "fetched_at": taipei_today(), "trade_date": trade_ymd},
     }
@@ -188,7 +192,9 @@ def main():
     print(f"VIX：{partial['overview']['vix']['us']}")
     print(f"熱門股：{[(s['name'], s['change_pct']) for s in partial['hot_stocks']['tw']]}")
     print(f"三大法人(stats)：{[(s['name'], s.get('value')) for s in partial['overview']['tw']['stats']]}")
-    print(f"法人買超前5 外資：{[(s['name'], s['zhang']) for s in partial['inst_top']['foreign']]}")
+    print(f"法人買超前5 外資：{[(s['name'], s['zhang']) for s in partial['inst_top']['foreign']['buy']]}")
+    print(f"法人賣超前5 外資：{[(s['name'], s['zhang']) for s in partial['inst_top']['foreign']['sell']]}")
+    print(f"類股漲幅前5：{[(s['name'], s['amount']) for s in partial['sectors_tw']['in']]}")
     print(f"errors：{partial['_meta']['errors'] or '（無）'}")
     print(f"missing：{partial['_meta']['missing']}")
 

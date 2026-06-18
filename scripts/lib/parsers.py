@@ -231,12 +231,45 @@ def parse_t86_top(payload: dict, n: int = 5) -> dict:
         groups["trust"].append({"code": code, "name": name, "net": trust})
         groups["dealer"].append({"code": code, "name": name, "net": dealer})
 
+    def fmt(lst, sign):
+        return [{"code": s["code"], "name": s["name"], "zhang": round(abs(s["net"]) / 1000)}
+                for s in lst if s["net"] * sign > 0][:n]
+
     out = {}
     for g, lst in groups.items():
-        lst.sort(key=lambda x: x["net"], reverse=True)
-        out[g] = [{"code": s["code"], "name": s["name"],
-                   "zhang": round(s["net"] / 1000)} for s in lst[:n] if s["net"] > 0]
+        buy = sorted(lst, key=lambda x: x["net"], reverse=True)   # 買超：淨額大→小
+        sell = sorted(lst, key=lambda x: x["net"])                # 賣超：淨額負最大→
+        out[g] = {"buy": fmt(buy, 1), "sell": fmt(sell, -1)}
     return out
+
+
+def parse_rwd_sectors(payload: dict, n: int = 5) -> dict:
+    """RWD MI_INDEX(table[0]) 各類股指數 -> 漲幅 / 跌幅 Top N（真實類股表現）。"""
+    rows = payload.get("data", [])
+    if not rows:
+        for t in payload.get("tables", []):
+            rows = rows + list(t.get("data", []))
+    secs = []
+    for r in rows:
+        nm = (r[0] or "").strip()
+        # 只取單一產業類指數，排除「未含…」「報酬」「跨市場」等彙總
+        if not nm.endswith("類指數") or nm.startswith("未含"):
+            continue
+        pct = _f(r[4])
+        if pct is None:
+            continue
+        sign = _sign_from_cell(r[2])
+        secs.append({"name": nm.replace("類指數", ""), "pct": pct * sign})
+    if not secs:
+        raise ValueError("MI_INDEX 無類股指數")
+    up = sorted(secs, key=lambda x: x["pct"], reverse=True)[:n]
+    down = sorted(secs, key=lambda x: x["pct"])[:n]
+    mx = max((abs(s["pct"]) for s in secs), default=1) or 1
+
+    def row(s):
+        return {"name": s["name"], "amount": f"{'+' if s['pct'] >= 0 else ''}{s['pct']:.2f}%",
+                "weight": round(abs(s["pct"]) / mx, 2)}
+    return {"in": [row(s) for s in up], "out": [row(s) for s in down]}
 
 
 def parse_fred_csv(csv_text: str) -> dict:

@@ -6,8 +6,21 @@ sys.path.insert(0, str(ROOT))
 
 from scripts.lib.parsers import (  # noqa: E402
     roc_to_iso, parse_twse_index, parse_fmtqik, twse_top_gainers, parse_fred_csv,
-    parse_bfi82u, parse_t86_top,
+    parse_bfi82u, parse_t86_top, parse_rwd_sectors,
 )
+
+
+def test_parse_rwd_sectors():
+    payload = {"tables": [{"data": [
+        ["發行量加權股價指數", "46,465.20", "<p style='color:red'>+</p>", "587", "1.28", ""],
+        ["塑膠類指數", "261.34", "<p style='color:red'>+</p>", "17", "7.27", ""],
+        ["食品類指數", "1,925.88", "<p style='color:green'>-</p>", "22", "1.16", ""],
+        ["未含金融指數", "41,713.54", "<p style='color:red'>+</p>", "1", "1.27", ""],
+    ]}]}
+    out = parse_rwd_sectors(payload, n=5)
+    assert out["in"][0]["name"] == "塑膠" and out["in"][0]["amount"] == "+7.27%"
+    assert out["out"][0]["name"] == "食品" and out["out"][0]["amount"] == "-1.16%"
+    assert not any(s["name"].startswith("未含") for s in out["in"] + out["out"])  # 排除彙總
 
 
 def test_roc_to_iso():
@@ -83,9 +96,12 @@ def test_parse_t86_top():
         ["1303", "南亞", "0", "0", "-1,000,000", "0", "0", "0", "0", "0", "0", "-50,000", "0", "0", "0", "0", "0", "0", "0"],
     ]
     out = parse_t86_top({"fields": fields, "data": data}, n=5)
-    assert out["foreign"][0]["code"] == "2330" and out["foreign"][0]["zhang"] == 10000
-    assert out["trust"][0]["code"] == "2317" and out["trust"][0]["zhang"] == 9000
-    assert all(s["zhang"] > 0 for g in out.values() for s in g)  # 只取買超
+    # 買超榜
+    assert out["foreign"]["buy"][0]["code"] == "2330" and out["foreign"]["buy"][0]["zhang"] == 10000
+    assert out["trust"]["buy"][0]["code"] == "2317" and out["trust"]["buy"][0]["zhang"] == 9000
+    # 賣超榜（南亞外資 -1,000,000 股 = 1000 張，顯示為正）
+    assert out["foreign"]["sell"][0]["code"] == "1303" and out["foreign"]["sell"][0]["zhang"] == 1000
+    assert all(s["zhang"] > 0 for g in out.values() for side in g.values() for s in side)
 
 
 def test_parse_fred_csv():

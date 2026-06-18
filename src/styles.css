@@ -189,18 +189,23 @@ body.annotate [data-region]::before{
 .hotrow .pct{font-size:14px;font-weight:700}
 .hotrow .rs{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
 
-/* 三大法人買超 Top5 */
+/* 三大法人買超/賣超 Top5 */
 .inst3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.instcol h3{font-size:12.5px;font-weight:700;color:var(--gold);margin-bottom:10px;
-  padding-bottom:8px;border-bottom:1px solid var(--line-soft)}
+.instcol>h3{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:12px;
+  padding-bottom:8px;border-bottom:1px solid var(--line)}
+.instlist{margin-bottom:14px}
+.instlist:last-child{margin-bottom:0}
+.instlabel{font-size:11.5px;font-weight:700;margin-bottom:6px}
+.instlabel.up{color:var(--up)} .instlabel.down{color:var(--down)}
 .instrow{display:flex;justify-content:space-between;align-items:center;gap:10px;
-  padding:9px 0;border-bottom:1px solid var(--line-soft);cursor:pointer;transition:transform .15s}
+  padding:7px 0;border-bottom:1px solid var(--line-soft);cursor:pointer;transition:transform .15s}
 .instrow:hover{transform:translateX(4px)}
 .instrow:last-child{border-bottom:none}
-.instrow .nm{font-size:13.5px;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.instrow .nm{font-size:13px;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .instrow .code{color:var(--faint);font-size:11px;margin-left:6px;font-family:'IBM Plex Mono',monospace}
-.instrow .zh{color:var(--up);font-weight:600;font-size:13.5px;white-space:nowrap}
-.inst-empty{color:var(--faint);font-size:13px;padding:9px 0}
+.instrow .zh{font-weight:600;font-size:13px;white-space:nowrap}
+.instrow .zh.up{color:var(--up)} .instrow .zh.down{color:var(--down)}
+.inst-empty{color:var(--faint);font-size:13px;padding:7px 0}
 
 /* divider */
 .divider{display:flex;align-items:center;gap:16px;margin:32px 0 18px}

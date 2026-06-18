@@ -101,7 +101,8 @@ export default function App() {
           <div className="grid">
             <OverviewTW tw={ov.tw} onOpen={openChart} />
             <Vix vix={ov.vix.tw} label="台股情緒" />
-            <Sectors sectors={day.sectors.tw} meta="外資 + 投信合計" />
+            <Sectors sectors={day.sectors.tw} title="類股漲跌幅" meta="各產業類指數"
+              inLabel="▲ 強勢類股 Top 5" outLabel="▼ 弱勢類股 Top 5" />
             <HotStocks stocks={day.hot_stocks.tw} onOpen={openChart} />
             <InstTop instTop={day.inst_top} onOpen={openChart} />
           </div>
