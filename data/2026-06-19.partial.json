@@ -29,21 +29,6 @@
         {
           "name": "成交金額",
           "value": "16,062 億"
-        },
-        {
-          "name": "外資買賣超",
-          "value": "+211.5 億",
-          "dir": "up"
-        },
-        {
-          "name": "投信買賣超",
-          "value": "−53.6 億",
-          "dir": "down"
-        },
-        {
-          "name": "自營買賣超",
-          "value": "+154.9 億",
-          "dir": "up"
         }
       ]
     },
@@ -1261,12 +1246,16 @@
   },
   "_meta": {
     "errors": [
+      "BFI82U 三大法人: BFI82U 無法人資料",
       "FRED DJIA: 取得失敗（3 次）：The read operation timed out",
       "FRED SP500: 取得失敗（3 次）：The read operation timed out",
       "FRED NASDAQCOM: 取得失敗（3 次）：The read operation timed out",
       "FRED VIXCLS: 取得失敗（3 次）：The read operation timed out"
     ],
     "missing": [
+      "外資買賣超",
+      "投信買賣超",
+      "自營買賣超",
       "台指 VIX（無免費 API，分身 WebSearch 補）"
     ],
     "fetched_at": "2026-06-19",
