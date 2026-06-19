@@ -1,6 +1,6 @@
 {
  "date": "2026-06-18",
- "updated_at": "2026-06-19 22:19",
+ "updated_at": "2026-06-19 22:40",
  "overview": {
   "tw": {
    "featured": {
@@ -30,29 +30,29 @@
     {
      "name": "成交金額",
      "value": "16,062 億"
+    },
+    {
+     "name": "外資買賣超",
+     "value": "+211.5 億",
+     "dir": "up"
+    },
+    {
+     "name": "投信買賣超",
+     "value": "−53.6 億",
+     "dir": "down"
+    },
+    {
+     "name": "自營買賣超",
+     "value": "+154.9 億",
+     "dir": "up"
     }
    ]
   },
   "us": [
    {
-    "name": "道瓊",
-    "close": 51492.55,
-    "change_pct": 0.32
-   },
-   {
-    "name": "標普 500",
-    "close": 7420.1,
-    "change_pct": -0.07
-   },
-   {
-    "name": "那斯達克",
-    "close": 26090.73,
-    "change_pct": -0.51
-   },
-   {
     "name": "費城半導體",
-    "close": 11302.52,
-    "change_pct": -2.47,
+    "close": 639.45,
+    "change_pct": 6.62,
     "proxy": "SOXX",
     "spark": []
    }
@@ -67,7 +67,7 @@
    },
    "us": {
     "state": "上升",
-    "note": "VIX 指數上升，顯示市場波動性增加。"
+    "note": "聯準會釋放升息訊號，市場波動性增加"
    }
   }
  },
@@ -1274,67 +1274,88 @@
  "news": [
   {
    "tag": "pos",
-   "title": "美股逢低買盤湧入！擺脫聯準會升息陰霾早盤全面反彈",
-   "impact": "美股三大指數開盤後同步走高，顯示市場信心回升。",
-   "source_name": "民視新聞網",
-   "source_url": "https://www.ftvnews.com.tw/news/detail/2026618W0695"
-  },
-  {
-   "tag": "neg",
-   "title": "市場憂通膨、利率居高不下！美股漲跌互見 台指期盤後漲0.2％",
-   "impact": "市場對通膨和利率的擔憂導致美股漲跌互見，投資人情緒謹慎。",
-   "source_name": "民視新聞網",
-   "source_url": "https://www.ftvnews.com.tw/news/detail/2026519W0056"
-  },
-  {
-   "tag": "neu",
-   "title": "台積電殺尾盤收1780、面臨季線保衛戰 台股跌破3萬3千點",
-   "impact": "台積電尾盤下跌，台股跌破33000點，市場觀望氣氛濃厚。",
-   "source_name": "信傳媒",
-   "source_url": "https://www.cmmedia.com.tw/home/articles/60196"
+   "title": "台股加權指數上漲1.28%，外資買超211.5億元",
+   "impact": "台股表現強勁，外資持續買超，顯示市場信心增強",
+   "source_name": "台灣證券交易所",
+   "source_url": "https://www.twse.com.tw/zh/page/trading/exchange/MI_INDEX.html"
   },
   {
    "tag": "pos",
-   "title": "美股收盤三大指數齊創新高 道瓊攻上47000大關",
-   "impact": "美股三大指數收盤創下歷史新高，投資人信心增強。",
-   "source_name": "台視新聞 TTV NEWS",
-   "source_url": "https://www.youtube.com/watch?v=R7PUw1kcgI8"
+   "title": "費城半導體指數上漲6.62%，半導體股領漲美股",
+   "impact": "半導體類股強勢上漲，帶動美股走高",
+   "source_name": "Investing.com",
+   "source_url": "https://au.investing.com/news/economy-news/wall-st-advances-as-iran-deal-optimism-offsets-hawkish-fed-intel-soars-4494347"
+  },
+  {
+   "tag": "neg",
+   "title": "聯準會維持利率不變，但釋放升息訊號，美元指數突破100",
+   "impact": "聯準會釋放鷹派訊息，美元指數上升，可能對新興市場資金流動造成影響",
+   "source_name": "NOWnews今日新聞",
+   "source_url": "https://www.nownews.com/news/6847819"
+  },
+  {
+   "tag": "neg",
+   "title": "聯準會維持利率不變但釋放升息警訊，美股道瓊指數下跌507點",
+   "impact": "聯準會釋放升息訊號，導致美股主要指數下跌",
+   "source_name": "NOWnews今日新聞",
+   "source_url": "https://www.nownews.com/news/6847757"
   }
  ],
- "upcoming_events": [],
- "past_events_review": [],
+ "upcoming_events": [
+  {
+   "date": "2026-06-25",
+   "name": "美國第一季GDP終值公布",
+   "analysis": "將提供美國經濟成長的最新指標，可能影響市場走勢"
+  },
+  {
+   "date": "2026-07-01",
+   "name": "台灣6月製造業PMI公布",
+   "analysis": "反映台灣製造業景氣狀況，對台股有指標性意義"
+  }
+ ],
+ "past_events_review": [
+  {
+   "date": "2026-06-17",
+   "name": "聯準會利率決議",
+   "result": "維持利率不變，但釋放升息訊號，導致市場波動增加"
+  }
+ ],
  "verdict": {
   "tw": {
    "stance": "偏多",
-   "score": 70,
-   "comment": "台股加權指數上漲 1.28%，成交金額達 16,062 億元，顯示市場活躍且偏多。",
+   "score": 75,
+   "comment": "台股加權指數上漲1.28%，外資買超211.5億元，顯示市場信心增強",
    "bullish": [
-    "加權指數上漲 1.28%，顯示市場偏多。",
-    "成交金額達 16,062 億元，市場活躍度高。"
+    "加權指數上漲1.28%",
+    "外資買超211.5億元",
+    "強勢類股表現亮眼"
    ],
    "bearish": [
-    "部分類股表現疲弱，如觀光餐旅、航運等。"
+    "弱勢類股表現不佳",
+    "聯準會釋放升息訊號可能影響資金流動"
    ],
    "risks": [
-    "全球經濟不確定性可能影響台股表現。"
+    "聯準會可能升息對市場的潛在影響",
+    "全球經濟不確定性增加"
    ]
   },
   "us": {
-   "stance": "中性",
-   "score": 50,
-   "comment": "美股主要指數漲跌互見，市場情緒中性。",
+   "stance": "中性偏多",
+   "score": 60,
+   "comment": "費城半導體指數上漲6.62%，但聯準會釋放升息訊號，導致道瓊指數下跌",
    "bullish": [
-    "道瓊指數上漲 0.32%，顯示部分市場信心。",
-    "市場對 AI 產業前景持續看好。"
+    "費城半導體指數上漲6.62%",
+    "半導體類股表現強勁"
    ],
    "bearish": [
-    "標普 500 和那斯達克指數下跌，顯示部分市場壓力。",
-    "費城半導體指數下跌 2.47%，科技股表現疲弱。"
+    "聯準會釋放升息訊號",
+    "道瓊指數下跌507點"
    ],
    "risks": [
-    "通膨和利率上升可能影響市場表現。"
+    "聯準會可能升息對市場的潛在影響",
+    "全球經濟不確定性增加"
    ]
   }
  },
- "summary": "台股加權指數上漲 1.28%，成交金額達 16,062 億元，市場活躍且偏多。美股主要指數漲跌互見，市場情緒中性。費城半導體指數下跌 2.47%，科技股表現疲弱。VIX 指數上升，顯示市場波動性增加。"
+ "summary": "台股加權指數上漲1.28%，外資買超211.5億元，顯示市場信心增強。費城半導體指數上漲6.62%，帶動美股走高。然而，聯準會釋放升息訊號，美元指數突破100，可能對市場造成影響。"
 }
