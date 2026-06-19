@@ -1,0 +1,60 @@
+name: 每日台美股戰報
+
+on:
+  schedule:
+    - cron: '36 10 * * 1-5'   # 台北 18:36 週一~五（盤後）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-dashboard
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 抓硬數據（TWSE/FRED/AV）
+        env:
+          AV_API_KEY: ${{ secrets.AV_API_KEY }}
+        run: python scripts/fetch_hard_data.py
+
+      - name: 軟情報（OpenAI 上網）+ 合併驗證 + 推播（僅新交易日）
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+        run: python -m scripts.auto_daily
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: 部署到 GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+
+      - name: 保存當日資料與推播紀錄回 main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/*.json
+          if git diff --cached --quiet; then
+            echo "資料無變動，略過"
+          else
+            git commit -m "chore: 更新戰報資料 [skip ci]"
+            git push origin HEAD:main
+          fi
