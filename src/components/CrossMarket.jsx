@@ -2,6 +2,9 @@ import { monthDay } from '../lib/format.js'
 
 const TAGS = { pos: '利多', neg: '利空', neu: '中性' }
 
+// 只信任 http(s) 連結，擋掉 javascript: 等注入
+const safeUrl = (u) => (/^https?:\/\//i.test(u || '') ? u : null)
+
 export function News({ news }) {
   return (
     <section className="card col-7" data-region="⑤ 影響股市消息">
@@ -14,7 +17,7 @@ export function News({ news }) {
               <div className="ti">{n.title}</div>
               <div className="im">
                 {n.impact}
-                {n.source_url ? <> · <a href={n.source_url} target="_blank" rel="noreferrer">來源：{n.source_name}</a></> : null}
+                {safeUrl(n.source_url) ? <> · <a href={safeUrl(n.source_url)} target="_blank" rel="noreferrer">來源：{n.source_name}</a></> : null}
               </div>
             </div>
           </div>

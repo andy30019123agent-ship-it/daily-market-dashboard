@@ -17,7 +17,7 @@ import urllib.request
 from scripts.gen_soft_openai import gen_soft
 from scripts.merge_day import DATA_DIR, merge_day, update_index
 from scripts.lib.schema import validate_day
-from scripts.notify import build_summary_text
+from scripts.notify import build_summary_text, build_failure_text
 
 STATE = DATA_DIR / "notify_state.json"
 CHAT = os.environ.get("TG_CHAT_ID", "-5127072553")
@@ -136,11 +136,7 @@ def send_tg(text):
         raise SystemExit(f"Telegram 發送失敗：{resp}")
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--dry-run", action="store_true")
-    args = ap.parse_args()
-
+def _run(dry_run):
     td, partial = pick_partial()
     date = report_date(td, partial)
     partial["date"] = date  # 校正成真正的交易日
@@ -182,7 +178,7 @@ def main():
         except Exception:
             last = None
 
-    if args.dry_run:
+    if dry_run:
         print(f"[dry-run] 不發 TG。資料日期={date} 上次推={last}")
         print("--- 摘要預覽 ---\n" + build_summary_text(day))
         return
@@ -195,6 +191,22 @@ def main():
     STATE.write_text(json.dumps({"last_notified": date}, ensure_ascii=False),
                      encoding="utf-8")
     print(f"已推播戰報並更新 state：last_notified={date}")
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--dry-run", action="store_true")
+    args = ap.parse_args()
+    try:
+        _run(args.dry_run)
+    except Exception as e:
+        # 不靜默：非 dry-run 時把失敗發到 Telegram，再拋出讓 workflow 標記失敗
+        if not args.dry_run:
+            try:
+                send_tg(build_failure_text(f"戰報自動更新失敗：{e}"))
+            except Exception:
+                pass
+        raise
 
 
 if __name__ == "__main__":

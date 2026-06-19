@@ -130,8 +130,11 @@ def gen_soft(partial: dict) -> dict:
         resp = json.load(r)
     content = resp["choices"][0]["message"]["content"]
     soft = _extract_json(content)
-    # 基本防呆：news 必須有 source_url，否則丟掉該則
-    soft["news"] = [n for n in soft.get("news", []) if n.get("source_url")]
+    # 防呆：news 的 source_url 必須是 http(s) 連結（擋掉空值與 javascript: 等注入）
+    soft["news"] = [
+        n for n in soft.get("news", [])
+        if str(n.get("source_url", "")).startswith(("http://", "https://"))
+    ]
     # 台指 VIX 一律沿用前值（不讓模型臆造）
     carried = _carry_vix_tw(partial.get("date", ""))
     if carried:

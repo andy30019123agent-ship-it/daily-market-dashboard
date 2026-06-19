@@ -19,7 +19,7 @@ import urllib.request
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from scripts.lib.parsers import (  # noqa: E402
-    parse_fred_csv, parse_bfi82u, parse_t86_top,
+    parse_bfi82u, parse_t86_top,
     parse_rwd_index, parse_rwd_fmtqik, parse_rwd_gainers, parse_rwd_sectors,
     build_sector_constituents,
 )
@@ -31,8 +31,7 @@ OUT_DIR = pathlib.Path(__file__).resolve().parents[1] / "public" / "data"
 # 用 TWSE 官網 RWD（afterTrading/fund）：OpenAPI 有約 1~2 日延遲，RWD 是最新交易日
 TWSE_AT = "https://www.twse.com.tw/rwd/zh/afterTrading"
 TWSE_RWD = "https://www.twse.com.tw/rwd/zh/fund"
-FRED = "https://fred.stlouisfed.org/graph/fredgraph.csv?id="
-FRED_IDS = {"道瓊": "DJIA", "標普 500": "SP500", "那斯達克": "NASDAQCOM"}
+# 美股指數/VIX 已改由 auto_daily 用 Yahoo 抓（FRED 在 CI timeout），這裡不再用 FRED
 
 # Alpha Vantage（費半 SOX 用 SOXX ETF 代理 + 美股重點股動向）
 AV = "https://www.alphavantage.co/query"
