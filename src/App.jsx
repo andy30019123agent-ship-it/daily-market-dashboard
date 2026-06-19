@@ -130,7 +130,7 @@ export default function App() {
         <News news={day.news} />
         <UpcomingEvents events={day.upcoming_events} />
         <PastReview events={day.past_events_review} />
-        <Verdict verdict={day.verdict} />
+        <Verdict verdict={day.verdict} tab={tab} />
       </div>
 
       <footer>

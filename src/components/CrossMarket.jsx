@@ -52,8 +52,11 @@ export function PastReview({ events }) {
   )
 }
 
-function MarketVerdict({ flag, market, v }) {
-  if (!v) return null
+// 跟著上方台股/美股分頁切換，只顯示當前市場的研判
+export function Verdict({ verdict, tab = 'tw' }) {
+  const v = verdict[tab] || verdict.tw || verdict
+  const market = tab === 'us' ? '美股' : '台股'
+  const flag = tab === 'us' ? '🇺🇸' : '🇹🇼'
   const cols = [
     { cls: 'good', ic: '＋', title: '利多', items: v.bullish },
     { cls: 'bad', ic: '－', title: '利空', items: v.bearish },
@@ -62,7 +65,11 @@ function MarketVerdict({ flag, market, v }) {
   const score = typeof v.score === 'number' ? Math.max(0, Math.min(100, v.score)) : null
   const tone = score == null ? '' : score >= 60 ? 'up' : score <= 40 ? 'down' : 'neu'
   return (
-    <div className="vmarket">
+    <section className="card col-12" data-region="⑧ 今日綜合研判">
+      <div className="card-h">
+        <span className="label">今日綜合研判 · {flag} {market}</span>
+        <span className="meta">跟隨上方分頁切換</span>
+      </div>
       {v.stance && (
         <div className="stance">
           <div className="stance-top">
@@ -85,21 +92,6 @@ function MarketVerdict({ flag, market, v }) {
             {(c.items || []).map((it, i) => <li key={i}>{it}</li>)}
           </div>
         ))}
-      </div>
-    </div>
-  )
-}
-
-export function Verdict({ verdict }) {
-  // 相容舊版（單一）與新版（台美分開）
-  const tw = verdict.tw || verdict
-  const us = verdict.us
-  return (
-    <section className="card col-12" data-region="⑧ 今日綜合研判">
-      <div className="card-h"><span className="label">今日綜合研判 · 台美分列</span></div>
-      <div className="verdict2">
-        <MarketVerdict flag="🇹🇼" market="台股" v={tw} />
-        {us && <MarketVerdict flag="🇺🇸" market="美股" v={us} />}
       </div>
     </section>
   )
