@@ -18,6 +18,13 @@ python3 scripts/fetch_hard_data.py
 - 內含（皆真實）：台股加權/成交金額/三大法人(外資投信自營,大盤金額+個股買賣超雙榜)/類股漲跌/漲幅榜；美股道瓊/標普/那斯達克(FRED)+費半SOX(SOXX)+美股熱門股+美股11類股(AV)；美股 VIX(FRED)。
 - 檢查終端輸出的 `errors`（理想為空）與 `missing`。記下 `_meta.trade_date`（= 報告日期）。
 
+### 1b. 美股資料校正（重要：免費源有 1 日延遲）
+FRED/AV 對美股常延遲 1 天、且各序列日期不一致。**務必用獨立來源 WebFetch 核對最新交易日的美股**（這些 WebFetch 可用）：
+- 指數：`cn.investing.com/indices/us-spx-500`、`/nasdaq-composite`、`/phlx-semiconductor`(費半 SOX **指數本身**，非 SOXX ETF)、道瓊；VIX：`/volatility-s-p-500`
+- 美股類股：`finviz.com/groups.ashx?g=sector&v=110&o=-perf1d`（11 類股 1 日漲跌）
+- 個股：`cn.investing.com/equities/<slug>`（slug 不一定對，404 就換）
+確認美股顯示的是「最新已收盤交易日」，方向正確（別把昨天的當今天）。
+
 ### 2. 軟情報（分身親自上網判讀）
 產出一個 `soft` dict，餵給 merge：
 - **news**：用 WebSearch 找**最近 24 小時內**的台股盤後、美股、影響股市消息（川普/聯準會/關稅/AI/地緣）。每條：`{tag(pos/neg/neu), title, impact, source_name, source_url}`，**source_url 必須是該篇文章本身**，不可用首頁。3~4 則。
