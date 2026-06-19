@@ -42,22 +42,43 @@ def report_date(trade_date, partial):
     return partial["date"]
 
 
-def _override_us(day, us_fix):
-    """用模型查到的最新美股收盤校正 FRED 延遲值（名稱對應、過 sanity 檢查才覆蓋）。"""
-    if not us_fix:
-        return
+US_MAJORS = ["道瓊", "標普 500", "那斯達克", "費城半導體"]
+
+
+def _canon_us(name):
+    n = (name or "").replace(" ", "")
+    if "道瓊" in n or "dow" in n.lower():
+        return "道瓊"
+    if "標普" in n or "s&p" in n.lower() or "500" in n:
+        return "標普 500"
+    if "那斯" in n or "那指" in n or "nasdaq" in n.lower():
+        return "那斯達克"
+    if "費" in n or "半導體" in n or "sox" in n.lower():
+        return "費城半導體"
+    return name
+
+
+def _override_us(day, partial, us_fix):
+    """美股四大指數以 OpenAI 查到的最新收盤為準（免費源 FRED 常延遲/缺漏），spark 沿用 partial。"""
+    prev = {i.get("name"): i for i in (partial.get("overview", {}).get("us") or [])}
     fix = {}
-    for it in us_fix:
-        name, cp = it.get("name"), it.get("change_pct")
-        cl = it.get("close")
-        if name and cp is not None and abs(cp) < 20 and (cl is None or cl > 0):
-            fix[name] = it
-    for idx in day.get("overview", {}).get("us", []):
-        f = fix.get(idx.get("name"))
+    for it in (us_fix or []):
+        cp = it.get("change_pct")
+        if cp is not None and abs(cp) < 20:
+            fix[_canon_us(it.get("name"))] = it
+    out = []
+    for name in US_MAJORS:
+        base = dict(prev.get(name, {}))
+        base["name"] = name
+        f = fix.get(name)
         if f:
             if f.get("close"):
-                idx["close"] = f["close"]
-            idx["change_pct"] = f["change_pct"]
+                base["close"] = f["close"]
+            base["change_pct"] = f["change_pct"]
+        if base.get("change_pct") is not None:  # 有值才放，避免殘缺
+            out.append(base)
+    if out:
+        day["overview"]["us"] = out
 
 
 def send_tg(text):
@@ -90,7 +111,7 @@ def main():
         datetime.timezone(datetime.timedelta(hours=8))
     ).strftime("%Y-%m-%d %H:%M")
     day = merge_day(partial, soft, date, updated_at=now)
-    _override_us(day, soft.get("us_indices"))
+    _override_us(day, partial, soft.get("us_indices"))
 
     errs = validate_day(day)
     if errs:
