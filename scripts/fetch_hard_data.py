@@ -177,15 +177,10 @@ def fetch_hard_data(date: str) -> dict:
         else:
             missing.append(label)
 
-    # ---- 美股指數（FRED）----
+    # ---- 美股指數 ----
+    # 註：FRED 在 GitHub Actions 會 read timeout（每檔重試數分鐘），且只給延遲值。
+    # 美股指數改由 auto_daily 用 Yahoo chart API 抓真實點數，此處不再呼叫 FRED。
     us = []
-    for name, fid in FRED_IDS.items():
-        try:
-            d = parse_fred_csv(get_text(FRED + fid))
-            us.append({"name": name, "close": d["close"], "change_pct": d["change_pct"], "spark": d["spark"]})
-        except Exception as e:
-            errors.append(f"FRED {fid}: {e}")
-        time.sleep(0.8)  # 對來源友善、避免被限流
 
     # ---- 費半 SOX（Alpha Vantage，SOXX ETF 代理）+ 美股重點股動向 ----
     us_hot = []
@@ -240,15 +235,8 @@ def fetch_hard_data(date: str) -> dict:
         missing.append("美股類股表現（缺 AV 金鑰）")
 
     # ---- VIX ----
+    # 美股 VIX 同樣改由 auto_daily 用 Yahoo（^VIX）抓，FRED VIXCLS 在 CI 會 timeout。
     vix_us = None
-    try:
-        d = parse_fred_csv(get_text(FRED + "VIXCLS"))
-        # gauge: 恐慌(0)→貪婪(1)；VIX 越高越恐慌（10→1, 40→0）
-        gauge = round(max(0.0, min(1.0, 1 - (d["close"] - 10) / 30)), 2)
-        vix_us = {"value": d["close"], "change": d["change_pct"],
-                  "state": "", "note": "", "gauge": gauge}
-    except Exception as e:
-        errors.append(f"FRED VIXCLS: {e}")
     missing.append("台指 VIX（無免費 API，分身 WebSearch 補）")
 
     # ---- 類股成分股（台股真實 / 美股 ETF 主要成分）----
