@@ -162,7 +162,11 @@ body.annotate [data-region]::before{
 .vix-unit{font-size:11.5px;color:var(--muted);letter-spacing:1px;margin-bottom:6px}
 .vix-state{margin-top:16px;font-size:13px;font-weight:600}
 .vix-sub{font-size:12.5px;color:var(--muted);margin-top:5px}
-.gauge{height:6px;border-radius:6px;margin-top:22px;
+.gauge-now{font-size:12.5px;color:var(--muted);margin-top:18px;margin-bottom:8px}
+.gauge-now b{font-weight:700}
+.gauge-now b.down{color:var(--down)} .gauge-now b.up{color:var(--up)} .gauge-now b.gold{color:var(--gold)}
+.gauge-hint{color:var(--faint);font-size:11px;margin-left:6px}
+.gauge{height:6px;border-radius:6px;margin-top:0;
   background:linear-gradient(90deg,var(--down),var(--gold),var(--up))}
 .gauge-mark{position:relative;height:0}
 .gauge-mark i{position:absolute;top:-13px;width:3px;height:13px;background:var(--ink);border-radius:2px;transform:translateX(-50%)}
