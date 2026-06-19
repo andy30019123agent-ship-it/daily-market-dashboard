@@ -1,1390 +1,1366 @@
 {
-  "date": "2026-06-18",
-  "updated_at": "2026-06-19 18:37",
-  "overview": {
-    "tw": {
-      "featured": {
-        "name": "發行量加權股價指數",
-        "close": 46465.2,
-        "change": 587.81,
-        "change_pct": 1.28,
-        "note": "較昨收",
-        "spark": [
-          45337.91,
-          45557.31,
-          46459.16,
-          45677.46,
-          45070.94,
-          43502.78,
-          44704.44,
-          43225.54,
-          43149.46,
-          44169.04,
-          45396.99,
-          45809.19,
-          45877.39,
-          46465.2
-        ]
-      },
-      "stats": [
-        {
-          "name": "成交金額",
-          "value": "16,062 億"
-        },
-        {
-          "name": "外資買賣超",
-          "value": "+211.5 億",
-          "dir": "up"
-        },
-        {
-          "name": "投信買賣超",
-          "value": "−53.6 億",
-          "dir": "down"
-        },
-        {
-          "name": "自營買賣超",
-          "value": "+154.9 億",
-          "dir": "up"
-        }
-      ]
-    },
-    "us": [
-      {
-        "name": "道瓊",
-        "close": 51564.7,
-        "change_pct": 0.14,
-        "spark": []
-      },
-      {
-        "name": "標普 500",
-        "close": 7500.58,
-        "change_pct": 1.08,
-        "spark": []
-      },
-      {
-        "name": "那斯達克",
-        "close": 26517.93,
-        "change_pct": 1.91,
-        "spark": []
-      },
-      {
-        "name": "費城半導體",
-        "close": 14341.8,
-        "change_pct": 6.42,
-        "spark": []
-      }
-    ],
-    "vix": {
-      "tw": {
-        "value": 37.86,
-        "change": 1.53,
-        "state": "波動偏高",
-        "note": "台指 VIX 6/18 收 37.86 仍處高檔（VIXTWN），今日端午節休市無更新",
-        "gauge": 0.07
-      },
-      "us": {
-        "value": 16.4,
-        "change": -11.06,
-        "state": "回落",
-        "note": "VIX 6/18 急降至 16.4，風險偏好回升；Juneteenth 休市，今日無更新",
-        "gauge": 0.79
-      }
-    }
-  },
-  "sectors": {
-    "tw": {
-      "in": [
-        {
-          "name": "塑膠",
-          "amount": "+7.27%",
-          "weight": 1.0,
-          "constituents": [
-            {
-              "code": "1303",
-              "name": "南亞",
-              "change_pct": 9.88
-            },
-            {
-              "code": "1301",
-              "name": "台塑",
-              "change_pct": 7.82
-            },
-            {
-              "code": "1326",
-              "name": "台化",
-              "change_pct": 0.93
-            },
-            {
-              "code": "1314",
-              "name": "中石化",
-              "change_pct": 2.1
-            },
-            {
-              "code": "1312",
-              "name": "國喬",
-              "change_pct": 1.89
-            },
-            {
-              "code": "1304",
-              "name": "台聚",
-              "change_pct": 4.63
-            },
-            {
-              "code": "1310",
-              "name": "台苯",
-              "change_pct": 6.31
-            },
-            {
-              "code": "1313",
-              "name": "聯成",
-              "change_pct": 3.57
-            },
-            {
-              "code": "1309",
-              "name": "台達化",
-              "change_pct": 1.72
-            },
-            {
-              "code": "1305",
-              "name": "華夏",
-              "change_pct": 3.52
-            },
-            {
-              "code": "1308",
-              "name": "亞聚",
-              "change_pct": 1.82
-            },
-            {
-              "code": "4306",
-              "name": "炎洲",
-              "change_pct": -0.63
-            }
-          ]
-        },
-        {
-          "name": "塑膠化工",
-          "amount": "+4.96%",
-          "weight": 0.68,
-          "constituents": [
-            {
-              "code": "1303",
-              "name": "南亞",
-              "change_pct": 9.88
-            },
-            {
-              "code": "1301",
-              "name": "台塑",
-              "change_pct": 7.82
-            },
-            {
-              "code": "1326",
-              "name": "台化",
-              "change_pct": 0.93
-            },
-            {
-              "code": "4764",
-              "name": "雙鍵",
-              "change_pct": 7.12
-            },
-            {
-              "code": "4722",
-              "name": "國精化",
-              "change_pct": 5.11
-            },
-            {
-              "code": "1708",
-              "name": "東鹼",
-              "change_pct": 9.95
-            },
-            {
-              "code": "1727",
-              "name": "中華化",
-              "change_pct": 0.21
-            },
-            {
-              "code": "1717",
-              "name": "長興",
-              "change_pct": 1.83
-            },
-            {
-              "code": "1714",
-              "name": "和桐",
-              "change_pct": 5.71
-            },
-            {
-              "code": "4739",
-              "name": "康普",
-              "change_pct": 0.41
-            },
-            {
-              "code": "1711",
-              "name": "永光",
-              "change_pct": 1.91
-            },
-            {
-              "code": "4763",
-              "name": "材料*-KY",
-              "change_pct": -0.56
-            }
-          ]
-        },
-        {
-          "name": "數位雲端",
-          "amount": "+4.61%",
-          "weight": 0.63,
-          "constituents": [
-            {
-              "code": "8454",
-              "name": "富邦媒",
-              "change_pct": 8.25
-            },
-            {
-              "code": "7722",
-              "name": "LINEPAY",
-              "change_pct": 2.82
-            },
-            {
-              "code": "7721",
-              "name": "微程式",
-              "change_pct": -2.59
-            },
-            {
-              "code": "6689",
-              "name": "伊雲谷",
-              "change_pct": -1.62
-            },
-            {
-              "code": "6906",
-              "name": "現觀科",
-              "change_pct": 2.45
-            },
-            {
-              "code": "6165",
-              "name": "浪凡",
-              "change_pct": -0.41
-            },
-            {
-              "code": "6902",
-              "name": "GOGOLOOK",
-              "change_pct": 2.7
-            },
-            {
-              "code": "3130",
-              "name": "一零四",
-              "change_pct": 0.0
-            },
-            {
-              "code": "6614",
-              "name": "資拓宏宇",
-              "change_pct": -1.21
-            },
-            {
-              "code": "8487",
-              "name": "愛爾達-創",
-              "change_pct": -0.88
-            },
-            {
-              "code": "7823",
-              "name": "奧義賽博-KY創",
-              "change_pct": 0.12
-            }
-          ]
-        },
-        {
-          "name": "生技醫療",
-          "amount": "+3.87%",
-          "weight": 0.53,
-          "constituents": [
-            {
-              "code": "6919",
-              "name": "康霈*",
-              "change_pct": 9.99
-            },
-            {
-              "code": "6446",
-              "name": "藥華藥",
-              "change_pct": 4.95
-            },
-            {
-              "code": "6949",
-              "name": "沛爾生醫-創",
-              "change_pct": 1.79
-            },
-            {
-              "code": "6472",
-              "name": "保瑞",
-              "change_pct": 2.42
-            },
-            {
-              "code": "6861",
-              "name": "睿生光電",
-              "change_pct": 9.93
-            },
-            {
-              "code": "7799",
-              "name": "禾榮科",
-              "change_pct": 1.4
-            },
-            {
-              "code": "6491",
-              "name": "晶碩",
-              "change_pct": 5.14
-            },
-            {
-              "code": "1795",
-              "name": "美時",
-              "change_pct": -0.26
-            },
-            {
-              "code": "4169",
-              "name": "泰宗",
-              "change_pct": 9.8
-            },
-            {
-              "code": "7827",
-              "name": "漢康-KY創",
-              "change_pct": -1.2
-            },
-            {
-              "code": "6782",
-              "name": "視陽",
-              "change_pct": 2.1
-            },
-            {
-              "code": "6589",
-              "name": "台康生技",
-              "change_pct": 2.2
-            }
-          ]
-        },
-        {
-          "name": "光電",
-          "amount": "+3.50%",
-          "weight": 0.48,
-          "constituents": [
-            {
-              "code": "3481",
-              "name": "群創",
-              "change_pct": 9.9
-            },
-            {
-              "code": "2409",
-              "name": "友達",
-              "change_pct": 7.24
-            },
-            {
-              "code": "3008",
-              "name": "大立光",
-              "change_pct": 0.97
-            },
-            {
-              "code": "6116",
-              "name": "彩晶",
-              "change_pct": 3.01
-            },
-            {
-              "code": "3406",
-              "name": "玉晶光",
-              "change_pct": 4.29
-            },
-            {
-              "code": "2426",
-              "name": "鼎元",
-              "change_pct": 9.95
-            },
-            {
-              "code": "6209",
-              "name": "今國光",
-              "change_pct": 1.46
-            },
-            {
-              "code": "2486",
-              "name": "一詮",
-              "change_pct": 9.94
-            },
-            {
-              "code": "3673",
-              "name": "TPK-KY",
-              "change_pct": -0.46
-            },
-            {
-              "code": "2489",
-              "name": "瑞軒",
-              "change_pct": -0.93
-            },
-            {
-              "code": "3019",
-              "name": "亞光",
-              "change_pct": 1.26
-            },
-            {
-              "code": "6278",
-              "name": "台表科",
-              "change_pct": 0.0
-            }
-          ]
-        }
-      ],
-      "out": [
-        {
-          "name": "其他",
-          "amount": "+0.01%",
-          "weight": 0.0,
-          "constituents": [
-            {
-              "code": "5871",
-              "name": "中租-KY",
-              "change_pct": -0.87
-            },
-            {
-              "code": "9945",
-              "name": "潤泰新",
-              "change_pct": 1.48
-            },
-            {
-              "code": "8033",
-              "name": "雷虎",
-              "change_pct": 1.57
-            },
-            {
-              "code": "5284",
-              "name": "jpp-KY",
-              "change_pct": 3.32
-            },
-            {
-              "code": "9907",
-              "name": "統一實",
-              "change_pct": 0.3
-            },
-            {
-              "code": "9933",
-              "name": "中鼎",
-              "change_pct": -0.93
-            },
-            {
-              "code": "2348",
-              "name": "海悅",
-              "change_pct": -1.03
-            },
-            {
-              "code": "1342",
-              "name": "八貫",
-              "change_pct": -0.43
-            },
-            {
-              "code": "9939",
-              "name": "宏全",
-              "change_pct": 0.0
-            },
-            {
-              "code": "9917",
-              "name": "中保科",
-              "change_pct": -0.43
-            },
-            {
-              "code": "9941",
-              "name": "裕融",
-              "change_pct": 0.0
-            },
-            {
-              "code": "6585",
-              "name": "鼎基",
-              "change_pct": 1.1
-            }
-          ]
-        },
-        {
-          "name": "觀光餐旅",
-          "amount": "+0.03%",
-          "weight": 0.0,
-          "constituents": [
-            {
-              "code": "9904",
-              "name": "寶成",
-              "change_pct": -1.13
-            },
-            {
-              "code": "9910",
-              "name": "豐泰",
-              "change_pct": -0.27
-            },
-            {
-              "code": "6670",
-              "name": "復盛應用",
-              "change_pct": -4.33
-            },
-            {
-              "code": "2731",
-              "name": "雄獅",
-              "change_pct": -0.33
-            },
-            {
-              "code": "9921",
-              "name": "巨大",
-              "change_pct": -1.46
-            },
-            {
-              "code": "2727",
-              "name": "王品",
-              "change_pct": 1.02
-            },
-            {
-              "code": "1736",
-              "name": "喬山",
-              "change_pct": 1.27
-            },
-            {
-              "code": "6890",
-              "name": "來億-KY",
-              "change_pct": 4.39
-            },
-            {
-              "code": "9914",
-              "name": "美利達",
-              "change_pct": -1.23
-            },
-            {
-              "code": "9802",
-              "name": "鈺齊-KY",
-              "change_pct": -0.52
-            },
-            {
-              "code": "2753",
-              "name": "八方雲集",
-              "change_pct": 0.0
-            },
-            {
-              "code": "4536",
-              "name": "拓凱",
-              "change_pct": -1.21
-            }
-          ]
-        },
-        {
-          "name": "其他電子",
-          "amount": "+0.06%",
-          "weight": 0.01,
-          "constituents": [
-            {
-              "code": "2317",
-              "name": "鴻海",
-              "change_pct": -1.29
-            },
-            {
-              "code": "3665",
-              "name": "貿聯-KY",
-              "change_pct": 0.48
-            },
-            {
-              "code": "2360",
-              "name": "致茂",
-              "change_pct": 3.59
-            },
-            {
-              "code": "2404",
-              "name": "漢唐",
-              "change_pct": -1.17
-            },
-            {
-              "code": "2464",
-              "name": "盟立",
-              "change_pct": 3.61
-            },
-            {
-              "code": "6139",
-              "name": "亞翔",
-              "change_pct": 2.11
-            },
-            {
-              "code": "2474",
-              "name": "可成",
-              "change_pct": -1.46
-            },
-            {
-              "code": "6196",
-              "name": "帆宣",
-              "change_pct": 4.81
-            },
-            {
-              "code": "2312",
-              "name": "金寶",
-              "change_pct": 1.87
-            },
-            {
-              "code": "8021",
-              "name": "尖點",
-              "change_pct": 0.18
-            },
-            {
-              "code": "3030",
-              "name": "德律",
-              "change_pct": 2.41
-            },
-            {
-              "code": "6409",
-              "name": "旭隼",
-              "change_pct": -0.43
-            }
-          ]
-        },
-        {
-          "name": "水泥",
-          "amount": "+0.11%",
-          "weight": 0.02,
-          "constituents": [
-            {
-              "code": "1101",
-              "name": "台泥",
-              "change_pct": -0.2
-            },
-            {
-              "code": "1102",
-              "name": "亞泥",
-              "change_pct": 0.7
-            },
-            {
-              "code": "1104",
-              "name": "環泥",
-              "change_pct": 0.0
-            },
-            {
-              "code": "1110",
-              "name": "東泥",
-              "change_pct": -1.27
-            },
-            {
-              "code": "1109",
-              "name": "信大",
-              "change_pct": 0.0
-            },
-            {
-              "code": "1103",
-              "name": "嘉泥",
-              "change_pct": 0.0
-            },
-            {
-              "code": "1108",
-              "name": "幸福",
-              "change_pct": 0.0
-            }
-          ]
-        },
-        {
-          "name": "航運",
-          "amount": "+0.21%",
-          "weight": 0.03,
-          "constituents": [
-            {
-              "code": "2603",
-              "name": "長榮",
-              "change_pct": -0.52
-            },
-            {
-              "code": "2618",
-              "name": "長榮航",
-              "change_pct": 0.0
-            },
-            {
-              "code": "2610",
-              "name": "華航",
-              "change_pct": 0.69
-            },
-            {
-              "code": "2609",
-              "name": "陽明",
-              "change_pct": -0.58
-            },
-            {
-              "code": "2606",
-              "name": "裕民",
-              "change_pct": -1.13
-            },
-            {
-              "code": "2615",
-              "name": "萬海",
-              "change_pct": 0.0
-            },
-            {
-              "code": "2633",
-              "name": "台灣高鐵",
-              "change_pct": 0.0
-            },
-            {
-              "code": "2605",
-              "name": "新興",
-              "change_pct": -4.47
-            },
-            {
-              "code": "2637",
-              "name": "慧洋-KY",
-              "change_pct": 0.0
-            },
-            {
-              "code": "6757",
-              "name": "台灣虎航",
-              "change_pct": -1.52
-            },
-            {
-              "code": "2645",
-              "name": "長榮航太",
-              "change_pct": 1.19
-            },
-            {
-              "code": "2646",
-              "name": "星宇航空",
-              "change_pct": 0.24
-            }
-          ]
-        }
-      ]
-    },
-    "us": {
-      "in": [
-        {
-          "name": "科技",
-          "amount": "+2.98%",
-          "weight": 1.0,
-          "constituents": [
-            {
-              "code": "AAPL",
-              "name": "蘋果"
-            },
-            {
-              "code": "MSFT",
-              "name": "微軟"
-            },
-            {
-              "code": "NVDA",
-              "name": "輝達"
-            },
-            {
-              "code": "AVGO",
-              "name": "博通"
-            },
-            {
-              "code": "ORCL",
-              "name": "甲骨文"
-            },
-            {
-              "code": "CRM",
-              "name": "Salesforce"
-            }
-          ]
-        },
-        {
-          "name": "非必需消費",
-          "amount": "+1.57%",
-          "weight": 0.53,
-          "constituents": [
-            {
-              "code": "AMZN",
-              "name": "亞馬遜"
-            },
-            {
-              "code": "TSLA",
-              "name": "特斯拉"
-            },
-            {
-              "code": "HD",
-              "name": "家得寶"
-            },
-            {
-              "code": "MCD",
-              "name": "麥當勞"
-            },
-            {
-              "code": "NKE",
-              "name": "Nike"
-            },
-            {
-              "code": "SBUX",
-              "name": "星巴克"
-            }
-          ]
-        },
-        {
-          "name": "通訊服務",
-          "amount": "+0.98%",
-          "weight": 0.33,
-          "constituents": [
-            {
-              "code": "META",
-              "name": "Meta"
-            },
-            {
-              "code": "GOOGL",
-              "name": "Alphabet"
-            },
-            {
-              "code": "NFLX",
-              "name": "Netflix"
-            },
-            {
-              "code": "DIS",
-              "name": "迪士尼"
-            },
-            {
-              "code": "TMUS",
-              "name": "T-Mobile"
-            },
-            {
-              "code": "VZ",
-              "name": "Verizon"
-            }
-          ]
-        },
-        {
-          "name": "公用事業",
-          "amount": "+0.46%",
-          "weight": 0.15,
-          "constituents": [
-            {
-              "code": "NEE",
-              "name": "NextEra"
-            },
-            {
-              "code": "SO",
-              "name": "Southern"
-            },
-            {
-              "code": "DUK",
-              "name": "Duke能源"
-            },
-            {
-              "code": "CEG",
-              "name": "Constellation"
-            },
-            {
-              "code": "AEP",
-              "name": "AEP"
-            },
-            {
-              "code": "D",
-              "name": "Dominion"
-            }
-          ]
-        },
-        {
-          "name": "工業",
-          "amount": "+0.34%",
-          "weight": 0.11,
-          "constituents": [
-            {
-              "code": "GE",
-              "name": "奇異"
-            },
-            {
-              "code": "CAT",
-              "name": "開拓重工"
-            },
-            {
-              "code": "RTX",
-              "name": "雷神"
-            },
-            {
-              "code": "HON",
-              "name": "霍尼韋爾"
-            },
-            {
-              "code": "BA",
-              "name": "波音"
-            },
-            {
-              "code": "UBER",
-              "name": "Uber"
-            }
-          ]
-        }
-      ],
-      "out": [
-        {
-          "name": "能源",
-          "amount": "-1.38%",
-          "weight": 0.46,
-          "constituents": [
-            {
-              "code": "XOM",
-              "name": "艾克森美孚"
-            },
-            {
-              "code": "CVX",
-              "name": "雪佛龍"
-            },
-            {
-              "code": "COP",
-              "name": "康菲"
-            },
-            {
-              "code": "WMB",
-              "name": "Williams"
-            },
-            {
-              "code": "SLB",
-              "name": "斯倫貝謝"
-            },
-            {
-              "code": "EOG",
-              "name": "EOG"
-            }
-          ]
-        },
-        {
-          "name": "原物料",
-          "amount": "-1.11%",
-          "weight": 0.37,
-          "constituents": [
-            {
-              "code": "LIN",
-              "name": "Linde"
-            },
-            {
-              "code": "SHW",
-              "name": "宣偉"
-            },
-            {
-              "code": "FCX",
-              "name": "自由港"
-            },
-            {
-              "code": "ECL",
-              "name": "藝康"
-            },
-            {
-              "code": "NEM",
-              "name": "Newmont"
-            },
-            {
-              "code": "APD",
-              "name": "空氣化工"
-            }
-          ]
-        },
-        {
-          "name": "醫療保健",
-          "amount": "-0.62%",
-          "weight": 0.21,
-          "constituents": [
-            {
-              "code": "LLY",
-              "name": "禮來"
-            },
-            {
-              "code": "UNH",
-              "name": "聯合健康"
-            },
-            {
-              "code": "JNJ",
-              "name": "嬌生"
-            },
-            {
-              "code": "ABBV",
-              "name": "艾伯維"
-            },
-            {
-              "code": "MRK",
-              "name": "默克"
-            },
-            {
-              "code": "TMO",
-              "name": "賽默飛"
-            }
-          ]
-        },
-        {
-          "name": "必需消費",
-          "amount": "-0.45%",
-          "weight": 0.15,
-          "constituents": [
-            {
-              "code": "COST",
-              "name": "好市多"
-            },
-            {
-              "code": "WMT",
-              "name": "沃爾瑪"
-            },
-            {
-              "code": "PG",
-              "name": "寶僑"
-            },
-            {
-              "code": "KO",
-              "name": "可口可樂"
-            },
-            {
-              "code": "PEP",
-              "name": "百事"
-            },
-            {
-              "code": "PM",
-              "name": "菲利普莫里斯"
-            }
-          ]
-        },
-        {
-          "name": "金融",
-          "amount": "-0.36%",
-          "weight": 0.12,
-          "constituents": [
-            {
-              "code": "BRK.B",
-              "name": "波克夏"
-            },
-            {
-              "code": "JPM",
-              "name": "摩根大通"
-            },
-            {
-              "code": "V",
-              "name": "Visa"
-            },
-            {
-              "code": "MA",
-              "name": "萬事達"
-            },
-            {
-              "code": "BAC",
-              "name": "美銀"
-            },
-            {
-              "code": "WFC",
-              "name": "富國"
-            }
-          ]
-        }
-      ]
-    }
-  },
-  "hot_stocks": {
-    "tw": [
-      {
-        "code": "6525",
-        "name": "捷敏-KY",
-        "change_pct": 10.0,
-        "reason": "亮燈漲停"
-      },
-      {
-        "code": "2472",
-        "name": "立隆電",
-        "change_pct": 9.99,
-        "reason": "強勢逼近漲停"
-      },
-      {
-        "code": "6919",
-        "name": "康霈*",
-        "change_pct": 9.99,
-        "reason": "強勢逼近漲停"
-      },
-      {
-        "code": "2449",
-        "name": "京元電子",
-        "change_pct": 9.98,
-        "reason": "強勢逼近漲停"
-      },
-      {
-        "code": "7610",
-        "name": "聯友金屬-創",
-        "change_pct": 9.98,
-        "reason": "強勢逼近漲停"
-      }
-    ],
-    "us": [
-      {
-        "code": "INTC",
-        "name": "英特爾",
-        "change_pct": 10.64,
-        "reason": "與 Apple 合作晶片題材"
-      },
-      {
-        "code": "MU",
-        "name": "美光",
-        "change_pct": 8.7,
-        "reason": "記憶體報價走揚"
-      },
-      {
-        "code": "NVDA",
-        "name": "輝達",
-        "change_pct": 2.95,
-        "reason": "AI 晶片需求、市值重回 5 兆"
-      }
+ "date": "2026-06-18",
+ "updated_at": "2026-06-19 19:58",
+ "overview": {
+  "tw": {
+   "featured": {
+    "name": "發行量加權股價指數",
+    "close": 46465.2,
+    "change": 587.81,
+    "change_pct": 1.28,
+    "note": "較昨收",
+    "spark": [
+     45337.91,
+     45557.31,
+     46459.16,
+     45677.46,
+     45070.94,
+     43502.78,
+     44704.44,
+     43225.54,
+     43149.46,
+     44169.04,
+     45396.99,
+     45809.19,
+     45877.39,
+     46465.2
     ]
+   },
+   "stats": [
+    {
+     "name": "成交金額",
+     "value": "16,062 億"
+    },
+    {
+     "name": "外資買賣超",
+     "value": "+211.5 億",
+     "dir": "up"
+    },
+    {
+     "name": "投信買賣超",
+     "value": "−53.6 億",
+     "dir": "down"
+    },
+    {
+     "name": "自營買賣超",
+     "value": "+154.9 億",
+     "dir": "up"
+    }
+   ]
   },
-  "inst_top": {
-    "foreign": {
-      "buy": [
-        {
-          "code": "2002",
-          "name": "中鋼",
-          "zhang": 319914
-        },
-        {
-          "code": "1301",
-          "name": "台塑",
-          "zhang": 142290
-        },
-        {
-          "code": "2303",
-          "name": "聯電",
-          "zhang": 65777
-        },
-        {
-          "code": "2409",
-          "name": "友達",
-          "zhang": 52384
-        },
-        {
-          "code": "2337",
-          "name": "旺宏",
-          "zhang": 31389
-        }
-      ],
-      "sell": [
-        {
-          "code": "6116",
-          "name": "彩晶",
-          "zhang": 79726
-        },
-        {
-          "code": "2886",
-          "name": "兆豐金",
-          "zhang": 33021
-        },
-        {
-          "code": "3481",
-          "name": "群創",
-          "zhang": 29761
-        },
-        {
-          "code": "2317",
-          "name": "鴻海",
-          "zhang": 25474
-        },
-        {
-          "code": "3231",
-          "name": "緯創",
-          "zhang": 25043
-        }
-      ]
+  "us": [
+   {
+    "name": "費城半導體",
+    "close": 639.45,
+    "change_pct": 6.62,
+    "proxy": "SOXX",
+    "spark": []
+   }
+  ],
+  "vix": {
+   "tw": {
+    "value": 37.86,
+    "change": 1.53,
+    "state": "波動偏高",
+    "note": "台指 VIX 6/18 收 37.86 仍處高檔（VIXTWN），今日端午節休市無更新（沿用 2026-06-18 值，台指 VIX 需人工更新）",
+    "gauge": 0.07
+   },
+   "us": {
+    "state": "下降",
+    "note": "市場波動性降低，投資人情緒趨於穩定。"
+   }
+  }
+ },
+ "sectors": {
+  "tw": {
+   "in": [
+    {
+     "name": "塑膠",
+     "amount": "+7.27%",
+     "weight": 1.0,
+     "constituents": [
+      {
+       "code": "1303",
+       "name": "南亞",
+       "change_pct": 9.88
+      },
+      {
+       "code": "1301",
+       "name": "台塑",
+       "change_pct": 7.82
+      },
+      {
+       "code": "1326",
+       "name": "台化",
+       "change_pct": 0.93
+      },
+      {
+       "code": "1314",
+       "name": "中石化",
+       "change_pct": 2.1
+      },
+      {
+       "code": "1312",
+       "name": "國喬",
+       "change_pct": 1.89
+      },
+      {
+       "code": "1304",
+       "name": "台聚",
+       "change_pct": 4.63
+      },
+      {
+       "code": "1310",
+       "name": "台苯",
+       "change_pct": 6.31
+      },
+      {
+       "code": "1313",
+       "name": "聯成",
+       "change_pct": 3.57
+      },
+      {
+       "code": "1309",
+       "name": "台達化",
+       "change_pct": 1.72
+      },
+      {
+       "code": "1305",
+       "name": "華夏",
+       "change_pct": 3.52
+      },
+      {
+       "code": "1308",
+       "name": "亞聚",
+       "change_pct": 1.82
+      },
+      {
+       "code": "4306",
+       "name": "炎洲",
+       "change_pct": -0.63
+      }
+     ]
     },
-    "trust": {
-      "buy": [
-        {
-          "code": "2886",
-          "name": "兆豐金",
-          "zhang": 35367
-        },
-        {
-          "code": "4904",
-          "name": "遠傳",
-          "zhang": 23501
-        },
-        {
-          "code": "2890",
-          "name": "永豐金",
-          "zhang": 22670
-        },
-        {
-          "code": "2892",
-          "name": "第一金",
-          "zhang": 20339
-        },
-        {
-          "code": "4958",
-          "name": "臻鼎-KY",
-          "zhang": 19703
-        }
-      ],
-      "sell": [
-        {
-          "code": "2002",
-          "name": "中鋼",
-          "zhang": 286096
-        },
-        {
-          "code": "1301",
-          "name": "台塑",
-          "zhang": 107363
-        },
-        {
-          "code": "2303",
-          "name": "聯電",
-          "zhang": 49326
-        },
-        {
-          "code": "6919",
-          "name": "康霈*",
-          "zhang": 24869
-        },
-        {
-          "code": "2891",
-          "name": "中信金",
-          "zhang": 11319
-        }
-      ]
+    {
+     "name": "塑膠化工",
+     "amount": "+4.96%",
+     "weight": 0.68,
+     "constituents": [
+      {
+       "code": "1303",
+       "name": "南亞",
+       "change_pct": 9.88
+      },
+      {
+       "code": "1301",
+       "name": "台塑",
+       "change_pct": 7.82
+      },
+      {
+       "code": "1326",
+       "name": "台化",
+       "change_pct": 0.93
+      },
+      {
+       "code": "4764",
+       "name": "雙鍵",
+       "change_pct": 7.12
+      },
+      {
+       "code": "4722",
+       "name": "國精化",
+       "change_pct": 5.11
+      },
+      {
+       "code": "1708",
+       "name": "東鹼",
+       "change_pct": 9.95
+      },
+      {
+       "code": "1727",
+       "name": "中華化",
+       "change_pct": 0.21
+      },
+      {
+       "code": "1717",
+       "name": "長興",
+       "change_pct": 1.83
+      },
+      {
+       "code": "1714",
+       "name": "和桐",
+       "change_pct": 5.71
+      },
+      {
+       "code": "4739",
+       "name": "康普",
+       "change_pct": 0.41
+      },
+      {
+       "code": "1711",
+       "name": "永光",
+       "change_pct": 1.91
+      },
+      {
+       "code": "4763",
+       "name": "材料*-KY",
+       "change_pct": -0.56
+      }
+     ]
     },
-    "dealer": {
-      "buy": [
-        {
-          "code": "2303",
-          "name": "聯電",
-          "zhang": 8305
-        },
-        {
-          "code": "2409",
-          "name": "友達",
-          "zhang": 4705
-        },
-        {
-          "code": "3481",
-          "name": "群創",
-          "zhang": 4224
-        },
-        {
-          "code": "0056",
-          "name": "元大高股息",
-          "zhang": 2483
-        },
-        {
-          "code": "0052",
-          "name": "富邦科技",
-          "zhang": 2461
-        }
-      ],
-      "sell": [
-        {
-          "code": "6116",
-          "name": "彩晶",
-          "zhang": 3099
-        },
-        {
-          "code": "2883",
-          "name": "凱基金",
-          "zhang": 1280
-        },
-        {
-          "code": "0050",
-          "name": "元大台灣50",
-          "zhang": 847
-        },
-        {
-          "code": "2885",
-          "name": "元大金",
-          "zhang": 695
-        },
-        {
-          "code": "2027",
-          "name": "大成鋼",
-          "zhang": 551
-        }
-      ]
+    {
+     "name": "數位雲端",
+     "amount": "+4.61%",
+     "weight": 0.63,
+     "constituents": [
+      {
+       "code": "8454",
+       "name": "富邦媒",
+       "change_pct": 8.25
+      },
+      {
+       "code": "7722",
+       "name": "LINEPAY",
+       "change_pct": 2.82
+      },
+      {
+       "code": "7721",
+       "name": "微程式",
+       "change_pct": -2.59
+      },
+      {
+       "code": "6689",
+       "name": "伊雲谷",
+       "change_pct": -1.62
+      },
+      {
+       "code": "6906",
+       "name": "現觀科",
+       "change_pct": 2.45
+      },
+      {
+       "code": "6165",
+       "name": "浪凡",
+       "change_pct": -0.41
+      },
+      {
+       "code": "6902",
+       "name": "GOGOLOOK",
+       "change_pct": 2.7
+      },
+      {
+       "code": "3130",
+       "name": "一零四",
+       "change_pct": 0.0
+      },
+      {
+       "code": "6614",
+       "name": "資拓宏宇",
+       "change_pct": -1.21
+      },
+      {
+       "code": "8487",
+       "name": "愛爾達-創",
+       "change_pct": -0.88
+      },
+      {
+       "code": "7823",
+       "name": "奧義賽博-KY創",
+       "change_pct": 0.12
+      }
+     ]
+    },
+    {
+     "name": "生技醫療",
+     "amount": "+3.87%",
+     "weight": 0.53,
+     "constituents": [
+      {
+       "code": "6919",
+       "name": "康霈*",
+       "change_pct": 9.99
+      },
+      {
+       "code": "6446",
+       "name": "藥華藥",
+       "change_pct": 4.95
+      },
+      {
+       "code": "6949",
+       "name": "沛爾生醫-創",
+       "change_pct": 1.79
+      },
+      {
+       "code": "6472",
+       "name": "保瑞",
+       "change_pct": 2.42
+      },
+      {
+       "code": "6861",
+       "name": "睿生光電",
+       "change_pct": 9.93
+      },
+      {
+       "code": "7799",
+       "name": "禾榮科",
+       "change_pct": 1.4
+      },
+      {
+       "code": "6491",
+       "name": "晶碩",
+       "change_pct": 5.14
+      },
+      {
+       "code": "1795",
+       "name": "美時",
+       "change_pct": -0.26
+      },
+      {
+       "code": "4169",
+       "name": "泰宗",
+       "change_pct": 9.8
+      },
+      {
+       "code": "7827",
+       "name": "漢康-KY創",
+       "change_pct": -1.2
+      },
+      {
+       "code": "6782",
+       "name": "視陽",
+       "change_pct": 2.1
+      },
+      {
+       "code": "6589",
+       "name": "台康生技",
+       "change_pct": 2.2
+      }
+     ]
+    },
+    {
+     "name": "光電",
+     "amount": "+3.50%",
+     "weight": 0.48,
+     "constituents": [
+      {
+       "code": "3481",
+       "name": "群創",
+       "change_pct": 9.9
+      },
+      {
+       "code": "2409",
+       "name": "友達",
+       "change_pct": 7.24
+      },
+      {
+       "code": "3008",
+       "name": "大立光",
+       "change_pct": 0.97
+      },
+      {
+       "code": "6116",
+       "name": "彩晶",
+       "change_pct": 3.01
+      },
+      {
+       "code": "3406",
+       "name": "玉晶光",
+       "change_pct": 4.29
+      },
+      {
+       "code": "2426",
+       "name": "鼎元",
+       "change_pct": 9.95
+      },
+      {
+       "code": "6209",
+       "name": "今國光",
+       "change_pct": 1.46
+      },
+      {
+       "code": "2486",
+       "name": "一詮",
+       "change_pct": 9.94
+      },
+      {
+       "code": "3673",
+       "name": "TPK-KY",
+       "change_pct": -0.46
+      },
+      {
+       "code": "2489",
+       "name": "瑞軒",
+       "change_pct": -0.93
+      },
+      {
+       "code": "3019",
+       "name": "亞光",
+       "change_pct": 1.26
+      },
+      {
+       "code": "6278",
+       "name": "台表科",
+       "change_pct": 0.0
+      }
+     ]
     }
+   ],
+   "out": [
+    {
+     "name": "其他",
+     "amount": "+0.01%",
+     "weight": 0.0,
+     "constituents": [
+      {
+       "code": "5871",
+       "name": "中租-KY",
+       "change_pct": -0.87
+      },
+      {
+       "code": "9945",
+       "name": "潤泰新",
+       "change_pct": 1.48
+      },
+      {
+       "code": "8033",
+       "name": "雷虎",
+       "change_pct": 1.57
+      },
+      {
+       "code": "5284",
+       "name": "jpp-KY",
+       "change_pct": 3.32
+      },
+      {
+       "code": "9907",
+       "name": "統一實",
+       "change_pct": 0.3
+      },
+      {
+       "code": "9933",
+       "name": "中鼎",
+       "change_pct": -0.93
+      },
+      {
+       "code": "2348",
+       "name": "海悅",
+       "change_pct": -1.03
+      },
+      {
+       "code": "1342",
+       "name": "八貫",
+       "change_pct": -0.43
+      },
+      {
+       "code": "9939",
+       "name": "宏全",
+       "change_pct": 0.0
+      },
+      {
+       "code": "9917",
+       "name": "中保科",
+       "change_pct": -0.43
+      },
+      {
+       "code": "9941",
+       "name": "裕融",
+       "change_pct": 0.0
+      },
+      {
+       "code": "6585",
+       "name": "鼎基",
+       "change_pct": 1.1
+      }
+     ]
+    },
+    {
+     "name": "觀光餐旅",
+     "amount": "+0.03%",
+     "weight": 0.0,
+     "constituents": [
+      {
+       "code": "9904",
+       "name": "寶成",
+       "change_pct": -1.13
+      },
+      {
+       "code": "9910",
+       "name": "豐泰",
+       "change_pct": -0.27
+      },
+      {
+       "code": "6670",
+       "name": "復盛應用",
+       "change_pct": -4.33
+      },
+      {
+       "code": "2731",
+       "name": "雄獅",
+       "change_pct": -0.33
+      },
+      {
+       "code": "9921",
+       "name": "巨大",
+       "change_pct": -1.46
+      },
+      {
+       "code": "2727",
+       "name": "王品",
+       "change_pct": 1.02
+      },
+      {
+       "code": "1736",
+       "name": "喬山",
+       "change_pct": 1.27
+      },
+      {
+       "code": "6890",
+       "name": "來億-KY",
+       "change_pct": 4.39
+      },
+      {
+       "code": "9914",
+       "name": "美利達",
+       "change_pct": -1.23
+      },
+      {
+       "code": "9802",
+       "name": "鈺齊-KY",
+       "change_pct": -0.52
+      },
+      {
+       "code": "2753",
+       "name": "八方雲集",
+       "change_pct": 0.0
+      },
+      {
+       "code": "4536",
+       "name": "拓凱",
+       "change_pct": -1.21
+      }
+     ]
+    },
+    {
+     "name": "其他電子",
+     "amount": "+0.06%",
+     "weight": 0.01,
+     "constituents": [
+      {
+       "code": "2317",
+       "name": "鴻海",
+       "change_pct": -1.29
+      },
+      {
+       "code": "3665",
+       "name": "貿聯-KY",
+       "change_pct": 0.48
+      },
+      {
+       "code": "2360",
+       "name": "致茂",
+       "change_pct": 3.59
+      },
+      {
+       "code": "2404",
+       "name": "漢唐",
+       "change_pct": -1.17
+      },
+      {
+       "code": "2464",
+       "name": "盟立",
+       "change_pct": 3.61
+      },
+      {
+       "code": "6139",
+       "name": "亞翔",
+       "change_pct": 2.11
+      },
+      {
+       "code": "2474",
+       "name": "可成",
+       "change_pct": -1.46
+      },
+      {
+       "code": "6196",
+       "name": "帆宣",
+       "change_pct": 4.81
+      },
+      {
+       "code": "2312",
+       "name": "金寶",
+       "change_pct": 1.87
+      },
+      {
+       "code": "8021",
+       "name": "尖點",
+       "change_pct": 0.18
+      },
+      {
+       "code": "3030",
+       "name": "德律",
+       "change_pct": 2.41
+      },
+      {
+       "code": "6409",
+       "name": "旭隼",
+       "change_pct": -0.43
+      }
+     ]
+    },
+    {
+     "name": "水泥",
+     "amount": "+0.11%",
+     "weight": 0.02,
+     "constituents": [
+      {
+       "code": "1101",
+       "name": "台泥",
+       "change_pct": -0.2
+      },
+      {
+       "code": "1102",
+       "name": "亞泥",
+       "change_pct": 0.7
+      },
+      {
+       "code": "1104",
+       "name": "環泥",
+       "change_pct": 0.0
+      },
+      {
+       "code": "1110",
+       "name": "東泥",
+       "change_pct": -1.27
+      },
+      {
+       "code": "1109",
+       "name": "信大",
+       "change_pct": 0.0
+      },
+      {
+       "code": "1103",
+       "name": "嘉泥",
+       "change_pct": 0.0
+      },
+      {
+       "code": "1108",
+       "name": "幸福",
+       "change_pct": 0.0
+      }
+     ]
+    },
+    {
+     "name": "航運",
+     "amount": "+0.21%",
+     "weight": 0.03,
+     "constituents": [
+      {
+       "code": "2603",
+       "name": "長榮",
+       "change_pct": -0.52
+      },
+      {
+       "code": "2618",
+       "name": "長榮航",
+       "change_pct": 0.0
+      },
+      {
+       "code": "2610",
+       "name": "華航",
+       "change_pct": 0.69
+      },
+      {
+       "code": "2609",
+       "name": "陽明",
+       "change_pct": -0.58
+      },
+      {
+       "code": "2606",
+       "name": "裕民",
+       "change_pct": -1.13
+      },
+      {
+       "code": "2615",
+       "name": "萬海",
+       "change_pct": 0.0
+      },
+      {
+       "code": "2633",
+       "name": "台灣高鐵",
+       "change_pct": 0.0
+      },
+      {
+       "code": "2605",
+       "name": "新興",
+       "change_pct": -4.47
+      },
+      {
+       "code": "2637",
+       "name": "慧洋-KY",
+       "change_pct": 0.0
+      },
+      {
+       "code": "6757",
+       "name": "台灣虎航",
+       "change_pct": -1.52
+      },
+      {
+       "code": "2645",
+       "name": "長榮航太",
+       "change_pct": 1.19
+      },
+      {
+       "code": "2646",
+       "name": "星宇航空",
+       "change_pct": 0.24
+      }
+     ]
+    }
+   ]
   },
-  "news": [
+  "us": {
+   "in": [
     {
-      "tag": "pos",
-      "title": "台股 6/18 收 46,465 再創歷史新高，外資買超 211 億、三大法人合計買超 310 億",
-      "impact": "塑化、生技、數位雲端領漲；成交量能 1.6 兆元，端午假後延續動能待觀察",
-      "source_name": "聯合新聞網",
-      "source_url": "https://money.udn.com/money/story/5607/9525160"
+     "name": "科技",
+     "amount": "+3.04%",
+     "weight": 1.0,
+     "constituents": [
+      {
+       "code": "AAPL",
+       "name": "蘋果"
+      },
+      {
+       "code": "MSFT",
+       "name": "微軟"
+      },
+      {
+       "code": "NVDA",
+       "name": "輝達"
+      },
+      {
+       "code": "AVGO",
+       "name": "博通"
+      },
+      {
+       "code": "ORCL",
+       "name": "甲骨文"
+      },
+      {
+       "code": "CRM",
+       "name": "Salesforce"
+      }
+     ]
     },
     {
-      "tag": "pos",
-      "title": "費半 SOX 6/18 大漲 6.4% 創年高，英特爾因 Apple 晶片合作傳聞飆逾 10%",
-      "impact": "標普 +1.08%、那指 +1.91% 雙創高，三巫提前結算後做多力道明顯；AI 晶片題材強勢",
-      "source_name": "TheStreet",
-      "source_url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-june-18-2026"
+     "name": "非必需消費",
+     "amount": "+1.45%",
+     "weight": 0.48,
+     "constituents": [
+      {
+       "code": "AMZN",
+       "name": "亞馬遜"
+      },
+      {
+       "code": "TSLA",
+       "name": "特斯拉"
+      },
+      {
+       "code": "HD",
+       "name": "家得寶"
+      },
+      {
+       "code": "MCD",
+       "name": "麥當勞"
+      },
+      {
+       "code": "NKE",
+       "name": "Nike"
+      },
+      {
+       "code": "SBUX",
+       "name": "星巴克"
+      }
+     ]
     },
     {
-      "tag": "neg",
-      "title": "聯準會 Warsh 首會維持利率 3.50–3.75%，多數官員點陣圖暗示年底前可能升息",
-      "impact": "取消年內降息預期、通膨預測上修至 3.3%，6/28 PCE 若再超預期，升息壓力將升溫",
-      "source_name": "CNBC",
-      "source_url": "https://www.cnbc.com/2026/06/17/fed-meeting-today-live-updates.html"
+     "name": "工業",
+     "amount": "+0.73%",
+     "weight": 0.24,
+     "constituents": [
+      {
+       "code": "GE",
+       "name": "奇異"
+      },
+      {
+       "code": "CAT",
+       "name": "開拓重工"
+      },
+      {
+       "code": "RTX",
+       "name": "雷神"
+      },
+      {
+       "code": "HON",
+       "name": "霍尼韋爾"
+      },
+      {
+       "code": "BA",
+       "name": "波音"
+      },
+      {
+       "code": "UBER",
+       "name": "Uber"
+      }
+     ]
     },
     {
-      "tag": "pos",
-      "title": "美伊局勢緩解、國際油價月跌逾 14%，美國汽油睽違 3 個月首跌破 4 美元",
-      "impact": "輸入性通膨壓力改善，為 Fed 保留更彈性空間；能源類股下壓但風險偏好回升",
-      "source_name": "Charles Schwab",
-      "source_url": "https://www.schwab.com/learn/story/stock-market-update-open"
+     "name": "公用事業",
+     "amount": "+0.67%",
+     "weight": 0.22,
+     "constituents": [
+      {
+       "code": "NEE",
+       "name": "NextEra"
+      },
+      {
+       "code": "SO",
+       "name": "Southern"
+      },
+      {
+       "code": "DUK",
+       "name": "Duke 能源"
+      },
+      {
+       "code": "CEG",
+       "name": "Constellation"
+      },
+      {
+       "code": "AEP",
+       "name": "AEP"
+      },
+      {
+       "code": "D",
+       "name": "Dominion"
+      }
+     ]
+    },
+    {
+     "name": "通訊服務",
+     "amount": "+0.23%",
+     "weight": 0.08,
+     "constituents": [
+      {
+       "code": "META",
+       "name": "Meta"
+      },
+      {
+       "code": "GOOGL",
+       "name": "Alphabet"
+      },
+      {
+       "code": "NFLX",
+       "name": "Netflix"
+      },
+      {
+       "code": "DIS",
+       "name": "迪士尼"
+      },
+      {
+       "code": "TMUS",
+       "name": "T-Mobile"
+      },
+      {
+       "code": "VZ",
+       "name": "Verizon"
+      }
+     ]
     }
+   ],
+   "out": [
+    {
+     "name": "能源",
+     "amount": "-1.65%",
+     "weight": 0.54,
+     "constituents": [
+      {
+       "code": "XOM",
+       "name": "艾克森美孚"
+      },
+      {
+       "code": "CVX",
+       "name": "雪佛龍"
+      },
+      {
+       "code": "COP",
+       "name": "康菲"
+      },
+      {
+       "code": "WMB",
+       "name": "Williams"
+      },
+      {
+       "code": "SLB",
+       "name": "斯倫貝謝"
+      },
+      {
+       "code": "EOG",
+       "name": "EOG"
+      }
+     ]
+    },
+    {
+     "name": "金融",
+     "amount": "-0.89%",
+     "weight": 0.29,
+     "constituents": [
+      {
+       "code": "BRK.B",
+       "name": "波克夏"
+      },
+      {
+       "code": "JPM",
+       "name": "摩根大通"
+      },
+      {
+       "code": "V",
+       "name": "Visa"
+      },
+      {
+       "code": "MA",
+       "name": "萬事達"
+      },
+      {
+       "code": "BAC",
+       "name": "美銀"
+      },
+      {
+       "code": "WFC",
+       "name": "富國"
+      }
+     ]
+    },
+    {
+     "name": "醫療保健",
+     "amount": "-0.87%",
+     "weight": 0.29,
+     "constituents": [
+      {
+       "code": "LLY",
+       "name": "禮來"
+      },
+      {
+       "code": "UNH",
+       "name": "聯合健康"
+      },
+      {
+       "code": "JNJ",
+       "name": "嬌生"
+      },
+      {
+       "code": "ABBV",
+       "name": "艾伯維"
+      },
+      {
+       "code": "MRK",
+       "name": "默克"
+      },
+      {
+       "code": "TMO",
+       "name": "賽默飛"
+      }
+     ]
+    },
+    {
+     "name": "必需消費",
+     "amount": "-0.45%",
+     "weight": 0.15,
+     "constituents": [
+      {
+       "code": "COST",
+       "name": "好市多"
+      },
+      {
+       "code": "WMT",
+       "name": "沃爾瑪"
+      },
+      {
+       "code": "PG",
+       "name": "寶僑"
+      },
+      {
+       "code": "KO",
+       "name": "可口可樂"
+      },
+      {
+       "code": "PEP",
+       "name": "百事"
+      },
+      {
+       "code": "PM",
+       "name": "菲利普莫里斯"
+      }
+     ]
+    },
+    {
+     "name": "原物料",
+     "amount": "-0.40%",
+     "weight": 0.13,
+     "constituents": [
+      {
+       "code": "LIN",
+       "name": "Linde"
+      },
+      {
+       "code": "SHW",
+       "name": "宣偉"
+      },
+      {
+       "code": "FCX",
+       "name": "自由港"
+      },
+      {
+       "code": "ECL",
+       "name": "藝康"
+      },
+      {
+       "code": "NEM",
+       "name": "Newmont"
+      },
+      {
+       "code": "APD",
+       "name": "空氣化工"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "hot_stocks": {
+  "tw": [
+   {
+    "code": "6525",
+    "name": "捷敏-KY",
+    "change_pct": 10.0,
+    "reason": ""
+   },
+   {
+    "code": "2472",
+    "name": "立隆電",
+    "change_pct": 9.99,
+    "reason": ""
+   },
+   {
+    "code": "6919",
+    "name": "康霈*",
+    "change_pct": 9.99,
+    "reason": ""
+   },
+   {
+    "code": "2449",
+    "name": "京元電子",
+    "change_pct": 9.98,
+    "reason": ""
+   },
+   {
+    "code": "7610",
+    "name": "聯友金屬-創",
+    "change_pct": 9.98,
+    "reason": ""
+   }
   ],
-  "upcoming_events": [
+  "us": [
+   {
+    "code": "TSM",
+    "name": "台積電 ADR",
+    "change_pct": 6.94,
+    "reason": ""
+   },
+   {
+    "code": "AMD",
+    "name": "超微",
+    "change_pct": 4.86,
+    "reason": ""
+   },
+   {
+    "code": "AVGO",
+    "name": "博通",
+    "change_pct": 4.7,
+    "reason": ""
+   },
+   {
+    "code": "NVDA",
+    "name": "輝達",
+    "change_pct": 2.95,
+    "reason": ""
+   },
+   {
+    "code": "TSLA",
+    "name": "特斯拉",
+    "change_pct": 1.04,
+    "reason": ""
+   }
+  ]
+ },
+ "inst_top": {
+  "foreign": {
+   "buy": [
     {
-      "date": "2026-06-22",
-      "name": "台美股雙假後首個交易日",
-      "analysis": "端午節＋Juneteenth 雙休後重啟，法人回流方向與期指開盤缺口值得觀察，短線波動或偏大"
+     "code": "2002",
+     "name": "中鋼",
+     "zhang": 319914
     },
     {
-      "date": "2026-06-26",
-      "name": "美國 5 月 PCE 物價指數（聯準會偏好通膨指標）",
-      "analysis": "PCE 若超預期偏高，市場對年底升息擔憂升溫，為下週最大尾端風險"
+     "code": "1301",
+     "name": "台塑",
+     "zhang": 142290
     },
     {
-      "date": "2026-06-27",
-      "name": "美國 Q1 GDP 終值＋初領失業金",
-      "analysis": "GDP 修正幅度與勞動市場韌性為 Fed 下次決策參考，若數據偏強料支撐鷹派論述"
+     "code": "2303",
+     "name": "聯電",
+     "zhang": 65777
+    },
+    {
+     "code": "2409",
+     "name": "友達",
+     "zhang": 52384
+    },
+    {
+     "code": "2337",
+     "name": "旺宏",
+     "zhang": 31389
     }
-  ],
-  "past_events_review": [
+   ],
+   "sell": [
     {
-      "date": "2026-06-17",
-      "name": "FOMC 利率決議（Warsh 主席首會）",
-      "result": "利率維持 3.50–3.75%，但點陣圖鷹派上修取消年內降息預期，18 位官員過半暗示年底前升息；美股當日收黑"
+     "code": "6116",
+     "name": "彩晶",
+     "zhang": 79726
     },
     {
-      "date": "2026-06-18",
-      "name": "美股三巫到期（因 Juneteenth 提前至週四）",
-      "result": "台指 6 月期約最後結算日；美股三大指數收高，標普刷高至 7,500、費半 SOX +6.4%，台股同步創收盤新高 46,465"
+     "code": "2886",
+     "name": "兆豐金",
+     "zhang": 33021
     },
     {
-      "date": "2026-06-19",
-      "name": "台美同步雙休（端午節＋Juneteenth）",
-      "result": "台股因端午節、美股因 Juneteenth 雙雙休市；下週一（6/22）為雙假後首個交易日"
+     "code": "3481",
+     "name": "群創",
+     "zhang": 29761
+    },
+    {
+     "code": "2317",
+     "name": "鴻海",
+     "zhang": 25474
+    },
+    {
+     "code": "3231",
+     "name": "緯創",
+     "zhang": 25043
     }
-  ],
-  "verdict": {
-    "tw": {
-      "stance": "偏多",
-      "score": 68,
-      "comment": "台股 6/18 收 46,465 再創收盤歷史高，外資回補逾 200 億、成交 1.6 兆動能充沛。惟台指 VIX 仍高達 37.86，評價追高風險不低；6/22 開盤後法人動向與外資連續性為關鍵觀察。",
-      "bullish": [
-        "加權指數 46,465 創歷史新高 (+1.28%)",
-        "三大法人合計買超 310 億，外資單日 +211 億",
-        "成交量能 1.6 兆，市場信心充足",
-        "費半 SOX +6.4%，AI 晶片族群動能延續，對台股科技股有正面效應"
-      ],
-      "bearish": [
-        "台指 VIX 仍在 37.86 高檔，波動性未見收斂",
-        "指數創歷史高後評價偏貴、本益比拉升追高風險高",
-        "外資連續買超能否維持尚待 6/22 驗證"
-      ],
-      "risks": [
-        "6/22 假期後開盤若出現獲利了結賣壓，缺口風險需留意",
-        "聯準會鷹派升息若落地，資金可能回流美元並壓縮台股評價",
-        "台指 VIX 若繼續走高，可能引發避險賣壓"
-      ]
-    },
-    "us": {
-      "stance": "偏多",
-      "score": 70,
-      "comment": "美股 6/18 三巫提前結算收高，標普 7,500、那指 26,518 雙創高，費半 SOX +6.4% 帶頭；VIX 急降至 16.4，風險偏好明顯回升。聯準會鷹派點陣圖與 6/26 PCE 為最大不確定因素。",
-      "bullish": [
-        "標普 500 與那指均刷新歷史高點",
-        "費半 SOX +6.4%，英特爾 +10.6% 引領 AI 晶片族群",
-        "VIX 急降至 16.4，恐慌情緒消退",
-        "油價月跌 14%，汽油低於 4 美元，通膨改善空間擴大"
-      ],
-      "bearish": [
-        "聯準會點陣圖鷹派，年底前升息機率上升",
-        "指數評價偏高，本益比拉升至歷史前段"
-      ],
-      "risks": [
-        "6/26 PCE 若超預期，升息路徑再次緊縮",
-        "三巫結算後資金重新部署，短線或加大波動",
-        "美伊局勢若反轉，油價反彈恐推高通膨"
-      ]
-    }
+   ]
   },
-  "summary": "台美股 6/18 同步收紅創高，台股加權 46,465 刷收盤歷史高、外資買超 211 億；美股那指 26,518、標普 7,500 雙創新高，費半 SOX 大漲 6.4%、VIX 急降至 16，風險偏好回升。今日（6/19）台美同步雙休（端午節＋Juneteenth），下週一 6/22 為雙假後首個觀察點；6/26 PCE 為最大尾端風險，若超預期，聯準會鷹派升息壓力將再升溫。台指 VIX 仍處 37 高檔為台股最大隱憂。"
+  "trust": {
+   "buy": [
+    {
+     "code": "2886",
+     "name": "兆豐金",
+     "zhang": 35367
+    },
+    {
+     "code": "4904",
+     "name": "遠傳",
+     "zhang": 23501
+    },
+    {
+     "code": "2890",
+     "name": "永豐金",
+     "zhang": 22670
+    },
+    {
+     "code": "2892",
+     "name": "第一金",
+     "zhang": 20339
+    },
+    {
+     "code": "4958",
+     "name": "臻鼎-KY",
+     "zhang": 19703
+    }
+   ],
+   "sell": [
+    {
+     "code": "2002",
+     "name": "中鋼",
+     "zhang": 286096
+    },
+    {
+     "code": "1301",
+     "name": "台塑",
+     "zhang": 107363
+    },
+    {
+     "code": "2303",
+     "name": "聯電",
+     "zhang": 49326
+    },
+    {
+     "code": "6919",
+     "name": "康霈*",
+     "zhang": 24869
+    },
+    {
+     "code": "2891",
+     "name": "中信金",
+     "zhang": 11319
+    }
+   ]
+  },
+  "dealer": {
+   "buy": [
+    {
+     "code": "2303",
+     "name": "聯電",
+     "zhang": 8305
+    },
+    {
+     "code": "2409",
+     "name": "友達",
+     "zhang": 4705
+    },
+    {
+     "code": "3481",
+     "name": "群創",
+     "zhang": 4224
+    },
+    {
+     "code": "0056",
+     "name": "元大高股息",
+     "zhang": 2483
+    },
+    {
+     "code": "0052",
+     "name": "富邦科技",
+     "zhang": 2461
+    }
+   ],
+   "sell": [
+    {
+     "code": "6116",
+     "name": "彩晶",
+     "zhang": 3099
+    },
+    {
+     "code": "2883",
+     "name": "凱基金",
+     "zhang": 1280
+    },
+    {
+     "code": "0050",
+     "name": "元大台灣50",
+     "zhang": 847
+    },
+    {
+     "code": "2885",
+     "name": "元大金",
+     "zhang": 695
+    },
+    {
+     "code": "2027",
+     "name": "大成鋼",
+     "zhang": 551
+    }
+   ]
+  }
+ },
+ "news": [
+  {
+   "tag": "pos",
+   "title": "台積電鉅額交易衝2475元 再創歷史新高",
+   "impact": "台積電盤後鉅額交易創新高，顯示市場對其前景持樂觀態度。",
+   "source_name": "NOWnews今日新聞",
+   "source_url": "https://www.nownews.com/news/6848109"
+  },
+  {
+   "tag": "pos",
+   "title": "美股逢低買盤湧入！擺脫聯準會升息陰霾早盤全面反彈",
+   "impact": "美股在聯準會升息預期下反彈，顯示投資人信心回升。",
+   "source_name": "民視新聞網",
+   "source_url": "https://www.ftvnews.com.tw/news/detail/2026618W0695"
+  },
+  {
+   "tag": "neg",
+   "title": "聯準會維持利率不變，但預計今年稍後將升息",
+   "impact": "聯準會暗示今年可能升息，可能對市場流動性產生影響。",
+   "source_name": "Reuters",
+   "source_url": "https://za.investing.com/news/economy-news/oil-slides-on-iran-supply-prospects-as-traders-wait-on-warsh-4332017"
+  },
+  {
+   "tag": "pos",
+   "title": "美股主要指數6月18日收盤上漲",
+   "impact": "美股主要指數6月18日收盤上漲，反映市場情緒改善。",
+   "source_name": "AP News",
+   "source_url": "https://apnews.com/article/411ec68891aa5dc7d7f684e0305e2aa3"
+  }
+ ],
+ "upcoming_events": [
+  {
+   "date": "2026-06-25",
+   "name": "美國第一季GDP終值公布",
+   "analysis": "將提供美國經濟增長的最新指標，可能影響市場預期。"
+  },
+  {
+   "date": "2026-06-30",
+   "name": "台灣5月工業生產指數公布",
+   "analysis": "反映台灣製造業表現，對台股有潛在影響。"
+  }
+ ],
+ "past_events_review": [
+  {
+   "date": "2026-06-17",
+   "name": "聯準會利率決議",
+   "result": "維持利率不變，但暗示今年可能升息，市場反應謹慎。"
+  },
+  {
+   "date": "2026-06-18",
+   "name": "台積電鉅額交易創新高",
+   "result": "台積電盤後鉅額交易達2475.91元，創歷史新高，市場信心增強。"
+  }
+ ],
+ "verdict": {
+  "tw": {
+   "stance": "偏多",
+   "score": 75,
+   "comment": "加權指數上漲1.28%，外資買超211.5億，顯示市場資金流入，台積電鉅額交易創新高進一步提振市場信心。",
+   "bullish": [
+    "加權指數上漲1.28%，創歷史新高。",
+    "外資買超211.5億，顯示資金流入。",
+    "台積電鉅額交易創新高，市場信心增強。"
+   ],
+   "bearish": [
+    "投信賣超53.6億，可能對市場造成壓力。",
+    "部分類股表現疲弱，如觀光餐旅、航運等。"
+   ],
+   "risks": [
+    "全球經濟不確定性可能影響台股表現。",
+    "美國聯準會可能的升息政策對資金流動性的影響。"
+   ]
+  },
+  "us": {
+   "stance": "中性偏多",
+   "score": 65,
+   "comment": "主要指數上漲，費城半導體指數大漲6.62%，但聯準會暗示可能升息，需關注後續影響。",
+   "bullish": [
+    "標普500指數上漲1.1%，那斯達克指數上漲1.9%。",
+    "費城半導體指數大漲6.62%，科技股表現強勁。"
+   ],
+   "bearish": [
+    "聯準會暗示今年可能升息，可能影響市場流動性。",
+    "前一日市場因升息預期下跌，顯示市場對政策變化敏感。"
+   ],
+   "risks": [
+    "通膨壓力持續，可能導致貨幣政策收緊。",
+    "地緣政治風險可能影響市場穩定性。"
+   ]
+  }
+ },
+ "summary": "台股加權指數上漲1.28%，創歷史新高，外資買超211.5億，台積電鉅額交易創新高，顯示市場信心強勁。美股主要指數上漲，費城半導體指數大漲6.62%，但聯準會暗示可能升息，需關注後續影響。"
 }
