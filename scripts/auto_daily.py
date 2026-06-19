@@ -22,6 +22,49 @@ from scripts.notify import build_summary_text
 STATE = DATA_DIR / "notify_state.json"
 CHAT = os.environ.get("TG_CHAT_ID", "-5127072553")
 
+# 美股指數：FRED 在 GitHub Actions 會 timeout，改用 Yahoo（CI 連得到、回真實指數點數）
+YAHOO_US = {
+    "道瓊": "%5EDJI",
+    "標普 500": "%5EGSPC",
+    "那斯達克": "%5EIXIC",
+    "費城半導體": "%5ESOX",
+}
+
+
+def _yahoo_quote(sym):
+    """回 (最新收盤, 當日漲跌%)，取日線最後兩根收盤計算。"""
+    url = (f"https://query1.finance.yahoo.com/v8/finance/chart/{sym}"
+           "?interval=1d&range=7d")
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    for _ in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=20) as r:
+                d = json.load(r)
+            res = d["chart"]["result"][0]
+            closes = [c for c in res["indicators"]["quote"][0]["close"] if c]
+            if len(closes) >= 2:
+                cur, prev = closes[-1], closes[-2]
+                return round(cur, 2), round((cur - prev) / prev * 100, 2)
+        except Exception:
+            continue
+    return None
+
+
+def yahoo_us():
+    """美股四大指數 + VIX（Yahoo）。回 (us_list, vix_dict)。"""
+    us = []
+    for name, sym in YAHOO_US.items():
+        q = _yahoo_quote(sym)
+        if q:
+            us.append({"name": name, "close": q[0], "change_pct": q[1]})
+    vix = None
+    q = _yahoo_quote("%5EVIX")
+    if q:
+        v = q[0]
+        vix = {"value": v, "change": q[1],
+               "gauge": max(0.0, min(1.0, 1 - (v - 10) / 30))}
+    return us, vix
+
 
 def pick_partial():
     """選 _meta.trade_date 最新的 partial（避開殘留的舊/錯日期檔）。"""
@@ -102,12 +145,24 @@ def main():
     date = report_date(td, partial)
     partial["date"] = date  # 校正成真正的交易日
 
+    # 美股指數改用 Yahoo（FRED 在 CI 會 timeout）。在 gen_soft 前注入，讓研判也據此判讀。
+    us, vix_us = yahoo_us()
+    if us:
+        partial.setdefault("overview", {})["us"] = us
+        print("Yahoo 美股：" + "、".join(f"{i['name']} {i['change_pct']:+}%" for i in us))
+    else:
+        print("⚠️ Yahoo 美股取得失敗，將沿用前值")
+
     soft = gen_soft(partial)
     now = datetime.datetime.now(
         datetime.timezone(datetime.timedelta(hours=8))
     ).strftime("%Y-%m-%d %H:%M")
     day = merge_day(partial, soft, date, updated_at=now)
     _ensure_us(day, date)
+    if vix_us:
+        cur = day["overview"]["vix"].get("us") or {}
+        cur.update(vix_us)  # 數值/gauge 用 Yahoo，state/note 保留軟情報
+        day["overview"]["vix"]["us"] = cur
 
     errs = validate_day(day)
     if errs:
