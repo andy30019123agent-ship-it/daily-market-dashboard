@@ -1260,12 +1260,7 @@
     }
   },
   "_meta": {
-    "errors": [
-      "FRED DJIA: 取得失敗（3 次）：The read operation timed out",
-      "FRED SP500: 取得失敗（3 次）：The read operation timed out",
-      "FRED NASDAQCOM: 取得失敗（3 次）：The read operation timed out",
-      "FRED VIXCLS: 取得失敗（3 次）：The read operation timed out"
-    ],
+    "errors": [],
     "missing": [
       "台指 VIX（無免費 API，分身 WebSearch 補）"
     ],
