@@ -1,0 +1,305 @@
+{
+  "date": "2026-06-19",
+  "updated_at": "2026-06-19 17:43",
+  "overview": {
+    "tw": {
+      "featured": {
+        "name": "加權指數",
+        "close": 46465.2,
+        "change": 587.81,
+        "change_pct": 1.28,
+        "note": "較昨收（6/18 收盤，6/19 端午節休市）",
+        "spark": []
+      },
+      "stats": [
+        {
+          "name": "成交金額",
+          "value": "15,483 億"
+        }
+      ]
+    },
+    "us": [
+      {
+        "name": "道瓊",
+        "close": 51564.7,
+        "change_pct": 0.14,
+        "spark": []
+      },
+      {
+        "name": "標普 500",
+        "close": 7500.58,
+        "change_pct": 1.08,
+        "spark": []
+      },
+      {
+        "name": "那斯達克",
+        "close": 26517.93,
+        "change_pct": 1.91,
+        "spark": []
+      },
+      {
+        "name": "費城半導體",
+        "close": 14376.34,
+        "change_pct": 6.67,
+        "spark": [],
+        "note": "SOX 指數本身（非 ETF）"
+      }
+    ],
+    "vix": {
+      "tw": {
+        "value": 21.65,
+        "change": 0.85,
+        "state": "中性",
+        "note": "估算值；端午節前一日，市場低波動收紅",
+        "gauge": 0.61
+      },
+      "us": {
+        "value": 20.47,
+        "change": 3.02,
+        "state": "中性",
+        "note": "Fed 鷹派立場升溫，但晶片股漲勢分散注意力，VIX 小幅走升",
+        "gauge": 0.65
+      }
+    }
+  },
+  "sectors": {
+    "tw": {
+      "in": [],
+      "out": []
+    },
+    "us": {
+      "in": [
+        {
+          "name": "科技",
+          "amount": "+2.80%",
+          "weight": 1.0,
+          "constituents": []
+        },
+        {
+          "name": "工業",
+          "amount": "+0.94%",
+          "weight": 0.34,
+          "constituents": []
+        },
+        {
+          "name": "通訊服務",
+          "amount": "+0.81%",
+          "weight": 0.29,
+          "constituents": []
+        },
+        {
+          "name": "房地產",
+          "amount": "+0.55%",
+          "weight": 0.2,
+          "constituents": []
+        },
+        {
+          "name": "原物料",
+          "amount": "+0.00%",
+          "weight": 0.0,
+          "constituents": []
+        }
+      ],
+      "out": [
+        {
+          "name": "能源",
+          "amount": "-2.03%",
+          "weight": 1.0,
+          "constituents": []
+        },
+        {
+          "name": "醫療保健",
+          "amount": "-1.10%",
+          "weight": 0.54,
+          "constituents": []
+        },
+        {
+          "name": "金融",
+          "amount": "-0.44%",
+          "weight": 0.22,
+          "constituents": []
+        },
+        {
+          "name": "必需消費",
+          "amount": "-0.33%",
+          "weight": 0.16,
+          "constituents": []
+        },
+        {
+          "name": "非必需消費",
+          "amount": "+0.10%",
+          "weight": 0.05,
+          "constituents": []
+        }
+      ]
+    }
+  },
+  "hot_stocks": {
+    "tw": [
+      {
+        "code": "2330",
+        "name": "台積電",
+        "change_pct": 1.05,
+        "reason": "受費半指數狂飆 6.67% 帶動，ADR 收漲 1.48%；Trump 宣布 Intel-Apple 美製晶片協議，輝達、超微等晶片股噴出，台積電同步受惠收復上漲"
+      }
+    ],
+    "us": [
+      {
+        "code": "INTC",
+        "name": "英特爾",
+        "change_pct": 10.6,
+        "reason": ""
+      },
+      {
+        "code": "AMD",
+        "name": "超微",
+        "change_pct": 4.86,
+        "reason": ""
+      },
+      {
+        "code": "AVGO",
+        "name": "博通",
+        "change_pct": 4.3,
+        "reason": ""
+      },
+      {
+        "code": "NVDA",
+        "name": "輝達",
+        "change_pct": 2.95,
+        "reason": ""
+      },
+      {
+        "code": "TSM",
+        "name": "台積電 ADR",
+        "change_pct": 1.48,
+        "reason": ""
+      }
+    ]
+  },
+  "inst_top": {
+    "foreign": {
+      "buy": [],
+      "sell": []
+    },
+    "trust": {
+      "buy": [],
+      "sell": []
+    },
+    "dealer": {
+      "buy": [],
+      "sell": []
+    }
+  },
+  "news": [
+    {
+      "tag": "pos",
+      "title": "Trump 宣布 Apple 與 Intel 合作在美設計製造晶片，Intel 暴漲逾 10%",
+      "impact": "費半 SOX 指數單日飆漲 6.67%，帶動台積電 ADR、NVDA、AMD 全面走揚；台股半導體族群連動上漲",
+      "source_name": "CNBC",
+      "source_url": "https://www.cnbc.com/amp/2026/06/18/trump-intel-apple-chip-design-deal.html"
+    },
+    {
+      "tag": "neg",
+      "title": "Fed 新主席 Warsh 首次會議：維持利率不變，但點陣圖半數官員看升息，刪除降息偏向措辭",
+      "impact": "Warsh 意外鷹派；9/18 位官員預期 2026 年底前升息，市場對高利率更長憂慮升溫，VIX 小幅拉高至 20.47",
+      "source_name": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/economy/live/fed-meeting-live-kevin-warsh-faces-challenging-inflation-backdrop-in-his-first-meeting-as-fed-chairman-141312780.html"
+    },
+    {
+      "tag": "pos",
+      "title": "美國正式結束對伊朗海峽封鎖，中東地緣緊張明顯降溫",
+      "impact": "原油價格下行，航運及能源成本壓力緩解，全球市場風險情緒回溫；羅素 2000 及那斯達克齊揚",
+      "source_name": "TheStreet",
+      "source_url": "https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-june-18-2026"
+    },
+    {
+      "tag": "neu",
+      "title": "台股 6/18 收盤 46,465 點，成交金額 15,483 億創近期天量；6/19 端午節休市",
+      "impact": "台股緊跟美股晶片股強彈，量能爆大顯示機構積極進場；端午節休市後下週重回觀察",
+      "source_name": "TWSE（台灣證券交易所）",
+      "source_url": "https://www.twse.com.tw/zh/trading/historical/fmtqik.html"
+    }
+  ],
+  "upcoming_events": [
+    {
+      "date": "2026-07-14",
+      "name": "美國 CPI（6 月）公布",
+      "note": "通膨若超預期可能加重升息預期"
+    },
+    {
+      "date": "2026-07-16",
+      "name": "台積電 Q2 財報法說會",
+      "note": "AI 需求展望與 CoWoS 產能為關注焦點"
+    },
+    {
+      "date": "2026-07-28",
+      "name": "FOMC 利率決策（7/28-29）",
+      "note": "Warsh 第二次主持；點陣圖升息信號為核心觀察"
+    },
+    {
+      "date": "2026-06-20",
+      "name": "台股端午節後首個交易日",
+      "note": "觀察外資是否延續上週買超動能"
+    }
+  ],
+  "past_events_review": [
+    {
+      "date": "2026-06-17",
+      "name": "Fed Warsh 首次 FOMC 會議",
+      "review": "維持利率 3.5-3.75%；點陣圖 9 位官員支持升息，刪除降息偏向措辭，Warsh 意外偏鷹。市場初跌後因費半強彈反轉收紅。"
+    },
+    {
+      "date": "2026-06-18",
+      "name": "Trump 宣布 Intel-Apple 美製晶片協議",
+      "review": "Intel 單日暴漲逾 10%，SOX 指數飆升 6.67%，為 2026 年單日最大漲幅之一；台積電角色雖相對縮小但同步受惠。"
+    }
+  ],
+  "verdict": {
+    "tw": {
+      "stance": "中性偏多",
+      "score": 62,
+      "comment": "台股跟上費半強彈收 46,465 點、創近期新高，成交量爆大天量 15,483 億顯示多方力道充沛。短期面對端午節後回歸常態交易、Fed 鷹派雜音壓抑情緒，指數仍在多方格局但需觀察外資是否持續加碼。",
+      "bullish": [
+        "費半 SOX 單日飆漲 6.67%，台積電及半導體類股直接受惠",
+        "成交金額 15,483 億創近期天量，籌碼偏多",
+        "美伊停火降低地緣風險，全球風險偏好改善",
+        "台積電 ADR (+1.48%) 指引台股方向"
+      ],
+      "bearish": [
+        "外資/投信/自營明細數據尚待確認（假日後公布）",
+        "Fed Warsh 鷹派立場升溫，外資對高利率敏感",
+        "台積電在 Intel-Apple 協議下中長期市占潛在衝擊存疑"
+      ],
+      "risks": [
+        "端午連假後外資動向未知",
+        "美國升息預期升溫可能壓縮本益比評價",
+        "Intel-Apple 合作中長期是否侵蝕台積電訂單"
+      ]
+    },
+    "us": {
+      "stance": "偏多",
+      "score": 68,
+      "comment": "Intel-Apple 晶片協議引爆半導體板塊全面上漲，SOX 指數大漲 6.67% 為 2026 年最強單日表現之一，那斯達克收 +1.91% 領跑。Fed Warsh 鷹派雜音造成 VIX 小升，能源股因油價下行承壓，但整體科技/AI 敘事主導盤面，多方氛圍明顯佔上風。",
+      "bullish": [
+        "Trump Intel-Apple 美製晶片協議提振整體半導體生態",
+        "SOX 費半指數單日 +6.67%，2026 年最強晶片日之一",
+        "美伊停火結束封鎖，能源通膨壓力趨緩",
+        "NVDA +2.95%、AMD +4.86%、AVGO +4.30% 同步強彈",
+        "那斯達克 +1.91%，AI 敘事持續主導科技板塊"
+      ],
+      "bearish": [
+        "Fed 點陣圖 9/18 位官員支持升息，貨幣政策不確定性升高",
+        "Warsh 刪除降息措辭，高利率時間軸可能更長",
+        "能源股 -2.03%、醫療保健 -1.10% 拖累道瓊（僅 +0.14%）",
+        "VIX 上升 3.02% 至 20.47，市場焦慮未全消"
+      ],
+      "risks": [
+        "Warsh Fed 若轉向實際升息，成長股估值承壓",
+        "Intel-Apple 合作若不如預期落地，晶片股可能回吐",
+        "美伊停火若破裂，能源通膨風險捲土重來",
+        "7/14 CPI 若超預期，升息預期再度升溫"
+      ]
+    }
+  },
+  "summary": "2026 年 6 月 18 日（週四），台股以 46,465 點收盤大漲 587 點，成交金額爆出 15,483 億天量，隨費半指數大漲 6.67% 同步受惠。美股方面，Trump 宣布 Apple 與 Intel 合作在美製造晶片，帶動 Intel 暴漲逾 10%，那斯達克收漲 1.91%；但美伊停火後油價下行拖累能源股，道瓊僅微漲 0.14%。Fed 新主席 Warsh 首次主持 FOMC 會議，維持利率 3.5~3.75% 不變，點陣圖卻顯示 9 位官員預期年底前升息，鷹派訊號令 VIX 小幅走升至 20.47。6 月 19 日（週五）台股因端午節、美股因 Juneteenth 聯邦假日雙雙休市，下一交易日為 6 月 20 日（週一）。關鍵後市觀察：7/14 美國 CPI、7/16 台積電 Q2 法說、7/28-29 FOMC 利率決策，三大事件將主導下半年多空走向。"
+}
