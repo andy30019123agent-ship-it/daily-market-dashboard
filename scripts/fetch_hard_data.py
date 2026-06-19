@@ -264,8 +264,13 @@ def fetch_hard_data(date: str) -> dict:
     for s in sectors_us["in"] + sectors_us["out"]:
         s["constituents"] = [{"code": c, "name": n} for c, n in US_HOLD.get(s["name"], [])]
 
+    # 報告日期＝最新「有資料」的台股交易日（trade_ymd），非日曆今天。
+    # 沒開盤/資料未發布時，trade_ymd 仍是前一交易日 → 自然沿用前收，不會生出帶舊數據的新日期。
+    report_date = (f"{trade_ymd[:4]}-{trade_ymd[4:6]}-{trade_ymd[6:8]}"
+                   if trade_ymd and len(trade_ymd) == 8 and trade_ymd.isdigit() else date)
+
     partial = {
-        "date": date,
+        "date": report_date,
         "overview": {
             "tw": {"featured": tw_featured, "stats": stats},
             "us": us,
