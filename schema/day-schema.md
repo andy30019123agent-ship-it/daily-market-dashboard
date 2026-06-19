@@ -84,12 +84,13 @@
 "upcoming_events": [ { "date": "2026-06-20", "name": "四巫日（三巫到期）", "analysis": "期權期貨結算…" } ],
 "past_events_review": [ { "date": "2026-06-17", "name": "美國 5 月零售銷售", "result": "結果 +0.4% 優於預期…" } ],
 
-"verdict": {
-  "stance": "中性偏多",        // 綜合多空總評（偏多/中性偏多/中性/中性偏空/偏空）
-  "score": 62,                  // 0~100：0 極空、50 中性、100 極多（多空儀表）
-  "comment": "整合硬數據+新聞的 1~2 句綜述…",
-  "bullish": ["費半強漲…"], "bearish": ["關稅疑慮…"], "risks": ["四巫日結算波動"]
+"verdict": {                    // 台美分列
+  "tw": { "stance": "偏多", "score": 70, "comment": "…",
+          "bullish": [...], "bearish": [...], "risks": [...] },
+  "us": { "stance": "偏多", "score": 72, "comment": "…",
+          "bullish": [...], "bearish": [...], "risks": [...] }
 }
+// stance: 偏多/中性偏多/中性/中性偏空/偏空；score 0~100(0極空 50中性 100極多)
 ```
 
 前端日期顯示用 `date` 解析出月/日；events 的月縮寫由前端產生（JUN…）。

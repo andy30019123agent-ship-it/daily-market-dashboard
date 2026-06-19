@@ -52,23 +52,22 @@ export function PastReview({ events }) {
   )
 }
 
-export function Verdict({ verdict }) {
+function MarketVerdict({ flag, market, v }) {
+  if (!v) return null
   const cols = [
-    { cls: 'good', ic: '＋', title: '利多', items: verdict.bullish },
-    { cls: 'bad', ic: '－', title: '利空', items: verdict.bearish },
-    { cls: 'risk', ic: '!', title: '隱憂', items: verdict.risks },
+    { cls: 'good', ic: '＋', title: '利多', items: v.bullish },
+    { cls: 'bad', ic: '－', title: '利空', items: v.bearish },
+    { cls: 'risk', ic: '!', title: '隱憂', items: v.risks },
   ]
-  // 綜合多空：score 0=偏空 50=中性 100=偏多；tone 決定顏色
-  const score = typeof verdict.score === 'number' ? Math.max(0, Math.min(100, verdict.score)) : null
+  const score = typeof v.score === 'number' ? Math.max(0, Math.min(100, v.score)) : null
   const tone = score == null ? '' : score >= 60 ? 'up' : score <= 40 ? 'down' : 'neu'
   return (
-    <section className="card col-7" data-region="⑧ 今日綜合研判">
-      <div className="card-h"><span className="label">今日綜合研判</span></div>
-      {verdict.stance && (
+    <div className="vmarket">
+      {v.stance && (
         <div className="stance">
           <div className="stance-top">
-            <span className="stance-tag">綜合研判</span>
-            <span className={'stance-label ' + tone}>{verdict.stance}</span>
+            <span className="stance-tag">{flag} {market}研判</span>
+            <span className={'stance-label ' + tone}>{v.stance}</span>
           </div>
           {score != null && (
             <>
@@ -76,7 +75,7 @@ export function Verdict({ verdict }) {
               <div className="stance-scale"><span>偏空</span><span>中性</span><span>偏多</span></div>
             </>
           )}
-          {verdict.comment && <div className="stance-comment">{verdict.comment}</div>}
+          {v.comment && <div className="stance-comment">{v.comment}</div>}
         </div>
       )}
       <div className="verdict">
@@ -86,6 +85,21 @@ export function Verdict({ verdict }) {
             {(c.items || []).map((it, i) => <li key={i}>{it}</li>)}
           </div>
         ))}
+      </div>
+    </div>
+  )
+}
+
+export function Verdict({ verdict }) {
+  // 相容舊版（單一）與新版（台美分開）
+  const tw = verdict.tw || verdict
+  const us = verdict.us
+  return (
+    <section className="card col-12" data-region="⑧ 今日綜合研判">
+      <div className="card-h"><span className="label">今日綜合研判 · 台美分列</span></div>
+      <div className="verdict2">
+        <MarketVerdict flag="🇹🇼" market="台股" v={tw} />
+        {us && <MarketVerdict flag="🇺🇸" market="美股" v={us} />}
       </div>
     </section>
   )

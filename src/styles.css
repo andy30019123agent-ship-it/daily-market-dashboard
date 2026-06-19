@@ -276,6 +276,13 @@ body.annotate [data-region]::before{
 .evt .ti{font-size:14px;font-weight:600}
 .evt .x{color:var(--muted);font-size:12.5px;margin-top:3px}
 
+/* 綜合研判：台美分列 */
+.verdict2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.verdict2>*{min-width:0}
+.vmarket{background:var(--tile);border:1px solid var(--line-soft);border-radius:14px;padding:15px}
+.vmarket .stance{background:transparent;border:none;padding:0;margin-bottom:14px}
+.vmarket .verdict{grid-template-columns:1fr;gap:10px}
+
 /* 綜合多空研判 */
 .stance{background:var(--tile);border:1px solid var(--line);border-radius:13px;padding:15px 17px;margin-bottom:16px}
 .stance-top{display:flex;align-items:center;gap:11px;margin-bottom:13px}
@@ -316,6 +323,7 @@ footer{color:var(--faint);font-size:11px;text-align:center;margin-top:30px;line-
   .flow2{grid-template-columns:1fr;gap:18px}
   .inst3{grid-template-columns:1fr;gap:20px}
   .verdict{grid-template-columns:1fr}
+  .verdict2{grid-template-columns:1fr}
   .tabbar{gap:22px}
   .calpop{right:auto;left:0}
 }

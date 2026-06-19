@@ -59,7 +59,10 @@ def merge_day(partial: dict, soft: dict, date: str, updated_at: str = "") -> dic
         "news": soft.get("news", []),
         "upcoming_events": soft.get("upcoming_events", []),
         "past_events_review": soft.get("past_events_review", []),
-        "verdict": soft.get("verdict", {"bullish": [], "bearish": [], "risks": []}),
+        "verdict": soft.get("verdict", {
+            "tw": {"bullish": [], "bearish": [], "risks": []},
+            "us": {"bullish": [], "bearish": [], "risks": []},
+        }),
         "summary": soft.get("summary", ""),
     }
 

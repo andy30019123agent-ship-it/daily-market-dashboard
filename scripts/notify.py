@@ -43,12 +43,18 @@ def build_summary_text(day: dict, url: str = SITE_URL) -> str:
         lines += us_lines
         lines.append("")
 
-    # 綜合多空研判
+    # 綜合多空研判（台美分列）
     vd = day.get("verdict", {}) or {}
-    if vd.get("stance"):
+    tw_v, us_v = vd.get("tw"), vd.get("us")
+    if tw_v or us_v:
+        lines.append("🧭 綜合研判")
+        if tw_v and tw_v.get("stance"):
+            lines.append(f"• 🇹🇼 台股：{tw_v['stance']}")
+        if us_v and us_v.get("stance"):
+            lines.append(f"• 🇺🇸 美股：{us_v['stance']}")
+        lines.append("")
+    elif vd.get("stance"):  # 舊版相容
         lines.append(f"🧭 綜合研判：{vd['stance']}")
-        if vd.get("comment"):
-            lines.append(vd["comment"])
         lines.append("")
 
     summary = day.get("summary", "").strip()

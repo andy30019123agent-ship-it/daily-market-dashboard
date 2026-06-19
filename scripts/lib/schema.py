@@ -52,9 +52,13 @@ def validate_day(data: dict) -> list[str]:
 
     vd = data.get("verdict")
     if isinstance(vd, dict):
-        for k in ("bullish", "bearish", "risks"):
-            if k not in vd:
-                errs.append(f"verdict 缺少 {k}")
+        # 新版台美分列 {tw, us}；相容舊版單一
+        markets = [vd.get("tw"), vd.get("us")] if ("tw" in vd or "us" in vd) else [vd]
+        for m in markets:
+            if isinstance(m, dict):
+                for k in ("bullish", "bearish", "risks"):
+                    if k not in m:
+                        errs.append(f"verdict 缺少 {k}")
 
     for src in data.get("news", []) if isinstance(data.get("news"), list) else []:
         if isinstance(src, dict) and not src.get("source_url"):
