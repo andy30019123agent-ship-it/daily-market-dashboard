@@ -25,7 +25,11 @@ python3 scripts/fetch_hard_data.py
 - **vix_us**：補 state/note（數值已由硬數據帶入）。gauge 同公式。
 - **hot_tw_reasons**：`{股票代號: 緣由}`，依當日新聞補（漲停可寫「亮燈漲停」）。
 - **upcoming_events / past_events_review**：用 `scripts/lib/events.py` 比對本週重大日（四巫日等），FOMC/CPI/非農/台積電法說等用 WebSearch 確認日期；過去的寫事後回顧。
-- **verdict**：`{bullish[], bearish[], risks[]}`，依硬數據與新聞綜合研判。
+- **verdict**：`{stance, score, comment, bullish[], bearish[], risks[]}`。
+  - `bullish/bearish/risks`：條列利多/利空/隱憂。
+  - **`stance`**：綜合所有蒐集資訊後的多空總評，用詞如「偏多 / 中性偏多 / 中性 / 中性偏空 / 偏空」。
+  - **`score`**：0~100（0 極空、50 中性、100 極多），給多空儀表用。
+  - **`comment`**：1~2 句綜述，說明為何下這個多空判斷（整合硬數據 + 新聞 + 風險）。
 - **summary**：3~5 句，台美兩地重點，給 Telegram 用。
 
 ### 3. 合併 + 驗證

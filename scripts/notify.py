@@ -43,6 +43,14 @@ def build_summary_text(day: dict, url: str = SITE_URL) -> str:
         lines += us_lines
         lines.append("")
 
+    # 綜合多空研判
+    vd = day.get("verdict", {}) or {}
+    if vd.get("stance"):
+        lines.append(f"🧭 綜合研判：{vd['stance']}")
+        if vd.get("comment"):
+            lines.append(vd["comment"])
+        lines.append("")
+
     summary = day.get("summary", "").strip()
     if summary:
         lines.append(f"📝 {summary}")

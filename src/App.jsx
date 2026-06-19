@@ -13,7 +13,13 @@ export default function App() {
   const [dates, setDates] = useState([])
   const [date, setDate] = useState(null)
   const [day, setDay] = useState(null)
-  const [tab, setTab] = useState('tw')
+  const [tab, setTab] = useState(() =>
+    typeof window !== 'undefined' && window.location.hash.includes('us') ? 'us' : 'tw')
+
+  const switchTab = (t) => {
+    setTab(t)
+    if (typeof window !== 'undefined') window.location.hash = t === 'us' ? 'us' : ''
+  }
   const [status, setStatus] = useState('loading') // loading | ready | error
   const [err, setErr] = useState('')
 
@@ -92,8 +98,8 @@ export default function App() {
       <Ticker day={day} />
 
       <div className="tabbar" data-region="台股 / 美股 分頁">
-        <button className={'tab' + (tab === 'tw' ? ' active' : '')} onClick={() => setTab('tw')}>台股</button>
-        <button className={'tab' + (tab === 'us' ? ' active' : '')} onClick={() => setTab('us')}>美股</button>
+        <button className={'tab' + (tab === 'tw' ? ' active' : '')} onClick={() => switchTab('tw')}>台股</button>
+        <button className={'tab' + (tab === 'us' ? ' active' : '')} onClick={() => switchTab('us')}>美股</button>
       </div>
 
       {tab === 'tw' ? (

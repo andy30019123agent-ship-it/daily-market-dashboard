@@ -156,13 +156,13 @@ body.annotate [data-region]::before{
 .idx4 .tile .v{font-size:22px}
 
 /* vix */
-.vixbox{display:flex;flex-direction:column;height:100%}
+.vixbox{display:flex;flex-direction:column}
 .vix-top{display:flex;align-items:flex-end;gap:16px}
 .vix-num{font-size:52px;font-weight:700;line-height:.9;letter-spacing:-1px}
 .vix-unit{font-size:11.5px;color:var(--muted);letter-spacing:1px;margin-bottom:6px}
 .vix-state{margin-top:16px;font-size:13px;font-weight:600}
 .vix-sub{font-size:12.5px;color:var(--muted);margin-top:5px}
-.gauge{height:6px;border-radius:6px;margin-top:14px;
+.gauge{height:6px;border-radius:6px;margin-top:22px;
   background:linear-gradient(90deg,var(--down),var(--gold),var(--up))}
 .gauge-mark{position:relative;height:0}
 .gauge-mark i{position:absolute;top:-13px;width:3px;height:13px;background:var(--ink);border-radius:2px;transform:translateX(-50%)}
@@ -247,8 +247,22 @@ body.annotate [data-region]::before{
 .evt .ti{font-size:14px;font-weight:600}
 .evt .x{color:var(--muted);font-size:12.5px;margin-top:3px}
 
+/* 綜合多空研判 */
+.stance{background:var(--tile);border:1px solid var(--line);border-radius:13px;padding:15px 17px;margin-bottom:16px}
+.stance-top{display:flex;align-items:center;gap:11px;margin-bottom:13px}
+.stance-tag{font-family:'Bricolage Grotesque',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1.5px;
+  color:var(--muted);text-transform:uppercase;border:1px solid var(--line);border-radius:6px;padding:3px 8px}
+.stance-label{font-size:22px;font-weight:800;letter-spacing:.5px}
+.stance-label.up{color:var(--up)} .stance-label.down{color:var(--down)} .stance-label.neu{color:var(--gold)}
+.stance-bar{position:relative;height:7px;border-radius:7px;
+  background:linear-gradient(90deg,var(--down),var(--gold) 50%,var(--up))}
+.stance-bar i{position:absolute;top:-4px;width:4px;height:15px;background:var(--ink);border-radius:3px;
+  transform:translateX(-50%);box-shadow:0 0 0 3px var(--tile)}
+.stance-scale{display:flex;justify-content:space-between;font-size:10.5px;color:var(--faint);margin-top:9px}
+.stance-comment{font-size:13px;color:var(--ink-2);margin-top:12px;line-height:1.65}
+
 /* verdict */
-.verdict{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.verdict{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .vc{border-radius:13px;padding:15px;border:1px solid var(--line-soft)}
 .vc h3{font-size:13px;font-weight:700;margin-bottom:11px;display:flex;align-items:center;gap:8px}
 .vc h3 .ic{width:18px;height:18px;border-radius:6px;display:grid;place-items:center;font-size:12px;font-weight:800}

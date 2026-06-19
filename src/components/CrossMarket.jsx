@@ -58,9 +58,27 @@ export function Verdict({ verdict }) {
     { cls: 'bad', ic: '－', title: '利空', items: verdict.bearish },
     { cls: 'risk', ic: '!', title: '隱憂', items: verdict.risks },
   ]
+  // 綜合多空：score 0=偏空 50=中性 100=偏多；tone 決定顏色
+  const score = typeof verdict.score === 'number' ? Math.max(0, Math.min(100, verdict.score)) : null
+  const tone = score == null ? '' : score >= 60 ? 'up' : score <= 40 ? 'down' : 'neu'
   return (
     <section className="card col-7" data-region="⑧ 今日綜合研判">
       <div className="card-h"><span className="label">今日綜合研判</span></div>
+      {verdict.stance && (
+        <div className="stance">
+          <div className="stance-top">
+            <span className="stance-tag">綜合研判</span>
+            <span className={'stance-label ' + tone}>{verdict.stance}</span>
+          </div>
+          {score != null && (
+            <>
+              <div className="stance-bar"><i style={{ left: `${score}%` }} /></div>
+              <div className="stance-scale"><span>偏空</span><span>中性</span><span>偏多</span></div>
+            </>
+          )}
+          {verdict.comment && <div className="stance-comment">{verdict.comment}</div>}
+        </div>
+      )}
       <div className="verdict">
         {cols.map((c) => (
           <div className={'vc ' + c.cls} key={c.cls}>

@@ -14,7 +14,6 @@ export default function Vix({ vix, label }) {
           {vix.change <= 0 ? '▼' : '▲'} {Math.abs(vix.change)}　{vix.state}
         </div>
         <div className="vix-sub">{vix.note}</div>
-        <div style={{ flex: 1 }} />
         <div className="gauge" />
         <div className="gauge-mark"><i style={{ left: `${pos}%` }} /></div>
         <div className="gauge-scale"><span>恐慌</span><span>中性</span><span>貪婪</span></div>
