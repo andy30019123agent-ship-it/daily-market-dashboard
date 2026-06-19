@@ -21,7 +21,9 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from scripts.lib.parsers import (  # noqa: E402
     parse_fred_csv, parse_bfi82u, parse_t86_top,
     parse_rwd_index, parse_rwd_fmtqik, parse_rwd_gainers, parse_rwd_sectors,
+    build_sector_constituents,
 )
+from scripts.lib.us_holdings import US_HOLD  # noqa: E402
 
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 OUT_DIR = pathlib.Path(__file__).resolve().parents[1] / "public" / "data"
@@ -137,6 +139,7 @@ def fetch_hard_data(date: str) -> dict:
 
     # ---- 台股漲幅榜熱門股 ----
     hot_tw = []
+    sda = None
     try:
         sda = get_json(f"{TWSE_AT}/STOCK_DAY_ALL?date={trade_ymd}&response=json")
         hot_tw = parse_rwd_gainers(sda, n=5)
@@ -247,6 +250,19 @@ def fetch_hard_data(date: str) -> dict:
     except Exception as e:
         errors.append(f"FRED VIXCLS: {e}")
     missing.append("台指 VIX（無免費 API，分身 WebSearch 補）")
+
+    # ---- 類股成分股（台股真實 / 美股 ETF 主要成分）----
+    try:
+        basic = get_json("https://openapi.twse.com.tw/v1/opendata/t187ap03_L")
+        tw_names = [s["name"] for s in sectors_tw["in"] + sectors_tw["out"]]
+        if sda:
+            cons = build_sector_constituents(tw_names, sda, basic, n=12)
+            for s in sectors_tw["in"] + sectors_tw["out"]:
+                s["constituents"] = cons.get(s["name"], [])
+    except Exception as e:
+        errors.append(f"類股成分(TW): {e}")
+    for s in sectors_us["in"] + sectors_us["out"]:
+        s["constituents"] = [{"code": c, "name": n} for c, n in US_HOLD.get(s["name"], [])]
 
     partial = {
         "date": date,

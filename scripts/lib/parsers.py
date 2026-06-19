@@ -272,6 +272,67 @@ def parse_rwd_sectors(payload: dict, n: int = 5) -> dict:
     return {"in": [row(s) for s in up], "out": [row(s) for s in down]}
 
 
+# TWSE 上市產業別代碼 → 名稱
+INDUSTRY = {
+    "01": "水泥", "02": "食品", "03": "塑膠", "04": "紡織纖維", "05": "電機機械",
+    "06": "電器電纜", "08": "玻璃陶瓷", "09": "造紙", "10": "鋼鐵", "11": "橡膠",
+    "12": "汽車", "14": "建材營造", "15": "航運", "16": "觀光餐旅", "17": "金融保險",
+    "18": "貿易百貨", "20": "其他", "21": "化學工業", "22": "生技醫療", "23": "油電燃氣",
+    "24": "半導體", "25": "電腦及週邊設備", "26": "光電", "27": "通信網路", "28": "電子零組件",
+    "29": "電子通路", "30": "資訊服務", "31": "其他電子", "35": "綠能環保", "36": "數位雲端",
+    "37": "運動休閒", "38": "居家生活",
+}
+# 類股指數名（MI_INDEX）對不上單一產業時的覆寫
+SECTOR_OVERRIDE = {
+    "塑膠化工": ["03", "21"], "金融": ["17"], "金融保險": ["17"],
+    "觀光": ["16", "37"], "觀光餐旅": ["16", "37"], "化學生技醫療": ["21", "22"],
+}
+
+
+def sector_to_codes(name: str) -> list:
+    if name in SECTOR_OVERRIDE:
+        return SECTOR_OVERRIDE[name]
+    codes = [c for c, n in INDUSTRY.items() if n == name]
+    if not codes:
+        codes = [c for c, n in INDUSTRY.items() if name in n or n in name]
+    return codes
+
+
+def build_sector_constituents(sector_names: list, sda_payload: dict, basic_list: list, n: int = 12) -> dict:
+    """類股名 -> 成分股（依成交值取前 n，含當日漲跌）。
+    串 STOCK_DAY_ALL（價/量）與上市公司基本資料（產業別）。
+    """
+    stock_ind = {r.get("公司代號"): r.get("產業別") for r in basic_list}
+    fields = sda_payload.get("fields", [])
+    ci_code = _col(fields, "證券代號", exact=True)
+    ci_name = _col(fields, "證券名稱", exact=True)
+    ci_close = _col(fields, "收盤價", exact=True)
+    ci_chg = _col(fields, "漲跌價差", exact=True)
+    ci_val = _col(fields, "成交金額", exact=True)
+
+    rows = []
+    for r in sda_payload.get("data", []):
+        code = (r[ci_code] or "").strip()
+        if len(code) != 4:
+            continue
+        close, chg, val = _f(r[ci_close]), _f(r[ci_chg]), _f(r[ci_val])
+        if None in (close, chg, val) or close == 0:
+            continue
+        prev = close - chg
+        pct = round(chg / prev * 100, 2) if prev else 0
+        rows.append({"code": code, "name": (r[ci_name] or "").strip(),
+                     "change_pct": pct, "value": val, "ind": stock_ind.get(code)})
+
+    out = {}
+    for name in sector_names:
+        codes = set(sector_to_codes(name))
+        members = [s for s in rows if s["ind"] in codes]
+        members.sort(key=lambda x: x["value"], reverse=True)
+        out[name] = [{"code": s["code"], "name": s["name"], "change_pct": s["change_pct"]}
+                     for s in members[:n]]
+    return out
+
+
 def parse_fred_csv(csv_text: str) -> dict:
     """FRED fredgraph.csv -> 最新收盤與漲跌幅（用最後兩個有效值）。"""
     reader = csv.reader(io.StringIO(csv_text))

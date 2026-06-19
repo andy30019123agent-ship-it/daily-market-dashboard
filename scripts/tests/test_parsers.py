@@ -6,7 +6,7 @@ sys.path.insert(0, str(ROOT))
 
 from scripts.lib.parsers import (  # noqa: E402
     roc_to_iso, parse_twse_index, parse_fmtqik, twse_top_gainers, parse_fred_csv,
-    parse_bfi82u, parse_t86_top, parse_rwd_sectors,
+    parse_bfi82u, parse_t86_top, parse_rwd_sectors, build_sector_constituents,
 )
 
 
@@ -115,3 +115,16 @@ def test_parse_fred_csv_skips_blanks():
     csv_text = "observation_date,VIXCLS\n2026-06-15,.\n2026-06-16,16.41\n2026-06-17,18.44\n"
     out = parse_fred_csv(csv_text)
     assert out["close"] == 18.44
+
+
+def test_build_sector_constituents():
+    sda = {"fields": ["證券代號", "證券名稱", "成交股數", "成交金額", "開盤價", "最高價", "最低價", "收盤價", "漲跌價差", "成交筆數"],
+           "data": [
+               ["2330", "台積電", "1", "9000000000", "1", "1", "1", "1085", "+22", "1"],
+               ["1303", "南亞", "1", "5000000000", "1", "1", "1", "100", "+9", "1"],
+               ["2317", "鴻海", "1", "8000000000", "1", "1", "1", "200", "-2", "1"],
+           ]}
+    basic = [{"公司代號": "2330", "產業別": "24"}, {"公司代號": "1303", "產業別": "03"}, {"公司代號": "2317", "產業別": "28"}]
+    out = build_sector_constituents(["半導體", "塑膠"], sda, basic, n=5)
+    assert out["半導體"][0]["code"] == "2330"
+    assert out["塑膠"][0]["code"] == "1303" and out["塑膠"][0]["change_pct"] == round(9 / 91 * 100, 2)
