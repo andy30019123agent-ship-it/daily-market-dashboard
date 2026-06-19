@@ -45,38 +45,34 @@ def report_date(trade_date, partial):
 US_MAJORS = ["道瓊", "標普 500", "那斯達克", "費城半導體"]
 
 
-def _canon_us(name):
-    n = (name or "").replace(" ", "")
-    if "道瓊" in n or "dow" in n.lower():
-        return "道瓊"
-    if "標普" in n or "s&p" in n.lower() or "500" in n:
-        return "標普 500"
-    if "那斯" in n or "那指" in n or "nasdaq" in n.lower():
-        return "那斯達克"
-    if "費" in n or "半導體" in n or "sox" in n.lower():
-        return "費城半導體"
-    return name
+def _prev_day_us(date):
+    """前一份 day.json 的美股（FRED 偶爾在 CI 缺漏時用來補，不留空殘缺）。"""
+    import re
+    days = sorted(p for p in DATA_DIR.glob("*.json")
+                  if re.fullmatch(r"\d{4}-\d{2}-\d{2}\.json", p.name) and p.stem < date)
+    if not days:
+        return {}
+    prev = json.loads(days[-1].read_text(encoding="utf-8"))
+    return {i.get("name"): i for i in (prev.get("overview", {}).get("us") or [])}
 
 
-def _override_us(day, partial, us_fix):
-    """美股四大指數以 OpenAI 查到的最新收盤為準（免費源 FRED 常延遲/缺漏），spark 沿用 partial。"""
-    prev = {i.get("name"): i for i in (partial.get("overview", {}).get("us") or [])}
-    fix = {}
-    for it in (us_fix or []):
-        cp = it.get("change_pct")
-        if cp is not None and abs(cp) < 20:
-            fix[_canon_us(it.get("name"))] = it
+def _ensure_us(day, date):
+    """美股一律用官方硬數據(FRED/AV)。若 FRED 在 CI 缺某指數，沿用前一日該指數值並標註，避免殘缺。"""
+    have = {i.get("name"): i for i in day.get("overview", {}).get("us", [])}
+    prev = None
     out = []
     for name in US_MAJORS:
-        base = dict(prev.get(name, {}))
-        base["name"] = name
-        f = fix.get(name)
-        if f:
-            if f.get("close"):
-                base["close"] = f["close"]
-            base["change_pct"] = f["change_pct"]
-        if base.get("change_pct") is not None:  # 有值才放，避免殘缺
-            out.append(base)
+        cur = have.get(name)
+        if cur and cur.get("change_pct") is not None:
+            out.append(cur)
+            continue
+        if prev is None:
+            prev = _prev_day_us(date)
+        p = prev.get(name)
+        if p and p.get("change_pct") is not None:
+            p = dict(p)
+            p["note"] = "（沿用前值）"
+            out.append(p)
     if out:
         day["overview"]["us"] = out
 
@@ -111,7 +107,7 @@ def main():
         datetime.timezone(datetime.timedelta(hours=8))
     ).strftime("%Y-%m-%d %H:%M")
     day = merge_day(partial, soft, date, updated_at=now)
-    _override_us(day, partial, soft.get("us_indices"))
+    _ensure_us(day, date)
 
     errs = validate_day(day)
     if errs:
