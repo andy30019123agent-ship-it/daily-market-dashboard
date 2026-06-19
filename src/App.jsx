@@ -8,6 +8,7 @@ import HotStocks from './components/HotStocks.jsx'
 import InstTop from './components/InstTop.jsx'
 import { News, UpcomingEvents, PastReview, Verdict } from './components/CrossMarket.jsx'
 import DatePicker from './components/DatePicker.jsx'
+import ChartModal from './components/ChartModal.jsx'
 
 export default function App() {
   const [dates, setDates] = useState([])
@@ -58,10 +59,10 @@ export default function App() {
     }
   }
 
-  // K 線 modal 之後 Task 接上；先佔位
-  const openChart = (target) => {
-    console.log('open chart', target)
-  }
+  const [chartTarget, setChartTarget] = useState(
+    typeof window !== 'undefined' && window.location.search.includes('demochart')
+      ? { name: '台積電', code: '2330', type: 'stock' } : null)
+  const openChart = (target) => setChartTarget(target)
 
   if (status === 'loading' && !day) {
     return <div className="wrap"><div className="center-state"><div><div className="spin" />載入今日戰報中…</div></div></div>
@@ -137,6 +138,8 @@ export default function App() {
         ※ 數據為每日 18:43 自動更新並 Telegram 推送 · 軟情報每條附來源連結<br />
         {day.summary}
       </footer>
+
+      <ChartModal target={chartTarget} onClose={() => setChartTarget(null)} />
     </div>
   )
 }
