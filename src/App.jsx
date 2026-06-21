@@ -135,7 +135,7 @@ export default function App() {
       </div>
 
       <footer>
-        ※ 數據為每日 18:43 自動更新並 Telegram 推送 · 軟情報每條附來源連結<br />
+        ※ 數據為每日 18:36 自動更新並 Telegram 推送 · 軟情報每條附來源連結<br />
         {day.summary}
       </footer>
 
