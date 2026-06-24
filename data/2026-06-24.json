@@ -1,13 +1,13 @@
 {
  "date": "2026-06-24",
- "updated_at": "2026-06-24 18:32",
+ "updated_at": "2026-06-24 20:24",
  "overview": {
   "tw": {
    "featured": {
     "name": "發行量加權股價指數",
     "close": 46043.6,
     "change": -1057.05,
-    "change_pct": 2.24,
+    "change_pct": -2.24,
     "note": "較昨收",
     "spark": [
      45337.91,
@@ -36,12 +36,12 @@
     },
     {
      "name": "外資買賣超",
-     "value": "−1,774.2 億",
+     "value": "−1,774.0 億",
      "dir": "down"
     },
     {
      "name": "投信買賣超",
-     "value": "+36.7 億",
+     "value": "+33.0 億",
      "dir": "up"
     },
     {
@@ -78,15 +78,15 @@
     "value": 37.86,
     "change": 1.53,
     "state": "波動偏高",
-    "note": "台指 VIX 6/18 收 37.86 仍處高檔（VIXTWN），今日端午節休市無更新（沿用 2026-06-23 值，台指 VIX 需人工更新）",
+    "note": "台指 VIX 6/18 收 37.86 仍處高檔（VIXTWN），今日端午節休市無更新（沿用 2026-06-24 值，台指 VIX 需人工更新）",
     "gauge": 0.07
    },
    "us": {
     "state": "上升",
     "note": "市場波動性增加，投資人避險情緒升高。",
-    "value": 19.21,
-    "change": -1.44,
-    "gauge": 0.693
+    "value": 18.88,
+    "change": -3.13,
+    "gauge": 0.704
    }
   }
  },
@@ -96,54 +96,532 @@
     {
      "name": "油電燃氣",
      "amount": "+4.72%",
-     "weight": 1.0
+     "weight": 1.0,
+     "constituents": [
+      {
+       "code": "6505",
+       "name": "台塑化",
+       "change_pct": 5.95
+      },
+      {
+       "code": "8926",
+       "name": "台汽電",
+       "change_pct": -0.36
+      },
+      {
+       "code": "9937",
+       "name": "全國",
+       "change_pct": -0.18
+      },
+      {
+       "code": "9908",
+       "name": "大台北",
+       "change_pct": 0.0
+      },
+      {
+       "code": "2616",
+       "name": "山隆",
+       "change_pct": -0.37
+      },
+      {
+       "code": "9926",
+       "name": "新海",
+       "change_pct": -0.1
+      },
+      {
+       "code": "9918",
+       "name": "欣天然",
+       "change_pct": -0.23
+      },
+      {
+       "code": "9931",
+       "name": "欣高",
+       "change_pct": 0.86
+      }
+     ]
     },
     {
      "name": "塑膠",
      "amount": "+3.68%",
-     "weight": 0.78
-    },
-    {
-     "name": "半導體",
-     "amount": "+3.43%",
-     "weight": 0.73
+     "weight": 0.78,
+     "constituents": [
+      {
+       "code": "1303",
+       "name": "南亞",
+       "change_pct": 0.97
+      },
+      {
+       "code": "1301",
+       "name": "台塑",
+       "change_pct": 9.99
+      },
+      {
+       "code": "1326",
+       "name": "台化",
+       "change_pct": 0.0
+      },
+      {
+       "code": "1312",
+       "name": "國喬",
+       "change_pct": 1.45
+      },
+      {
+       "code": "1314",
+       "name": "中石化",
+       "change_pct": 1.78
+      },
+      {
+       "code": "1304",
+       "name": "台聚",
+       "change_pct": 6.25
+      },
+      {
+       "code": "1310",
+       "name": "台苯",
+       "change_pct": 2.06
+      },
+      {
+       "code": "1309",
+       "name": "台達化",
+       "change_pct": 4.17
+      },
+      {
+       "code": "1305",
+       "name": "華夏",
+       "change_pct": 5.14
+      },
+      {
+       "code": "1313",
+       "name": "聯成",
+       "change_pct": 3.06
+      },
+      {
+       "code": "1308",
+       "name": "亞聚",
+       "change_pct": 4.78
+      },
+      {
+       "code": "1307",
+       "name": "三芳",
+       "change_pct": 2.28
+      }
+     ]
     },
     {
      "name": "數位雲端",
      "amount": "+2.77%",
-     "weight": 0.59
+     "weight": 0.59,
+     "constituents": [
+      {
+       "code": "8454",
+       "name": "富邦媒",
+       "change_pct": 5.45
+      },
+      {
+       "code": "7722",
+       "name": "LINEPAY",
+       "change_pct": -1.63
+      },
+      {
+       "code": "6902",
+       "name": "GOGOLOOK",
+       "change_pct": 0.0
+      },
+      {
+       "code": "7721",
+       "name": "微程式",
+       "change_pct": -0.27
+      },
+      {
+       "code": "6906",
+       "name": "現觀科",
+       "change_pct": 0.91
+      },
+      {
+       "code": "7765",
+       "name": "中華資安",
+       "change_pct": -1.76
+      },
+      {
+       "code": "3130",
+       "name": "一零四",
+       "change_pct": -0.45
+      },
+      {
+       "code": "6165",
+       "name": "浪凡",
+       "change_pct": 0.0
+      },
+      {
+       "code": "6689",
+       "name": "伊雲谷",
+       "change_pct": 0.3
+      },
+      {
+       "code": "7823",
+       "name": "奧義賽博-KY創",
+       "change_pct": -0.12
+      },
+      {
+       "code": "6614",
+       "name": "資拓宏宇",
+       "change_pct": -0.63
+      },
+      {
+       "code": "8487",
+       "name": "愛爾達-創",
+       "change_pct": 0.0
+      }
+     ]
     },
     {
-     "name": "電子工業",
-     "amount": "+2.63%",
-     "weight": 0.56
+     "name": "塑膠化工",
+     "amount": "+2.52%",
+     "weight": 0.53,
+     "constituents": [
+      {
+       "code": "1303",
+       "name": "南亞",
+       "change_pct": 0.97
+      },
+      {
+       "code": "1301",
+       "name": "台塑",
+       "change_pct": 9.99
+      },
+      {
+       "code": "1326",
+       "name": "台化",
+       "change_pct": 0.0
+      },
+      {
+       "code": "4722",
+       "name": "國精化",
+       "change_pct": 9.85
+      },
+      {
+       "code": "1717",
+       "name": "長興",
+       "change_pct": 3.07
+      },
+      {
+       "code": "1708",
+       "name": "東鹼",
+       "change_pct": 5.78
+      },
+      {
+       "code": "1711",
+       "name": "永光",
+       "change_pct": 1.49
+      },
+      {
+       "code": "1727",
+       "name": "中華化",
+       "change_pct": -1.55
+      },
+      {
+       "code": "4763",
+       "name": "材料*-KY",
+       "change_pct": -3.54
+      },
+      {
+       "code": "4764",
+       "name": "雙鍵",
+       "change_pct": -7.36
+      },
+      {
+       "code": "1714",
+       "name": "和桐",
+       "change_pct": 6.72
+      },
+      {
+       "code": "4739",
+       "name": "康普",
+       "change_pct": -0.82
+      }
+     ]
+    },
+    {
+     "name": "生技醫療",
+     "amount": "+1.83%",
+     "weight": 0.39,
+     "constituents": [
+      {
+       "code": "6446",
+       "name": "藥華藥",
+       "change_pct": 5.94
+      },
+      {
+       "code": "7799",
+       "name": "禾榮科",
+       "change_pct": -2.71
+      },
+      {
+       "code": "6919",
+       "name": "康霈*",
+       "change_pct": -3.7
+      },
+      {
+       "code": "6472",
+       "name": "保瑞",
+       "change_pct": 0.91
+      },
+      {
+       "code": "6861",
+       "name": "睿生光電",
+       "change_pct": -1.4
+      },
+      {
+       "code": "1795",
+       "name": "美時",
+       "change_pct": 1.57
+      },
+      {
+       "code": "6949",
+       "name": "沛爾生醫-創",
+       "change_pct": 3.24
+      },
+      {
+       "code": "6491",
+       "name": "晶碩",
+       "change_pct": 0.15
+      },
+      {
+       "code": "4169",
+       "name": "泰宗",
+       "change_pct": 4.61
+      },
+      {
+       "code": "1707",
+       "name": "葡萄王",
+       "change_pct": -0.51
+      },
+      {
+       "code": "6589",
+       "name": "台康生技",
+       "change_pct": 1.18
+      },
+      {
+       "code": "4746",
+       "name": "台耀",
+       "change_pct": 1.74
+      }
+     ]
     }
    ],
    "out": [
     {
-     "name": "水泥",
-     "amount": "+0.01%",
-     "weight": 0.0
+     "name": "半導體",
+     "amount": "-3.43%",
+     "weight": 0.73,
+     "constituents": [
+      {
+       "code": "2330",
+       "name": "台積電",
+       "change_pct": -4.02
+      },
+      {
+       "code": "2303",
+       "name": "聯電",
+       "change_pct": 4.71
+      },
+      {
+       "code": "2454",
+       "name": "聯發科",
+       "change_pct": -5.51
+      },
+      {
+       "code": "2408",
+       "name": "南亞科",
+       "change_pct": -2.42
+      },
+      {
+       "code": "2344",
+       "name": "華邦電",
+       "change_pct": -3.07
+      },
+      {
+       "code": "6770",
+       "name": "力積電",
+       "change_pct": 9.03
+      },
+      {
+       "code": "3711",
+       "name": "日月光投控",
+       "change_pct": -1.36
+      },
+      {
+       "code": "3189",
+       "name": "景碩",
+       "change_pct": 1.65
+      },
+      {
+       "code": "2337",
+       "name": "旺宏",
+       "change_pct": 0.0
+      },
+      {
+       "code": "2449",
+       "name": "京元電子",
+       "change_pct": 1.21
+      },
+      {
+       "code": "2481",
+       "name": "強茂",
+       "change_pct": 0.78
+      },
+      {
+       "code": "3450",
+       "name": "聯鈞",
+       "change_pct": -5.07
+      }
+     ]
     },
     {
-     "name": "建材營造",
-     "amount": "+0.11%",
-     "weight": 0.02
+     "name": "電子工業",
+     "amount": "-2.63%",
+     "weight": 0.56,
+     "constituents": []
     },
     {
-     "name": "資訊服務",
-     "amount": "+0.12%",
-     "weight": 0.03
+     "name": "機電",
+     "amount": "-2.58%",
+     "weight": 0.55,
+     "constituents": []
     },
     {
-     "name": "食品",
-     "amount": "+0.14%",
-     "weight": 0.03
+     "name": "綠能環保",
+     "amount": "-2.16%",
+     "weight": 0.46,
+     "constituents": [
+      {
+       "code": "6944",
+       "name": "兆聯實業",
+       "change_pct": -5.75
+      },
+      {
+       "code": "7610",
+       "name": "聯友金屬-創",
+       "change_pct": -2.28
+      },
+      {
+       "code": "8438",
+       "name": "昶昕",
+       "change_pct": -3.86
+      },
+      {
+       "code": "8422",
+       "name": "可寧衛*",
+       "change_pct": -1.21
+      },
+      {
+       "code": "8473",
+       "name": "山林水",
+       "change_pct": -0.79
+      },
+      {
+       "code": "6994",
+       "name": "富威電力",
+       "change_pct": 1.17
+      },
+      {
+       "code": "8476",
+       "name": "台境*",
+       "change_pct": 2.17
+      },
+      {
+       "code": "5292",
+       "name": "華懋",
+       "change_pct": -3.76
+      },
+      {
+       "code": "2072",
+       "name": "世紀風電",
+       "change_pct": 2.05
+      },
+      {
+       "code": "3708",
+       "name": "上緯投控",
+       "change_pct": 0.0
+      },
+      {
+       "code": "8341",
+       "name": "日友",
+       "change_pct": -1.26
+      },
+      {
+       "code": "6869",
+       "name": "雲豹能源",
+       "change_pct": -0.65
+      }
+     ]
     },
     {
-     "name": "紡織纖維",
-     "amount": "+0.16%",
-     "weight": 0.03
+     "name": "金融保險",
+     "amount": "-2.08%",
+     "weight": 0.44,
+     "constituents": [
+      {
+       "code": "2881",
+       "name": "富邦金",
+       "change_pct": -2.18
+      },
+      {
+       "code": "2882",
+       "name": "國泰金",
+       "change_pct": -3.08
+      },
+      {
+       "code": "2891",
+       "name": "中信金",
+       "change_pct": -3.45
+      },
+      {
+       "code": "2885",
+       "name": "元大金",
+       "change_pct": -3.22
+      },
+      {
+       "code": "2890",
+       "name": "永豐金",
+       "change_pct": -0.63
+      },
+      {
+       "code": "2886",
+       "name": "兆豐金",
+       "change_pct": -1.44
+      },
+      {
+       "code": "2884",
+       "name": "玉山金",
+       "change_pct": -2.23
+      },
+      {
+       "code": "2880",
+       "name": "華南金",
+       "change_pct": -1.46
+      },
+      {
+       "code": "2883",
+       "name": "凱基金",
+       "change_pct": -1.0
+      },
+      {
+       "code": "2887",
+       "name": "台新新光金",
+       "change_pct": -1.71
+      },
+      {
+       "code": "2892",
+       "name": "第一金",
+       "change_pct": -1.23
+      },
+      {
+       "code": "6005",
+       "name": "群益證",
+       "change_pct": -3.02
+      }
+     ]
     }
    ]
   },
@@ -440,7 +918,38 @@
   }
  },
  "hot_stocks": {
-  "tw": [],
+  "tw": [
+   {
+    "code": "2484",
+    "name": "希華",
+    "change_pct": 10.0,
+    "reason": ""
+   },
+   {
+    "code": "5285",
+    "name": "界霖",
+    "change_pct": 10.0,
+    "reason": ""
+   },
+   {
+    "code": "1301",
+    "name": "台塑",
+    "change_pct": 9.99,
+    "reason": ""
+   },
+   {
+    "code": "2312",
+    "name": "金寶",
+    "change_pct": 9.99,
+    "reason": ""
+   },
+   {
+    "code": "2302",
+    "name": "麗正",
+    "change_pct": 9.97,
+    "reason": ""
+   }
+  ],
   "us": [
    {
     "code": "TSM",
@@ -536,17 +1045,17 @@
     {
      "code": "2886",
      "name": "兆豐金",
-     "zhang": 40918
+     "zhang": 40907
     },
     {
      "code": "2344",
      "name": "華邦電",
-     "zhang": 33677
+     "zhang": 33632
     },
     {
      "code": "2890",
      "name": "永豐金",
-     "zhang": 30218
+     "zhang": 30210
     },
     {
      "code": "2880",
@@ -556,24 +1065,24 @@
     {
      "code": "2884",
      "name": "玉山金",
-     "zhang": 24252
+     "zhang": 24194
     }
    ],
    "sell": [
     {
      "code": "2303",
      "name": "聯電",
-     "zhang": 27250
+     "zhang": 27265
     },
     {
      "code": "2885",
      "name": "元大金",
-     "zhang": 13318
+     "zhang": 13353
     },
     {
      "code": "3711",
      "name": "日月光投控",
-     "zhang": 8216
+     "zhang": 8220
     },
     {
      "code": "2006",
@@ -646,88 +1155,71 @@
  },
  "news": [
   {
-   "tag": "pos",
-   "title": "台股盤後：COMPUTEX照亮光通訊、重電股，漲901點收46459點新高",
-   "impact": "COMPUTEX展帶動光通訊與重電股上漲，推升台股創新高。",
-   "source_name": "鉅亨網",
-   "source_url": "https://gfemobile.cnyes.com/news/id/6482349"
+   "tag": "neg",
+   "title": "美股收盤／道瓊下挫821點 三大指數跌逾1% AI 衝擊與關稅變數夾擊",
+   "impact": "美股三大指數下跌，投資人擔憂 AI 衝擊與關稅政策不確定性。",
+   "source_name": "經濟日報",
+   "source_url": "https://money.udn.com/money/story/123398/9340524"
   },
   {
    "tag": "neg",
-   "title": "Fed放鷹暗示未來恐升息，美股三大指數收盤齊跌",
-   "impact": "聯準會釋出鷹派訊號，暗示未來可能升息，導致美股下跌。",
-   "source_name": "民視新聞網",
-   "source_url": "https://www.ftvnews.com.tw/news/detail/2026618W0029"
+   "title": "美Fed降息太晚害美股崩? 馬斯克批愚蠢催快降息 美經濟衰退陰霾罩頂 聯準會降息動作太慢?",
+   "impact": "馬斯克批評聯準會降息過慢，可能導致美股下跌與經濟衰退。",
+   "source_name": "三立iNEWS",
+   "source_url": "https://www.youtube.com/watch?v=oarcvgK7djY"
   },
   {
    "tag": "neg",
-   "title": "台股連二黑，盤勢準備反轉？！",
-   "impact": "台股連續兩日收黑，市場對高位階個股的獲利了結壓力增加。",
-   "source_name": "鉅亨網",
-   "source_url": "https://gfemobile.cnyes.com/news/id/6485762"
+   "title": "經濟數據強勁壓低大幅降息預期 美股續跌 甲骨文重挫5.5%日K連3黑 美政府10/1恐關門? 川普取消會談 民主黨怒轟",
+   "impact": "強勁經濟數據降低降息預期，美股續跌，甲骨文重挫5.5%。",
+   "source_name": "非凡財經新聞",
+   "source_url": "https://www.youtube.com/watch?v=4G515NNZJWQ"
   },
   {
    "tag": "neg",
-   "title": "美經濟放緩逐步顯現，關稅令Fed兩難",
-   "impact": "美國經濟放緩跡象顯現，關稅政策使聯準會面臨兩難。",
-   "source_name": "SinoTV LA",
-   "source_url": "https://www.youtube.com/watch?v=6gUptfM05nY"
+   "title": "美股收盤／道瓊下挫821點 三大指數跌逾1% AI 衝擊與關稅變數夾擊",
+   "impact": "美股三大指數下跌，投資人擔憂 AI 衝擊與關稅政策不確定性。",
+   "source_name": "經濟日報",
+   "source_url": "https://money.udn.com/money/story/123398/9340524"
   }
  ],
- "upcoming_events": [
-  {
-   "date": "2026-06-30",
-   "name": "美國6月非農就業報告",
-   "analysis": "將提供美國勞動市場最新狀況，影響聯準會貨幣政策決策。"
-  },
-  {
-   "date": "2026-07-15",
-   "name": "台積電法說會",
-   "analysis": "台積電將公布最新財務狀況與展望，影響半導體產業與台股走勢。"
-  }
- ],
- "past_events_review": [
-  {
-   "date": "2026-06-18",
-   "name": "聯準會利率決議",
-   "result": "聯準會維持利率不變，但釋出鷹派訊號，暗示未來可能升息。"
-  }
- ],
+ "upcoming_events": [],
+ "past_events_review": [],
  "verdict": {
   "tw": {
-   "stance": "中性偏多",
-   "score": 60,
-   "comment": "台股加權指數上漲2.24%，但外資賣超1,774.2億元，顯示市場多空交錯。",
+   "stance": "偏空",
+   "score": 30,
+   "comment": "加權指數下跌2.24%，外資賣超1,774.0億，半導體等電子類股表現疲弱。",
    "bullish": [
-    "加權指數上漲2.24%，創新高。",
-    "油電燃氣、塑膠、半導體等類股表現強勢。"
+    "油電燃氣、塑膠、生技醫療等類股表現強勢。",
+    "投信買超33.0億，顯示部分內資持續進場。"
    ],
    "bearish": [
-    "外資賣超1,774.2億元，顯示資金流出。",
-    "水泥、建材營造等類股表現疲弱。"
+    "外資大幅賣超1,774.0億，對市場形成壓力。",
+    "半導體、電子工業等主要類股下跌，拖累大盤。"
    ],
    "risks": [
-    "外資持續賣超可能壓抑後續漲勢。",
-    "全球經濟不確定性增加，影響投資信心。"
+    "美股下跌可能進一步影響台股表現。",
+    "市場波動性增加，投資人信心受挫。"
    ]
   },
   "us": {
    "stance": "偏空",
-   "score": 30,
-   "comment": "美股主要指數下跌，費城半導體指數重挫7.87%，反映市場對科技股的擔憂。",
+   "score": 25,
+   "comment": "道瓊指數下跌0.09%，標普500下跌1.44%，那斯達克下跌2.21%，費城半導體指數重挫7.87%。",
    "bullish": [
-    "美國5月零售銷售數據強勁，顯示消費者買氣旺盛。",
-    "部分個股如Allbirds轉型為AI公司，股價逆勢上漲。"
+    "部分經濟數據仍顯示經濟基本面穩健。",
+    "市場對聯準會未來政策動向保持關注。"
    ],
    "bearish": [
-    "聯準會釋出鷹派訊號，暗示未來可能升息。",
-    "道瓊、標普500、那斯達克指數均下跌，費城半導體指數重挫。"
+    "AI 技術可能對各行業構成衝擊，影響企業利潤。",
+    "關稅政策不確定性持續存在，增加市場波動。"
    ],
    "risks": [
-    "聯準會可能升息，影響市場流動性。",
-    "地緣政治局勢不穩，增加市場不確定性。"
+    "聯準會降息動作可能過慢，影響市場信心。",
+    "美國政府可能面臨關門風險，增加經濟不確定性。"
    ]
   }
  },
- "summary": "台股加權指數上漲2.24%，創新高，但外資賣超1,774.2億元，顯示市場多空交錯。美股主要指數下跌，費城半導體指數重挫7.87%，反映市場對科技股的擔憂。聯準會釋出鷹派訊號，暗示未來可能升息，增加市場不確定性。"
+ "summary": "台股加權指數下跌2.24%，外資賣超1,774.0億，半導體等電子類股表現疲弱。美股三大指數下跌，費城半導體指數重挫7.87%，投資人擔憂 AI 衝擊與關稅政策不確定性。市場波動性增加，投資人避險情緒升高。"
 }
