@@ -290,10 +290,22 @@ def fetch_hard_data(date: str) -> dict:
 
 
 def main():
-    date = sys.argv[1] if len(sys.argv) > 1 else taipei_today()
-    partial = fetch_hard_data(date)
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    date = args[0] if args else taipei_today()
+    force = "--force" in sys.argv
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = OUT_DIR / f"{date}.partial.json"
+    # 防重觸發燒 Alpha Vantage 額度：當天已成功抓過（partial 已存在且 _meta.errors 為空）
+    # 就跳過重抓、沿用既有結果；要強制重抓請加 --force。
+    if out.exists() and not force:
+        try:
+            existing = json.loads(out.read_text(encoding="utf-8"))
+            if not existing.get("_meta", {}).get("errors"):
+                print(f"⏭️  {date} 今日已成功抓過（{out.name}，無 errors），跳過重抓以省 Alpha Vantage 額度。要強制重抓請加 --force。")
+                return
+        except Exception:
+            pass  # partial 壞掉/讀不動 → 當作沒有，照常重抓
+    partial = fetch_hard_data(date)
     out.write_text(json.dumps(partial, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"✅ 已寫出 {out}")
     print(f"加權：{partial['overview']['tw']['featured']}")
