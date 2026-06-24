@@ -7,14 +7,52 @@ sys.path.insert(0, str(ROOT))
 from scripts.lib.parsers import (  # noqa: E402
     roc_to_iso, parse_twse_index, parse_fmtqik, twse_top_gainers, parse_fred_csv,
     parse_bfi82u, parse_t86_top, parse_rwd_sectors, build_sector_constituents,
+    parse_rwd_index, parse_rwd_gainers,
 )
+
+
+# 真實 RWD MI_INDEX 格式：漲跌欄含顏色標記、漲跌點數「無號」、漲跌百分比「已帶號」。
+def test_parse_rwd_index_down_day():
+    payload = {"data": [
+        ["發行量加權股價指數", "46,043.60", "<p style ='color:green'>-</p>", "1,057.05", "-2.24", ""],
+    ]}
+    out = parse_rwd_index(payload)
+    assert out["close"] == 46043.60
+    assert out["change"] == -1057.05    # 點數無號 → 乘 sign(-1)
+    assert out["change_pct"] == -2.24   # 百分比已帶號 → 不再乘 sign（否則負負得正）
+
+
+def test_parse_rwd_index_up_day():
+    payload = {"data": [
+        ["發行量加權股價指數", "47,100.65", "<p style ='color:red'>+</p>", "587.81", "1.28", ""],
+    ]}
+    out = parse_rwd_index(payload)
+    assert out["change"] == 587.81
+    assert out["change_pct"] == 1.28
+
+
+def test_parse_rwd_gainers_accepts_csv_shape():
+    # STOCK_DAY_ALL 端點偶爾回 CSV；get_table 轉成的 {fields, data} 應能正常解析
+    payload = {
+        "fields": ["日期", "證券代號", "證券名稱", "成交股數", "成交金額",
+                   "開盤價", "最高價", "最低價", "收盤價", "漲跌價差", "成交筆數"],
+        "data": [
+            ["1150624", "2330", "台積電", "30000000", "30000000000",
+             "1000", "1050", "995", "1040", "40", "50000"],
+            ["1150624", "00631L", "元大台灣50正2", "1000", "9999999999",
+             "200", "201", "199", "200", "0", "100"],  # 非 4 碼 → 濾掉
+        ],
+    }
+    out = parse_rwd_gainers(payload, n=5)
+    assert len(out) == 1 and out[0]["code"] == "2330"
+    assert out[0]["change_pct"] == round(40 / 1000 * 100, 2)
 
 
 def test_parse_rwd_sectors():
     payload = {"tables": [{"data": [
         ["發行量加權股價指數", "46,465.20", "<p style='color:red'>+</p>", "587", "1.28", ""],
         ["塑膠類指數", "261.34", "<p style='color:red'>+</p>", "17", "7.27", ""],
-        ["食品類指數", "1,925.88", "<p style='color:green'>-</p>", "22", "1.16", ""],
+        ["食品類指數", "1,925.88", "<p style='color:green'>-</p>", "22", "-1.16", ""],
         ["未含金融指數", "41,713.54", "<p style='color:red'>+</p>", "1", "1.27", ""],
     ]}]}
     out = parse_rwd_sectors(payload, n=5)

@@ -14,6 +14,8 @@ import json
 import pathlib
 import datetime
 import time
+import csv
+import io
 import subprocess
 import urllib.request
 
@@ -104,6 +106,21 @@ def get_json(url):
     return json.loads(get_text(url))
 
 
+def get_table(url):
+    """抓 RWD 表格端點，回 {fields, data}。
+
+    STOCK_DAY_ALL 端點會時而回 JSON、時而回 CSV（同一組參數），兩者都容忍，
+    避免端點格式漂移時整批個股/類股成分股靜默變空。
+    """
+    text = get_text(url)
+    if text.lstrip()[:1] in ("{", "["):
+        return json.loads(text)
+    rows = [r for r in csv.reader(io.StringIO(text)) if r]
+    if len(rows) < 2:
+        raise ValueError(f"CSV 回應無資料列：{url}")
+    return {"fields": rows[0], "data": rows[1:], "stat": "OK"}
+
+
 def taipei_today():
     return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).strftime("%Y-%m-%d")
 
@@ -140,7 +157,7 @@ def fetch_hard_data(date: str) -> dict:
     hot_tw = []
     sda = None
     try:
-        sda = get_json(f"{TWSE_AT}/STOCK_DAY_ALL?date={trade_ymd}&response=json")
+        sda = get_table(f"{TWSE_AT}/STOCK_DAY_ALL?date={trade_ymd}&response=json")
         hot_tw = parse_rwd_gainers(sda, n=5)
         for s in hot_tw:
             s["reason"] = ""  # 緣由由分身補

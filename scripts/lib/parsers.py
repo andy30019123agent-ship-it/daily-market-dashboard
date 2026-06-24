@@ -118,9 +118,11 @@ def parse_rwd_index(payload: dict, name: str = "發行量加權股價指數") ->
     for row in rows:
         if (row[0] or "").strip() == name:
             sign = _sign_from_cell(row[2])
+            # 漲跌點數欄無正負號、需靠 sign 補方向；漲跌百分比欄官方已帶正負號，
+            # 不可再乘 sign（否則下跌日會負負得正、漲跌幅變反向）。
             return {"name": name, "close": _f(row[1]),
                     "change": (_f(row[3]) or 0) * sign,
-                    "change_pct": (_f(row[4]) or 0) * sign}
+                    "change_pct": _f(row[4]) or 0}
     raise KeyError(f"RWD MI_INDEX 找不到 {name}")
 
 
@@ -255,11 +257,10 @@ def parse_rwd_sectors(payload: dict, n: int = 5) -> dict:
         # 只取單一產業類指數，排除「未含…」「報酬」「跨市場」等彙總
         if not nm.endswith("類指數") or nm.startswith("未含"):
             continue
-        pct = _f(r[4])
+        pct = _f(r[4])  # 漲跌百分比官方已帶正負號，不再乘 sign（同 parse_rwd_index）
         if pct is None:
             continue
-        sign = _sign_from_cell(r[2])
-        secs.append({"name": nm.replace("類指數", ""), "pct": pct * sign})
+        secs.append({"name": nm.replace("類指數", ""), "pct": pct})
     if not secs:
         raise ValueError("MI_INDEX 無類股指數")
     up = sorted(secs, key=lambda x: x["pct"], reverse=True)[:n]
