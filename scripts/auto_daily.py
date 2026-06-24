@@ -17,6 +17,7 @@ import urllib.request
 from scripts.gen_soft_openai import gen_soft
 from scripts.merge_day import DATA_DIR, merge_day, update_index
 from scripts.lib.schema import validate_day
+from scripts.lib.sanity import check_consistency, collect_warnings
 from scripts.notify import build_summary_text, build_failure_text
 
 STATE = DATA_DIR / "notify_state.json"
@@ -163,6 +164,14 @@ def _run(dry_run):
     errs = validate_day(day)
     if errs:
         raise SystemExit("schema 驗證未過：" + "；".join(errs))
+
+    # ⭐1 發布前一致性自檢：資料自相矛盾就擋下不發（main 會發失敗通知）
+    incons = check_consistency(day)
+    if incons:
+        raise SystemExit("一致性自檢未過（資料自相矛盾，已擋下不發布）：" + "；".join(incons))
+
+    # ⭐2 缺漏盤點：照常發布，但記進 day 供推播明示，不靜默空白
+    day["_warnings"] = collect_warnings(day)
 
     (DATA_DIR / f"{date}.json").write_text(
         json.dumps(day, ensure_ascii=False, indent=1), encoding="utf-8"

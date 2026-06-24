@@ -62,6 +62,12 @@ def build_summary_text(day: dict, url: str = SITE_URL) -> str:
         lines.append(f"📝 {summary}")
         lines.append("")
 
+    # 缺漏明示（⭐2）：抓不到的區塊要講出來，不靜默空白
+    warns = day.get("_warnings") or []
+    if warns:
+        lines.append("⚠️ 今日缺（資料源異常）：" + "、".join(warns))
+        lines.append("")
+
     lines.append(f"🔗 完整儀表板：{url}")
     return "\n".join(lines)
 
