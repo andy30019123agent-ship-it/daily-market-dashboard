@@ -25,8 +25,9 @@ def build_summary_text(day: dict, url: str = SITE_URL) -> str:
     # 台股（每項一行，避免長行折行跑版）
     tw_lines = []
     if tw.get("close") is not None:
-        arrow = "▲" if (tw.get("change_pct") or 0) >= 0 else "▼"
-        tw_lines.append(f"• 加權 {tw['close']:,.0f} {arrow}{_pct(tw.get('change_pct'))}")
+        pct = tw.get("change_pct") or 0
+        arrow = "▲" if pct >= 0 else "▼"  # 箭頭已表方向，數字用絕對值，避免「▼-2.24%」雙重符號
+        tw_lines.append(f"• 加權 {tw['close']:,.0f} {arrow}{abs(pct):.2f}%")
     for s in stats:
         if "外資" in s.get("name", "") and s.get("value"):
             tw_lines.append(f"• 外資 {s['value']}")
