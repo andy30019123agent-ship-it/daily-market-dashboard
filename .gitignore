@@ -8,3 +8,8 @@ __pycache__/
 *.partial.json
 *.soft.json
 scripts/secrets.json
+
+# 環境變數（夜間盤點補上）
+.env
+.env.local
+.env*.local
