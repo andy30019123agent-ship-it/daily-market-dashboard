@@ -10,7 +10,7 @@ export function News({ news }) {
     <section className="card col-7" data-region="⑤ 影響股市消息">
       <div className="card-h"><span className="label">川普及影響股市消息</span></div>
       <div className="news">
-        {news.map((n, i) => (
+        {(news && news.length > 0) ? news.map((n, i) => (
           <div className="newsrow" key={i}>
             <span className={'tag ' + n.tag}>{TAGS[n.tag] || '中性'}</span>
             <div className="body">
@@ -21,7 +21,11 @@ export function News({ news }) {
               </div>
             </div>
           </div>
-        ))}
+        )) : (
+          <div style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.7, padding: '14px 2px' }}>
+            今日無符合條件的即時新聞<br />（寧缺勿錯：已濾掉別天舊聞與影片／社群來源）
+          </div>
+        )}
       </div>
     </section>
   )
