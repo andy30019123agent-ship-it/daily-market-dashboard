@@ -1,6 +1,6 @@
 {
  "date": "2026-06-25",
- "updated_at": "2026-06-26 01:38",
+ "updated_at": "2026-06-26 09:43",
  "overview": {
   "tw": {
    "featured": {
@@ -55,23 +55,23 @@
   "us": [
    {
     "name": "道瓊",
-    "close": 52022.74,
-    "change_pct": 0.34
+    "close": 51920.62,
+    "change_pct": 0.14
    },
    {
     "name": "標普 500",
-    "close": 7360.7,
-    "change_pct": 0.03
+    "close": 7357.49,
+    "change_pct": -0.01
    },
    {
     "name": "那斯達克",
-    "close": 25367.68,
-    "change_pct": -0.43
+    "close": 25358.6,
+    "change_pct": -0.46
    },
    {
     "name": "費城半導體",
-    "close": 13975.54,
-    "change_pct": 3.84
+    "close": 13940.87,
+    "change_pct": 3.59
    }
   ],
   "vix": {
@@ -79,15 +79,15 @@
     "value": 37.86,
     "change": 1.53,
     "state": "波動偏高",
-    "note": "台指 VIX 6/18 收 37.86 仍處高檔（VIXTWN），今日端午節休市無更新（沿用 2026-06-25 值，台指 VIX 需人工更新）",
+    "note": "台指 VIX 為沿用值、非當日即時（無免費即時源，需人工更新）",
     "gauge": 0.07
    },
    "us": {
-    "state": "穩定",
-    "note": "美股VIX指數維持穩定，市場波動性未顯著增加。",
-    "value": 19.12,
-    "change": 2.63,
-    "gauge": 0.696
+    "state": "小幅上升",
+    "note": "市場波動性略有增加",
+    "value": 18.89,
+    "change": 1.4,
+    "gauge": 0.7036666666666667
    }
   }
  },
@@ -742,8 +742,8 @@
    "in": [
     {
      "name": "工業",
-     "amount": "+1.16%",
-     "weight": 0.71,
+     "amount": "+2.17%",
+     "weight": 1.0,
      "constituents": [
       {
        "code": "GE",
@@ -772,102 +772,9 @@
      ]
     },
     {
-     "name": "非必需消費",
-     "amount": "+1.15%",
-     "weight": 0.71,
-     "constituents": [
-      {
-       "code": "AMZN",
-       "name": "亞馬遜"
-      },
-      {
-       "code": "TSLA",
-       "name": "特斯拉"
-      },
-      {
-       "code": "HD",
-       "name": "家得寶"
-      },
-      {
-       "code": "MCD",
-       "name": "麥當勞"
-      },
-      {
-       "code": "NKE",
-       "name": "Nike"
-      },
-      {
-       "code": "SBUX",
-       "name": "星巴克"
-      }
-     ]
-    },
-    {
-     "name": "公用事業",
-     "amount": "+1.04%",
-     "weight": 0.64,
-     "constituents": [
-      {
-       "code": "NEE",
-       "name": "NextEra"
-      },
-      {
-       "code": "SO",
-       "name": "Southern"
-      },
-      {
-       "code": "DUK",
-       "name": "Duke 能源"
-      },
-      {
-       "code": "CEG",
-       "name": "Constellation"
-      },
-      {
-       "code": "AEP",
-       "name": "AEP"
-      },
-      {
-       "code": "D",
-       "name": "Dominion"
-      }
-     ]
-    },
-    {
-     "name": "必需消費",
-     "amount": "+0.86%",
-     "weight": 0.53,
-     "constituents": [
-      {
-       "code": "COST",
-       "name": "好市多"
-      },
-      {
-       "code": "WMT",
-       "name": "沃爾瑪"
-      },
-      {
-       "code": "PG",
-       "name": "寶僑"
-      },
-      {
-       "code": "KO",
-       "name": "可口可樂"
-      },
-      {
-       "code": "PEP",
-       "name": "百事"
-      },
-      {
-       "code": "PM",
-       "name": "菲利普莫里斯"
-      }
-     ]
-    },
-    {
      "name": "醫療保健",
-     "amount": "+0.77%",
-     "weight": 0.47,
+     "amount": "+1.49%",
+     "weight": 0.69,
      "constituents": [
       {
        "code": "LLY",
@@ -894,13 +801,42 @@
        "name": "賽默飛"
       }
      ]
-    }
-   ],
-   "out": [
+    },
+    {
+     "name": "原物料",
+     "amount": "+1.33%",
+     "weight": 0.61,
+     "constituents": [
+      {
+       "code": "LIN",
+       "name": "Linde"
+      },
+      {
+       "code": "SHW",
+       "name": "宣偉"
+      },
+      {
+       "code": "FCX",
+       "name": "自由港"
+      },
+      {
+       "code": "ECL",
+       "name": "藝康"
+      },
+      {
+       "code": "NEM",
+       "name": "Newmont"
+      },
+      {
+       "code": "APD",
+       "name": "空氣化工"
+      }
+     ]
+    },
     {
      "name": "能源",
-     "amount": "-1.63%",
-     "weight": 1.0,
+     "amount": "+0.97%",
+     "weight": 0.45,
      "constituents": [
       {
        "code": "XOM",
@@ -929,9 +865,73 @@
      ]
     },
     {
+     "name": "科技",
+     "amount": "+0.83%",
+     "weight": 0.38,
+     "constituents": [
+      {
+       "code": "AAPL",
+       "name": "蘋果"
+      },
+      {
+       "code": "MSFT",
+       "name": "微軟"
+      },
+      {
+       "code": "NVDA",
+       "name": "輝達"
+      },
+      {
+       "code": "AVGO",
+       "name": "博通"
+      },
+      {
+       "code": "ORCL",
+       "name": "甲骨文"
+      },
+      {
+       "code": "CRM",
+       "name": "Salesforce"
+      }
+     ]
+    }
+   ],
+   "out": [
+    {
+     "name": "非必需消費",
+     "amount": "-1.49%",
+     "weight": 0.69,
+     "constituents": [
+      {
+       "code": "AMZN",
+       "name": "亞馬遜"
+      },
+      {
+       "code": "TSLA",
+       "name": "特斯拉"
+      },
+      {
+       "code": "HD",
+       "name": "家得寶"
+      },
+      {
+       "code": "MCD",
+       "name": "麥當勞"
+      },
+      {
+       "code": "NKE",
+       "name": "Nike"
+      },
+      {
+       "code": "SBUX",
+       "name": "星巴克"
+      }
+     ]
+    },
+    {
      "name": "通訊服務",
-     "amount": "-0.68%",
-     "weight": 0.42,
+     "amount": "-0.90%",
+     "weight": 0.41,
      "constituents": [
       {
        "code": "META",
@@ -960,40 +960,40 @@
      ]
     },
     {
-     "name": "科技",
-     "amount": "-0.62%",
-     "weight": 0.38,
+     "name": "必需消費",
+     "amount": "-0.59%",
+     "weight": 0.27,
      "constituents": [
       {
-       "code": "AAPL",
-       "name": "蘋果"
+       "code": "COST",
+       "name": "好市多"
       },
       {
-       "code": "MSFT",
-       "name": "微軟"
+       "code": "WMT",
+       "name": "沃爾瑪"
       },
       {
-       "code": "NVDA",
-       "name": "輝達"
+       "code": "PG",
+       "name": "寶僑"
       },
       {
-       "code": "AVGO",
-       "name": "博通"
+       "code": "KO",
+       "name": "可口可樂"
       },
       {
-       "code": "ORCL",
-       "name": "甲骨文"
+       "code": "PEP",
+       "name": "百事"
       },
       {
-       "code": "CRM",
-       "name": "Salesforce"
+       "code": "PM",
+       "name": "菲利普莫里斯"
       }
      ]
     },
     {
      "name": "金融",
-     "amount": "-0.30%",
-     "weight": 0.18,
+     "amount": "-0.50%",
+     "weight": 0.23,
      "constituents": [
       {
        "code": "BRK.B",
@@ -1023,8 +1023,8 @@
     },
     {
      "name": "房地產",
-     "amount": "-0.29%",
-     "weight": 0.18,
+     "amount": "+0.18%",
+     "weight": 0.08,
      "constituents": []
     }
    ]
@@ -1065,33 +1065,33 @@
   ],
   "us": [
    {
-    "code": "TSLA",
-    "name": "特斯拉",
-    "change_pct": -1.59,
+    "code": "AAPL",
+    "name": "蘋果",
+    "change_pct": -6.12,
     "reason": ""
    },
    {
-    "code": "TSM",
-    "name": "台積電 ADR",
-    "change_pct": 1.02,
+    "code": "AMD",
+    "name": "超微",
+    "change_pct": 2.47,
     "reason": ""
    },
    {
     "code": "NVDA",
     "name": "輝達",
-    "change_pct": -0.52,
+    "change_pct": -1.64,
+    "reason": ""
+   },
+   {
+    "code": "TSM",
+    "name": "台積電 ADR",
+    "change_pct": -1.32,
     "reason": ""
    },
    {
     "code": "AVGO",
     "name": "博通",
-    "change_pct": 0.51,
-    "reason": ""
-   },
-   {
-    "code": "AAPL",
-    "name": "蘋果",
-    "change_pct": -0.41,
+    "change_pct": -0.83,
     "reason": ""
    }
   ]
@@ -1268,32 +1268,12 @@
  },
  "news": [
   {
-   "tag": "pos",
-   "title": "美光財報亮眼，AI成長續強",
-   "impact": "美光科技公布強勁財報，凸顯人工智慧仍是推動成長的主要力量。",
-   "source_name": "經濟日報",
-   "source_url": "https://money.udn.com/money/amp/story/123398/9586944"
-  },
-  {
    "tag": "neg",
-   "title": "科技股拖累，美股跌多漲少",
-   "impact": "科技股走弱拖累美股，市場擔憂部分科技股估值過高。",
-   "source_name": "民視財經網",
-   "source_url": "https://finance.ftvnews.com.tw/news/detail/2026625W0054"
-  },
-  {
-   "tag": "pos",
-   "title": "台股盤後：記憶體、被動元件族群強勢",
-   "impact": "台股收漲211點，記憶體與被動元件族群表現強勁。",
-   "source_name": "中央商情",
-   "source_url": "https://news.pchome.com.tw/finance/cna_business/20260625/index-17823703710256422003.html"
-  },
-  {
-   "tag": "neu",
-   "title": "美股創高後回落，美光盤後漲幅收斂",
-   "impact": "美股創高後回落，美光盤後漲幅收斂，資料中心營收意外年減22%。",
-   "source_name": "非凡財經新聞",
-   "source_url": "https://www.youtube.com/watch?v=1OFRKSMaUDw"
+   "title": "科技股由漲轉跌！美股漲跌互見「那指連四黑」",
+   "impact": "投資人擔憂AI資本支出成本，科技股下跌",
+   "date": "2026-06-26",
+   "source_name": "民視新聞網",
+   "source_url": "https://finance.ftvnews.com.tw/news/detail/2026626W0065"
   }
  ],
  "upcoming_events": [],
@@ -1302,38 +1282,38 @@
   "tw": {
    "stance": "中性偏多",
    "score": 60,
-   "comment": "台股加權指數上漲0.46%，但外資賣超405.1億元，顯示市場多空交錯。",
+   "comment": "加權指數上漲0.46%，但外資賣超405.1億元，顯示市場多空交錯",
    "bullish": [
-    "加權指數上漲0.46%，顯示市場有支撐。",
-    "記憶體與被動元件族群表現強勢，帶動市場信心。"
+    "加權指數上漲0.46%",
+    "投信買超174.2億元"
    ],
    "bearish": [
-    "外資賣超405.1億元，可能對市場造成壓力。",
-    "自營商賣超70.0億元，顯示部分法人持謹慎態度。"
+    "外資賣超405.1億元",
+    "自營商賣超70.0億元"
    ],
    "risks": [
-    "外資持續賣超可能影響市場走勢。",
-    "全球經濟不確定性仍存在，需關注後續發展。"
+    "外資持續賣超可能壓抑市場上漲動能",
+    "自營商同步賣超顯示市場信心不足"
    ]
   },
   "us": {
    "stance": "中性",
    "score": 50,
-   "comment": "美股主要指數漲跌互見，市場情緒偏中性。",
+   "comment": "道瓊指數小幅上漲0.14%，但標普500和那斯達克指數分別下跌0.01%和0.46%，市場呈現分歧",
    "bullish": [
-    "道瓊指數上漲0.34%，顯示部分市場信心。",
-    "費城半導體指數上漲3.84%，科技股部分領域表現強勁。"
+    "費城半導體指數上漲3.59%",
+    "道瓊指數上漲0.14%"
    ],
    "bearish": [
-    "那斯達克指數下跌0.43%，科技股整體表現疲弱。",
-    "標普500指數僅微幅上漲0.03%，市場動能不足。"
+    "那斯達克指數下跌0.46%",
+    "標普500指數下跌0.01%"
    ],
    "risks": [
-    "科技股估值過高的擔憂可能持續影響市場。",
-    "全球經濟不確定性可能對美股造成壓力。"
+    "科技股下跌可能影響整體市場情緒",
+    "投資人對AI資本支出成本的擔憂增加"
    ]
   }
  },
- "summary": "台股加權指數上漲0.46%，記憶體與被動元件族群表現強勢，但外資賣超405.1億元。美股主要指數漲跌互見，道瓊指數上漲0.34%，那斯達克指數下跌0.43%，費城半導體指數上漲3.84%。",
+ "summary": "台股加權指數上漲0.46%，但外資賣超405.1億元，市場多空交錯。美股方面，道瓊指數上漲0.14%，但那斯達克指數下跌0.46%，科技股表現疲弱。費城半導體指數上漲3.59%，顯示半導體產業持續強勢。",
  "_warnings": []
 }
