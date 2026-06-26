@@ -22,7 +22,7 @@ export default function ChartModal({ target, onClose }) {
   const symbol = resolveSymbol(target)
   const src = symbol
     ? `https://s.tradingview.com/widgetembed/?symbol=${encodeURIComponent(symbol)}` +
-      `&interval=D&theme=dark&style=1&timezone=Asia/Taipei&withdateranges=1` +
+      `&interval=D&theme=light&style=1&timezone=Asia/Taipei&withdateranges=1` +
       `&hide_side_toolbar=1&locale=zh_TW&studies=%5B%22MASimple%40tv-basicstudies%22%5D`
     : null
 
