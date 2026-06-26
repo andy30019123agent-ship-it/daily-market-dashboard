@@ -41,11 +41,15 @@ function EventRow({ ev, field }) {
   )
 }
 
+const emptyStyle = { color: 'var(--muted)', fontSize: 13, lineHeight: 1.7, padding: '10px 2px' }
+
 export function UpcomingEvents({ events }) {
   return (
     <section className="card col-5" data-region="⑥ 本週重大日程">
       <div className="card-h"><span className="label">本週重大日程</span></div>
-      {events.map((ev, i) => <EventRow ev={ev} field="analysis" key={i} />)}
+      {(events && events.length > 0)
+        ? events.map((ev, i) => <EventRow ev={ev} field="analysis" key={i} />)
+        : <div style={emptyStyle}>本週暫無重大財經日程</div>}
     </section>
   )
 }
@@ -54,7 +58,9 @@ export function PastReview({ events }) {
   return (
     <section className="card col-5" data-region="⑦ 昨日日程回顧">
       <div className="card-h"><span className="label">昨日日程回顧</span></div>
-      {events.map((ev, i) => <EventRow ev={ev} field="result" key={i} />)}
+      {(events && events.length > 0)
+        ? events.map((ev, i) => <EventRow ev={ev} field="result" key={i} />)
+        : <div style={emptyStyle}>近日無已發生的重大日程回顧</div>}
     </section>
   )
 }

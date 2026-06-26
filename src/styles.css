@@ -1,19 +1,19 @@
 :root{
-  --bg:#FCF3F8; --bg2:#FBEEF6;
-  /* 毛玻璃表面（半透明白 + 模糊）*/
-  --surface:rgba(255,255,255,.58); --surface-hi:rgba(255,255,255,.80); --tile:rgba(255,255,255,.48);
-  --glass-border:rgba(255,255,255,.85);
+  --bg:#FDFAFC; --bg2:#FCF6FA;       /* 近全白（清透白瓷）*/
+  /* 毛玻璃表面（白色霧面 + 模糊）*/
+  --surface:rgba(255,255,255,.64); --surface-hi:rgba(255,255,255,.84); --tile:rgba(255,255,255,.52);
+  --glass-border:rgba(245,212,228,.78);   /* 淡粉描邊 */
   --blur:16px;
-  --line:rgba(190,120,175,.24); --line-soft:rgba(190,120,175,.15);
-  --ink:#2C2230; --ink-2:#5A4F63; --muted:#8C7F97; --faint:#BBADC4;
+  --line:rgba(206,150,185,.20); --line-soft:rgba(206,150,185,.12);
+  --ink:#2E2733; --ink-2:#5E5468; --muted:#938799; --faint:#C3B6CC;
   --up:#E11D48;            /* 漲 紅（台灣慣例，調深以利白底可讀）*/
   --down:#0E9D6B;          /* 跌 綠（調深以利白底可讀）*/
-  --gold:#D11A77;          /* 粉色 主 accent（取代戰略金）*/
-  --gold-soft:rgba(236,72,153,.13);
-  --gold-line:rgba(236,72,153,.42);
+  --gold:#CC5283;          /* 柔玫瑰粉 主 accent */
+  --gold-soft:rgba(204,82,131,.11);
+  --gold-line:rgba(204,82,131,.32);
   --amber:#D9881C;         /* 隱憂＝琥珀，與漲紅／粉色區隔 */
-  --neutral:#B98DE6;       /* 量表中性段＝薰衣草紫，避免跟紅色糊在一起 */
-  --shadow:0 10px 34px rgba(193,120,170,.16);
+  --neutral:#C3A0E0;       /* 量表中性段＝淡薰衣草，避免跟紅色糊在一起 */
+  --shadow:0 1px 2px rgba(190,130,165,.05), 0 12px 30px rgba(198,145,178,.12);
   --r:16px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -21,9 +21,8 @@ html{scroll-behavior:smooth}
 body{
   font-family:'Noto Sans TC','Bricolage Grotesque',system-ui,sans-serif;
   background:
-    radial-gradient(820px 520px at 86% -8%, rgba(236,72,153,.20), transparent 60%),
-    radial-gradient(720px 480px at -6% 2%, rgba(167,139,250,.17), transparent 58%),
-    radial-gradient(640px 600px at 50% 116%, rgba(244,114,182,.15), transparent 60%),
+    radial-gradient(620px 440px at 100% -6%, rgba(236,72,153,.10), transparent 62%),
+    radial-gradient(520px 400px at -4% 4%, rgba(244,114,182,.06), transparent 60%),
     var(--bg);
   background-attachment:fixed;
   color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;
@@ -124,7 +123,7 @@ body.annotate [data-region]::before{
 @keyframes fade{from{opacity:0;transform:translateY(6px)}}
 
 /* ===== grid ===== */
-.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
 .grid>*{min-width:0}
 .col-12{grid-column:span 12}.col-8{grid-column:span 8}.col-7{grid-column:span 7}
 .col-5{grid-column:span 5}.col-4{grid-column:span 4}
@@ -152,9 +151,9 @@ body.annotate [data-region]::before{
 .tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
 .tiles>*{min-width:0}
 .tile .v,.tile .t,.tile .c{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tile{background:var(--tile);border:1px solid rgba(255,255,255,.65);border-radius:12px;padding:13px 14px;
+.tile{background:var(--tile);border:1px solid rgba(206,150,185,.18);border-radius:12px;padding:13px 15px;
   cursor:pointer;transition:border-color .15s,transform .15s,box-shadow .15s}
-.tile:hover{border-color:var(--gold-line);transform:translateY(-2px);box-shadow:0 8px 20px rgba(209,26,119,.12)}
+.tile:hover{border-color:var(--gold-line);transform:translateY(-2px);box-shadow:0 8px 20px rgba(204,82,131,.12)}
 .tile .t{font-size:11.5px;color:var(--muted);margin-bottom:7px}
 .tile .v{font-size:20px;font-weight:600}
 .tile .v small{font-size:12px;color:var(--muted)}
