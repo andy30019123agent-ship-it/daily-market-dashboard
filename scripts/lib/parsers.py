@@ -170,6 +170,26 @@ def parse_rwd_gainers(payload: dict, n: int = 5, min_value_yi: float = 5) -> lis
     return out[:n]
 
 
+def parse_tpex_gainers(rows: list, n: int = 5, min_value_yi: float = 1.0) -> list:
+    """TPEX openapi tpex_mainboard_daily_close_quotes（list[dict]）-> 上櫃漲幅榜前 N。
+    擴大選股掃描池：上市用 STOCK_DAY_ALL、上櫃用此（TransactionAmount 單位＝元）。"""
+    out = []
+    for r in rows or []:
+        code = str(r.get("SecuritiesCompanyCode", "")).strip()
+        if len(code) != 4 or not code.isdigit():
+            continue
+        close, chg, val = _f(r.get("Close")), _f(r.get("Change")), _f(r.get("TransactionAmount"))
+        if None in (close, chg, val) or val < min_value_yi * 1e8:
+            continue
+        prev = close - chg
+        if prev <= 0:
+            continue
+        out.append({"code": code, "name": str(r.get("CompanyName", "")).strip(),
+                    "change_pct": round(chg / prev * 100, 2)})
+    out.sort(key=lambda x: x["change_pct"], reverse=True)
+    return out[:n]
+
+
 def parse_bfi82u(payload: dict) -> dict:
     """大盤三大法人買賣超金額（rwd JSON）-> 外資/投信/自營 買賣差額（億元，四捨五入到小數 1 位）。"""
     rows = payload.get("data", [])

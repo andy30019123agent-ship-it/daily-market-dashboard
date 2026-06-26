@@ -169,10 +169,11 @@ def gen_soft(partial: dict) -> dict:
     soft = _extract_json(content)
     # 新聞過濾：http(s) + 正規媒體單篇 + 發布日期落在報告日 ±2 天（擋注入、影片/社群、別天舊聞）
     soft["news"] = [n for n in soft.get("news", []) if _news_ok(n, partial.get("date", ""))]
-    # 台指 VIX 一律沿用前值（不讓模型臆造）
-    carried = _carry_vix_tw(partial.get("date", ""))
-    if carried:
-        soft["vix_tw"] = carried
+    # 台指 VIX：硬數據(TAIFEX 官方)有抓到就用它；只有 fetch 失敗時才沿用前值（不讓模型臆造）。
+    if ((partial.get("overview", {}).get("vix", {}) or {}).get("tw")) is None:
+        carried = _carry_vix_tw(partial.get("date", ""))
+        if carried:
+            soft["vix_tw"] = carried
     return soft
 
 

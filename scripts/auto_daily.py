@@ -67,6 +67,27 @@ def yahoo_us():
     return us, vix
 
 
+# 市場連動指標（Yahoo 免費抓）：名稱, Yahoo symbol, 單位, 小數位
+YAHOO_MARKETS = [
+    ("美元/台幣", "TWD=X", "", 2),
+    ("美10年債", "%5ETNX", "%", 2),
+    ("黃金", "GC=F", "$", 0),
+    ("原油 WTI", "CL=F", "$", 1),
+    ("比特幣", "BTC-USD", "$", 0),
+]
+
+
+def yahoo_markets():
+    """美元台幣、美10年債殖利率、金、油、比特幣（跨市場連動指標）。"""
+    out = []
+    for name, sym, unit, dec in YAHOO_MARKETS:
+        q = _yahoo_quote(sym)
+        if q:
+            out.append({"name": name, "value": q[0], "change_pct": q[1],
+                        "unit": unit, "dec": dec})
+    return out
+
+
 def pick_partial():
     """選 _meta.trade_date 最新的 partial（避開殘留的舊/錯日期檔）。"""
     best = None
@@ -187,6 +208,12 @@ def _run(dry_run):
         cur = day["overview"]["vix"].get("us") or {}
         cur.update(vix_us)  # 數值/gauge 用 Yahoo，state/note 保留軟情報
         day["overview"]["vix"]["us"] = cur
+
+    # 市場連動指標（美元台幣/美債/金/油/BTC）：Yahoo 抓，掛在 day["markets"]
+    markets = yahoo_markets()
+    if markets:
+        day["markets"] = markets
+        print("市場連動：" + "、".join(f"{m['name']} {m['change_pct']:+}%" for m in markets))
 
     errs = validate_day(day)
     if errs:

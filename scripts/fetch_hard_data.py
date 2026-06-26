@@ -21,8 +21,8 @@ import urllib.request
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from scripts.lib.parsers import (  # noqa: E402
-    parse_bfi82u, parse_t86_top,
-    parse_rwd_index, parse_rwd_fmtqik, parse_rwd_gainers, parse_rwd_sectors,
+    _f, parse_bfi82u, parse_t86_top,
+    parse_rwd_index, parse_rwd_fmtqik, parse_rwd_gainers, parse_tpex_gainers, parse_rwd_sectors,
     build_sector_constituents,
 )
 from scripts.lib.us_holdings import US_HOLD  # noqa: E402
@@ -33,6 +33,10 @@ OUT_DIR = pathlib.Path(__file__).resolve().parents[1] / "public" / "data"
 # 用 TWSE 官網 RWD（afterTrading/fund）：OpenAPI 有約 1~2 日延遲，RWD 是最新交易日
 TWSE_AT = "https://www.twse.com.tw/rwd/zh/afterTrading"
 TWSE_RWD = "https://www.twse.com.tw/rwd/zh/fund"
+# 上櫃（OTC）全市場當日行情：免費、無額度，把熱門股掃描池從上市擴大到含上櫃
+TPEX_DAILY = "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes"
+# 台指選擇權波動率指數（TAIWAN VIX）：TAIFEX 官方即時行情 MIS（取代人工沿用）
+TAIFEX_MIS = "https://mis.taifex.com.tw/futures/api/getQuoteDetail"
 # 美股指數/VIX 已改由 auto_daily 用 Yahoo 抓（FRED 在 CI timeout），這裡不再用 FRED
 
 # Alpha Vantage（費半 SOX 用 SOXX ETF 代理 + 美股重點股動向）
@@ -125,6 +129,42 @@ def taipei_today():
     return datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).strftime("%Y-%m-%d")
 
 
+def _vix_state(v):
+    return "波動偏高" if v >= 25 else ("波動加劇" if v >= 18 else "波動偏低")
+
+
+def fetch_taiwan_vix():
+    """台指選擇權波動率指數（TAIWAN VIX）＝ TAIFEX 官方即時行情系統 MIS。
+    收盤後抓即當日收盤值，取代過去人工沿用。回 vix.tw 結構或 raise。"""
+    body = json.dumps({"SymbolID": ["TAIWANVIX"]}).encode()
+    last = None
+    for _ in range(3):
+        try:
+            req = urllib.request.Request(
+                TAIFEX_MIS, data=body,
+                headers={"User-Agent": UA, "Content-Type": "application/json",
+                         "Origin": "https://mis.taifex.com.tw"})
+            with urllib.request.urlopen(req, timeout=15) as r:
+                d = json.load(r)
+            q = (d.get("RtData", {}).get("QuoteList") or [{}])[0]
+            v = _f(q.get("CLastPrice"))
+            if v is None:
+                raise RuntimeError("MIS 無 CLastPrice（盤前/休市?）")
+            prev = _f(q.get("CRefPrice"))
+            chg = round(v - prev, 2) if prev else None
+            pct = round((v - prev) / prev * 100, 2) if prev else None
+            cd = str(q.get("CDate", ""))
+            src = f"{cd[:4]}-{cd[4:6]}-{cd[6:8]}" if len(cd) == 8 and cd.isdigit() else None
+            return {"value": round(v, 2), "change": chg, "change_pct": pct,
+                    "gauge": max(0.0, min(1.0, 1 - (v - 10) / 30)),
+                    "state": _vix_state(v), "source_date": src,
+                    "note": f"台指 VIX（TAIFEX 官方{('・' + src) if src else ''}）"}
+        except Exception as e:
+            last = e
+            time.sleep(1.5)
+    raise RuntimeError(f"TAIFEX VIX 取得失敗：{last}")
+
+
 def fetch_hard_data(date: str) -> dict:
     errors = []
     missing = []
@@ -153,16 +193,34 @@ def fetch_hard_data(date: str) -> dict:
     except Exception as e:
         errors.append(f"RWD MI_INDEX: {e}")
 
-    # ---- 台股漲幅榜熱門股 ----
+    # ---- 台股漲幅榜熱門股（上市 STOCK_DAY_ALL + 上櫃 TPEX，掃描池涵蓋全市場）----
     hot_tw = []
     sda = None
     try:
         sda = get_table(f"{TWSE_AT}/STOCK_DAY_ALL?date={trade_ymd}&response=json")
-        hot_tw = parse_rwd_gainers(sda, n=5)
+        hot_tw = parse_rwd_gainers(sda, n=8)
         for s in hot_tw:
-            s["reason"] = ""  # 緣由由分身補
+            s["mkt"] = "上市"
     except Exception as e:
         errors.append(f"RWD STOCK_DAY_ALL: {e}")
+    # 上櫃（OTC）：TPEX openapi 只回最新交易日，須與 trade_ymd 同日才納入（避免混到別天）
+    try:
+        tpex = get_json(TPEX_DAILY)
+        roc = f"{int(trade_ymd[:4]) - 1911}{trade_ymd[4:]}" if trade_ymd.isdigit() else ""
+        same_day = roc and any(str(r.get("Date", "")).strip() == roc for r in tpex[:3])
+        if same_day:
+            otc = parse_tpex_gainers(tpex, n=8, min_value_yi=1.0)
+            for s in otc:
+                s["mkt"] = "上櫃"
+            hot_tw = sorted(hot_tw + otc, key=lambda x: x["change_pct"], reverse=True)[:5]
+        else:
+            hot_tw = hot_tw[:5]
+            missing.append("上櫃熱門股（TPEX 非當日資料）")
+    except Exception as e:
+        errors.append(f"TPEX 上櫃漲幅榜: {e}")
+        hot_tw = hot_tw[:5]
+    for s in hot_tw:
+        s["reason"] = ""  # 緣由由分身補
 
     # ---- 三大法人大盤買賣超（外資/投信/自營）----
     inst_net = {}
@@ -255,7 +313,13 @@ def fetch_hard_data(date: str) -> dict:
     # ---- VIX ----
     # 美股 VIX 同樣改由 auto_daily 用 Yahoo（^VIX）抓，FRED VIXCLS 在 CI 會 timeout。
     vix_us = None
-    missing.append("台指 VIX（無免費 API，分身 WebSearch 補）")
+    # 台指 VIX 改用 TAIFEX 官方 MIS 即時抓真值（取代人工沿用）；失敗才由 gen_soft 退回沿用。
+    vix_tw = None
+    try:
+        vix_tw = fetch_taiwan_vix()
+    except Exception as e:
+        errors.append(f"台指 VIX(TAIFEX): {e}")
+        missing.append("台指 VIX（TAIFEX 取得失敗，沿用前值）")
 
     # ---- 類股成分股（台股真實 / 美股 ETF 主要成分）----
     try:
@@ -280,7 +344,7 @@ def fetch_hard_data(date: str) -> dict:
         "overview": {
             "tw": {"featured": tw_featured, "stats": stats},
             "us": us,
-            "vix": {"tw": None, "us": vix_us},
+            "vix": {"tw": vix_tw, "us": vix_us},
         },
         "hot_stocks": {"tw": hot_tw, "us": us_hot},
         "sectors_tw": sectors_tw,

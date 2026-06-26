@@ -6,6 +6,7 @@ import Vix from './components/Vix.jsx'
 import Sectors from './components/Sectors.jsx'
 import HotStocks from './components/HotStocks.jsx'
 import InstTop from './components/InstTop.jsx'
+import MarketLinks from './components/MarketLinks.jsx'
 import { News, UpcomingEvents, PastReview, Verdict } from './components/CrossMarket.jsx'
 import DatePicker from './components/DatePicker.jsx'
 import ChartModal from './components/ChartModal.jsx'
@@ -128,6 +129,7 @@ export default function App() {
 
       <div className="divider"><span className="tx">跨市場戰略 · Cross-Market</span></div>
       <div className="grid">
+        <MarketLinks markets={day.markets} />
         <News news={day.news} />
         <UpcomingEvents events={day.upcoming_events} />
         <PastReview events={day.past_events_review} />

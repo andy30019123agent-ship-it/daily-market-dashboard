@@ -25,10 +25,12 @@ def merge_day(partial: dict, soft: dict, date: str, updated_at: str = "") -> dic
     if soft.get("us_sox"):
         us.append(soft["us_sox"])
 
-    # VIX：美股用硬數據數值 + 軟情報文字；台股全來自軟情報
+    # VIX：美股用硬數據數值 + 軟情報文字。
     vix_us = pov.get("vix", {}).get("us") or {}
     if soft.get("vix_us"):
         vix_us = {**vix_us, **soft["vix_us"]}
+    # 台指 VIX：優先用硬數據（TAIFEX 官方真值），取不到才退回軟情報沿用值。
+    vix_tw = pov.get("vix", {}).get("tw") or soft.get("vix_tw")
 
     # 熱門股：硬數據（漲幅榜）補上軟情報的「緣由」
     hot_tw = list(partial.get("hot_stocks", {}).get("tw", []))
@@ -43,7 +45,7 @@ def merge_day(partial: dict, soft: dict, date: str, updated_at: str = "") -> dic
         "overview": {
             "tw": {"featured": pov.get("tw", {}).get("featured"), "stats": tw_stats},
             "us": us,
-            "vix": {"tw": soft.get("vix_tw"), "us": vix_us},
+            "vix": {"tw": vix_tw, "us": vix_us},
         },
         "sectors": {
             # 台股類股用硬數據（真實漲跌幅）；美股仍由軟情報補

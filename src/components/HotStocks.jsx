@@ -9,7 +9,7 @@ export default function HotStocks({ stocks, onOpen }) {
           const d = dirClass(s.change_pct)
           return (
             <div className="hotrow" key={i} onClick={() => onOpen?.({ name: s.name, code: s.code, type: 'stock' })}>
-              <span className="nm">{s.name}<span className="code">{s.code}</span></span>
+              <span className="nm">{s.name}<span className="code">{s.code}</span>{s.mkt ? <span className="mkt-tag">{s.mkt}</span> : null}</span>
               <span className="rt">
                 <span className={'pct ' + d}>{s.change_pct >= 0 ? '+' : ''}{s.change_pct}%</span>
                 <span className="rs">{s.reason}</span>

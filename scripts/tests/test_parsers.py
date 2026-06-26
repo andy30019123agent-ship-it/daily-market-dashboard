@@ -7,8 +7,25 @@ sys.path.insert(0, str(ROOT))
 from scripts.lib.parsers import (  # noqa: E402
     roc_to_iso, parse_twse_index, parse_fmtqik, twse_top_gainers, parse_fred_csv,
     parse_bfi82u, parse_t86_top, parse_rwd_sectors, build_sector_constituents,
-    parse_rwd_index, parse_rwd_gainers,
+    parse_rwd_index, parse_rwd_gainers, parse_tpex_gainers,
 )
+
+
+def test_parse_tpex_gainers_filters_and_ranks():
+    rows = [
+        {"SecuritiesCompanyCode": "4716", "CompanyName": "大立", "Close": "55.0",
+         "Change": "5.0 ", "TransactionAmount": "300000000"},   # +10%, 3億 → 收
+        {"SecuritiesCompanyCode": "6127", "CompanyName": "九豪", "Close": "110.0",
+         "Change": "9.99", "TransactionAmount": "500000000"},    # +9.99%
+        {"SecuritiesCompanyCode": "006201", "CompanyName": "元大富櫃50", "Close": "48.6",
+         "Change": "1.0", "TransactionAmount": "900000000"},     # 6 碼 ETF → 濾掉
+        {"SecuritiesCompanyCode": "1234", "CompanyName": "小量股", "Close": "20.0",
+         "Change": "1.8", "TransactionAmount": "5000000"},       # 成交額太小 → 濾掉
+    ]
+    out = parse_tpex_gainers(rows, n=5, min_value_yi=1.0)
+    codes = [s["code"] for s in out]
+    assert codes == ["4716", "6127"]          # 依漲幅排序、過濾 6 碼與小量
+    assert out[0]["change_pct"] == 10.0
 
 
 # 真實 RWD MI_INDEX 格式：漲跌欄含顏色標記、漲跌點數「無號」、漲跌百分比「已帶號」。
