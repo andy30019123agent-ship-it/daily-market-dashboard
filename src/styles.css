@@ -240,6 +240,8 @@ body.annotate [data-region]::before{
 .hotrow .rs{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
 .mkt-tag{font-size:10px;font-weight:700;color:var(--gold);background:var(--gold-soft);
   border-radius:5px;padding:1px 6px;margin-left:7px;vertical-align:middle}
+.hot-grp{font-size:12px;font-weight:700;color:var(--gold);margin-bottom:9px;
+  padding-bottom:7px;border-bottom:1px solid var(--line-soft)}
 
 /* 市場連動指標 grid（5 欄，手機 2 欄）*/
 .mktgrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}

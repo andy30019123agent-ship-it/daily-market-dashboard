@@ -193,13 +193,13 @@ def fetch_hard_data(date: str) -> dict:
     except Exception as e:
         errors.append(f"RWD MI_INDEX: {e}")
 
-    # ---- 台股漲幅榜熱門股（上市 STOCK_DAY_ALL + 上櫃 TPEX，掃描池涵蓋全市場）----
-    hot_tw = []
+    # ---- 台股漲幅榜熱門股（上市 Top5 + 上櫃 Top5 各自呈現，兩市場都看得到）----
+    hot_listed, hot_otc = [], []
     sda = None
     try:
         sda = get_table(f"{TWSE_AT}/STOCK_DAY_ALL?date={trade_ymd}&response=json")
-        hot_tw = parse_rwd_gainers(sda, n=8)
-        for s in hot_tw:
+        hot_listed = parse_rwd_gainers(sda, n=5)
+        for s in hot_listed:
             s["mkt"] = "上市"
     except Exception as e:
         errors.append(f"RWD STOCK_DAY_ALL: {e}")
@@ -207,18 +207,15 @@ def fetch_hard_data(date: str) -> dict:
     try:
         tpex = get_json(TPEX_DAILY)
         roc = f"{int(trade_ymd[:4]) - 1911}{trade_ymd[4:]}" if trade_ymd.isdigit() else ""
-        same_day = roc and any(str(r.get("Date", "")).strip() == roc for r in tpex[:3])
-        if same_day:
-            otc = parse_tpex_gainers(tpex, n=8, min_value_yi=1.0)
-            for s in otc:
+        if roc and any(str(r.get("Date", "")).strip() == roc for r in tpex[:3]):
+            hot_otc = parse_tpex_gainers(tpex, n=5, min_value_yi=1.0)
+            for s in hot_otc:
                 s["mkt"] = "上櫃"
-            hot_tw = sorted(hot_tw + otc, key=lambda x: x["change_pct"], reverse=True)[:5]
         else:
-            hot_tw = hot_tw[:5]
             missing.append("上櫃熱門股（TPEX 非當日資料）")
     except Exception as e:
         errors.append(f"TPEX 上櫃漲幅榜: {e}")
-        hot_tw = hot_tw[:5]
+    hot_tw = hot_listed + hot_otc      # 上市 Top5 在前、上櫃 Top5 在後（前端分組顯示）
     for s in hot_tw:
         s["reason"] = ""  # 緣由由分身補
 
