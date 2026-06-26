@@ -167,6 +167,37 @@ def _read_last():
     return None
 
 
+def _inst_count(it):
+    if not isinstance(it, dict):
+        return 0
+    return sum(len((it.get(g) or {}).get("buy", []))
+               for g in ("foreign", "trust", "dealer") if isinstance(it.get(g), dict))
+
+
+def _preserve_published(day, date):
+    """重生防退步：若重抓時某段硬數據比『既有已發布版』更空（暫時性抓取失敗），
+    沿用既有版，避免把好資料靜默洗成空白。只在該日已有發布檔時生效。"""
+    p = DATA_DIR / f"{date}.json"
+    if not p.exists():
+        return
+    try:
+        old = json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        return
+    tw = day.setdefault("overview", {}).setdefault("tw", {})
+    old_stats = (old.get("overview", {}).get("tw", {}) or {}).get("stats") or []
+    if len(tw.get("stats") or []) < len(old_stats):           # 三大法人大盤掉了
+        tw["stats"] = old_stats
+    if _inst_count(day.get("inst_top")) == 0 and _inst_count(old.get("inst_top")) > 0:
+        day["inst_top"] = old["inst_top"]                     # 三大法人個股掉了
+    if not (day.get("hot_stocks", {}).get("tw")) and (old.get("hot_stocks", {}) or {}).get("tw"):
+        day.setdefault("hot_stocks", {})["tw"] = old["hot_stocks"]["tw"]
+    new_sec = (day.get("sectors", {}).get("tw", {}) or {}).get("in")
+    old_sec = (old.get("sectors", {}).get("tw", {}) or {}).get("in")
+    if not new_sec and old_sec:
+        day.setdefault("sectors", {})["tw"] = old["sectors"]["tw"]
+
+
 def _run(dry_run):
     td, partial = pick_partial()
     date = report_date(td, partial)
@@ -214,6 +245,9 @@ def _run(dry_run):
     if markets:
         day["markets"] = markets
         print("市場連動：" + "、".join(f"{m['name']} {m['change_pct']:+}%" for m in markets))
+
+    # 重生防退步：暫時性抓取失敗不得把既有已發布的硬數據洗成空白
+    _preserve_published(day, date)
 
     errs = validate_day(day)
     if errs:

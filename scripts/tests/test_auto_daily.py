@@ -23,3 +23,25 @@ def test_skips_unsettled_intraday_day(monkeypatch):
     monkeypatch.setattr(ad, "gen_soft", _boom)
     ad._run(dry_run=False)
     assert called["gen"] is False
+
+
+def test_preserve_published_keeps_old_when_regressed(tmp_path, monkeypatch):
+    import json as _j
+    monkeypatch.setattr(ad, "DATA_DIR", tmp_path)
+    (tmp_path / "2026-06-25.json").write_text(_j.dumps({
+        "overview": {"tw": {"stats": [{"name": "成交金額"}, {"name": "外資"},
+                                       {"name": "投信"}, {"name": "自營"}]}},
+        "inst_top": {"foreign": {"buy": [{"code": "2330"}], "sell": []},
+                     "trust": {"buy": [], "sell": []}, "dealer": {"buy": [], "sell": []}},
+        "hot_stocks": {"tw": [{"code": "1101"}]},
+        "sectors": {"tw": {"in": [{"name": "半導體"}]}},
+    }), encoding="utf-8")
+    day = {"overview": {"tw": {"stats": [{"name": "成交金額"}]}},
+           "inst_top": {g: {"buy": [], "sell": []} for g in ("foreign", "trust", "dealer")},
+           "hot_stocks": {"tw": []},
+           "sectors": {"tw": {"in": []}}}
+    ad._preserve_published(day, "2026-06-25")
+    assert len(day["overview"]["tw"]["stats"]) == 4   # 三大法人大盤沿用舊版
+    assert ad._inst_count(day["inst_top"]) == 1        # 個股法人沿用舊版
+    assert day["hot_stocks"]["tw"]                      # 熱門股沿用舊版
+    assert day["sectors"]["tw"]["in"]                  # 類股沿用舊版

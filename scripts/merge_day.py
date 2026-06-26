@@ -57,7 +57,7 @@ def merge_day(partial: dict, soft: dict, date: str, updated_at: str = "") -> dic
             # 美股熱門用硬數據（AV 重點股動向）；無則退軟情報
             "us": partial.get("hot_stocks", {}).get("us") or soft.get("hot_us", []),
         },
-        "inst_top": partial.get("inst_top", {"foreign": [], "trust": [], "dealer": []}),
+        "inst_top": partial.get("inst_top") or {g: {"buy": [], "sell": []} for g in ("foreign", "trust", "dealer")},
         "news": soft.get("news", []),
         "upcoming_events": soft.get("upcoming_events", []),
         "past_events_review": soft.get("past_events_review", []),
