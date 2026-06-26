@@ -151,6 +151,13 @@ def _run(dry_run):
     date = report_date(td, partial)
     partial["date"] = date  # 校正成真正的交易日
 
+    # ⭐ 盤中防護：最新交易日加權尚未結算（盤中手動跑 / 資料未發布）→ 不產製、不花 OpenAI，
+    #   乾淨返回讓後續 build/部署照常（用既有已發布資料）。避免拿半成品生出殘缺報告。
+    feat = ((partial.get("overview", {}) or {}).get("tw", {}) or {}).get("featured") or {}
+    if feat.get("close") is None:
+        print(f"最新交易日 {date} 加權尚未結算（盤中或資料未發布）→ 跳過產製，保留既有報告（build/部署照常）。")
+        return
+
     # ⭐ 凍結已發布的交易日：沒有「新」交易日就整個跳過，不重抓新聞、不重寫、不推播。
     #   這是「新聞漂走」的根因修法——同一交易日的報告一旦發布就定版，
     #   不會在後續日曆天被重抓「最近 24 小時」新聞而混進別天消息；同時省下 OpenAI 成本。

@@ -173,7 +173,9 @@ def fetch_hard_data(date: str) -> dict:
         errors.append(f"BFI82U 三大法人: {e}")
 
     # ---- 三大法人個股買超前 5 ----
-    inst_top = {"foreign": [], "trust": [], "dealer": []}
+    # 預設值須與 parse_t86_top 回傳同結構（每組 {buy:[],sell:[]}），否則 T86 未發布時
+    # 下游存取 inst_top['foreign']['buy'] 會 TypeError（盤中/假日撈不到資料時的崩因）。
+    inst_top = {g: {"buy": [], "sell": []} for g in ("foreign", "trust", "dealer")}
     try:
         t86 = get_json(f"{TWSE_RWD}/T86?date={trade_ymd}&selectType=ALLBUT0999&response=json")
         inst_top = parse_t86_top(t86, n=5)
