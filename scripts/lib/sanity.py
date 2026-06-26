@@ -43,6 +43,33 @@ def check_consistency(day):
     return errs
 
 
+# 強多 / 強空字眼：用來抓「新聞方向」與「當日加權方向」明顯矛盾（如大跌日卻說創新高）
+_BULL_WORDS = ("創新高", "創高", "歷史新高", "再創高", "收最高", "刷新高", "大漲", "飆漲", "噴出")
+_BEAR_WORDS = ("創新低", "歷史新低", "崩跌", "暴跌", "雪崩", "重摔")
+
+
+def check_news_consistency(day):
+    """抓『台股新聞方向』與『當日加權指數方向』明顯矛盾。
+    回傳問題清單；非空＝方向矛盾（多半是混進了別天的舊新聞），應擋下不發。
+    僅在加權當日漲跌幅明確（>0.5%）且新聞含『台股/加權』時才判定，避免誤殺。"""
+    errs = []
+    pct = ((day.get("overview", {}) or {}).get("tw", {}) or {}).get("featured", {}).get("change_pct")
+    if pct is None:
+        return errs
+    for n in day.get("news", []) or []:
+        if not isinstance(n, dict):
+            continue
+        blob = f"{n.get('title', '')} {n.get('impact', '')}"
+        if "台股" not in blob and "加權" not in blob:
+            continue  # 只比對台股相關新聞 vs 加權方向
+        title = (n.get("title", "") or "")[:16]
+        if pct < -0.5 and any(w in blob for w in _BULL_WORDS):
+            errs.append(f"加權當日下跌({pct}%)，台股新聞卻稱「{title}…」(強多字眼)，方向矛盾")
+        if pct > 0.5 and any(w in blob for w in _BEAR_WORDS):
+            errs.append(f"加權當日上漲({pct}%)，台股新聞卻稱「{title}…」(強空字眼)，方向矛盾")
+    return errs
+
+
 def collect_warnings(day):
     """回傳「缺漏」項目清單（照常發布、但要在推播明示）。"""
     warns = []

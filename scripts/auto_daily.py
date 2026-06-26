@@ -17,7 +17,7 @@ import urllib.request
 from scripts.gen_soft_openai import gen_soft
 from scripts.merge_day import DATA_DIR, merge_day, update_index
 from scripts.lib.schema import validate_day
-from scripts.lib.sanity import check_consistency, collect_warnings
+from scripts.lib.sanity import check_consistency, check_news_consistency, collect_warnings
 from scripts.notify import build_summary_text, build_failure_text
 
 STATE = DATA_DIR / "notify_state.json"
@@ -137,10 +137,30 @@ def send_tg(text):
         raise SystemExit(f"Telegram 發送失敗：{resp}")
 
 
+def _read_last():
+    if STATE.exists():
+        try:
+            return json.loads(STATE.read_text(encoding="utf-8")).get("last_notified")
+        except Exception:
+            return None
+    return None
+
+
 def _run(dry_run):
     td, partial = pick_partial()
     date = report_date(td, partial)
     partial["date"] = date  # 校正成真正的交易日
+
+    # ⭐ 凍結已發布的交易日：沒有「新」交易日就整個跳過，不重抓新聞、不重寫、不推播。
+    #   這是「新聞漂走」的根因修法——同一交易日的報告一旦發布就定版，
+    #   不會在後續日曆天被重抓「最近 24 小時」新聞而混進別天消息；同時省下 OpenAI 成本。
+    #   需要重抓修正某天時，設環境變數 FORCE_REGEN=1 繞過。
+    last = _read_last()
+    force = os.environ.get("FORCE_REGEN") == "1"
+    if not dry_run and not force and last and date <= last and (DATA_DIR / f"{date}.json").exists():
+        print(f"資料日期 {date} 非新交易日（上次已發布 {last}）→ 凍結既有報告，"
+              f"不重抓新聞/不重寫/不推播。（要強制重抓設 FORCE_REGEN=1）")
+        return
 
     # 美股指數改用 Yahoo（FRED 在 CI 會 timeout）。在 gen_soft 前注入，讓研判也據此判讀。
     us, vix_us = yahoo_us()
@@ -170,6 +190,11 @@ def _run(dry_run):
     if incons:
         raise SystemExit("一致性自檢未過（資料自相矛盾，已擋下不發布）：" + "；".join(incons))
 
+    # ⭐1b 新聞方向交叉檢查：台股新聞方向與當日加權方向矛盾（混進別天舊新聞）就擋下不發
+    news_incons = check_news_consistency(day)
+    if news_incons:
+        raise SystemExit("新聞方向與行情矛盾（疑混入別天舊新聞，已擋下不發布）：" + "；".join(news_incons))
+
     # ⭐2 缺漏盤點：照常發布，但記進 day 供推播明示，不靜默空白
     day["_warnings"] = collect_warnings(day)
 
@@ -179,13 +204,6 @@ def _run(dry_run):
     update_index(date)
     print(f"已產出 {date}.json（news {len(day['news'])} 則，"
           f"台股研判 {day['verdict']['tw']['stance']}）")
-
-    last = None
-    if STATE.exists():
-        try:
-            last = json.loads(STATE.read_text(encoding="utf-8")).get("last_notified")
-        except Exception:
-            last = None
 
     if dry_run:
         print(f"[dry-run] 不發 TG。資料日期={date} 上次推={last}")

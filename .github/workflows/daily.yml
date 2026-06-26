@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '36 10 * * *'   # 台北 18:36 每天（含週六補交易日；非交易日由 notify_state dedup 自動跳過）
   workflow_dispatch:
+    inputs:
+      force_regen:
+        description: '強制重抓最新交易日新聞並重寫（即使該天已發布過）'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -31,6 +36,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          FORCE_REGEN: ${{ inputs.force_regen && '1' || '0' }}
         run: python -m scripts.auto_daily
 
       - uses: actions/setup-node@v4
