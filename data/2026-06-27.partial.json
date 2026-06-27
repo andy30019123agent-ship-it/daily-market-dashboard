@@ -55,8 +55,8 @@
     "us": [
       {
         "name": "費城半導體",
-        "close": 625.2,
-        "change_pct": 3.94,
+        "close": 589.94,
+        "change_pct": -5.64,
         "proxy": "SOXX",
         "spark": []
       }
@@ -149,15 +149,21 @@
     ],
     "us": [
       {
+        "code": "AVGO",
+        "name": "博通",
+        "change_pct": -3.67,
+        "reason": ""
+      },
+      {
         "code": "AAPL",
         "name": "蘋果",
-        "change_pct": -6.12,
+        "change_pct": 3.14,
         "reason": ""
       },
       {
         "code": "AMD",
         "name": "超微",
-        "change_pct": 2.47,
+        "change_pct": -2.06,
         "reason": ""
       },
       {
@@ -167,15 +173,9 @@
         "reason": ""
       },
       {
-        "code": "TSM",
-        "name": "台積電 ADR",
-        "change_pct": -1.32,
-        "reason": ""
-      },
-      {
-        "code": "AVGO",
-        "name": "博通",
-        "change_pct": -0.83,
+        "code": "TSLA",
+        "name": "特斯拉",
+        "change_pct": 1.22,
         "reason": ""
       }
     ]
@@ -819,40 +819,9 @@
   "sectors_us": {
     "in": [
       {
-        "name": "工業",
-        "amount": "+2.17%",
-        "weight": 1.0,
-        "constituents": [
-          {
-            "code": "GE",
-            "name": "奇異"
-          },
-          {
-            "code": "CAT",
-            "name": "開拓重工"
-          },
-          {
-            "code": "RTX",
-            "name": "雷神"
-          },
-          {
-            "code": "HON",
-            "name": "霍尼韋爾"
-          },
-          {
-            "code": "BA",
-            "name": "波音"
-          },
-          {
-            "code": "UBER",
-            "name": "Uber"
-          }
-        ]
-      },
-      {
         "name": "醫療保健",
-        "amount": "+1.49%",
-        "weight": 0.69,
+        "amount": "+3.03%",
+        "weight": 1.0,
         "constituents": [
           {
             "code": "LLY",
@@ -881,166 +850,15 @@
         ]
       },
       {
-        "name": "原物料",
-        "amount": "+1.33%",
-        "weight": 0.61,
-        "constituents": [
-          {
-            "code": "LIN",
-            "name": "Linde"
-          },
-          {
-            "code": "SHW",
-            "name": "宣偉"
-          },
-          {
-            "code": "FCX",
-            "name": "自由港"
-          },
-          {
-            "code": "ECL",
-            "name": "藝康"
-          },
-          {
-            "code": "NEM",
-            "name": "Newmont"
-          },
-          {
-            "code": "APD",
-            "name": "空氣化工"
-          }
-        ]
-      },
-      {
-        "name": "能源",
-        "amount": "+0.97%",
-        "weight": 0.45,
-        "constituents": [
-          {
-            "code": "XOM",
-            "name": "艾克森美孚"
-          },
-          {
-            "code": "CVX",
-            "name": "雪佛龍"
-          },
-          {
-            "code": "COP",
-            "name": "康菲"
-          },
-          {
-            "code": "WMB",
-            "name": "Williams"
-          },
-          {
-            "code": "SLB",
-            "name": "斯倫貝謝"
-          },
-          {
-            "code": "EOG",
-            "name": "EOG"
-          }
-        ]
-      },
-      {
-        "name": "科技",
-        "amount": "+0.83%",
-        "weight": 0.38,
-        "constituents": [
-          {
-            "code": "AAPL",
-            "name": "蘋果"
-          },
-          {
-            "code": "MSFT",
-            "name": "微軟"
-          },
-          {
-            "code": "NVDA",
-            "name": "輝達"
-          },
-          {
-            "code": "AVGO",
-            "name": "博通"
-          },
-          {
-            "code": "ORCL",
-            "name": "甲骨文"
-          },
-          {
-            "code": "CRM",
-            "name": "Salesforce"
-          }
-        ]
-      }
-    ],
-    "out": [
-      {
-        "name": "非必需消費",
-        "amount": "-1.49%",
-        "weight": 0.69,
-        "constituents": [
-          {
-            "code": "AMZN",
-            "name": "亞馬遜"
-          },
-          {
-            "code": "TSLA",
-            "name": "特斯拉"
-          },
-          {
-            "code": "HD",
-            "name": "家得寶"
-          },
-          {
-            "code": "MCD",
-            "name": "麥當勞"
-          },
-          {
-            "code": "NKE",
-            "name": "Nike"
-          },
-          {
-            "code": "SBUX",
-            "name": "星巴克"
-          }
-        ]
-      },
-      {
-        "name": "通訊服務",
-        "amount": "-0.90%",
-        "weight": 0.41,
-        "constituents": [
-          {
-            "code": "META",
-            "name": "Meta"
-          },
-          {
-            "code": "GOOGL",
-            "name": "Alphabet"
-          },
-          {
-            "code": "NFLX",
-            "name": "Netflix"
-          },
-          {
-            "code": "DIS",
-            "name": "迪士尼"
-          },
-          {
-            "code": "TMUS",
-            "name": "T-Mobile"
-          },
-          {
-            "code": "VZ",
-            "name": "Verizon"
-          }
-        ]
+        "name": "房地產",
+        "amount": "+1.46%",
+        "weight": 0.48,
+        "constituents": []
       },
       {
         "name": "必需消費",
-        "amount": "-0.59%",
-        "weight": 0.27,
+        "amount": "+0.92%",
+        "weight": 0.3,
         "constituents": [
           {
             "code": "COST",
@@ -1069,9 +887,197 @@
         ]
       },
       {
+        "name": "非必需消費",
+        "amount": "+0.90%",
+        "weight": 0.3,
+        "constituents": [
+          {
+            "code": "AMZN",
+            "name": "亞馬遜"
+          },
+          {
+            "code": "TSLA",
+            "name": "特斯拉"
+          },
+          {
+            "code": "HD",
+            "name": "家得寶"
+          },
+          {
+            "code": "MCD",
+            "name": "麥當勞"
+          },
+          {
+            "code": "NKE",
+            "name": "Nike"
+          },
+          {
+            "code": "SBUX",
+            "name": "星巴克"
+          }
+        ]
+      },
+      {
+        "name": "公用事業",
+        "amount": "+0.76%",
+        "weight": 0.25,
+        "constituents": [
+          {
+            "code": "NEE",
+            "name": "NextEra"
+          },
+          {
+            "code": "SO",
+            "name": "Southern"
+          },
+          {
+            "code": "DUK",
+            "name": "Duke 能源"
+          },
+          {
+            "code": "CEG",
+            "name": "Constellation"
+          },
+          {
+            "code": "AEP",
+            "name": "AEP"
+          },
+          {
+            "code": "D",
+            "name": "Dominion"
+          }
+        ]
+      }
+    ],
+    "out": [
+      {
+        "name": "科技",
+        "amount": "-1.87%",
+        "weight": 0.62,
+        "constituents": [
+          {
+            "code": "AAPL",
+            "name": "蘋果"
+          },
+          {
+            "code": "MSFT",
+            "name": "微軟"
+          },
+          {
+            "code": "NVDA",
+            "name": "輝達"
+          },
+          {
+            "code": "AVGO",
+            "name": "博通"
+          },
+          {
+            "code": "ORCL",
+            "name": "甲骨文"
+          },
+          {
+            "code": "CRM",
+            "name": "Salesforce"
+          }
+        ]
+      },
+      {
+        "name": "工業",
+        "amount": "-1.59%",
+        "weight": 0.52,
+        "constituents": [
+          {
+            "code": "GE",
+            "name": "奇異"
+          },
+          {
+            "code": "CAT",
+            "name": "開拓重工"
+          },
+          {
+            "code": "RTX",
+            "name": "雷神"
+          },
+          {
+            "code": "HON",
+            "name": "霍尼韋爾"
+          },
+          {
+            "code": "BA",
+            "name": "波音"
+          },
+          {
+            "code": "UBER",
+            "name": "Uber"
+          }
+        ]
+      },
+      {
+        "name": "能源",
+        "amount": "-0.46%",
+        "weight": 0.15,
+        "constituents": [
+          {
+            "code": "XOM",
+            "name": "艾克森美孚"
+          },
+          {
+            "code": "CVX",
+            "name": "雪佛龍"
+          },
+          {
+            "code": "COP",
+            "name": "康菲"
+          },
+          {
+            "code": "WMB",
+            "name": "Williams"
+          },
+          {
+            "code": "SLB",
+            "name": "斯倫貝謝"
+          },
+          {
+            "code": "EOG",
+            "name": "EOG"
+          }
+        ]
+      },
+      {
+        "name": "原物料",
+        "amount": "-0.46%",
+        "weight": 0.15,
+        "constituents": [
+          {
+            "code": "LIN",
+            "name": "Linde"
+          },
+          {
+            "code": "SHW",
+            "name": "宣偉"
+          },
+          {
+            "code": "FCX",
+            "name": "自由港"
+          },
+          {
+            "code": "ECL",
+            "name": "藝康"
+          },
+          {
+            "code": "NEM",
+            "name": "Newmont"
+          },
+          {
+            "code": "APD",
+            "name": "空氣化工"
+          }
+        ]
+      },
+      {
         "name": "金融",
-        "amount": "-0.50%",
-        "weight": 0.23,
+        "amount": "+0.22%",
+        "weight": 0.07,
         "constituents": [
           {
             "code": "BRK.B",
@@ -1098,12 +1104,6 @@
             "name": "富國"
           }
         ]
-      },
-      {
-        "name": "房地產",
-        "amount": "+0.18%",
-        "weight": 0.08,
-        "constituents": []
       }
     ]
   },
