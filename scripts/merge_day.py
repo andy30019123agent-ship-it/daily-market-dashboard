@@ -58,6 +58,7 @@ def merge_day(partial: dict, soft: dict, date: str, updated_at: str = "") -> dic
             "us": partial.get("hot_stocks", {}).get("us") or soft.get("hot_us", []),
         },
         "inst_top": partial.get("inst_top") or {g: {"buy": [], "sell": []} for g in ("foreign", "trust", "dealer")},
+        "radar": partial.get("radar"),
         "news": soft.get("news", []),
         "upcoming_events": soft.get("upcoming_events", []),
         "past_events_review": soft.get("past_events_review", []),

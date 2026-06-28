@@ -23,7 +23,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from scripts.lib.parsers import (  # noqa: E402
     _f, parse_bfi82u, parse_t86_top,
     parse_rwd_index, parse_rwd_fmtqik, parse_rwd_gainers, parse_tpex_gainers, parse_rwd_sectors,
-    build_sector_constituents,
+    build_sector_constituents, build_market_radar,
 )
 from scripts.lib.us_holdings import US_HOLD  # noqa: E402
 
@@ -231,6 +231,7 @@ def fetch_hard_data(date: str) -> dict:
     # 預設值須與 parse_t86_top 回傳同結構（每組 {buy:[],sell:[]}），否則 T86 未發布時
     # 下游存取 inst_top['foreign']['buy'] 會 TypeError（盤中/假日撈不到資料時的崩因）。
     inst_top = {g: {"buy": [], "sell": []} for g in ("foreign", "trust", "dealer")}
+    t86 = None
     try:
         t86 = get_json(f"{TWSE_RWD}/T86?date={trade_ymd}&selectType=ALLBUT0999&response=json")
         inst_top = parse_t86_top(t86, n=5)
@@ -318,7 +319,8 @@ def fetch_hard_data(date: str) -> dict:
         errors.append(f"台指 VIX(TAIFEX): {e}")
         missing.append("台指 VIX（TAIFEX 取得失敗，沿用前值）")
 
-    # ---- 類股成分股（台股真實 / 美股 ETF 主要成分）----
+    # ---- 類股成分股（台股真實 / 美股 ETF 主要成分）＋ 資金流雷達 ----
+    radar = None
     try:
         basic = get_json("https://openapi.twse.com.tw/v1/opendata/t187ap03_L")
         tw_names = [s["name"] for s in sectors_tw["in"] + sectors_tw["out"]]
@@ -326,8 +328,11 @@ def fetch_hard_data(date: str) -> dict:
             cons = build_sector_constituents(tw_names, sda, basic, n=12)
             for s in sectors_tw["in"] + sectors_tw["out"]:
                 s["constituents"] = cons.get(s["name"], [])
+        # 資金流雷達：個股+類股「法人淨買超金額 × 漲幅」（準備發動/撤離象限）
+        if sda and t86:
+            radar = build_market_radar(t86, sda, basic)
     except Exception as e:
-        errors.append(f"類股成分(TW): {e}")
+        errors.append(f"類股成分/雷達(TW): {e}")
     for s in sectors_us["in"] + sectors_us["out"]:
         s["constituents"] = [{"code": c, "name": n} for c, n in US_HOLD.get(s["name"], [])]
 
@@ -347,6 +352,7 @@ def fetch_hard_data(date: str) -> dict:
         "sectors_tw": sectors_tw,
         "sectors_us": sectors_us,
         "inst_top": inst_top,
+        "radar": radar,
         "_meta": {"errors": errors, "missing": missing, "fetched_at": taipei_today(), "trade_date": trade_ymd},
     }
     return partial
