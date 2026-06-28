@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 // 象限分類（X=漲跌幅 pct、Y=法人淨買超 inst_net_yi）
 // 左上 pct<0,inst>0 = 逆勢吸籌(準備發動) | 右上 = 同步買進 | 右下 = 漲高出貨 | 左下 = 賣壓失血
@@ -7,7 +8,7 @@ function quadColor(pct, inst) {
   return pct > 0 ? 'q-dist' : 'q-weak'              // 賣超：漲=出貨(紅) / 跌=失血(灰)
 }
 
-function Scatter({ items, onOpen, clickable }) {
+function Scatter({ items, onItem }) {
   const W = 320, H = 210, PAD = 26
   const maxX = Math.max(5, ...items.map((d) => Math.abs(d.pct)))
   const maxY = Math.max(1, ...items.map((d) => Math.abs(d.inst_net_yi)))
@@ -40,8 +41,8 @@ function Scatter({ items, onOpen, clickable }) {
         return (
           <circle
             key={i} cx={px(d.pct)} cy={py(d.inst_net_yi)} r={r}
-            className={'radar-dot ' + quadColor(d.pct, d.inst_net_yi) + (clickable ? ' clk' : '')}
-            onClick={clickable && onOpen ? () => onOpen({ code: d.code, name: d.name }) : undefined}
+            className={'radar-dot ' + quadColor(d.pct, d.inst_net_yi) + (onItem ? ' clk' : '')}
+            onClick={onItem ? () => onItem(d) : undefined}
           >
             <title>{d.name} {d.code || ''}　漲跌 {d.pct}%　法人 {d.inst_net_yi >= 0 ? '+' : ''}{d.inst_net_yi}億</title>
           </circle>
@@ -51,13 +52,13 @@ function Scatter({ items, onOpen, clickable }) {
   )
 }
 
-function RankCol({ title, cls, rows, unit, onOpen, clickable }) {
+function RankCol({ title, cls, rows, onItem }) {
   return (
     <div className="rk-col">
       <h4 className={'rk-h ' + cls}>{title}</h4>
       {rows.length ? rows.map((d, i) => (
-        <div className={'rk-row' + (clickable ? ' clk' : '')} key={i}
-             onClick={clickable && onOpen ? () => onOpen({ code: d.code, name: d.name }) : undefined}>
+        <div className={'rk-row' + (onItem ? ' clk' : '')} key={i}
+             onClick={onItem ? () => onItem(d) : undefined}>
           <span className="rk-nm">{d.name}{d.code && <span className="rk-code">{d.code}</span>}</span>
           <span className="rk-vals mono">
             <span className={d.inst_net_yi >= 0 ? 'up' : 'down'}>{d.inst_net_yi >= 0 ? '+' : ''}{d.inst_net_yi}億</span>
@@ -69,8 +70,41 @@ function RankCol({ title, cls, rows, unit, onOpen, clickable }) {
   )
 }
 
+// 點類股 → 列出該類股個股，依法人淨買超（吸籌）由高到低
+function SectorStocksModal({ sector, stocks, onClose, onOpen }) {
+  if (!sector) return null
+  const list = (stocks || []).filter((s) => s.sector === sector)
+    .sort((a, b) => b.inst_net_yi - a.inst_net_yi)
+  // 用 portal 渲染到 body，避開卡片 backdrop-filter 造成的 fixed 定位錯位
+  return createPortal((
+    <div className="modal-back" onClick={onClose}>
+      <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-head">
+          <span className="modal-title">{sector}<span className="modal-sub">個股 · 依法人淨買超排序 · 共 {list.length} 檔</span></span>
+          <button className="modal-x" onClick={onClose} aria-label="關閉">✕</button>
+        </div>
+        {list.length ? (
+          <div className="modal-list">
+            {list.map((s, i) => (
+              <div className="modal-row clk" key={i} onClick={() => onOpen({ code: s.code, name: s.name })}>
+                <span className="mr-nm">{s.name}<span className="mr-code">{s.code}</span></span>
+                <span className="rk-vals mono">
+                  <span className={s.inst_net_yi >= 0 ? 'up' : 'down'}>{s.inst_net_yi >= 0 ? '+' : ''}{s.inst_net_yi}億</span>
+                  <span className={'rk-pct ' + (s.pct >= 0 ? 'up' : 'down')}>{s.pct >= 0 ? '+' : ''}{s.pct}%</span>
+                </span>
+              </div>
+            ))}
+          </div>
+        ) : <div className="modal-empty">查無個股資料</div>}
+        <div className="modal-foot">🟢 吸籌（法人淨買超為正）在上、🔴 撤離在下 · 點個股看 K 線</div>
+      </div>
+    </div>
+  ), document.body)
+}
+
 export default function Radar({ radar, onOpen }) {
   const [level, setLevel] = useState('sectors') // sectors | stocks
+  const [secSel, setSecSel] = useState(null)     // 下鑽中的類股名
   const data = useMemo(() => {
     if (!radar) return null
     const sectors = radar.sectors || []
@@ -92,7 +126,10 @@ export default function Radar({ radar, onOpen }) {
       </section>
     )
   }
-  const clickable = level === 'stocks'
+  // 類股模式：點擊下鑽看成分個股；個股模式：點擊看 K 線
+  const onItem = level === 'sectors'
+    ? (d) => setSecSel(d.name)
+    : (d) => onOpen({ code: d.code, name: d.name })
   return (
     <section className="card col-12" data-region="⑨ 資金流雷達">
       <div className="card-h">
@@ -103,13 +140,14 @@ export default function Radar({ radar, onOpen }) {
         </div>
       </div>
       <div className="radar-wrap">
-        <Scatter items={data.pick} onOpen={onOpen} clickable={clickable} />
+        <Scatter items={data.pick} onItem={onItem} />
         <div className="rk2">
-          <RankCol title="🟢 準備發動（法人買、還沒漲）" cls="acc" rows={data.acc} onOpen={onOpen} clickable={clickable} />
-          <RankCol title="🔴 資金撤離（法人賣超）" cls="dist" rows={data.dist} onOpen={onOpen} clickable={clickable} />
+          <RankCol title="🟢 準備發動（法人買、還沒漲）" cls="acc" rows={data.acc} onItem={onItem} />
+          <RankCol title="🔴 資金撤離（法人賣超）" cls="dist" rows={data.dist} onItem={onItem} />
         </div>
       </div>
-      <div className="radar-foot">🔮 資金面早期跡象、屬推測，非保證會漲跌；法人淨買超＝三大法人合計 × 收盤價。{clickable ? '點個股看 K 線。' : ''}</div>
+      <div className="radar-foot">🔮 資金面早期跡象、屬推測，非保證會漲跌；法人淨買超＝三大法人合計 × 收盤價。{level === 'sectors' ? '點類股看成分個股。' : '點個股看 K 線。'}</div>
+      <SectorStocksModal sector={secSel} stocks={radar.stocks} onClose={() => setSecSel(null)} onOpen={onOpen} />
     </section>
   )
 }

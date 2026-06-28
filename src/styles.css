@@ -216,6 +216,8 @@ body.annotate [data-region]::before{
 .modal-list{overflow-y:auto;padding:6px 18px}
 .modal-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line-soft)}
 .modal-row:last-child{border-bottom:none}
+.modal-row.clk{cursor:pointer}
+.modal-row.clk:hover{background:var(--surface-hi)}
 .mr-nm{font-size:14px}
 .mr-code{color:var(--faint);font-size:11px;margin-left:7px;font-family:'IBM Plex Mono',monospace}
 .mr-pct{font-size:13.5px;font-weight:600}
