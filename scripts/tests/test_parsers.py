@@ -7,8 +7,41 @@ sys.path.insert(0, str(ROOT))
 from scripts.lib.parsers import (  # noqa: E402
     roc_to_iso, parse_twse_index, parse_fmtqik, twse_top_gainers, parse_fred_csv,
     parse_bfi82u, parse_t86_top, parse_rwd_sectors, build_sector_constituents,
-    parse_rwd_index, parse_rwd_gainers, parse_tpex_gainers,
+    parse_rwd_index, parse_rwd_gainers, parse_tpex_gainers, build_market_radar,
 )
+
+
+def test_build_market_radar_two_levels():
+    basic = [{"公司代號": "2330", "產業別": "24"},   # 半導體
+             {"公司代號": "2317", "產業別": "28"}]   # 電子零組件
+    sda = {
+        "fields": ["證券代號", "證券名稱", "收盤價", "漲跌價差", "成交金額"],
+        "data": [
+            ["2330", "台積電", "1000", "5", "10000000000"],   # +0.5%, 100億
+            ["2317", "鴻海", "200", "-10", "2000000000"],     # -4.76%, 20億
+        ],
+    }
+    t86 = {
+        "fields": ["證券代號", "證券名稱", "外陸資買賣超股數(不含外資自營商)",
+                   "外資自營商買賣超股數", "投信買賣超股數", "自營商買賣超股數"],
+        "data": [
+            ["2330", "台積電", "1000000", "0", "0", "0"],     # +1e6 股 ×1000 = 10億
+            ["2317", "鴻海", "-500000", "0", "0", "0"],       # -5e5 股 ×200 = -1億
+        ],
+    }
+    out = build_market_radar(t86, sda, basic)
+    stocks = {s["code"]: s for s in out["stocks"]}
+    assert stocks["2330"]["pct"] == 0.5
+    assert stocks["2330"]["inst_net_yi"] == 10.0
+    assert stocks["2330"]["value_yi"] == 100.0
+    assert stocks["2330"]["sector"] == "半導體"
+    assert stocks["2317"]["inst_net_yi"] == -1.0
+    assert stocks["2317"]["sector"] == "電子零組件"
+    sectors = {s["name"]: s for s in out["sectors"]}
+    assert sectors["半導體"]["inst_net_yi"] == 10.0
+    assert sectors["半導體"]["pct"] == 0.5
+    assert sectors["電子零組件"]["inst_net_yi"] == -1.0
+    assert out["sectors"][0]["name"] == "半導體"  # 法人淨買超最多排前
 
 
 def test_parse_tpex_gainers_filters_and_ranks():

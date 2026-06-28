@@ -354,6 +354,75 @@ def build_sector_constituents(sector_names: list, sda_payload: dict, basic_list:
     return out
 
 
+def build_market_radar(t86_payload: dict, sda_payload: dict, basic_list: list) -> dict:
+    """資金流雷達資料層：每檔個股「法人淨買超金額(億) × 漲跌幅 × 成交值」，並彙總成類股。
+    串 STOCK_DAY_ALL(價/量/漲跌) + T86(三大法人買賣超股數) + 上市公司基本資料(產業別)。
+    用同一把產業別 key，個股與類股一致。
+    回 {"stocks": [...], "sectors": [...]}，元素皆含 pct(漲跌%)、inst_net_yi(法人淨買超億元)、value_yi(成交值億)。
+    供前端依「法人淨買超 vs 漲幅」分四象限（右下=準備發動、左上=撤離）。
+    """
+    # --- STOCK_DAY_ALL: code -> close / 漲跌% / 成交值 / 名稱 ---
+    fields = sda_payload.get("fields", [])
+    ci_code = _col(fields, "證券代號", exact=True)
+    ci_name = _col(fields, "證券名稱", exact=True)
+    ci_close = _col(fields, "收盤價", exact=True)
+    ci_chg = _col(fields, "漲跌價差", exact=True)
+    ci_val = _col(fields, "成交金額", exact=True)
+    sda = {}
+    for r in sda_payload.get("data", []):
+        code = (r[ci_code] or "").strip()
+        if len(code) != 4:
+            continue
+        close, chg, val = _f(r[ci_close]), _f(r[ci_chg]), _f(r[ci_val])
+        if None in (close, chg, val) or close == 0:
+            continue
+        prev = close - chg
+        pct = round(chg / prev * 100, 2) if prev else 0.0
+        sda[code] = {"name": (r[ci_name] or "").strip(), "close": close, "pct": pct, "value": val}
+
+    stock_ind = {r.get("公司代號"): r.get("產業別") for r in basic_list}
+
+    # --- T86: code -> 三大法人合計淨買超股數 ---
+    idx = _t86_index(t86_payload.get("fields", []))
+    inst_shares = {}
+    for r in t86_payload.get("data", []):
+        code = (r[idx["code"]] or "").strip()
+        if len(code) != 4:
+            continue
+        net = ((_f(r[idx.get("foreign_main", -1)]) or 0)
+               + ((_f(r[idx.get("foreign_dealer", -1)]) or 0) if "foreign_dealer" in idx else 0)
+               + (_f(r[idx.get("trust", -1)]) or 0)
+               + (_f(r[idx.get("dealer", -1)]) or 0))
+        inst_shares[code] = net
+
+    # --- 個股雷達 ---
+    stocks = []
+    for code, s in sda.items():
+        inst_yi = round(inst_shares.get(code, 0) * s["close"] / 1e8, 2)
+        stocks.append({"code": code, "name": s["name"], "pct": s["pct"],
+                       "inst_net_yi": inst_yi, "value_yi": round(s["value"] / 1e8, 2),
+                       "sector": INDUSTRY.get(stock_ind.get(code))})
+
+    # --- 類股彙總（成交值加權漲跌幅）---
+    agg = {}
+    for st in stocks:
+        sec = st["sector"]
+        if not sec:
+            continue
+        a = agg.setdefault(sec, {"name": sec, "inst_net_yi": 0.0, "value_yi": 0.0, "_pv": 0.0})
+        a["inst_net_yi"] += st["inst_net_yi"]
+        a["value_yi"] += st["value_yi"]
+        a["_pv"] += st["pct"] * st["value_yi"]
+    sectors = []
+    for a in agg.values():
+        pct = round(a["_pv"] / a["value_yi"], 2) if a["value_yi"] else 0.0
+        sectors.append({"name": a["name"], "pct": pct,
+                        "inst_net_yi": round(a["inst_net_yi"], 2),
+                        "value_yi": round(a["value_yi"], 1)})
+    sectors.sort(key=lambda x: x["inst_net_yi"], reverse=True)
+    return {"stocks": stocks, "sectors": sectors}
+
+
 def parse_fred_csv(csv_text: str) -> dict:
     """FRED fredgraph.csv -> 最新收盤與漲跌幅（用最後兩個有效值）。"""
     reader = csv.reader(io.StringIO(csv_text))
