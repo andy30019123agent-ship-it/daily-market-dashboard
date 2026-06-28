@@ -1,4 +1,6 @@
-// 點指數/個股 → 跳出 TradingView 蠟燭圖（互動、含均線/週期切換/縮放）
+// 點指數/個股 → 跳出 TradingView 蠟燭圖（現行 Advanced Chart widget，舊 widgetembed 已被限制）
+import { useEffect, useRef } from 'react'
+
 const INDEX_SYMBOLS = {
   '發行量加權股價指數': 'TWSE:TAIEX',
   '加權': 'TWSE:TAIEX',
@@ -17,15 +19,44 @@ function resolveSymbol(t) {
   return code || null
 }
 
+function TVChart({ symbol }) {
+  const ref = useRef(null)
+  useEffect(() => {
+    const host = ref.current
+    if (!host || !symbol) return
+    host.replaceChildren()
+    const widget = document.createElement('div')
+    widget.className = 'tradingview-widget-container__widget'
+    widget.style.height = '100%'
+    widget.style.width = '100%'
+    host.appendChild(widget)
+    const script = document.createElement('script')
+    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js'
+    script.async = true
+    script.type = 'text/javascript'
+    script.text = JSON.stringify({
+      symbol,
+      interval: 'D',
+      timezone: 'Asia/Taipei',
+      theme: 'light',
+      style: '1',
+      locale: 'zh_TW',
+      autosize: true,
+      withdateranges: true,
+      allow_symbol_change: false,
+      hide_side_toolbar: true,
+      studies: ['MASimple@tv-basicstudies'],
+      support_host: 'https://www.tradingview.com',
+    })
+    host.appendChild(script)
+    return () => { host.replaceChildren() }
+  }, [symbol])
+  return <div className="tradingview-widget-container chart-frame" ref={ref} />
+}
+
 export default function ChartModal({ target, onClose }) {
   if (!target) return null
   const symbol = resolveSymbol(target)
-  const src = symbol
-    ? `https://s.tradingview.com/widgetembed/?symbol=${encodeURIComponent(symbol)}` +
-      `&interval=D&theme=light&style=1&timezone=Asia/Taipei&withdateranges=1` +
-      `&hide_side_toolbar=1&locale=zh_TW&studies=%5B%22MASimple%40tv-basicstudies%22%5D`
-    : null
-
   return (
     <div className="modal-back" onClick={onClose}>
       <div className="chart-box" onClick={(e) => e.stopPropagation()}>
@@ -37,13 +68,16 @@ export default function ChartModal({ target, onClose }) {
           </span>
           <button className="modal-x" onClick={onClose} aria-label="關閉">✕</button>
         </div>
-        {src ? (
-          <iframe className="chart-frame" src={src} title={`${target.name} K線`}
-            allow="clipboard-write" loading="lazy" />
+        {symbol ? (
+          <TVChart symbol={symbol} />
         ) : (
           <div className="modal-empty">此標的暫無對應圖表</div>
         )}
-        <div className="modal-foot">資料來源：TradingView · 可切換週期、縮放、加指標</div>
+        <div className="modal-foot">
+          資料來源：TradingView · 可切換週期、縮放、加指標 ·{' '}
+          <a href={`https://www.tradingview.com/chart/?symbol=${encodeURIComponent(symbol || '')}`}
+             target="_blank" rel="noopener noreferrer">在 TradingView 開啟 ↗</a>
+        </div>
       </div>
     </div>
   )

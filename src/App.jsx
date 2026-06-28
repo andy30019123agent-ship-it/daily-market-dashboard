@@ -61,9 +61,13 @@ export default function App() {
     }
   }
 
-  const [chartTarget, setChartTarget] = useState(
-    typeof window !== 'undefined' && window.location.search.includes('demochart')
-      ? { name: '台積電', code: '2330', type: 'stock' } : null)
+  const [chartTarget, setChartTarget] = useState(() => {
+    if (typeof window === 'undefined') return null
+    const s = window.location.search
+    if (s.includes('demochartus')) return { name: '費城半導體', type: 'index' }
+    if (s.includes('demochart')) return { name: '台積電', code: '2330', type: 'stock' }
+    return null
+  })
   const openChart = (target) => setChartTarget(target)
 
   if (status === 'loading' && !day) {
