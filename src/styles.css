@@ -354,3 +354,30 @@ footer{color:var(--faint);font-size:11px;text-align:center;margin-top:30px;line-
   .calpop{right:auto;left:0}
 }
 @media(max-width:640px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ── 資金流雷達 ── */
+.seg-btn.on{background:var(--gold)}   /* radar 切換預設高亮（InstTop 的 .on.up/.down 仍會覆蓋）*/
+.radar-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:start}
+.radar-svg{width:100%;height:auto;display:block}
+.qbg{opacity:.06}
+.qbg.q-acc{fill:#16A34A}.qbg.q-up{fill:#D9881C}.qbg.q-dist{fill:#DC2626}.qbg.q-weak{fill:#94A3B8}
+.radar-axis{stroke:var(--line);stroke-width:1}
+.qlbl{font-size:8.5px;font-weight:700;fill:var(--muted)}
+.qlbl.acc{fill:#16A34A}.qlbl.up{fill:#D9881C}.qlbl.dist{fill:#DC2626}.qlbl.weak{fill:#94A3B8}
+.qaxname{font-size:8px;fill:var(--faint)}
+.radar-dot{opacity:.78;stroke:#fff;stroke-width:.6}
+.radar-dot.q-acc{fill:#16A34A}.radar-dot.q-up{fill:#D9881C}.radar-dot.q-dist{fill:#DC2626}.radar-dot.q-weak{fill:#94A3B8}
+.radar-dot.clk{cursor:pointer}.radar-dot.clk:hover{opacity:1;stroke-width:1.4}
+.rk2{display:flex;flex-direction:column;gap:14px}
+.rk-h{font-size:12px;font-weight:700;margin:0 0 7px;letter-spacing:.3px}
+.rk-h.acc{color:#16A34A}.rk-h.dist{color:#DC2626}
+.rk-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 8px;border-radius:8px}
+.rk-row:nth-child(even){background:var(--tile)}
+.rk-row.clk{cursor:pointer}.rk-row.clk:hover{background:var(--surface-hi)}
+.rk-nm{font-size:12.5px;font-weight:600;color:var(--ink);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rk-code{font-size:10.5px;color:var(--muted);margin-left:6px}
+.rk-vals{display:flex;gap:9px;font-size:12px;white-space:nowrap;flex-shrink:0}
+.rk-pct{min-width:48px;text-align:right}
+.rk-empty{font-size:12px;color:var(--muted);padding:5px 8px}
+.radar-foot{margin-top:12px;font-size:11px;color:var(--muted);line-height:1.6}
+@media(max-width:760px){.radar-wrap{grid-template-columns:1fr}}

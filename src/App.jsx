@@ -6,6 +6,7 @@ import Vix from './components/Vix.jsx'
 import Sectors from './components/Sectors.jsx'
 import HotStocks from './components/HotStocks.jsx'
 import InstTop from './components/InstTop.jsx'
+import Radar from './components/Radar.jsx'
 import MarketLinks from './components/MarketLinks.jsx'
 import { News, UpcomingEvents, PastReview, Verdict } from './components/CrossMarket.jsx'
 import DatePicker from './components/DatePicker.jsx'
@@ -113,6 +114,7 @@ export default function App() {
               inLabel="▲ 強勢類股 Top 5" outLabel="▼ 弱勢類股 Top 5" />
             <HotStocks stocks={day.hot_stocks.tw} onOpen={openChart} />
             <InstTop instTop={day.inst_top} onOpen={openChart} />
+            <Radar radar={day.radar} onOpen={openChart} />
           </div>
         </div>
       ) : (
