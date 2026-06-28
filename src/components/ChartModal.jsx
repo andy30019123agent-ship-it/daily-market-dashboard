@@ -1,83 +1,73 @@
-// 點指數/個股 → 跳出 TradingView 蠟燭圖（現行 Advanced Chart widget，舊 widgetembed 已被限制）
-import { useEffect, useRef } from 'react'
-
-const INDEX_SYMBOLS = {
-  '發行量加權股價指數': 'TWSE:TAIEX',
-  '加權': 'TWSE:TAIEX',
-  '道瓊': 'DJ:DJI',
-  '標普 500': 'SP:SPX',
-  '那斯達克': 'NASDAQ:IXIC',
-  '費城半導體': 'NASDAQ:SOX',
+// 點指數/個股 → K 線圖。
+// 註：TradingView 免費嵌入 widget 不提供台股資料（顯示「此商品僅在 TradingView 上可用」），
+// 瀏覽器直連 TWSE 又有 CORS，故改為「一鍵開啟外部免費 K 線圖」（新分頁、最可靠）。
+const TW_INDEX = { '發行量加權股價指數': 'IX0001', '加權': 'IX0001' }
+const US_TV = {
+  '道瓊': 'DJ-DJI', '標普 500': 'SP-SPX', '那斯達克': 'NASDAQ-IXIC', '費城半導體': 'NASDAQ-SOX',
 }
 
-// 台股代號（4 碼數字）→ TWSE:xxxx；美股 → ticker 直接用
-function resolveSymbol(t) {
-  if (!t) return null
-  if (t.type === 'index') return INDEX_SYMBOLS[t.name] || null
+// 回傳該標的的外部 K 線連結清單 [{label, url}]
+function chartLinks(t) {
+  if (!t) return []
   const code = (t.code || '').trim()
-  if (/^\d{4}$/.test(code)) return `TWSE:${code}`
-  return code || null
-}
-
-function TVChart({ symbol }) {
-  const ref = useRef(null)
-  useEffect(() => {
-    const host = ref.current
-    if (!host || !symbol) return
-    host.replaceChildren()
-    const widget = document.createElement('div')
-    widget.className = 'tradingview-widget-container__widget'
-    widget.style.height = '100%'
-    widget.style.width = '100%'
-    host.appendChild(widget)
-    const script = document.createElement('script')
-    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js'
-    script.async = true
-    script.type = 'text/javascript'
-    script.text = JSON.stringify({
-      symbol,
-      interval: 'D',
-      timezone: 'Asia/Taipei',
-      theme: 'light',
-      style: '1',
-      locale: 'zh_TW',
-      autosize: true,
-      withdateranges: true,
-      allow_symbol_change: false,
-      hide_side_toolbar: true,
-      studies: ['MASimple@tv-basicstudies'],
-      support_host: 'https://www.tradingview.com',
-    })
-    host.appendChild(script)
-    return () => { host.replaceChildren() }
-  }, [symbol])
-  return <div className="tradingview-widget-container chart-frame" ref={ref} />
+  if (/^\d{4}$/.test(code)) {  // 台股個股
+    return [
+      { label: 'Goodinfo K 線', url: `https://goodinfo.tw/tw/ShowK_Chart.asp?STOCK_ID=${code}` },
+      { label: 'WantGoo 玩股網', url: `https://www.wantgoo.com/stock/${code}/technical-chart` },
+      { label: '鉅亨網', url: `https://www.cnyes.com/twstock/${code}/charts/technical-history` },
+    ]
+  }
+  if (t.type === 'index') {
+    if (TW_INDEX[t.name]) {  // 台股指數（加權）
+      return [
+        { label: 'Goodinfo 大盤 K 線', url: `https://goodinfo.tw/tw/ShowK_Chart.asp?STOCK_ID=${TW_INDEX[t.name]}` },
+        { label: '鉅亨網 加權指數', url: `https://www.cnyes.com/twstock/${TW_INDEX[t.name]}/charts/technical-history` },
+      ]
+    }
+    if (US_TV[t.name]) {  // 美股指數
+      return [
+        { label: 'TradingView', url: `https://www.tradingview.com/symbols/${US_TV[t.name]}/` },
+        { label: 'Yahoo Finance', url: `https://finance.yahoo.com/quote/%5E${US_TV[t.name].split('-')[1]}` },
+      ]
+    }
+  }
+  if (code) {  // 美股個股 ticker
+    return [
+      { label: 'TradingView', url: `https://www.tradingview.com/symbols/${code}/` },
+      { label: 'Yahoo Finance', url: `https://finance.yahoo.com/quote/${code}` },
+    ]
+  }
+  return []
 }
 
 export default function ChartModal({ target, onClose }) {
   if (!target) return null
-  const symbol = resolveSymbol(target)
+  const links = chartLinks(target)
   return (
     <div className="modal-back" onClick={onClose}>
-      <div className="chart-box" onClick={(e) => e.stopPropagation()}>
+      <div className="chart-box chart-box-links" onClick={(e) => e.stopPropagation()}>
         <div className="modal-head">
           <span className="modal-title">
             {target.name}
             {target.code ? <span className="modal-sub">{target.code}</span> : null}
-            <span className="modal-sub">日 K 線</span>
+            <span className="modal-sub">K 線圖</span>
           </span>
           <button className="modal-x" onClick={onClose} aria-label="關閉">✕</button>
         </div>
-        {symbol ? (
-          <TVChart symbol={symbol} />
+        {links.length ? (
+          <div className="chart-links">
+            <div className="chart-links-hint">選一個免費看盤站開啟 K 線（新分頁）：</div>
+            <div className="chart-links-btns">
+              {links.map((l) => (
+                <a key={l.url} className="chart-link-btn" href={l.url}
+                   target="_blank" rel="noopener noreferrer">{l.label} ↗</a>
+              ))}
+            </div>
+          </div>
         ) : (
           <div className="modal-empty">此標的暫無對應圖表</div>
         )}
-        <div className="modal-foot">
-          資料來源：TradingView · 可切換週期、縮放、加指標 ·{' '}
-          <a href={`https://www.tradingview.com/chart/?symbol=${encodeURIComponent(symbol || '')}`}
-             target="_blank" rel="noopener noreferrer">在 TradingView 開啟 ↗</a>
-        </div>
+        <div className="modal-foot">外部看盤站皆為免費；台股嵌入式即時 K 線受資料授權限制，故採外開。</div>
       </div>
     </div>
   )

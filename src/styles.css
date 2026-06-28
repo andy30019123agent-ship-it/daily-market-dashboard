@@ -225,6 +225,17 @@ body.annotate [data-region]::before{
   -webkit-backdrop-filter:blur(22px) saturate(150%);backdrop-filter:blur(22px) saturate(150%);
   border-radius:16px;box-shadow:0 30px 80px rgba(150,90,140,.28);overflow:hidden}
 .chart-frame{flex:1;width:100%;border:none;background:#fff}
+/* 外開 K 線連結版（取代失效的 TradingView 嵌入） */
+.chart-box-links{width:420px;height:auto;max-height:none}
+.chart-links{padding:18px}
+.chart-links-hint{font-size:13px;color:var(--muted);margin-bottom:14px}
+.chart-links-btns{display:flex;flex-direction:column;gap:10px}
+.chart-link-btn{display:flex;align-items:center;justify-content:space-between;
+  padding:13px 16px;border-radius:11px;background:var(--surface-hi);
+  border:1px solid var(--line);color:var(--ink);font-size:14px;font-weight:600;
+  text-decoration:none;transition:border-color .15s,background .15s,transform .12s}
+.chart-link-btn:hover{border-color:var(--gold-line);background:#fff;transform:translateY(-1px)}
+.chart-link-btn:active{transform:translateY(0)}
 .modal-foot{padding:11px 18px;border-top:1px solid var(--line-soft);font-size:11px;color:var(--faint)}
 
 /* hot stocks */
