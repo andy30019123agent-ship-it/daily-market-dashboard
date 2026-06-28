@@ -3,12 +3,20 @@ import { createPortal } from 'react-dom'
 
 // 象限分類（X=漲跌幅 pct、Y=法人淨買超 inst_net_yi）
 // 左上 pct<0,inst>0 = 逆勢吸籌(準備發動) | 右上 = 同步買進 | 右下 = 漲高出貨 | 左下 = 賣壓失血
-function quadColor(pct, inst) {
-  if (inst > 0) return pct < 0 ? 'q-acc' : 'q-up'   // 買超：跌=吸籌(綠) / 漲=已動(黃)
-  return pct > 0 ? 'q-dist' : 'q-weak'              // 賣超：漲=出貨(紅) / 跌=失血(灰)
+function quadKey(d) {
+  if (d.inst_net_yi > 0) return d.pct < 0 ? 'acc' : 'up'   // 買超：跌=吸籌 / 漲=已動
+  return d.pct > 0 ? 'dist' : 'weak'                       // 賣超：漲=出貨 / 跌=失血
 }
 
-function Scatter({ items, onItem }) {
+// 四象限定義（買方由大到小、賣方由大到小）
+const QUADS = [
+  { key: 'acc',  emoji: '🟢', name: '逆勢吸籌', hint: '法人買、股價還沒漲（準備發動）', buy: true },
+  { key: 'up',   emoji: '🟡', name: '同步買進', hint: '法人買、股價同步上漲',          buy: true },
+  { key: 'dist', emoji: '🔴', name: '漲高出貨', hint: '法人賣、股價卻漲（出貨嫌疑）',   buy: false },
+  { key: 'weak', emoji: '⚪', name: '賣壓失血', hint: '法人賣、股價也跌',              buy: false },
+]
+
+function Scatter({ items, onItem, activeQuad }) {
   const W = 320, H = 210, PAD = 26
   const maxX = Math.max(5, ...items.map((d) => Math.abs(d.pct)))
   const maxY = Math.max(1, ...items.map((d) => Math.abs(d.inst_net_yi)))
@@ -19,11 +27,11 @@ function Scatter({ items, onItem }) {
   const maxVal = Math.max(1, ...items.map((d) => d.value_yi || 1))
   return (
     <svg className="radar-svg" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="資金流象限圖">
-      {/* 象限底色 */}
-      <rect x={PAD} y={PAD} width={cx - PAD} height={cy - PAD} className="qbg q-acc" />
-      <rect x={cx} y={PAD} width={W - PAD - cx} height={cy - PAD} className="qbg q-up" />
-      <rect x={cx} y={cy} width={W - PAD - cx} height={H - PAD - cy} className="qbg q-dist" />
-      <rect x={PAD} y={cy} width={cx - PAD} height={H - PAD - cy} className="qbg q-weak" />
+      {/* 象限底色（選中的那象限加亮）*/}
+      <rect x={PAD} y={PAD} width={cx - PAD} height={cy - PAD} className={'qbg q-acc' + (activeQuad === 'acc' ? ' on' : '')} />
+      <rect x={cx} y={PAD} width={W - PAD - cx} height={cy - PAD} className={'qbg q-up' + (activeQuad === 'up' ? ' on' : '')} />
+      <rect x={cx} y={cy} width={W - PAD - cx} height={H - PAD - cy} className={'qbg q-dist' + (activeQuad === 'dist' ? ' on' : '')} />
+      <rect x={PAD} y={cy} width={cx - PAD} height={H - PAD - cy} className={'qbg q-weak' + (activeQuad === 'weak' ? ' on' : '')} />
       {/* 0 軸 */}
       <line x1={cx} y1={PAD} x2={cx} y2={H - PAD} className="radar-axis" />
       <line x1={PAD} y1={cy} x2={W - PAD} y2={cy} className="radar-axis" />
@@ -35,13 +43,15 @@ function Scatter({ items, onItem }) {
       {/* 軸名 */}
       <text x={W - PAD} y={cy - 4} className="qaxname" textAnchor="end">漲→</text>
       <text x={cx + 4} y={PAD - 6} className="qaxname">法人買超↑</text>
-      {/* 點 */}
+      {/* 點（非選中象限淡化）*/}
       {items.map((d, i) => {
         const r = 3 + 4 * Math.sqrt((d.value_yi || 1) / maxVal)
+        const k = quadKey(d)
+        const dim = activeQuad && k !== activeQuad
         return (
           <circle
             key={i} cx={px(d.pct)} cy={py(d.inst_net_yi)} r={r}
-            className={'radar-dot ' + quadColor(d.pct, d.inst_net_yi) + (onItem ? ' clk' : '')}
+            className={'radar-dot q-' + k + (onItem ? ' clk' : '') + (dim ? ' dim' : '')}
             onClick={onItem ? () => onItem(d) : undefined}
           >
             <title>{d.name} {d.code || ''}　漲跌 {d.pct}%　法人 {d.inst_net_yi >= 0 ? '+' : ''}{d.inst_net_yi}億</title>
@@ -52,20 +62,15 @@ function Scatter({ items, onItem }) {
   )
 }
 
-function RankCol({ title, cls, rows, onItem }) {
+function RankRow({ d, onItem }) {
   return (
-    <div className="rk-col">
-      <h4 className={'rk-h ' + cls}>{title}</h4>
-      {rows.length ? rows.map((d, i) => (
-        <div className={'rk-row' + (onItem ? ' clk' : '')} key={i}
-             onClick={onItem ? () => onItem(d) : undefined}>
-          <span className="rk-nm">{d.name}{d.code && <span className="rk-code">{d.code}</span>}</span>
-          <span className="rk-vals mono">
-            <span className={d.inst_net_yi >= 0 ? 'up' : 'down'}>{d.inst_net_yi >= 0 ? '+' : ''}{d.inst_net_yi}億</span>
-            <span className={'rk-pct ' + (d.pct >= 0 ? 'up' : 'down')}>{d.pct >= 0 ? '+' : ''}{d.pct}%</span>
-          </span>
-        </div>
-      )) : <div className="rk-empty">無</div>}
+    <div className={'rk-row' + (onItem ? ' clk' : '')}
+         onClick={onItem ? () => onItem(d) : undefined}>
+      <span className="rk-nm">{d.name}{d.code && <span className="rk-code">{d.code}</span>}</span>
+      <span className="rk-vals mono">
+        <span className={d.inst_net_yi >= 0 ? 'up' : 'down'}>{d.inst_net_yi >= 0 ? '+' : ''}{d.inst_net_yi}億</span>
+        <span className={'rk-pct ' + (d.pct >= 0 ? 'up' : 'down')}>{d.pct >= 0 ? '+' : ''}{d.pct}%</span>
+      </span>
     </div>
   )
 }
@@ -104,18 +109,18 @@ function SectorStocksModal({ sector, stocks, onClose, onOpen }) {
 
 export default function Radar({ radar, onOpen }) {
   const [level, setLevel] = useState('sectors') // sectors | stocks
+  const [quad, setQuad] = useState('acc')        // 選中的象限
   const [secSel, setSecSel] = useState(null)     // 下鑽中的類股名
+
   const data = useMemo(() => {
     if (!radar) return null
     const sectors = radar.sectors || []
     // 個股濾流動性（成交值≥2億）避免雞蛋水餃雜訊
     const stocks = (radar.stocks || []).filter((s) => (s.value_yi || 0) >= 2)
     const pick = level === 'sectors' ? sectors : stocks
-    const acc = pick.filter((d) => d.inst_net_yi > 0 && d.pct < 1)
-      .sort((a, b) => b.inst_net_yi - a.inst_net_yi).slice(0, 6)
-    const dist = pick.filter((d) => d.inst_net_yi < 0)
-      .sort((a, b) => a.inst_net_yi - b.inst_net_yi).slice(0, 6)
-    return { pick, acc, dist }
+    const counts = { acc: 0, up: 0, dist: 0, weak: 0 }
+    pick.forEach((d) => { counts[quadKey(d)]++ })
+    return { pick, counts }
   }, [radar, level])
 
   if (!radar || !data) {
@@ -126,10 +131,16 @@ export default function Radar({ radar, onOpen }) {
       </section>
     )
   }
+
   // 類股模式：點擊下鑽看成分個股；個股模式：點擊看 K 線
   const onItem = level === 'sectors'
     ? (d) => setSecSel(d.name)
     : (d) => onOpen({ code: d.code, name: d.name })
+  const cur = QUADS.find((q) => q.key === quad)
+  const list = data.pick.filter((d) => quadKey(d) === quad)
+    .sort((a, b) => cur.buy ? b.inst_net_yi - a.inst_net_yi : a.inst_net_yi - b.inst_net_yi)
+  const unit = level === 'sectors' ? '類股' : '個股'
+
   return (
     <section className="card col-12" data-region="⑨ 資金流雷達">
       <div className="card-h">
@@ -140,10 +151,22 @@ export default function Radar({ radar, onOpen }) {
         </div>
       </div>
       <div className="radar-wrap">
-        <Scatter items={data.pick} onItem={onItem} />
-        <div className="rk2">
-          <RankCol title="🟢 準備發動（法人買、還沒漲）" cls="acc" rows={data.acc} onItem={onItem} />
-          <RankCol title="🔴 資金撤離（法人賣超）" cls="dist" rows={data.dist} onItem={onItem} />
+        <Scatter items={data.pick} onItem={onItem} activeQuad={quad} />
+        <div className="rk-one">
+          {/* 象限選擇器 */}
+          <div className="quad-sel">
+            {QUADS.map((q) => (
+              <button key={q.key} className={'quad-chip ' + q.key + (quad === q.key ? ' on' : '')} onClick={() => setQuad(q.key)}>
+                <span className="qc-name">{q.emoji} {q.name}</span>
+                <span className="qc-cnt">{data.counts[q.key]}</span>
+              </button>
+            ))}
+          </div>
+          <div className="quad-hint">{cur.hint}　·　依法人淨買超排序</div>
+          <div className="quad-list">
+            {list.length ? list.map((d, i) => <RankRow key={i} d={d} onItem={onItem} />)
+              : <div className="rk-empty">此象限目前無{unit}</div>}
+          </div>
         </div>
       </div>
       <div className="radar-foot">🔮 資金面早期跡象、屬推測，非保證會漲跌；法人淨買超＝三大法人合計 × 收盤價。{level === 'sectors' ? '點類股看成分個股。' : '點個股看 K 線。'}</div>
