@@ -225,6 +225,12 @@ body.annotate [data-region]::before{
   -webkit-backdrop-filter:blur(22px) saturate(150%);backdrop-filter:blur(22px) saturate(150%);
   border-radius:16px;box-shadow:0 30px 80px rgba(150,90,140,.28);overflow:hidden}
 .chart-frame{flex:1;width:100%;border:none;background:#fff}
+/* 頁內直接畫 K 線（FinMind + lightweight-charts） */
+.chart-box-draw{width:860px;height:74vh;max-height:640px}
+.chart-canvas-wrap{flex:1;position:relative;min-height:0;padding:8px 10px 4px}
+.chart-canvas{position:absolute;inset:8px 10px 4px}
+.chart-loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:10px;color:var(--muted);font-size:13px;z-index:2}
 /* 外開 K 線連結版（取代失效的 TradingView 嵌入） */
 .chart-box-links{width:420px;height:auto;max-height:none}
 .chart-links{padding:18px}
