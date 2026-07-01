@@ -412,4 +412,10 @@ footer{color:var(--faint);font-size:11px;text-align:center;margin-top:30px;line-
 .rk-pct{min-width:48px;text-align:right}
 .rk-empty{font-size:12px;color:var(--muted);padding:5px 8px}
 .radar-foot{margin-top:12px;font-size:11px;color:var(--muted);line-height:1.6}
+/* 觀察天數切換列 */
+.radar-win{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:2px 0 14px}
+.radar-win .rw-label{font-size:11.5px;font-weight:700;color:var(--muted)}
+.radar-win .rw-note{font-size:11px;color:var(--faint)}
+/* 中性（法人力道不足）散佈點：灰、淡化、不強調 */
+.radar-dot.q-neutral{fill:#CBD5E1}
 @media(max-width:760px){.radar-wrap{grid-template-columns:1fr}}

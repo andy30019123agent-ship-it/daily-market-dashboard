@@ -118,7 +118,7 @@ export default function App() {
               inLabel="▲ 強勢類股 Top 5" outLabel="▼ 弱勢類股 Top 5" />
             <HotStocks stocks={day.hot_stocks.tw} onOpen={openChart} />
             <InstTop instTop={day.inst_top} onOpen={openChart} />
-            <Radar radar={day.radar} onOpen={openChart} />
+            <Radar radar={day.radar} dates={dates} date={date} onOpen={openChart} />
           </div>
         </div>
       ) : (

@@ -1,9 +1,18 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { loadDay } from '../lib/loadDay.js'
+import { aggregateRadar } from '../lib/radar.js'
+
+// 可選觀察天數（近 N 個交易日累加）
+const WINDOWS = [1, 3, 5, 10]
+// 中性帶：法人淨買超力道基準（每日約 1 億），近 N 日按實際天數放大
+const NEUTRAL_PER_DAY = 1
 
 // 象限分類（X=漲跌幅 pct、Y=法人淨買超 inst_net_yi）
+// 中性帶（A 案）：|法人淨買超| < 門檻 = 中性·不分類（只看法人力道，不誤殺逆勢吸籌）
 // 左上 pct<0,inst>0 = 逆勢吸籌(準備發動) | 右上 = 同步買進 | 右下 = 漲高出貨 | 左下 = 賣壓失血
-function quadKey(d) {
+function quadKey(d, th = 0) {
+  if (Math.abs(d.inst_net_yi) < th) return 'neutral'       // 法人力道不足 → 中性
   if (d.inst_net_yi > 0) return d.pct < 0 ? 'acc' : 'up'   // 買超：跌=吸籌 / 漲=已動
   return d.pct > 0 ? 'dist' : 'weak'                       // 賣超：漲=出貨 / 跌=失血
 }
@@ -16,7 +25,7 @@ const QUADS = [
   { key: 'weak', emoji: '⚪', name: '賣壓失血', hint: '法人賣、股價也跌',              buy: false },
 ]
 
-function Scatter({ items, onItem, activeQuad }) {
+function Scatter({ items, onItem, activeQuad, th = 0 }) {
   const W = 320, H = 210, PAD = 26
   const maxX = Math.max(5, ...items.map((d) => Math.abs(d.pct)))
   const maxY = Math.max(1, ...items.map((d) => Math.abs(d.inst_net_yi)))
@@ -46,8 +55,8 @@ function Scatter({ items, onItem, activeQuad }) {
       {/* 點（非選中象限淡化）*/}
       {items.map((d, i) => {
         const r = 3 + 4 * Math.sqrt((d.value_yi || 1) / maxVal)
-        const k = quadKey(d)
-        const dim = activeQuad && k !== activeQuad
+        const k = quadKey(d, th)
+        const dim = k === 'neutral' || (activeQuad && k !== activeQuad)
         return (
           <circle
             key={i} cx={px(d.pct)} cy={py(d.inst_net_yi)} r={r}
@@ -107,23 +116,52 @@ function SectorStocksModal({ sector, stocks, onClose, onOpen }) {
   ), document.body)
 }
 
-export default function Radar({ radar, onOpen }) {
+export default function Radar({ radar, dates = [], date, onOpen }) {
   const [level, setLevel] = useState('sectors') // sectors | stocks
   const [quad, setQuad] = useState('acc')        // 選中的象限
   const [secSel, setSecSel] = useState(null)     // 下鑽中的類股名
+  const [windowN, setWindowN] = useState(() => {   // 觀察天數 1/3/5/10（?win=N 可預設，除錯用）
+    if (typeof window === 'undefined') return 1
+    const m = /[?&]win=(\d+)/.exec(window.location.search)
+    return m && WINDOWS.includes(+m[1]) ? +m[1] : 1
+  })
+  const [multi, setMulti] = useState(null)       // 近 N 日累加結果 {radar, days}
+  const [loadingWin, setLoadingWin] = useState(false)
+
+  // 近 N 日：從目前日期往前取 N 個交易日，載入各天 day.json 累加（前端聚合）
+  useEffect(() => {
+    if (windowN === 1) { setMulti(null); return }
+    let cancelled = false
+    setLoadingWin(true)
+    const start = Math.max(0, dates.indexOf(date))
+    const targets = dates.slice(start, start + windowN)
+    Promise.all(targets.map((d) => loadDay(d).catch(() => null)))
+      .then((objs) => {
+        if (cancelled) return
+        const withRadar = objs.filter((o) => o && o.radar && (o.radar.stocks || []).length)
+        setMulti({ radar: aggregateRadar(withRadar), days: withRadar.length })
+        setLoadingWin(false)
+      })
+    return () => { cancelled = true }
+  }, [windowN, date, dates])
+
+  // 目前生效的 radar 與實際天數、中性帶門檻
+  const activeRadar = windowN === 1 ? radar : (multi && multi.radar)
+  const nDays = windowN === 1 ? 1 : (multi ? multi.days : 0)
+  const th = NEUTRAL_PER_DAY * (nDays || 1)
 
   const data = useMemo(() => {
-    if (!radar) return null
-    const sectors = radar.sectors || []
+    if (!activeRadar) return null
+    const sectors = activeRadar.sectors || []
     // 個股濾流動性（成交值≥2億）避免雞蛋水餃雜訊
-    const stocks = (radar.stocks || []).filter((s) => (s.value_yi || 0) >= 2)
+    const stocks = (activeRadar.stocks || []).filter((s) => (s.value_yi || 0) >= 2)
     const pick = level === 'sectors' ? sectors : stocks
-    const counts = { acc: 0, up: 0, dist: 0, weak: 0 }
-    pick.forEach((d) => { counts[quadKey(d)]++ })
+    const counts = { acc: 0, up: 0, dist: 0, weak: 0, neutral: 0 }
+    pick.forEach((d) => { counts[quadKey(d, th)]++ })
     return { pick, counts }
-  }, [radar, level])
+  }, [activeRadar, level, th])
 
-  if (!radar || !data) {
+  if (!radar) {
     return (
       <section className="card col-12" data-region="⑨ 資金流雷達">
         <div className="card-h"><span className="label">🛰️ 資金流雷達</span></div>
@@ -137,9 +175,15 @@ export default function Radar({ radar, onOpen }) {
     ? (d) => setSecSel(d.name)
     : (d) => onOpen({ code: d.code, name: d.name })
   const cur = QUADS.find((q) => q.key === quad)
-  const list = data.pick.filter((d) => quadKey(d) === quad)
-    .sort((a, b) => cur.buy ? b.inst_net_yi - a.inst_net_yi : a.inst_net_yi - b.inst_net_yi)
+  const list = data
+    ? data.pick.filter((d) => quadKey(d, th) === quad)
+        .sort((a, b) => cur.buy ? b.inst_net_yi - a.inst_net_yi : a.inst_net_yi - b.inst_net_yi)
+    : []
   const unit = level === 'sectors' ? '類股' : '個股'
+  const busy = windowN !== 1 && (loadingWin || !data)
+  // 近 N 日文字：實際天數不足所選（radar 6/26 起才有）時標示實際天數
+  const winLabel = windowN === 1 ? '單日'
+    : (nDays && nDays < windowN ? `近 ${nDays} 日（僅 ${nDays} 日有資料）` : `近 ${windowN} 日累計`)
 
   return (
     <section className="card col-12" data-region="⑨ 資金流雷達">
@@ -150,27 +194,45 @@ export default function Radar({ radar, onOpen }) {
           <button className={'seg-btn' + (level === 'stocks' ? ' on' : '')} onClick={() => setLevel('stocks')}>個股</button>
         </div>
       </div>
-      <div className="radar-wrap">
-        <Scatter items={data.pick} onItem={onItem} activeQuad={quad} />
-        <div className="rk-one">
-          {/* 象限選擇器 */}
-          <div className="quad-sel">
-            {QUADS.map((q) => (
-              <button key={q.key} className={'quad-chip ' + q.key + (quad === q.key ? ' on' : '')} onClick={() => setQuad(q.key)}>
-                <span className="qc-name">{q.emoji} {q.name}</span>
-                <span className="qc-cnt">{data.counts[q.key]}</span>
-              </button>
-            ))}
-          </div>
-          <div className="quad-hint">{cur.hint}　·　依法人淨買超排序</div>
-          <div className="quad-list">
-            {list.length ? list.map((d, i) => <RankRow key={i} d={d} onItem={onItem} />)
-              : <div className="rk-empty">此象限目前無{unit}</div>}
-          </div>
+      {/* 觀察天數：單日 / 近 3・5・10 日累計 */}
+      <div className="radar-win">
+        <span className="rw-label">觀察區間</span>
+        <div className="seg">
+          {WINDOWS.map((w) => (
+            <button key={w} className={'seg-btn' + (windowN === w ? ' on' : '')} onClick={() => setWindowN(w)}>
+              {w === 1 ? '單日' : `近${w}日`}
+            </button>
+          ))}
         </div>
+        <span className="rw-note">{winLabel}</span>
       </div>
-      <div className="radar-foot">🔮 資金面早期跡象、屬推測，非保證會漲跌；法人淨買超＝三大法人合計 × 收盤價。{level === 'sectors' ? '點類股看成分個股。' : '點個股看 K 線。'}</div>
-      <SectorStocksModal sector={secSel} stocks={radar.stocks} onClose={() => setSecSel(null)} onOpen={onOpen} />
+      {busy ? (
+        <div className="rk-empty" style={{ padding: '28px 0' }}>載入{winLabel}資料中…</div>
+      ) : (
+        <>
+          <div className="radar-wrap">
+            <Scatter items={data.pick} onItem={onItem} activeQuad={quad} th={th} />
+            <div className="rk-one">
+              {/* 象限選擇器 */}
+              <div className="quad-sel">
+                {QUADS.map((q) => (
+                  <button key={q.key} className={'quad-chip ' + q.key + (quad === q.key ? ' on' : '')} onClick={() => setQuad(q.key)}>
+                    <span className="qc-name">{q.emoji} {q.name}</span>
+                    <span className="qc-cnt">{data.counts[q.key]}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="quad-hint">{cur.hint}　·　依法人淨買超排序　·　中性帶 {th} 億內 {data.counts.neutral} 檔不分類</div>
+              <div className="quad-list">
+                {list.length ? list.map((d, i) => <RankRow key={i} d={d} onItem={onItem} />)
+                  : <div className="rk-empty">此象限目前無{unit}</div>}
+              </div>
+            </div>
+          </div>
+          <div className="radar-foot">🔮 資金面早期跡象、屬推測，非保證會漲跌；法人淨買超＝三大法人合計 × 收盤價，中性帶＝法人力道 {th} 億內視為不明顯。{level === 'sectors' ? '點類股看成分個股。' : '點個股看 K 線。'}</div>
+          <SectorStocksModal sector={secSel} stocks={activeRadar.stocks} onClose={() => setSecSel(null)} onOpen={onOpen} />
+        </>
+      )}
     </section>
   )
 }
