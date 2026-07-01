@@ -92,6 +92,41 @@
         "change_pct": 9.93,
         "mkt": "上市",
         "reason": ""
+      },
+      {
+        "code": "5483",
+        "name": "中美晶",
+        "change_pct": 10.0,
+        "mkt": "上櫃",
+        "reason": ""
+      },
+      {
+        "code": "7402",
+        "name": "邑錡",
+        "change_pct": 10.0,
+        "mkt": "上櫃",
+        "reason": ""
+      },
+      {
+        "code": "5328",
+        "name": "華容",
+        "change_pct": 9.99,
+        "mkt": "上櫃",
+        "reason": ""
+      },
+      {
+        "code": "6173",
+        "name": "信昌電",
+        "change_pct": 9.98,
+        "mkt": "上櫃",
+        "reason": ""
+      },
+      {
+        "code": "8182",
+        "name": "加高",
+        "change_pct": 9.98,
+        "mkt": "上櫃",
+        "reason": ""
       }
     ],
     "us": [
@@ -2379,7 +2414,7 @@
         "code": "1712",
         "name": "興農",
         "pct": 1.28,
-        "inst_net_yi": 0.19,
+        "inst_net_yi": 0.18,
         "value_yi": 0.55,
         "sector": "化學工業"
       },
@@ -4107,7 +4142,7 @@
         "code": "2472",
         "name": "立隆電",
         "pct": -6.28,
-        "inst_net_yi": -0.33,
+        "inst_net_yi": -0.87,
         "value_yi": 111.45,
         "sector": "電子零組件"
       },
@@ -4483,7 +4518,7 @@
         "code": "2548",
         "name": "華固",
         "pct": 0.0,
-        "inst_net_yi": -0.33,
+        "inst_net_yi": -0.39,
         "value_yi": 2.5,
         "sector": "建材營造"
       },
@@ -8259,7 +8294,7 @@
         "code": "6757",
         "name": "台灣虎航",
         "pct": -1.28,
-        "inst_net_yi": 0.42,
+        "inst_net_yi": 0.41,
         "value_yi": 1.97,
         "sector": "航運"
       },
@@ -9760,7 +9795,7 @@
       {
         "name": "電子零組件",
         "pct": -0.57,
-        "inst_net_yi": 77.38,
+        "inst_net_yi": 76.84,
         "value_yi": 2952.8
       },
       {
@@ -9830,16 +9865,16 @@
         "value_yi": 5.4
       },
       {
-        "name": "建材營造",
-        "pct": 0.2,
-        "inst_net_yi": -0.11,
-        "value_yi": 25.6
-      },
-      {
         "name": "資訊服務",
         "pct": -1.53,
         "inst_net_yi": -0.12,
         "value_yi": 4.4
+      },
+      {
+        "name": "建材營造",
+        "pct": 0.2,
+        "inst_net_yi": -0.17,
+        "value_yi": 25.6
       },
       {
         "name": "綠能環保",
@@ -9856,7 +9891,7 @@
       {
         "name": "化學工業",
         "pct": -3.38,
-        "inst_net_yi": -1.19,
+        "inst_net_yi": -1.2,
         "value_yi": 89.7
       },
       {
@@ -9922,7 +9957,7 @@
       {
         "name": "航運",
         "pct": -0.12,
-        "inst_net_yi": -17.87,
+        "inst_net_yi": -17.88,
         "value_yi": 160.9
       },
       {
@@ -9940,11 +9975,9 @@
     ]
   },
   "_meta": {
-    "errors": [
-      "TPEX 上櫃漲幅榜: Expecting value: line 1 column 1 (char 0)"
-    ],
+    "errors": [],
     "missing": [],
-    "fetched_at": "2026-07-01",
+    "fetched_at": "2026-07-02",
     "trade_date": "20260701"
   }
 }
