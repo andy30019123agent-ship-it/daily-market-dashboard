@@ -118,7 +118,7 @@ function SectorStocksModal({ sector, stocks, onClose, onOpen }) {
 }
 
 export default function Radar({ radar, potential, dates = [], date, onOpen }) {
-  const [mode, setMode] = useState('quad')       // quad | potential
+  const [mode, setMode] = useState(radar ? 'quad' : 'potential') // quad | potential
   const [level, setLevel] = useState('sectors') // sectors | stocks
   const [quad, setQuad] = useState('acc')        // 選中的象限
   const [secSel, setSecSel] = useState(null)     // 下鑽中的類股名
@@ -163,11 +163,18 @@ export default function Radar({ radar, potential, dates = [], date, onOpen }) {
     return { pick, counts }
   }, [activeRadar, level, th])
 
+  // radar 缺資料時仍要能看/切到低基期潛力（potential 是獨立資料）
   if (!radar) {
     return (
       <section className="card col-12" data-region="⑨ 資金流雷達">
         <div className="card-h"><span className="label">🛰️ 資金流雷達</span></div>
-        <div className="rk-empty" style={{ padding: '18px 0' }}>今日無資金流資料</div>
+        <div className="pmode">
+          <button className={'pmode-btn' + (mode === 'quad' ? ' on' : '')} onClick={() => setMode('quad')}>象限</button>
+          <button className={'pmode-btn' + (mode === 'potential' ? ' on' : '')} onClick={() => setMode('potential')}>🌱 低基期潛力</button>
+        </div>
+        {mode === 'quad'
+          ? <div className="rk-empty" style={{ padding: '18px 0' }}>今日無資金流資料</div>
+          : <PotentialRadar potential={potential} onOpen={onOpen} />}
       </section>
     )
   }
