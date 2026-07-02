@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { loadDay } from '../lib/loadDay.js'
 import { aggregateRadar } from '../lib/radar.js'
+import PotentialRadar from './PotentialRadar.jsx'
 
 // 可選觀察天數（近 N 個交易日累加）
 const WINDOWS = [1, 3, 5, 10]
@@ -116,7 +117,8 @@ function SectorStocksModal({ sector, stocks, onClose, onOpen }) {
   ), document.body)
 }
 
-export default function Radar({ radar, dates = [], date, onOpen }) {
+export default function Radar({ radar, potential, dates = [], date, onOpen }) {
+  const [mode, setMode] = useState('quad')       // quad | potential
   const [level, setLevel] = useState('sectors') // sectors | stocks
   const [quad, setQuad] = useState('acc')        // 選中的象限
   const [secSel, setSecSel] = useState(null)     // 下鑽中的類股名
@@ -194,6 +196,12 @@ export default function Radar({ radar, dates = [], date, onOpen }) {
           <button className={'seg-btn' + (level === 'stocks' ? ' on' : '')} onClick={() => setLevel('stocks')}>個股</button>
         </div>
       </div>
+      <div className="pmode">
+        <button className={'pmode-btn' + (mode === 'quad' ? ' on' : '')} onClick={() => setMode('quad')}>象限</button>
+        <button className={'pmode-btn' + (mode === 'potential' ? ' on' : '')} onClick={() => setMode('potential')}>🌱 低基期潛力</button>
+      </div>
+      {mode === 'quad' ? (
+      <>
       {/* 觀察天數：單日 / 近 3・5・10 日累計 */}
       <div className="radar-win">
         <span className="rw-label">觀察區間</span>
@@ -232,6 +240,10 @@ export default function Radar({ radar, dates = [], date, onOpen }) {
           <div className="radar-foot">🔮 資金面早期跡象、屬推測，非保證會漲跌；法人淨買超＝三大法人合計 × 收盤價，中性帶＝法人力道 {th} 億內視為不明顯。{level === 'sectors' ? '點類股看成分個股。' : '點個股看 K 線。'}</div>
           <SectorStocksModal sector={secSel} stocks={activeRadar.stocks} onClose={() => setSecSel(null)} onOpen={onOpen} />
         </>
+      )}
+      </>
+      ) : (
+        <PotentialRadar potential={potential} onOpen={onOpen} />
       )}
     </section>
   )
