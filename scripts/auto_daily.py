@@ -199,6 +199,32 @@ def _preserve_published(day, date):
         day.setdefault("sectors", {})["tw"] = old["sectors"]["tw"]
 
 
+def _attach_potential(day, date):
+    """低基期潛力雷達（獨立區塊，失敗不影響主戰報）：原地寫入 day['potential']。
+    可在正常流程或『凍結日』重覆呼叫——glob 一律排除當日檔、只用 day 自帶 radar，避免重複計。"""
+    try:
+        history = []
+        for p in sorted(DATA_DIR.glob("[0-9]*.json")):
+            if p.name == f"{date}.json":
+                continue
+            try:
+                dd = json.loads(p.read_text(encoding="utf-8"))
+                if dd.get("radar"):
+                    history.append(dd["radar"])
+            except Exception:
+                pass
+        if day.get("radar"):
+            history.append(day["radar"])
+        start = (datetime.date.fromisoformat(date)
+                 - datetime.timedelta(days=400)).isoformat()
+        pot = build_potential(history, start)
+        annotate_potential(pot["stocks"])
+        day["potential"] = pot
+        print(f"低基期潛力：候選 {len(pot['stocks'])} 檔")
+    except Exception as e:
+        print(f"⚠️ 低基期潛力雷達略過（不影響主戰報）：{e}")
+
+
 def _run(dry_run):
     td, partial = pick_partial()
     date = report_date(td, partial)
@@ -220,6 +246,15 @@ def _run(dry_run):
     if not dry_run and not force and last and date <= last and (DATA_DIR / f"{date}.json").exists():
         print(f"資料日期 {date} 非新交易日（上次已發布 {last}）→ 凍結既有報告，"
               f"不重抓新聞/不重寫/不推播。（要強制重抓設 FORCE_REGEN=1）")
+        # 低基期潛力雷達獨立於新聞凍結：即使凍結也刷新（不動新聞、不推播）
+        fp = DATA_DIR / f"{date}.json"
+        try:
+            frozen = json.loads(fp.read_text(encoding="utf-8"))
+            _attach_potential(frozen, date)
+            fp.write_text(json.dumps(frozen, ensure_ascii=False, indent=1),
+                          encoding="utf-8")
+        except Exception as e:
+            print(f"⚠️ 凍結日潛力雷達刷新略過：{e}")
         return
 
     # 美股指數改用 Yahoo（FRED 在 CI 會 timeout）。在 gen_soft 前注入，讓研判也據此判讀。
@@ -267,26 +302,7 @@ def _run(dry_run):
     # ⭐2 缺漏盤點：照常發布，但記進 day 供推播明示，不靜默空白
     day["_warnings"] = collect_warnings(day)
 
-    # 低基期潛力雷達（獨立區塊，失敗不影響主戰報）
-    try:
-        history = []
-        for p in sorted(DATA_DIR.glob("[0-9]*.json")):
-            try:
-                dd = json.loads(p.read_text(encoding="utf-8"))
-                if dd.get("radar"):
-                    history.append(dd["radar"])
-            except Exception:
-                pass
-        if day.get("radar"):
-            history.append(day["radar"])  # 含今天
-        start = (datetime.date.fromisoformat(date)
-                 - datetime.timedelta(days=400)).isoformat()
-        pot = build_potential(history, start)
-        annotate_potential(pot["stocks"])
-        day["potential"] = pot
-        print(f"低基期潛力：候選 {len(pot['stocks'])} 檔")
-    except Exception as e:
-        print(f"⚠️ 低基期潛力雷達略過（不影響主戰報）：{e}")
+    _attach_potential(day, date)
 
     (DATA_DIR / f"{date}.json").write_text(
         json.dumps(day, ensure_ascii=False, indent=1), encoding="utf-8"
