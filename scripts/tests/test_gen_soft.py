@@ -44,3 +44,19 @@ def test_accepts_prev_trading_day_within_window():
 def test_keeps_when_date_missing_but_source_ok():
     # 沒給 date 時不因日期剔除（仍須通過來源檢查）
     assert _news_ok({"source_url": "https://udn.com/news/story/1/2"}, RD)
+
+
+# --- annotate_potential（低基期潛力 AI 標註）---
+from scripts.gen_soft_openai import annotate_potential
+
+
+def test_annotate_potential_fallback_no_key(monkeypatch):
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    stocks = [{"code": "1234", "name": "某某", "sector": "電機"}]
+    annotate_potential(stocks)
+    assert stocks[0]["theme"] == "電機"
+    assert stocks[0]["catalyst"] == ""
+
+
+def test_annotate_potential_empty_ok():
+    annotate_potential([])
