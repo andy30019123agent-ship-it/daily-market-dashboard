@@ -1,0 +1,802 @@
+{
+ "date": "2026-07-02",
+ "updated_at": "2026-07-02 18:31",
+ "overview": {
+  "tw": {
+   "featured": {
+    "name": "發行量加權股價指數",
+    "close": 46744.16,
+    "change": -274.83,
+    "change_pct": -0.58,
+    "note": "較昨收",
+    "spark": []
+   },
+   "stats": []
+  },
+  "us": [
+   {
+    "name": "道瓊",
+    "close": 52305.24,
+    "change_pct": -0.03
+   },
+   {
+    "name": "標普 500",
+    "close": 7483.23,
+    "change_pct": -0.22
+   },
+   {
+    "name": "那斯達克",
+    "close": 26040.03,
+    "change_pct": -0.66
+   },
+   {
+    "name": "費城半導體",
+    "close": 13353.28,
+    "change_pct": -6.27
+   }
+  ],
+  "vix": {
+   "tw": {
+    "value": 37.73,
+    "change": -0.39,
+    "change_pct": -1.02,
+    "gauge": 0.07566666666666677,
+    "state": "波動偏高",
+    "source_date": "2026-07-02",
+    "note": "台指 VIX（TAIFEX 官方・2026-07-02）"
+   },
+   "us": {
+    "state": "上升",
+    "note": "市場波動性增加，投資者避險情緒升溫",
+    "value": 16.77,
+    "change": 1.08,
+    "gauge": 0.7743333333333333
+   }
+  }
+ },
+ "sectors": {
+  "tw": {
+   "in": [
+    {
+     "name": "塑膠",
+     "amount": "+8.09%",
+     "weight": 1.0
+    },
+    {
+     "name": "油電燃氣",
+     "amount": "+5.88%",
+     "weight": 0.73
+    },
+    {
+     "name": "塑膠化工",
+     "amount": "+5.03%",
+     "weight": 0.62
+    },
+    {
+     "name": "居家生活",
+     "amount": "+4.65%",
+     "weight": 0.57
+    },
+    {
+     "name": "橡膠",
+     "amount": "+3.82%",
+     "weight": 0.47
+    }
+   ],
+   "out": [
+    {
+     "name": "運動休閒",
+     "amount": "-2.47%",
+     "weight": 0.31
+    },
+    {
+     "name": "其他電子",
+     "amount": "-1.90%",
+     "weight": 0.23
+    },
+    {
+     "name": "電子零組件",
+     "amount": "-1.42%",
+     "weight": 0.18
+    },
+    {
+     "name": "金融保險",
+     "amount": "-1.06%",
+     "weight": 0.13
+    },
+    {
+     "name": "半導體",
+     "amount": "-1.00%",
+     "weight": 0.12
+    }
+   ]
+  },
+  "us": {
+   "in": [
+    {
+     "name": "通訊服務",
+     "amount": "+2.44%",
+     "weight": 0.95,
+     "constituents": [
+      {
+       "code": "META",
+       "name": "Meta"
+      },
+      {
+       "code": "GOOGL",
+       "name": "Alphabet"
+      },
+      {
+       "code": "NFLX",
+       "name": "Netflix"
+      },
+      {
+       "code": "DIS",
+       "name": "迪士尼"
+      },
+      {
+       "code": "TMUS",
+       "name": "T-Mobile"
+      },
+      {
+       "code": "VZ",
+       "name": "Verizon"
+      }
+     ]
+    },
+    {
+     "name": "金融",
+     "amount": "+2.18%",
+     "weight": 0.85,
+     "constituents": [
+      {
+       "code": "BRK.B",
+       "name": "波克夏"
+      },
+      {
+       "code": "JPM",
+       "name": "摩根大通"
+      },
+      {
+       "code": "V",
+       "name": "Visa"
+      },
+      {
+       "code": "MA",
+       "name": "萬事達"
+      },
+      {
+       "code": "BAC",
+       "name": "美銀"
+      },
+      {
+       "code": "WFC",
+       "name": "富國"
+      }
+     ]
+    },
+    {
+     "name": "非必需消費",
+     "amount": "+0.69%",
+     "weight": 0.27,
+     "constituents": [
+      {
+       "code": "AMZN",
+       "name": "亞馬遜"
+      },
+      {
+       "code": "TSLA",
+       "name": "特斯拉"
+      },
+      {
+       "code": "HD",
+       "name": "家得寶"
+      },
+      {
+       "code": "MCD",
+       "name": "麥當勞"
+      },
+      {
+       "code": "NKE",
+       "name": "Nike"
+      },
+      {
+       "code": "SBUX",
+       "name": "星巴克"
+      }
+     ]
+    },
+    {
+     "name": "醫療保健",
+     "amount": "+0.55%",
+     "weight": 0.21,
+     "constituents": [
+      {
+       "code": "LLY",
+       "name": "禮來"
+      },
+      {
+       "code": "UNH",
+       "name": "聯合健康"
+      },
+      {
+       "code": "JNJ",
+       "name": "嬌生"
+      },
+      {
+       "code": "ABBV",
+       "name": "艾伯維"
+      },
+      {
+       "code": "MRK",
+       "name": "默克"
+      },
+      {
+       "code": "TMO",
+       "name": "賽默飛"
+      }
+     ]
+    },
+    {
+     "name": "原物料",
+     "amount": "+0.37%",
+     "weight": 0.14,
+     "constituents": [
+      {
+       "code": "LIN",
+       "name": "Linde"
+      },
+      {
+       "code": "SHW",
+       "name": "宣偉"
+      },
+      {
+       "code": "FCX",
+       "name": "自由港"
+      },
+      {
+       "code": "ECL",
+       "name": "藝康"
+      },
+      {
+       "code": "NEM",
+       "name": "Newmont"
+      },
+      {
+       "code": "APD",
+       "name": "空氣化工"
+      }
+     ]
+    }
+   ],
+   "out": [
+    {
+     "name": "科技",
+     "amount": "-2.57%",
+     "weight": 1.0,
+     "constituents": [
+      {
+       "code": "AAPL",
+       "name": "蘋果"
+      },
+      {
+       "code": "MSFT",
+       "name": "微軟"
+      },
+      {
+       "code": "NVDA",
+       "name": "輝達"
+      },
+      {
+       "code": "AVGO",
+       "name": "博通"
+      },
+      {
+       "code": "ORCL",
+       "name": "甲骨文"
+      },
+      {
+       "code": "CRM",
+       "name": "Salesforce"
+      }
+     ]
+    },
+    {
+     "name": "公用事業",
+     "amount": "-1.26%",
+     "weight": 0.49,
+     "constituents": [
+      {
+       "code": "NEE",
+       "name": "NextEra"
+      },
+      {
+       "code": "SO",
+       "name": "Southern"
+      },
+      {
+       "code": "DUK",
+       "name": "Duke 能源"
+      },
+      {
+       "code": "CEG",
+       "name": "Constellation"
+      },
+      {
+       "code": "AEP",
+       "name": "AEP"
+      },
+      {
+       "code": "D",
+       "name": "Dominion"
+      }
+     ]
+    },
+    {
+     "name": "工業",
+     "amount": "-1.01%",
+     "weight": 0.39,
+     "constituents": [
+      {
+       "code": "GE",
+       "name": "奇異"
+      },
+      {
+       "code": "CAT",
+       "name": "開拓重工"
+      },
+      {
+       "code": "RTX",
+       "name": "雷神"
+      },
+      {
+       "code": "HON",
+       "name": "霍尼韋爾"
+      },
+      {
+       "code": "BA",
+       "name": "波音"
+      },
+      {
+       "code": "UBER",
+       "name": "Uber"
+      }
+     ]
+    },
+    {
+     "name": "能源",
+     "amount": "-0.56%",
+     "weight": 0.22,
+     "constituents": [
+      {
+       "code": "XOM",
+       "name": "艾克森美孚"
+      },
+      {
+       "code": "CVX",
+       "name": "雪佛龍"
+      },
+      {
+       "code": "COP",
+       "name": "康菲"
+      },
+      {
+       "code": "WMB",
+       "name": "Williams"
+      },
+      {
+       "code": "SLB",
+       "name": "斯倫貝謝"
+      },
+      {
+       "code": "EOG",
+       "name": "EOG"
+      }
+     ]
+    },
+    {
+     "name": "必需消費",
+     "amount": "+0.28%",
+     "weight": 0.11,
+     "constituents": [
+      {
+       "code": "COST",
+       "name": "好市多"
+      },
+      {
+       "code": "WMT",
+       "name": "沃爾瑪"
+      },
+      {
+       "code": "PG",
+       "name": "寶僑"
+      },
+      {
+       "code": "KO",
+       "name": "可口可樂"
+      },
+      {
+       "code": "PEP",
+       "name": "百事"
+      },
+      {
+       "code": "PM",
+       "name": "菲利普莫里斯"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "hot_stocks": {
+  "tw": [
+   {
+    "code": "3661",
+    "name": "世芯-KY",
+    "change_pct": 10.0,
+    "mkt": "上市",
+    "reason": ""
+   },
+   {
+    "code": "3673",
+    "name": "TPK-KY",
+    "change_pct": 9.97,
+    "mkt": "上市",
+    "reason": ""
+   },
+   {
+    "code": "2486",
+    "name": "一詮",
+    "change_pct": 9.96,
+    "mkt": "上市",
+    "reason": ""
+   },
+   {
+    "code": "1326",
+    "name": "台化",
+    "change_pct": 9.95,
+    "mkt": "上市",
+    "reason": ""
+   },
+   {
+    "code": "3042",
+    "name": "晶技",
+    "change_pct": 9.95,
+    "mkt": "上市",
+    "reason": ""
+   },
+   {
+    "code": "3577",
+    "name": "泓格",
+    "change_pct": 10.0,
+    "mkt": "上櫃",
+    "reason": ""
+   },
+   {
+    "code": "4534",
+    "name": "慶騰",
+    "change_pct": 10.0,
+    "mkt": "上櫃",
+    "reason": ""
+   },
+   {
+    "code": "6182",
+    "name": "合晶",
+    "change_pct": 10.0,
+    "mkt": "上櫃",
+    "reason": ""
+   },
+   {
+    "code": "6138",
+    "name": "茂達",
+    "change_pct": 9.99,
+    "mkt": "上櫃",
+    "reason": ""
+   },
+   {
+    "code": "3485",
+    "name": "敘豐",
+    "change_pct": 9.97,
+    "mkt": "上櫃",
+    "reason": ""
+   }
+  ],
+  "us": [
+   {
+    "code": "TSM",
+    "name": "台積電 ADR",
+    "change_pct": -6.98,
+    "reason": ""
+   },
+   {
+    "code": "AMD",
+    "name": "超微",
+    "change_pct": -6.89,
+    "reason": ""
+   },
+   {
+    "code": "AVGO",
+    "name": "博通",
+    "change_pct": -2.23,
+    "reason": ""
+   },
+   {
+    "code": "AAPL",
+    "name": "蘋果",
+    "change_pct": 1.73,
+    "reason": ""
+   },
+   {
+    "code": "NVDA",
+    "name": "輝達",
+    "change_pct": -1.25,
+    "reason": ""
+   }
+  ]
+ },
+ "inst_top": {
+  "foreign": {
+   "buy": [
+    {
+     "code": "2344",
+     "name": "華邦電",
+     "zhang": 41390
+    },
+    {
+     "code": "2881",
+     "name": "富邦金",
+     "zhang": 37126
+    },
+    {
+     "code": "1314",
+     "name": "中石化",
+     "zhang": 32887
+    },
+    {
+     "code": "2882",
+     "name": "國泰金",
+     "zhang": 25492
+    },
+    {
+     "code": "1301",
+     "name": "台塑",
+     "zhang": 25123
+    }
+   ],
+   "sell": [
+    {
+     "code": "2409",
+     "name": "友達",
+     "zhang": 46140
+    },
+    {
+     "code": "2886",
+     "name": "兆豐金",
+     "zhang": 32266
+    },
+    {
+     "code": "2892",
+     "name": "第一金",
+     "zhang": 28970
+    },
+    {
+     "code": "2890",
+     "name": "永豐金",
+     "zhang": 27691
+    },
+    {
+     "code": "2317",
+     "name": "鴻海",
+     "zhang": 25248
+    }
+   ]
+  },
+  "trust": {
+   "buy": [
+    {
+     "code": "2886",
+     "name": "兆豐金",
+     "zhang": 38613
+    },
+    {
+     "code": "2890",
+     "name": "永豐金",
+     "zhang": 24039
+    },
+    {
+     "code": "2610",
+     "name": "華航",
+     "zhang": 20549
+    },
+    {
+     "code": "2892",
+     "name": "第一金",
+     "zhang": 18509
+    },
+    {
+     "code": "2884",
+     "name": "玉山金",
+     "zhang": 17481
+    }
+   ],
+   "sell": [
+    {
+     "code": "2344",
+     "name": "華邦電",
+     "zhang": 35311
+    },
+    {
+     "code": "2881",
+     "name": "富邦金",
+     "zhang": 33587
+    },
+    {
+     "code": "2882",
+     "name": "國泰金",
+     "zhang": 22471
+    },
+    {
+     "code": "2303",
+     "name": "聯電",
+     "zhang": 17511
+    },
+    {
+     "code": "2324",
+     "name": "仁寶",
+     "zhang": 8694
+    }
+   ]
+  },
+  "dealer": {
+   "buy": [
+    {
+     "code": "2891",
+     "name": "中信金",
+     "zhang": 3626
+    },
+    {
+     "code": "2880",
+     "name": "華南金",
+     "zhang": 1730
+    },
+    {
+     "code": "2883",
+     "name": "凱基金",
+     "zhang": 1583
+    },
+    {
+     "code": "2890",
+     "name": "永豐金",
+     "zhang": 1573
+    },
+    {
+     "code": "1326",
+     "name": "台化",
+     "zhang": 1550
+    }
+   ],
+   "sell": [
+    {
+     "code": "0056",
+     "name": "元大高股息",
+     "zhang": 27559
+    },
+    {
+     "code": "0050",
+     "name": "元大台灣50",
+     "zhang": 7710
+    },
+    {
+     "code": "2409",
+     "name": "友達",
+     "zhang": 3891
+    },
+    {
+     "code": "2317",
+     "name": "鴻海",
+     "zhang": 3624
+    },
+    {
+     "code": "0052",
+     "name": "富邦科技",
+     "zhang": 2560
+    }
+   ]
+  }
+ },
+ "radar": null,
+ "news": [
+  {
+   "tag": "neg",
+   "title": "台股收盤跌逾200點守住46K關卡 台塑四寶突圍、台積電下跌40元",
+   "impact": "台股下跌，台積電下跌40元，台塑四寶表現強勢",
+   "date": "2026-07-02",
+   "source_name": "NOWnews今日新聞",
+   "source_url": "https://www.nownews.com/news/6852600"
+  },
+  {
+   "tag": "neg",
+   "title": "美股週三走低，費城半導體指數下跌逾6%",
+   "impact": "美股主要指數下跌，費城半導體指數跌幅超過6%",
+   "date": "2026-07-01",
+   "source_name": "鉅亨網",
+   "source_url": "https://news.cnyes.com/news/id/6496437"
+  }
+ ],
+ "upcoming_events": [],
+ "past_events_review": [],
+ "verdict": {
+  "tw": {
+   "stance": "中性偏空",
+   "score": 40,
+   "comment": "加權指數下跌0.58%，半導體類股表現疲弱，但塑膠類股強勢，部分熱門股漲停",
+   "bullish": [
+    "塑膠類股表現強勢",
+    "部分熱門股如世芯-KY、泓格等漲停"
+   ],
+   "bearish": [
+    "加權指數下跌0.58%",
+    "半導體類股表現疲弱"
+   ],
+   "risks": [
+    "美股下跌可能影響台股後續走勢",
+    "全球經濟不確定性增加"
+   ]
+  },
+  "us": {
+   "stance": "偏空",
+   "score": 30,
+   "comment": "主要指數下跌，費城半導體指數跌幅達6.27%，市場避險情緒升溫",
+   "bullish": [
+    "道瓊指數跌幅僅0.03%，相對抗跌"
+   ],
+   "bearish": [
+    "費城半導體指數下跌6.27%",
+    "標普500指數下跌0.22%"
+   ],
+   "risks": [
+    "經濟數據強勁降低降息預期",
+    "市場波動性增加，投資者避險情緒升溫"
+   ]
+  }
+ },
+ "summary": "台股加權指數下跌0.58%，半導體類股疲弱，但塑膠類股強勢，部分熱門股漲停。美股主要指數下跌，費城半導體指數跌幅達6.27%，市場避險情緒升溫。",
+ "markets": [
+  {
+   "name": "美元/台幣",
+   "value": 31.89,
+   "change_pct": 0.18,
+   "unit": "",
+   "dec": 2
+  },
+  {
+   "name": "美10年債",
+   "value": 4.37,
+   "change_pct": -0.46,
+   "unit": "%",
+   "dec": 2
+  },
+  {
+   "name": "黃金",
+   "value": 4077.8,
+   "change_pct": 0.23,
+   "unit": "$",
+   "dec": 0
+  },
+  {
+   "name": "原油 WTI",
+   "value": 67.68,
+   "change_pct": -1.31,
+   "unit": "$",
+   "dec": 1
+  },
+  {
+   "name": "比特幣",
+   "value": 61187.98,
+   "change_pct": 1.97,
+   "unit": "$",
+   "dec": 0
+  }
+ ],
+ "_warnings": []
+}
