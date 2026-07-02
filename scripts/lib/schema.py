@@ -64,4 +64,8 @@ def validate_day(data: dict) -> list[str]:
         if isinstance(src, dict) and not src.get("source_url"):
             errs.append(f"news「{src.get('title', '?')}」缺少 source_url")
 
+    pot = data.get("potential")
+    if pot is not None and not isinstance(pot.get("stocks"), list):
+        errs.append("potential.stocks 應為陣列")
+
     return errs

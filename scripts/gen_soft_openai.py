@@ -177,6 +177,67 @@ def gen_soft(partial: dict) -> dict:
     return soft
 
 
+POTENTIAL_PROMPT = (
+    "你是台股研究助理。以下是幾檔『低基期且法人默默吸籌』的股票，"
+    "請為每檔判斷所屬『未來題材』標籤（如 AI 散熱、機器人、矽光子、重電…；"
+    "只給一個最貼切的短標籤），並上網查是否有『正在醞釀、還沒被市場廣泛注意』"
+    "的催化劑（即將法說、新產品、政策、轉單、產業拐點），寫成一句 catalyst"
+    "（查不到就給空字串）。catalyst 是線索非保證，不得杜撰。\n"
+    "只輸出 JSON 陣列，每筆 {code, theme, catalyst}。\n股票：\n"
+)
+
+
+def _extract_json_array(text: str) -> list:
+    """從模型輸出取第一個 [ 到最後一個 ] 解析成陣列。"""
+    text = re.sub(r"^```(?:json)?|```$", "", text.strip(), flags=re.MULTILINE).strip()
+    i, j = text.find("["), text.rfind("]")
+    if i == -1 or j == -1:
+        raise ValueError("模型回傳不含 JSON 陣列")
+    return json.loads(text[i:j + 1])
+
+
+def annotate_potential(stocks: list) -> None:
+    """對低基期候選股原地加 theme（題材，查不到用 sector）與 catalyst（發酵點，查不到空字串）。
+    無金鑰或任何失敗一律 fallback，不拋例外（此區塊獨立於主戰報）。"""
+    if not stocks:
+        return
+
+    def _fallback():
+        for s in stocks:
+            s.setdefault("theme", s.get("sector") or "")
+            s.setdefault("catalyst", "")
+
+    key = os.environ.get("OPENAI_API_KEY")
+    if not key:
+        _fallback()
+        return
+    try:
+        listing = "\n".join(
+            f"{s['code']} {s.get('name', '')}（{s.get('sector', '')}）" for s in stocks
+        )
+        body = {
+            "model": MODEL,
+            "web_search_options": {},
+            "messages": [{"role": "user", "content": POTENTIAL_PROMPT + listing}],
+        }
+        req = urllib.request.Request(
+            API, data=json.dumps(body).encode(),
+            headers={"Authorization": f"Bearer {key}",
+                     "Content-Type": "application/json"},
+        )
+        with urllib.request.urlopen(req, timeout=120) as r:
+            resp = json.load(r)
+        content = resp["choices"][0]["message"]["content"]
+        notes = _extract_json_array(content)
+        by_code = {n.get("code"): n for n in notes} if isinstance(notes, list) else {}
+        for s in stocks:
+            n = by_code.get(s["code"], {})
+            s["theme"] = (n.get("theme") or s.get("sector") or "").strip()
+            s["catalyst"] = (n.get("catalyst") or "").strip()
+    except Exception:
+        _fallback()
+
+
 def main():
     partials = sorted(DATA_DIR.glob("*.partial.json"))
     if not partials:

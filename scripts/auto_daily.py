@@ -14,7 +14,8 @@ import os
 import urllib.parse
 import urllib.request
 
-from scripts.gen_soft_openai import gen_soft
+from scripts.gen_soft_openai import gen_soft, annotate_potential
+from scripts.lib.potential import build_potential
 from scripts.merge_day import DATA_DIR, merge_day, update_index
 from scripts.lib.schema import validate_day
 from scripts.lib.sanity import check_consistency, check_news_consistency, collect_warnings
@@ -265,6 +266,27 @@ def _run(dry_run):
 
     # ⭐2 缺漏盤點：照常發布，但記進 day 供推播明示，不靜默空白
     day["_warnings"] = collect_warnings(day)
+
+    # 低基期潛力雷達（獨立區塊，失敗不影響主戰報）
+    try:
+        history = []
+        for p in sorted(DATA_DIR.glob("[0-9]*.json")):
+            try:
+                dd = json.loads(p.read_text(encoding="utf-8"))
+                if dd.get("radar"):
+                    history.append(dd["radar"])
+            except Exception:
+                pass
+        if day.get("radar"):
+            history.append(day["radar"])  # 含今天
+        start = (datetime.date.fromisoformat(date)
+                 - datetime.timedelta(days=400)).isoformat()
+        pot = build_potential(history, start)
+        annotate_potential(pot["stocks"])
+        day["potential"] = pot
+        print(f"低基期潛力：候選 {len(pot['stocks'])} 檔")
+    except Exception as e:
+        print(f"⚠️ 低基期潛力雷達略過（不影響主戰報）：{e}")
 
     (DATA_DIR / f"{date}.json").write_text(
         json.dumps(day, ensure_ascii=False, indent=1), encoding="utf-8"
