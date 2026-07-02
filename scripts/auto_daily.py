@@ -199,6 +199,13 @@ def _preserve_published(day, date):
         day.setdefault("sectors", {})["tw"] = old["sectors"]["tw"]
 
 
+def _is_complete(day):
+    """硬數據是否齊全到可『定版』：需有資金流雷達(含個股)。
+    缺則不定版(不設 last_notified)，讓後續排程能重抓補齊，而非把殘缺報告卡死整天。"""
+    r = day.get("radar") or {}
+    return bool(r.get("stocks"))
+
+
 def _attach_potential(day, date):
     """低基期潛力雷達（獨立區塊，失敗不影響主戰報）：原地寫入 day['potential']。
     可在正常流程或『凍結日』重覆呼叫——glob 一律排除當日檔、只用 day 自帶 radar，避免重複計。"""
@@ -314,6 +321,13 @@ def _run(dry_run):
     if dry_run:
         print(f"[dry-run] 不發 TG。資料日期={date} 上次推={last}")
         print("--- 摘要預覽 ---\n" + build_summary_text(day))
+        return
+
+    # 硬數據不齊（如 TWSE 端點回空→無資金流雷達）→ 不定版、不推播，保留今日檔待下次補齊。
+    # 避免一次太早/殘缺的執行把當天報告卡死（radar 缺、指數可能還沿用前一交易日 = 方向錯）。
+    if not _is_complete(day):
+        print(f"⚠️ 資料日期 {date} 硬數據不齊（資金流雷達缺）→ 不定版/不推播，"
+              f"保留檔待下次排程補齊。")
         return
 
     if last and date <= last:

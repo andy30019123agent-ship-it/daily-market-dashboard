@@ -45,3 +45,17 @@ def test_preserve_published_keeps_old_when_regressed(tmp_path, monkeypatch):
     assert ad._inst_count(day["inst_top"]) == 1        # 個股法人沿用舊版
     assert day["hot_stocks"]["tw"]                      # 熱門股沿用舊版
     assert day["sectors"]["tw"]["in"]                  # 類股沿用舊版
+
+
+# --- 硬數據不齊不定版 ---
+from scripts.auto_daily import _is_complete
+
+
+def test_is_complete_true_with_radar_stocks():
+    assert _is_complete({"radar": {"stocks": [{"code": "1"}]}}) is True
+
+
+def test_is_complete_false_without_radar():
+    assert _is_complete({"radar": None}) is False
+    assert _is_complete({"radar": {"stocks": []}}) is False
+    assert _is_complete({}) is False

@@ -2,7 +2,7 @@ name: 每日台美股戰報
 
 on:
   schedule:
-    - cron: '36 10 * * *'   # 台北 18:36 每天（含週六補交易日；非交易日由 notify_state dedup 自動跳過）
+    - cron: '0 11 * * *'   # 台北 19:00 每天（比 18:36 多留緩衝待 TWSE 資料齊全；非交易日由 notify_state dedup 自動跳過）
   workflow_dispatch:
     inputs:
       force_regen:
