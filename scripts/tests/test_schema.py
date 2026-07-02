@@ -31,3 +31,18 @@ def test_news_requires_source_url():
     }
     errs = validate_day(data)
     assert any("source_url" in e for e in errs)
+
+
+def test_validate_day_accepts_potential():
+    data = json.loads((ROOT / "public/data/2026-06-18.json").read_text(encoding="utf-8"))
+    data["potential"] = {"window_days": 5, "stocks": [
+        {"code": "1234", "name": "x", "pct": 0.1, "inst_net_yi": 1.0,
+         "price_pos": 0.2, "chg_6m": 0.0, "theme": "重電",
+         "catalyst": "", "sector": "電機", "history": "ok"}]}
+    assert validate_day(data) == []
+
+
+def test_validate_day_rejects_bad_potential():
+    data = json.loads((ROOT / "public/data/2026-06-18.json").read_text(encoding="utf-8"))
+    data["potential"] = {"window_days": 5, "stocks": "oops"}
+    assert any("potential.stocks" in e for e in validate_day(data))
