@@ -798,5 +798,75 @@
    "dec": 0
   }
  ],
- "_warnings": []
+ "_warnings": [],
+ "potential": {
+  "window_days": 5,
+  "stocks": [
+   {
+    "code": "2603",
+    "inst_net_yi": 5.59,
+    "name": "長榮",
+    "pct": 0.0,
+    "value_yi": 12.71,
+    "sector": "航運",
+    "price_pos": 0.144,
+    "chg_6m": -0.0237,
+    "history": "ok",
+    "theme": "航運",
+    "catalyst": ""
+   },
+   {
+    "code": "6753",
+    "inst_net_yi": 4.04,
+    "name": "龍德造船",
+    "pct": -1.06,
+    "value_yi": 7.57,
+    "sector": "航運",
+    "price_pos": 0.399,
+    "chg_6m": 0.0526,
+    "history": "ok",
+    "theme": "國防工業",
+    "catalyst": "龍德造船自製「黑潮」無人艇，技術已就緒，且為100%非紅供應鏈，迎接海軍、海巡署訂單潮，未來10年造船市場需求大於供給。"
+   },
+   {
+    "code": "2812",
+    "inst_net_yi": 2.3,
+    "name": "台中銀",
+    "pct": 1.26,
+    "value_yi": 2.25,
+    "sector": "金融保險",
+    "price_pos": 0.345,
+    "chg_6m": -0.0313,
+    "history": "ok",
+    "theme": "金融保險",
+    "catalyst": ""
+   },
+   {
+    "code": "6670",
+    "inst_net_yi": 2.19,
+    "name": "復盛應用",
+    "pct": 1.19,
+    "value_yi": 1.17,
+    "sector": "運動休閒",
+    "price_pos": 0.301,
+    "chg_6m": -0.0039,
+    "history": "ok",
+    "theme": "運動休閒",
+    "catalyst": ""
+   },
+   {
+    "code": "1216",
+    "inst_net_yi": 1.28,
+    "name": "統一",
+    "pct": 0.54,
+    "value_yi": 7.79,
+    "sector": "食品",
+    "price_pos": 0.342,
+    "chg_6m": -0.0285,
+    "history": "ok",
+    "theme": "食品",
+    "catalyst": ""
+   }
+  ]
+ }
 }
