@@ -7,6 +7,7 @@ import Sectors from './components/Sectors.jsx'
 import HotStocks from './components/HotStocks.jsx'
 import InstTop from './components/InstTop.jsx'
 import Radar from './components/Radar.jsx'
+import WarRoom from './components/WarRoom.jsx'
 import MarketLinks from './components/MarketLinks.jsx'
 import RegimeTile from './components/RegimeTile.jsx'
 import { News, UpcomingEvents, PastReview, Verdict } from './components/CrossMarket.jsx'
@@ -126,6 +127,7 @@ export default function App() {
             <HotStocks stocks={day.hot_stocks.tw} onOpen={openChart} />
             <InstTop instTop={day.inst_top} onOpen={openChart} />
             <Radar radar={day.radar} potential={day.potential} dates={dates} date={date} onOpen={openChart} />
+            <WarRoom potential={day.potential} date={date} onOpen={openChart} />
           </div>
         </div>
       ) : (

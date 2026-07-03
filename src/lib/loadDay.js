@@ -26,3 +26,14 @@ export async function loadAccuracy() {
     return null
   }
 }
+
+// 潛力股進榜歷史（作戰室用）：讀不到就回空，不影響其他區塊。
+export async function loadPotentialHistory() {
+  try {
+    const r = await fetch(`${base}data/potential_history.json`)
+    if (!r.ok) return { stocks: {} }
+    return await r.json()
+  } catch {
+    return { stocks: {} }
+  }
+}
