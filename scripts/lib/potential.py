@@ -19,7 +19,10 @@ DEFAULTS = {
     "vol_hi": 1.8,      # 量增給滿倍數
     "pos_ref": 0.5,     # 位置分基準
     "score_min": 40,    # 進榜分數下限
-    "w_chip": 0.35, "w_struct": 0.40, "w_theme": 0.25,  # Phase A 權重（可調）
+    "w_chip": 0.35, "w_struct": 0.35, "w_theme": 0.20, "w_fund": 0.10,  # Phase B 權重（可調）
+    "yoy_full": 0.30,   # 月營收 YoY 給滿分的門檻
+    "track_days": 5,    # 發動偵測：近幾日曾在榜才追蹤
+    "breakout_pct": 4.5,  # 發動偵測：當日漲幅門檻（%）
 }
 
 FINMIND_API = "https://api.finmindtrade.com/api/v4/data"
@@ -167,6 +170,41 @@ def filter_low_base(cands: list[dict], start_date: str, cfg: dict,
     return out
 
 
+FINMIND_REV = "TaiwanStockMonthRevenue"
+
+
+def finmind_revenue(code: str, start_date: str) -> list[dict]:
+    """打 FinMind 月營收；任何錯誤回 []（不拋例外）。"""
+    url = (f"{FINMIND_API}?dataset={FINMIND_REV}"
+           f"&data_id={code}&start_date={start_date}")
+    try:
+        with urllib.request.urlopen(url, timeout=30) as r:
+            return json.load(r).get("data") or []
+    except Exception:
+        return []
+
+
+def revenue_yoy(rows: list[dict]) -> float | None:
+    """最新月營收對去年同月年增率；找不到去年同月回 None。"""
+    rows = [r for r in rows if r.get("revenue")]
+    if not rows:
+        return None
+    last = rows[-1]
+    y, m, rev = last["revenue_year"], last["revenue_month"], last["revenue"]
+    prev = next((r for r in rows
+                 if r["revenue_year"] == y - 1 and r["revenue_month"] == m), None)
+    if not prev or not prev.get("revenue"):
+        return None
+    return round(rev / prev["revenue"] - 1, 4)
+
+
+def fundamental_score(yoy: float | None, yoy_full: float = 0.30) -> float:
+    """基本面分：YoY≤0→0、YoY≥yoy_full→1、中間線性。"""
+    if yoy is None or yoy <= 0:
+        return 0.0
+    return round(_clamp01(yoy / yoy_full), 3)
+
+
 def theme_score(stock: dict) -> float:
     """題材分：有具體發酵點=1.0 / 有題材且≠產業別=0.5 / 否則 0。"""
     if (stock.get("catalyst") or "").strip():
@@ -177,27 +215,28 @@ def theme_score(stock: dict) -> float:
     return 0.0
 
 
-def combine_score(chip_s: float, struct_s: float, theme_s: float, cfg: dict) -> int:
-    raw = cfg["w_chip"] * chip_s + cfg["w_struct"] * struct_s + cfg["w_theme"] * theme_s
-    return int(round(100 * raw))
-
-
 def finalize_scores(stocks: list[dict], cfg: dict) -> list[dict]:
-    """在 annotate（題材/發酵點）之後呼叫：算題材分＋合成分數＋分項，依分數排序。"""
+    """在 annotate（題材/發酵點）之後呼叫：算題材分＋合成四子分＋分項，依分數排序。"""
     for s in stocks:
         t = theme_score(s)
-        s["score"] = combine_score(s.get("chip_s", 0.0), s.get("struct_s", 0.0), t, cfg)
+        raw = (cfg["w_chip"] * s.get("chip_s", 0.0)
+               + cfg["w_struct"] * s.get("struct_s", 0.0)
+               + cfg["w_theme"] * t
+               + cfg["w_fund"] * s.get("fund_s", 0.0))
+        s["score"] = int(round(100 * raw))
         s["score_parts"] = {
             "chip": int(round(100 * s.get("chip_s", 0.0))),
             "struct": int(round(100 * s.get("struct_s", 0.0))),
             "theme": int(round(100 * t)),
+            "fund": int(round(100 * s.get("fund_s", 0.0))),
         }
     stocks.sort(key=lambda s: s["score"], reverse=True)
     return stocks
 
 
 def build_potential(days: list[dict], start_date: str, cfg: dict | None = None,
-                    fetch=finmind_history, sleep_s: float = 0.3) -> dict:
+                    fetch=finmind_history, sleep_s: float = 0.3,
+                    fetch_revenue=finmind_revenue) -> dict:
     cfg = {**DEFAULTS, **(cfg or {})}
     agg = aggregate_chips(days, cfg["window"])
     cands = pick_accumulators(agg, cfg["inst_min_yi"], cfg["pct_max"],
@@ -205,4 +244,9 @@ def build_potential(days: list[dict], start_date: str, cfg: dict | None = None,
     stocks = filter_low_base(cands, start_date, cfg, fetch=fetch, sleep_s=sleep_s)
     for s in stocks:
         s["chip_s"] = chip_score(s, cfg["window"], cfg["chip_sat"])
+        rev = fetch_revenue(s["code"], start_date) if fetch_revenue else []
+        if sleep_s:
+            time.sleep(sleep_s)
+        s["fund_yoy"] = revenue_yoy(rev)
+        s["fund_s"] = fundamental_score(s["fund_yoy"], cfg["yoy_full"])
     return {"window_days": cfg["window"], "stocks": stocks}

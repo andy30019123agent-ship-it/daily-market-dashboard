@@ -120,7 +120,8 @@ def test_build_potential_end_to_end():
                [{"date": f"2025-{(i % 12) + 1:02d}-15", "close": 40, "max": 41,
                  "min": 39} for i in range(30)]
 
-    out = potential.build_potential(days, "2024-07-01", fetch=fake_fetch, sleep_s=0)
+    out = potential.build_potential(days, "2024-07-01", fetch=fake_fetch, sleep_s=0,
+                                    fetch_revenue=lambda c, s: [])
     assert out["window_days"] == potential.DEFAULTS["window"]
     codes = [s["code"] for s in out["stocks"]]
     assert "LOW" in codes and "HOT" not in codes
@@ -184,9 +185,10 @@ def test_build_potential_attaches_subscores_no_score_yet():
                  "Trading_Volume": 1000 + (400 if i >= 115 else 0)} for i in range(120)]
 
     out = potential.build_potential(days, "2025-01-01",
-                                    cfg={"window": 5}, fetch=fake_fetch, sleep_s=0)
+                                    cfg={"window": 5}, fetch=fake_fetch, sleep_s=0,
+                                    fetch_revenue=lambda c, s: [])
     s = out["stocks"][0]
-    assert "chip_s" in s and "struct_s" in s and "spark" in s
+    assert "chip_s" in s and "struct_s" in s and "spark" in s and "fund_s" in s
     assert "score" not in s  # 分數在 finalize 才算
 
 
@@ -208,3 +210,27 @@ def test_finalize_scores_sorts_and_scores():
     assert out[0]["score"] > out[1]["score"]
     assert 0 <= out[1]["score"] <= 100
     assert set(out[0]["score_parts"]) == {"chip", "struct", "theme"}
+
+
+# ===== Phase B（2026-07-04）=====
+
+# --- Task 1: 基本面分（月營收 YoY）---
+def test_revenue_yoy_and_fund_score():
+    rows = [
+        {"revenue_year": 2024, "revenue_month": 5, "revenue": 100},
+        {"revenue_year": 2025, "revenue_month": 5, "revenue": 130},  # YoY +30%
+    ]
+    yoy = potential.revenue_yoy(rows)
+    assert round(yoy, 2) == 0.30
+    assert potential.fundamental_score(0.30) == 1.0
+    assert potential.fundamental_score(0.0) == 0.0
+    assert potential.fundamental_score(None) == 0.0
+
+
+def test_finalize_scores_includes_fund():
+    cfg = dict(potential.DEFAULTS)
+    stocks = [{"code": "A", "chip_s": 0.5, "struct_s": 0.5, "fund_s": 1.0,
+               "catalyst": "", "theme": "AI", "sector": "電子"}]
+    out = potential.finalize_scores(stocks, cfg)
+    assert "fund" in out[0]["score_parts"]
+    assert out[0]["score_parts"]["fund"] == 100
