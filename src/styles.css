@@ -460,8 +460,10 @@ footer{color:var(--faint);font-size:11px;text-align:center;margin-top:30px;line-
 .pot-list { display: grid; gap: 10px; }
 .pot-card { padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(150,90,140,.15); background: rgba(255,255,255,.5); }
 .pot-card.tier-hot { border-color: rgba(204,82,131,.35); }
+.pot-card.clk { cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .15s; }
+.pot-card.clk:hover { border-color: var(--gold-line, rgba(204,82,131,.32)); box-shadow: 0 6px 18px rgba(204,82,131,.12); transform: translateY(-1px); }
 .pot-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.pot-name { background: none; border: none; font-weight: 700; cursor: pointer; color: var(--ink, #4a3547); }
+.pot-name { font-weight: 700; color: var(--ink, #4a3547); }
 .pot-code { color: #9a8b98; font-weight: 400; font-size: 12px; }
 .pot-score { font: 600 12px/1 'IBM Plex Mono', monospace; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
 .pot-score.tier-hot { background: rgba(204,82,131,.14); color: var(--gold, #CC5283); }

@@ -15,11 +15,19 @@ export default function PotentialRadar({ potential, onOpen }) {
     <div className="pot-wrap">
       <div className="pot-list">
         {stocks.map((s) => (
-          <div key={s.code} className={'pot-card tier-' + scoreTier(s.score)}>
+          <div
+            key={s.code}
+            className={'pot-card clk tier-' + scoreTier(s.score)}
+            role="button"
+            tabIndex={0}
+            title="點看 K 線圖"
+            onClick={() => onOpen && onOpen(s.code)}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen && onOpen(s.code) } }}
+          >
             <div className="pot-head">
-              <button className="pot-name" onClick={() => onOpen && onOpen(s.code)}>
+              <span className="pot-name">
                 {s.name} <span className="pot-code">{s.code}</span>
-              </button>
+              </span>
               <span className={'pot-score tier-' + scoreTier(s.score)}>{s.score ?? '—'} 分</span>
             </div>
             {s.spark && s.spark.length > 1 && (
