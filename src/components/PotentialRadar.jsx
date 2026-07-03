@@ -14,15 +14,17 @@ export default function PotentialRadar({ potential, onOpen }) {
   return (
     <div className="pot-wrap">
       <div className="pot-list">
-        {stocks.map((s) => (
+        {stocks.map((s) => {
+          const open = () => onOpen && onOpen({ code: s.code, name: s.name })
+          return (
           <div
             key={s.code}
             className={'pot-card clk tier-' + scoreTier(s.score)}
             role="button"
             tabIndex={0}
             title="點看 K 線圖"
-            onClick={() => onOpen && onOpen(s.code)}
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen && onOpen(s.code) } }}
+            onClick={open}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open() } }}
           >
             <div className="pot-head">
               <span className="pot-name">
@@ -43,7 +45,8 @@ export default function PotentialRadar({ potential, onOpen }) {
             </div>
             {s.catalyst && <div className="pot-cat">🌱 {s.catalyst}</div>}
           </div>
-        ))}
+          )
+        })}
       </div>
       <div className="pot-note">分數＝籌碼＋價量結構＋題材綜合；跡象非保證，研究起點</div>
     </div>
