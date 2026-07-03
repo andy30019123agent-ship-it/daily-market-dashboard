@@ -129,3 +129,67 @@
   取 `date` 為「明天（台北時間）」且 `type` 為「法說會」的事件。
 - 失敗安全：連線/格式錯誤一律回空陣列 `[]`，不擋主流程、不擋部署，Telegram 與前端該段靜默跳過。
 - Telegram 推播最多列 5 筆，超過附「等 N 場」。
+
+## regime（市場紅綠燈，選填・2026-07-03 新增，元件 A）
+
+```jsonc
+"regime": {
+  "light": "green",   // green|yellow|red
+  "score": 4,          // 總分（趨勢 0~3 + 寬度/波動/籌碼各 -1~+1，範圍約 -3~6）
+  "components": {
+    "trend":   { "score": 2, "missing": false, "detail": { "close": 46744.16, "ma20": 45210.3, "ma60": 44012.1, "close_gt_ma20": true, "ma20_gt_ma60": true, "close_gt_ma60": true } },
+    "breadth": { "score": 1, "missing": false, "detail": { "ratio": 0.62, "up": 649, "down": 323 } },
+    "vix":     { "score": 0, "missing": false, "detail": { "value": 22.4 } },
+    "chips":   { "score": 1, "missing": false, "detail": { "net_yi": 128.4, "days_used": 5 } }
+  }
+}
+```
+- 計分規則常數集中在 `scripts/regime.py`（純函式，見檔頭註解）：
+  - 趨勢：收盤>MA20（+1）、MA20>MA60（+1）、收盤>MA60（+1）
+  - 寬度：上漲家數佔比 >55%（+1）、<45%（−1）
+  - 波動：台指 VIX <20（+1）、>28（−1）
+  - 籌碼：三大法人近 5 日合計淨買超 >0（+1）、<0（−1）
+  - 總分 ≥3 → 🟢 green；0~2 → 🟡 yellow；<0 → 🔴 red
+- 任一分項缺資料 → 該項 0 分、`missing: true`，不擋主流程。
+- MA20/MA60 用的收盤序列來自獨立檔 `public/data/index-history.json`（見下）。
+- 舊資料檔沒有這個欄位是正常的（回填前的歷史檔），前端與 notify 皆須容忍缺欄。
+
+## index-history.json（台股加權指數歷史收盤，選填輔助檔・2026-07-03 新增）
+
+```jsonc
+// public/data/index-history.json
+{ "history": [ { "date": "2026-01-05", "close": 44120.3 }, ... ] }   // 由舊到新
+```
+- 獨立於逐日 `<date>.json`（那份只從 2026-06-18 起，不足 60 個交易日算 MA60）。
+- 回填：`python -m scripts.backfill_index_history`（一次性，可重跑，日期去重合併）。
+- 每日流程：`fetch_hard_data.py` 抓到當日收盤後自動把當天併入這份檔案。
+- 只保留最近 300 個交易日（`scripts/lib/index_history.py` 的 `MAX_ENTRIES`），避免無限增肥。
+
+## inst_net_yi（三大法人大盤合計淨買超，選填・2026-07-03 新增）
+
+```jsonc
+"inst_net_yi": { "外資": 128.4, "投信": -12.0, "自營": 3.5 }   // 億元，null 代表當日抓取失敗
+```
+- 與 `overview.tw.stats` 裡格式化字串（如「+128.4 億」）同一份原始數據，這裡是給
+  `regime.py` 籌碼分項做「近 5 日合計」數學運算用的原始數值版本。
+- 抓不到時整欄為 `null`；`accuracy.py`／`regime` 聚合會自動略過缺值的天數，不炸。
+
+## opportunities（機會股 Top 5，選填・2026-07-03 新增，元件 C，跨專案互串）
+
+```jsonc
+"opportunities": {
+  "date": "2026-07-03",
+  "picks": [
+    { "id": "2330", "name": "台積電", "score": 8, "reasons": ["外資連買", "均線多頭"],
+      "close": 1105, "support_ma20": 1080, "recent_high20": 1120, "rs20": 1.32,
+      "revenue_yoy": 0.18, "earnings_date": "2026-07-17", "risk_flags": [] }
+  ]
+}
+```
+- 跨專案互串：讀 `tw-stock-screener` 專案 GitHub Pages 公開的
+  `https://andy30019123agent-ship-it.github.io/tw-stock-screener/data/opportunities.json`。
+- 欄位契約由 `tw-stock-screener` 該專案定義（見其 `pipeline/backtest_signals.py` 相關規格）；
+  本專案只負責讀取、不驗證細節欄位。
+- 失敗安全：該檔尚未上線／連線失敗／`picks` 為空，一律回 `None`，Telegram 晚報整段靜默省略，
+  不擋主流程、不擋部署。目前前端未顯示此區塊（Top 5 卡片是 tw-stock-screener 網站自己的職責），
+  本專案僅用於推播晚報彙整。

@@ -25,6 +25,13 @@
 - stance ∈ {偏空, 中性偏空} → 視為預測「跌」
 - stance == 中性（或缺值）  → 不計分，直接跳過
 - 實際 change_pct > 0 → 漲；< 0 → 跌；恰好 0（現實中極罕見）→ 方向不明，不計分
+
+市場紅綠燈（regime，元件 A）成績單（同一函式輸出，額外 "regime" 區塊）：
+- 追蹤「day D 的燈號」vs「後續 REGIME_WINDOW 個交易日（即 D 之後第 REGIME_WINDOW 個資料檔）」
+  的台股加權指數報酬（(close_{D+N} - close_D) / close_D）。
+- 🟢 green → 預測「漲」；🔴 red → 預測「跌」；🟡 yellow 不計分（規格明定黃燈不表態）。
+- 缺 regime 欄（舊資料、計算失敗）的天數自然跳過，不影響其餘天數計分。
+- 沿用同一套 _summarize（hit/total/recent30…），結構與 tw/us 一致。
 """
 import datetime
 import json
@@ -34,6 +41,7 @@ import re
 DATA_DIR = pathlib.Path(__file__).resolve().parents[1] / "public" / "data"
 OUT_PATH = DATA_DIR / "accuracy.json"
 US_INDEX = "標普 500"
+REGIME_WINDOW = 5  # 燈號 vs 後續幾個交易日（資料檔）的指數報酬
 
 _BULL_STANCES = {"偏多", "中性偏多"}
 _BEAR_STANCES = {"偏空", "中性偏空"}
@@ -125,6 +133,38 @@ def _summarize(detail):
     }
 
 
+def _tw_close(day):
+    return (day.get("overview", {}).get("tw", {}) or {}).get("featured", {}).get("close")
+
+
+def _regime_score(days, n=REGIME_WINDOW):
+    """逐日比對「day i 的燈號」vs「day i+n（第 n 個之後的資料檔）」的台股指數報酬。"""
+    detail = []
+    for i in range(len(days) - n):
+        day = days[i]
+        light = (day.get("regime") or {}).get("light")
+        if light not in ("green", "red"):  # 黃燈不計分；缺值(None)自然跳過
+            continue
+        c0, c1 = _tw_close(day), _tw_close(days[i + n])
+        if not isinstance(c0, (int, float)) or not isinstance(c1, (int, float)) or c0 == 0:
+            continue
+        ret_pct = round((c1 - c0) / c0 * 100, 2)
+        predicted = "up" if light == "green" else "down"
+        actual = "up" if ret_pct > 0 else ("down" if ret_pct < 0 else None)
+        if actual is None:  # 剛好 0：方向不明，不計分
+            continue
+        detail.append({
+            "date": day.get("date"),
+            "target_date": days[i + n].get("date"),
+            "light": light,
+            "predicted": predicted,
+            "return_pct": ret_pct,
+            "actual": actual,
+            "hit": predicted == actual,
+        })
+    return detail
+
+
 def build_accuracy() -> dict:
     days = _load_days()
     tw_detail = _score(days, lambda d: (d.get("verdict", {}).get("tw", {}) or {}).get("stance"), _tw_pct)
@@ -132,12 +172,15 @@ def build_accuracy() -> dict:
     tw = _summarize(tw_detail)
     us = _summarize(us_detail)
     us["index_used"] = US_INDEX
+    regime = _summarize(_regime_score(days))
+    regime["window_days"] = REGIME_WINDOW
     return {
         "generated_at": datetime.datetime.now(
             datetime.timezone(datetime.timedelta(hours=8))
         ).strftime("%Y-%m-%d %H:%M"),
         "tw": tw,
         "us": us,
+        "regime": regime,
     }
 
 
@@ -146,6 +189,7 @@ def main():
     OUT_PATH.write_text(json.dumps(acc, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"命中率：台股 {acc['tw']['hit_rate']}%（{acc['tw']['hit']}/{acc['tw']['total']}），"
           f"美股 {acc['us']['hit_rate']}%（{acc['us']['hit']}/{acc['us']['total']}），"
+          f"紅綠燈 {acc['regime']['hit_rate']}%（{acc['regime']['hit']}/{acc['regime']['total']}），"
           f"已寫入 {OUT_PATH.name}")
 
 

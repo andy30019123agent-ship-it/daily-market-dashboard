@@ -27,6 +27,7 @@ from scripts.lib.parsers import (  # noqa: E402
     parse_market_breadth, parse_margin_twse, parse_margin_tpex,
 )
 from scripts.lib.us_holdings import US_HOLD  # noqa: E402
+from scripts.lib.index_history import load_history, merge_entries, save_history  # noqa: E402
 
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
 OUT_DIR = pathlib.Path(__file__).resolve().parents[1] / "public" / "data"
@@ -387,6 +388,16 @@ def fetch_hard_data(date: str) -> dict:
     report_date = (f"{trade_ymd[:4]}-{trade_ymd[4:6]}-{trade_ymd[6:8]}"
                    if trade_ymd and len(trade_ymd) == 8 and trade_ymd.isdigit() else date)
 
+    # ---- 指數歷史序列（供 regime.py 算 MA20/MA60）：把今日收盤併入 index-history.json ----
+    # 只在真的抓到收盤時才寫入，避免把「尚未結算」的空值污染歷史序列。
+    if tw_featured and tw_featured.get("close") is not None:
+        try:
+            hist = load_history()
+            hist = merge_entries(hist, [{"date": report_date, "close": tw_featured["close"]}])
+            save_history(hist)
+        except Exception as e:
+            errors.append(f"index-history 寫入失敗: {e}")
+
     partial = {
         "date": report_date,
         "overview": {
@@ -398,6 +409,8 @@ def fetch_hard_data(date: str) -> dict:
         "sectors_tw": sectors_tw,
         "sectors_us": sectors_us,
         "inst_top": inst_top,
+        "inst_net_yi": inst_net or None,  # 三大法人大盤合計淨買超（億，{"外資":..,"投信":..,"自營":..}）
+                                           # 供 regime.py 籌碼分項近 5 日聚合用，抓失敗則為 None
         "radar": radar,
         "breadth": breadth,
         "margin": margin,

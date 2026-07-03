@@ -16,11 +16,13 @@ import urllib.request
 
 from scripts.accuracy import build_accuracy
 from scripts.gen_soft_openai import gen_soft, annotate_potential
+from scripts.lib.index_history import load_history
 from scripts.lib.potential import build_potential
 from scripts.merge_day import DATA_DIR, merge_day, update_index
 from scripts.lib.schema import validate_day
 from scripts.lib.sanity import check_consistency, check_news_consistency, collect_warnings
 from scripts.notify import build_summary_text, build_failure_text
+from scripts.regime import CHIPS_WINDOW, compute_regime
 
 STATE = DATA_DIR / "notify_state.json"
 CHAT = os.environ.get("TG_CHAT_ID", "-5127072553")
@@ -28,6 +30,12 @@ CHAT = os.environ.get("TG_CHAT_ID", "-5127072553")
 # 明日法說會（跨專案互串）：讀 tw-earnings-calendar 專案的 GitHub Pages 公開資料。
 # 失敗安全：任何錯誤（連線/格式/缺欄位）一律回空陣列，靜默跳過，不影響本專案主流程。
 EARNINGS_URL = "https://andy30019123agent-ship-it.github.io/tw-earnings-calendar/data/latest.json"
+
+# 機會股 Top 5（跨專案互串，元件 C）：讀 tw-stock-screener 專案的 GitHub Pages 公開資料。
+# 該檔由另一位工程師另案實作，上線時間不確定；失敗安全＝抓不到/格式不符/尚未存在 一律回 None，
+# 晚報該段落靜默省略，不影響本專案主流程（部署鏈：screener 18:17 build → 本站 19:00 才 fetch，
+# 時序天然成立，但仍要防對方還沒上線）。
+OPPORTUNITIES_URL = "https://andy30019123agent-ship-it.github.io/tw-stock-screener/data/opportunities.json"
 
 
 def _taipei_tomorrow():
@@ -50,6 +58,20 @@ def fetch_earnings_tomorrow():
                 for e in events]
     except Exception:
         return []
+
+
+def fetch_opportunities():
+    """機會股 Top 5（跨專案互串，元件 C）。抓不到/格式不符/契約未上線一律回 None，晚報靜默省略。"""
+    try:
+        req = urllib.request.Request(OPPORTUNITIES_URL, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            data = json.load(r)
+        picks = data.get("picks")
+        if not isinstance(picks, list) or not picks:
+            return None
+        return {"date": data.get("date", ""), "picks": picks}
+    except Exception:
+        return None
 
 # 美股指數：FRED 在 GitHub Actions 會 timeout，改用 Yahoo（CI 連得到、回真實指數點數）
 YAHOO_US = {
@@ -233,6 +255,37 @@ def _is_complete(day):
     return bool(r.get("stocks"))
 
 
+def _recent_inst_entries(day, date, n=CHIPS_WINDOW):
+    """近 n 個交易日的三大法人淨買超合計（含當日 day 本身），依日期由舊到新排序，
+    供 regime.py 籌碼分項用。缺欄位的舊資料檔會回 None，regime 端已容忍。"""
+    import re
+    days = []
+    for p in sorted(DATA_DIR.glob("*.json")):
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}\.json", p.name) or p.stem >= date:
+            continue
+        try:
+            days.append(json.loads(p.read_text(encoding="utf-8")))
+        except Exception:
+            pass
+    days.sort(key=lambda d: d.get("date", ""))
+    prior = days[-(n - 1):] if n > 1 else []
+    return [d.get("inst_net_yi") for d in prior] + [day.get("inst_net_yi")]
+
+
+def _attach_regime(day, date):
+    """市場紅綠燈（元件 A，獨立區塊，失敗不影響主戰報）：原地寫入 day['regime']。"""
+    try:
+        closes = [h["close"] for h in load_history() if isinstance(h.get("close"), (int, float))]
+        breadth = day.get("breadth")
+        vix_tw = (day.get("overview", {}).get("vix", {}) or {}).get("tw")
+        chips_entries = _recent_inst_entries(day, date)
+        day["regime"] = compute_regime(closes, breadth, vix_tw, chips_entries)
+        r = day["regime"]
+        print(f"市場紅綠燈：{r['light']}（{r['score']} 分）")
+    except Exception as e:
+        print(f"⚠️ 市場紅綠燈計算略過（不影響主戰報）：{e}")
+
+
 def _attach_potential(day, date):
     """低基期潛力雷達（獨立區塊，失敗不影響主戰報）：原地寫入 day['potential']。
     可在正常流程或『凍結日』重覆呼叫——glob 一律排除當日檔、只用 day 自帶 radar，避免重複計。"""
@@ -285,11 +338,12 @@ def _run(dry_run):
         try:
             frozen = json.loads(fp.read_text(encoding="utf-8"))
             _attach_potential(frozen, date)
+            _attach_regime(frozen, date)
             frozen["earnings_tomorrow"] = fetch_earnings_tomorrow()
             fp.write_text(json.dumps(frozen, ensure_ascii=False, indent=1),
                           encoding="utf-8")
         except Exception as e:
-            print(f"⚠️ 凍結日潛力雷達刷新略過：{e}")
+            print(f"⚠️ 凍結日潛力雷達/紅綠燈刷新略過：{e}")
         return
 
     # 美股指數改用 Yahoo（FRED 在 CI 會 timeout）。在 gen_soft 前注入，讓研判也據此判讀。
@@ -338,7 +392,9 @@ def _run(dry_run):
     day["_warnings"] = collect_warnings(day)
 
     _attach_potential(day, date)
+    _attach_regime(day, date)
     day["earnings_tomorrow"] = fetch_earnings_tomorrow()
+    day["opportunities"] = fetch_opportunities()
 
     (DATA_DIR / f"{date}.json").write_text(
         json.dumps(day, ensure_ascii=False, indent=1), encoding="utf-8"

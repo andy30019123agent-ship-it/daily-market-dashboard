@@ -8,6 +8,7 @@ import HotStocks from './components/HotStocks.jsx'
 import InstTop from './components/InstTop.jsx'
 import Radar from './components/Radar.jsx'
 import MarketLinks from './components/MarketLinks.jsx'
+import RegimeTile from './components/RegimeTile.jsx'
 import { News, UpcomingEvents, PastReview, Verdict } from './components/CrossMarket.jsx'
 import DatePicker from './components/DatePicker.jsx'
 import ChartModal from './components/ChartModal.jsx'
@@ -107,6 +108,8 @@ export default function App() {
       <div className="hairline" />
 
       <Ticker day={day} />
+
+      <RegimeTile regime={day.regime} />
 
       <div className="tabbar" data-region="台股 / 美股 分頁">
         <button className={'tab' + (tab === 'tw' ? ' active' : '')} onClick={() => switchTab('tw')}>台股</button>

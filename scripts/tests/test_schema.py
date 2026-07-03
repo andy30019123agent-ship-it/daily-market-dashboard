@@ -46,3 +46,27 @@ def test_validate_day_rejects_bad_potential():
     data = json.loads((ROOT / "public/data/2026-06-18.json").read_text(encoding="utf-8"))
     data["potential"] = {"window_days": 5, "stocks": "oops"}
     assert any("potential.stocks" in e for e in validate_day(data))
+
+
+def test_validate_day_accepts_regime():
+    data = json.loads((ROOT / "public/data/2026-06-18.json").read_text(encoding="utf-8"))
+    data["regime"] = {"light": "green", "score": 4, "components": {
+        "trend": {"score": 2, "missing": False, "detail": {}},
+        "breadth": {"score": 1, "missing": False, "detail": {}},
+        "vix": {"score": 0, "missing": False, "detail": {}},
+        "chips": {"score": 1, "missing": False, "detail": {}},
+    }}
+    assert validate_day(data) == []
+
+
+def test_validate_day_rejects_bad_regime_light():
+    data = json.loads((ROOT / "public/data/2026-06-18.json").read_text(encoding="utf-8"))
+    data["regime"] = {"light": "purple", "score": 1, "components": {}}
+    assert any("regime.light" in e for e in validate_day(data))
+
+
+def test_validate_day_missing_regime_is_fine():
+    # 舊資料檔沒有 regime 欄，schema 不應報錯（optional）
+    data = json.loads((ROOT / "public/data/2026-06-18.json").read_text(encoding="utf-8"))
+    assert "regime" not in data
+    assert validate_day(data) == []

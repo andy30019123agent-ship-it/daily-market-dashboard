@@ -75,6 +75,70 @@ def test_zero_pct_actual_not_scored(tmp_path, monkeypatch):
     assert out["tw"]["total"] == 0  # 下一天實際漲跌恰為 0，方向不明不計分
 
 
+# --- 市場紅綠燈成績單（regime，元件 A，2026-07-03 新增）---
+
+def _regime_day(date, close, light=None):
+    d = _day(date, 0.0, "中性", 0.0, "中性")  # tw/us stance 皆中性、不干擾既有 tw/us 計分
+    d["overview"]["tw"]["featured"]["close"] = close
+    if light is not None:
+        d["regime"] = {"light": light, "score": 3 if light == "green" else -1}
+    return d
+
+
+def test_regime_green_hit_when_price_rises_after(tmp_path, monkeypatch):
+    # day0 綠燈，5 個資料檔後(day5)指數比 day0 漲 -> 命中
+    days = [_regime_day(f"2026-06-{18+i:02d}", 100, "green" if i == 0 else None) for i in range(6)]
+    days[5]["overview"]["tw"]["featured"]["close"] = 110  # 上漲
+    _write_days(tmp_path, monkeypatch, days)
+    out = acc.build_accuracy()
+    assert out["regime"]["total"] == 1
+    assert out["regime"]["hit"] == 1
+    assert out["regime"]["detail"][0]["light"] == "green"
+    assert out["regime"]["detail"][0]["predicted"] == "up"
+
+
+def test_regime_red_hit_when_price_falls_after(tmp_path, monkeypatch):
+    days = [_regime_day(f"2026-06-{18+i:02d}", 100, "red" if i == 0 else None) for i in range(6)]
+    days[5]["overview"]["tw"]["featured"]["close"] = 90  # 下跌
+    _write_days(tmp_path, monkeypatch, days)
+    out = acc.build_accuracy()
+    assert out["regime"]["total"] == 1
+    assert out["regime"]["hit"] == 1
+
+
+def test_regime_red_miss_when_price_rises_after(tmp_path, monkeypatch):
+    days = [_regime_day(f"2026-06-{18+i:02d}", 100, "red" if i == 0 else None) for i in range(6)]
+    days[5]["overview"]["tw"]["featured"]["close"] = 110  # 紅燈卻上漲 -> 未命中
+    _write_days(tmp_path, monkeypatch, days)
+    out = acc.build_accuracy()
+    assert out["regime"]["total"] == 1
+    assert out["regime"]["hit"] == 0
+
+
+def test_regime_yellow_not_scored(tmp_path, monkeypatch):
+    days = [_regime_day(f"2026-06-{18+i:02d}", 100, "yellow" if i == 0 else None) for i in range(6)]
+    days[5]["overview"]["tw"]["featured"]["close"] = 110
+    _write_days(tmp_path, monkeypatch, days)
+    out = acc.build_accuracy()
+    assert out["regime"]["total"] == 0
+
+
+def test_regime_missing_light_not_scored(tmp_path, monkeypatch):
+    days = [_regime_day(f"2026-06-{18+i:02d}", 100) for i in range(6)]  # 全無 regime 欄
+    _write_days(tmp_path, monkeypatch, days)
+    out = acc.build_accuracy()
+    assert out["regime"]["total"] == 0
+
+
+def test_regime_not_enough_future_days_not_scored(tmp_path, monkeypatch):
+    # 只有 3 天資料，不足 REGIME_WINDOW(5) 個之後的資料檔可比對
+    days = [_regime_day(f"2026-06-{18+i:02d}", 100, "green" if i == 0 else None) for i in range(3)]
+    _write_days(tmp_path, monkeypatch, days)
+    out = acc.build_accuracy()
+    assert out["regime"]["total"] == 0
+    assert out["regime"]["window_days"] == 5
+
+
 def test_rate_and_recent30(tmp_path, monkeypatch):
     # day1(偏多) 對照 day2 實際漲(1.0) -> hit；day2(偏多) 對照 day3 實際漲(2.0) -> hit
     days = [

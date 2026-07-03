@@ -1,3 +1,4 @@
+import json
 import pathlib
 import sys
 
@@ -108,3 +109,76 @@ def test_fetch_earnings_tomorrow_bad_json_returns_empty(monkeypatch):
 def test_fetch_earnings_tomorrow_missing_events_key_returns_empty(monkeypatch):
     monkeypatch.setattr(ad.urllib.request, "urlopen", lambda req, timeout=10: _FakeResp({"foo": "bar"}))
     assert ad.fetch_earnings_tomorrow() == []
+
+
+# --- 機會股 Top 5（跨專案互串 opportunities.json，元件 C，2026-07-03 新增）：失敗安全測試 ---
+
+def test_fetch_opportunities_returns_picks_when_ok(monkeypatch):
+    payload = {"date": "2026-06-18", "picks": [{"id": "2330", "name": "台積電", "score": 8}]}
+    monkeypatch.setattr(ad.urllib.request, "urlopen", lambda req, timeout=10: _FakeResp(payload))
+    out = ad.fetch_opportunities()
+    assert out == payload
+
+
+def test_fetch_opportunities_network_failure_returns_none(monkeypatch):
+    def _boom(req, timeout=10):
+        raise TimeoutError("連線逾時")
+    monkeypatch.setattr(ad.urllib.request, "urlopen", _boom)
+    assert ad.fetch_opportunities() is None
+
+
+def test_fetch_opportunities_empty_picks_returns_none(monkeypatch):
+    monkeypatch.setattr(ad.urllib.request, "urlopen",
+                        lambda req, timeout=10: _FakeResp({"date": "x", "picks": []}))
+    assert ad.fetch_opportunities() is None
+
+
+def test_fetch_opportunities_bad_json_returns_none(monkeypatch):
+    class _BadResp(_FakeResp):
+        def read(self):
+            return b"not json{"
+    monkeypatch.setattr(ad.urllib.request, "urlopen", lambda req, timeout=10: _BadResp({}))
+    assert ad.fetch_opportunities() is None
+
+
+def test_fetch_opportunities_not_yet_deployed_404_returns_none(monkeypatch):
+    # 對方 repo 尚未上線該檔（404）也算連線類錯誤，一樣失敗安全回 None
+    def _404(req, timeout=10):
+        import urllib.error
+        raise urllib.error.HTTPError(req.full_url if hasattr(req, "full_url") else "x",
+                                     404, "Not Found", {}, None)
+    monkeypatch.setattr(ad.urllib.request, "urlopen", _404)
+    assert ad.fetch_opportunities() is None
+
+
+# --- 市場紅綠燈（regime，元件 A，2026-07-03 新增）：auto_daily 接線測試 ---
+
+def test_attach_regime_writes_regime_key(tmp_path, monkeypatch):
+    monkeypatch.setattr(ad, "DATA_DIR", tmp_path)
+    monkeypatch.setattr("scripts.lib.index_history.HISTORY_PATH", tmp_path / "index-history.json")
+    monkeypatch.setattr(ad, "load_history", lambda: [{"date": f"2026-01-{i:02d}", "close": 100 + i}
+                                                      for i in range(1, 61)])
+    day = {"date": "2026-07-03", "breadth": {"up": 600, "down": 400},
+           "overview": {"vix": {"tw": {"value": 18}}},
+           "inst_net_yi": {"外資": 5, "投信": 0, "自營": 0}}
+    ad._attach_regime(day, "2026-07-03")
+    assert day["regime"]["light"] in ("green", "yellow", "red")
+    assert set(day["regime"]["components"].keys()) == {"trend", "breadth", "vix", "chips"}
+
+
+def test_attach_regime_failure_does_not_raise(tmp_path, monkeypatch):
+    monkeypatch.setattr(ad, "load_history", lambda: (_ for _ in ()).throw(RuntimeError("boom")))
+    day = {"date": "2026-07-03"}
+    ad._attach_regime(day, "2026-07-03")  # 不應丟例外
+    assert "regime" not in day  # 失敗時乾脆不寫入，不留半殘資料
+
+
+def test_recent_inst_entries_orders_oldest_to_newest_and_includes_today(tmp_path, monkeypatch):
+    monkeypatch.setattr(ad, "DATA_DIR", tmp_path)
+    (tmp_path / "2026-07-01.json").write_text(
+        json.dumps({"date": "2026-07-01", "inst_net_yi": {"外資": 1}}), encoding="utf-8")
+    (tmp_path / "2026-07-02.json").write_text(
+        json.dumps({"date": "2026-07-02", "inst_net_yi": {"外資": 2}}), encoding="utf-8")
+    today = {"date": "2026-07-03", "inst_net_yi": {"外資": 3}}
+    entries = ad._recent_inst_entries(today, "2026-07-03", n=5)
+    assert entries == [{"外資": 1}, {"外資": 2}, {"外資": 3}]

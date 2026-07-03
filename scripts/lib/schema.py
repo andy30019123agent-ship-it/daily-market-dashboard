@@ -68,4 +68,11 @@ def validate_day(data: dict) -> list[str]:
     if pot is not None and not isinstance(pot.get("stocks"), list):
         errs.append("potential.stocks 應為陣列")
 
+    reg = data.get("regime")
+    if reg is not None:
+        if reg.get("light") not in ("green", "yellow", "red"):
+            errs.append("regime.light 應為 green/yellow/red")
+        if not isinstance(reg.get("components"), dict):
+            errs.append("regime.components 應為物件")
+
     return errs

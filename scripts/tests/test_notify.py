@@ -83,6 +83,93 @@ def test_earnings_line_caps_at_five_and_shows_remainder():
     assert "公司6" not in txt  # 只列前 5 筆
 
 
+# --- 市場紅綠燈首行（regime，元件 A，2026-07-03 新增）---
+
+def test_regime_line_appears_and_is_first_section():
+    day = _day()
+    day["regime"] = {"light": "yellow", "score": 3, "components": {}}
+    txt = build_summary_text(day)
+    assert "🚦 市場紅綠燈：🟡 3/6 分" in txt
+    # 順序：標題後第一段就是紅綠燈，早於「台股創高」(台股概況)
+    assert txt.index("🚦 市場紅綠燈") < txt.index("台股創高")
+
+
+def test_regime_line_absent_when_missing():
+    txt = build_summary_text(_day())  # 無 regime 欄（舊資料）
+    assert "紅綠燈" not in txt
+
+
+def test_regime_line_green_red_emoji():
+    day = _day()
+    day["regime"] = {"light": "green", "score": 5}
+    assert "🟢" in build_summary_text(day)
+    day["regime"] = {"light": "red", "score": -2}
+    assert "🔴" in build_summary_text(day)
+
+
+# --- 機會股 Top 5（跨專案 opportunities.json，元件 C，2026-07-03 新增）---
+
+def _opp_day():
+    day = _day()
+    day["opportunities"] = {"date": "2026-06-18", "picks": [
+        {"id": "2330", "name": "台積電", "score": 8, "reasons": ["外資連買", "均線多頭"]},
+        {"id": "2454", "name": "聯發科", "score": 6, "reasons": ["法人買超"]},
+    ]}
+    return day
+
+
+def test_opportunities_section_lists_picks_with_reason():
+    txt = build_summary_text(_opp_day())
+    assert "🎯 機會股 Top 5" in txt
+    assert "• 2330 台積電｜8 分｜外資連買" in txt
+    assert "• 2454 聯發科｜6 分｜法人買超" in txt
+
+
+def test_opportunities_section_caps_at_five():
+    day = _day()
+    day["opportunities"] = {"date": "x", "picks": [
+        {"id": str(i), "name": f"股{i}", "score": i, "reasons": []} for i in range(7)
+    ]}
+    txt = build_summary_text(day)
+    assert "股6" not in txt
+    assert "股4" in txt
+
+
+def test_opportunities_section_absent_when_missing_or_empty():
+    txt = build_summary_text(_day())  # 無 opportunities 欄
+    assert "機會股" not in txt
+    day = _day()
+    day["opportunities"] = {"date": "x", "picks": []}
+    txt2 = build_summary_text(day)
+    assert "機會股" not in txt2
+    day2 = _day()
+    day2["opportunities"] = None
+    txt3 = build_summary_text(day2)
+    assert "機會股" not in txt3
+
+
+# --- 元件 C 整體順序：紅綠燈 → 台美概況/研判 → 機會股 → 法說會 → 命中率 ---
+
+def test_component_c_overall_ordering(tmp_path, monkeypatch):
+    acc_path = tmp_path / "accuracy.json"
+    acc_path.write_text(json.dumps({
+        "tw": {"recent30_rate": 55.0, "recent30_total": 9},
+        "us": {"recent30_rate": 40.0, "recent30_total": 7},
+    }), encoding="utf-8")
+    monkeypatch.setattr(notify, "ACCURACY_PATH", acc_path)
+
+    day = _opp_day()
+    day["regime"] = {"light": "green", "score": 4}
+    day["earnings_tomorrow"] = [{"id": "2330", "name": "台積電", "industry": "半導體"}]
+    txt = build_summary_text(day)
+    i_regime = txt.index("🚦 市場紅綠燈")
+    i_tw = txt.index("台股創高")
+    i_opp = txt.index("🎯 機會股 Top 5")
+    i_earn = txt.index("📅 明日法說會")
+    i_acc = txt.index("近 30 日研判命中率")
+    assert i_regime < i_tw < i_opp < i_earn < i_acc
+
+
 def test_earnings_line_absent_when_missing_or_empty():
     # 沒有 earnings_tomorrow 欄位（舊版 day.json）不應出錯，也不出現該行
     txt = build_summary_text(_day())

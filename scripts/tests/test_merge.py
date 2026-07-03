@@ -69,6 +69,20 @@ def test_merge_ok_when_breadth_and_margin_absent():
     assert validate_day(day) == []
 
 
+def test_merge_carries_inst_net_yi_when_present():
+    partial = _partial()
+    partial["inst_net_yi"] = {"外資": 128.4, "投信": -12.0, "自營": 3.5}
+    day = merge_day(partial, _soft(), "2026-06-18")
+    assert day["inst_net_yi"] == {"外資": 128.4, "投信": -12.0, "自營": 3.5}
+    assert validate_day(day) == []
+
+
+def test_merge_inst_net_yi_none_when_absent():
+    day = merge_day(_partial(), _soft(), "2026-06-18")
+    assert day["inst_net_yi"] is None
+    assert validate_day(day) == []
+
+
 def test_update_index_dedup(tmp_path, monkeypatch):
     idx = tmp_path / "index.json"
     idx.write_text('{"dates":["2026-06-18"]}')

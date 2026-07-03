@@ -28,6 +28,45 @@ def _accuracy_line():
         return None
 
 
+_LIGHT_EMOJI = {"green": "🟢", "yellow": "🟡", "red": "🔴"}
+# 燈號總分範圍 -3~+6（趨勢 0~3、寬度/波動/籌碼各 -1~+1），推播用「分數/6」呈現量級參考。
+_REGIME_MAX_SCORE = 6
+
+
+def _regime_line(day: dict):
+    """市場紅綠燈首行（元件 A，晚報第一段）；無 regime 欄（舊資料或計算失敗）靜默省略。"""
+    r = day.get("regime")
+    if not r or not r.get("light"):
+        return None
+    emoji = _LIGHT_EMOJI.get(r["light"], "🟡")
+    score = r.get("score")
+    return f"🚦 市場紅綠燈：{emoji} {score}/{_REGIME_MAX_SCORE} 分"
+
+
+def _opportunities_lines(day: dict):
+    """機會股 Top 5（元件 C，跨專案 fetch tw-stock-screener 的 opportunities.json）；
+    無資料（尚未上線/抓取失敗，見 auto_daily.fetch_opportunities）一律回空清單，整段靜默省略。"""
+    opp = day.get("opportunities")
+    picks = (opp or {}).get("picks") or []
+    if not picks:
+        return []
+    lines = ["🎯 機會股 Top 5"]
+    for p in picks[:5]:
+        reasons = p.get("reasons") or []
+        reason = reasons[0] if reasons else ""
+        code = p.get("id", "")
+        name = p.get("name", "")
+        score = p.get("score", "")
+        row = f"• {code} {name}"
+        if score != "":
+            row += f"｜{score} 分"
+        if reason:
+            row += f"｜{reason}"
+        lines.append(row)
+    lines.append("")
+    return lines
+
+
 def _earnings_line(day: dict):
     """明日法說會一行（跨專案互串，來源讀不到/沒有場次就回 None，靜默跳過不影響其他推播內容）。"""
     events = day.get("earnings_tomorrow") or []
@@ -57,6 +96,13 @@ def build_summary_text(day: dict, url: str = SITE_URL) -> str:
 
     lines = [f"📊 每日台美股戰報 · {date}", ""]
 
+    # ①市場紅綠燈（元件 A，晚報首段；無 regime 欄靜默省略）
+    regime_line = _regime_line(day)
+    if regime_line:
+        lines.append(regime_line)
+        lines.append("")
+
+    # ②台美股概況＋研判（既有，下方台股/美股/綜合研判/摘要/缺漏區塊）
     # 台股（每項一行，避免長行折行跑版）
     tw_lines = []
     if tw.get("close") is not None:
@@ -104,14 +150,19 @@ def build_summary_text(day: dict, url: str = SITE_URL) -> str:
         lines.append("⚠️ 今日缺（資料源異常）：" + "、".join(warns))
         lines.append("")
 
-    acc_line = _accuracy_line()
-    if acc_line:
-        lines.append(acc_line)
-        lines.append("")
+    # ③機會股 Top 5（元件 C，跨專案 fetch；無資料靜默省略）
+    lines += _opportunities_lines(day)
 
+    # ④明日法說會（既有）
     earn_line = _earnings_line(day)
     if earn_line:
         lines.append(earn_line)
+        lines.append("")
+
+    # ⑤研判命中率一行（既有）＋免責
+    acc_line = _accuracy_line()
+    if acc_line:
+        lines.append(acc_line)
         lines.append("")
 
     lines.append(f"🔗 完整儀表板：{url}")
