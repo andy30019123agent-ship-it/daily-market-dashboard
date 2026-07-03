@@ -184,12 +184,16 @@ def build_accuracy() -> dict:
     }
 
 
+def _fmt_rate(rate):
+    return f"{rate}%" if rate is not None else "—"
+
+
 def main():
     acc = build_accuracy()
     OUT_PATH.write_text(json.dumps(acc, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"命中率：台股 {acc['tw']['hit_rate']}%（{acc['tw']['hit']}/{acc['tw']['total']}），"
-          f"美股 {acc['us']['hit_rate']}%（{acc['us']['hit']}/{acc['us']['total']}），"
-          f"紅綠燈 {acc['regime']['hit_rate']}%（{acc['regime']['hit']}/{acc['regime']['total']}），"
+    print(f"命中率：台股 {_fmt_rate(acc['tw']['hit_rate'])}（{acc['tw']['hit']}/{acc['tw']['total']}），"
+          f"美股 {_fmt_rate(acc['us']['hit_rate'])}（{acc['us']['hit']}/{acc['us']['total']}），"
+          f"紅綠燈 {_fmt_rate(acc['regime']['hit_rate'])}（{acc['regime']['hit']}/{acc['regime']['total']}），"
           f"已寫入 {OUT_PATH.name}")
 
 
