@@ -306,6 +306,10 @@ def _attach_potential(day, date):
                  - datetime.timedelta(days=400)).isoformat()
         pot = build_potential(history, start)
         annotate_potential(pot["stocks"])
+        # 題材貼標後才算得出題材分 → 合成發動信心分數、排序，並濾掉低於下限的沉底股
+        from scripts.lib.potential import finalize_scores, DEFAULTS as POT_DEFAULTS
+        finalize_scores(pot["stocks"], dict(POT_DEFAULTS))
+        pot["stocks"] = [s for s in pot["stocks"] if s.get("score", 0) >= POT_DEFAULTS["score_min"]]
         day["potential"] = pot
         print(f"低基期潛力：候選 {len(pot['stocks'])} 檔")
     except Exception as e:
