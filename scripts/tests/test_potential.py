@@ -140,3 +140,18 @@ def test_aggregate_chips_counts_buy_days():
     ]
     agg = potential.aggregate_chips(days, window=5)
     assert agg["2603"]["buy_days"] == 2  # 第1、3天買超
+
+
+# --- Task 2: low_base_metrics 量能/季線/縮圖 ---
+def test_low_base_metrics_adds_vol_ma_spark():
+    rows = []
+    for i in range(120):
+        rows.append({"date": f"2025-{(i // 28) + 1:02d}-{(i % 28) + 1:02d}",
+                     "close": 100 + i * 0.1, "max": 101 + i * 0.1,
+                     "min": 99 + i * 0.1,
+                     "Trading_Volume": 1000 + (500 if i >= 115 else 0)})
+    m = potential.low_base_metrics(rows)
+    assert m["vol_ratio"] > 1.0          # 最後5天爆量
+    assert m["above_ma60"] is True       # 緩漲、收盤在季線上
+    assert 2 <= len(m["spark"]) <= 52
+    assert m["spark"][-1] == rows[-1]["close"]

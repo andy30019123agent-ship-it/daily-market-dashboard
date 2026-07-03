@@ -85,7 +85,30 @@ def low_base_metrics(rows: list[dict]) -> dict | None:
         )
     base = ref["close"] if ref and ref["close"] else rows[0]["close"]
     chg_6m = round(close / base - 1, 4) if base else 0.0
-    return {"price_pos": price_pos, "chg_6m": chg_6m}
+
+    # 量能比：近5日均量 / 前20日均量（缺量或分母 0 時給 1.0 中性）
+    vols = [r.get("Trading_Volume") for r in rows
+            if isinstance(r.get("Trading_Volume"), (int, float))]
+    vol_ratio = 1.0
+    if len(vols) >= 25:
+        recent5 = sum(vols[-5:]) / 5
+        prev20 = sum(vols[-25:-5]) / 20
+        vol_ratio = round(recent5 / prev20, 2) if prev20 else 1.0
+
+    # 站上季線：收盤 ≥ 近60日均價
+    closes = [r["close"] for r in rows if r.get("close") is not None]
+    ma60 = sum(closes[-60:]) / len(closes[-60:]) if len(closes) >= 20 else close
+    above_ma60 = close >= ma60
+
+    # 走勢縮圖：收盤序列降採樣至 ≤52 點、保底含最後一點
+    step = max(1, (len(closes) + 51) // 52)
+    spark = closes[::step]
+    if spark[-1] != closes[-1]:
+        spark.append(closes[-1])
+
+    return {"price_pos": price_pos, "chg_6m": chg_6m,
+            "vol_ratio": vol_ratio, "above_ma60": above_ma60,
+            "spark": [round(c, 2) for c in spark]}
 
 
 def finmind_history(code: str, start_date: str) -> list[dict]:
