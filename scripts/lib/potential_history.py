@@ -28,6 +28,9 @@ def update_history(history: dict, today_stocks: list[dict], date: str) -> dict:
         rec["name"] = s.get("name") or rec.get("name")
         rec["last_date"] = date
         rec["last_score"] = s.get("score")
+        # 保留子分（前瞻追蹤用）：日後可對照真實報酬，驗證權重是否有效
+        if s.get("score_parts"):
+            rec["last_parts"] = s.get("score_parts")
         stocks[code] = rec
     return {"last_date": date, "stocks": stocks}
 

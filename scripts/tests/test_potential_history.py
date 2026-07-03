@@ -40,3 +40,10 @@ def test_detect_breakouts_flags_onboard_surge():
     assert h["stocks"]["2603"]["alerted_date"] == "2026-07-03"
     # 再跑同日不重覆提醒
     assert ph.detect_breakouts(h, radar, "2026-07-03", cfg) == []
+
+
+def test_update_history_keeps_score_parts():
+    h = ph.update_history({}, [{"code": "2603", "name": "長榮", "score": 80,
+                                "score_parts": {"chip": 60, "struct": 70, "theme": 50, "fund": 40}}],
+                          "2026-07-01")
+    assert h["stocks"]["2603"]["last_parts"]["chip"] == 60
