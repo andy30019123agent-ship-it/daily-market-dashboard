@@ -37,3 +37,52 @@ def test_grid_search_recovers_chip():
                for c in [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]]
     out = bt.grid_search_weights(samples, step=0.5)
     assert out["best"]["w"]["chip"] >= out["best"]["w"]["struct"]
+
+
+# ===== v2 方法論：per-date IC / t 值 / K-fold =====
+
+def _samples_chip_predicts(dates, per_date=8):
+    """合成：每個 as-of 日，chip 越高報酬越高（其他子分隨機無關）。"""
+    import random
+    random.seed(1)
+    out = []
+    for d in dates:
+        for i in range(per_date):
+            chip = i / (per_date - 1)
+            out.append({"date": d, "chip": chip, "struct": random.random(),
+                        "fund": random.random(), "ret": chip * 0.1 + random.uniform(-0.005, 0.005)})
+    return out
+
+
+def test_per_date_ic_groups_by_date():
+    dates = ["2026-01-01", "2026-02-01", "2026-03-01"]
+    s = _samples_chip_predicts(dates)
+    w = {"chip": 1.0, "struct": 0.0, "fund": 0.0}
+    ics = bt.per_date_ic(s, w)
+    assert len(ics) == 3            # 每個日期一個 IC
+    assert all(ic > 0.8 for ic in ics)  # chip 主導 → 每天高 IC
+
+
+def test_ic_stats_tvalue():
+    st = bt.ic_stats([0.2, 0.2, 0.2, 0.2])
+    assert st["n"] == 4
+    assert round(st["mean"], 3) == 0.2
+    assert st["pos_frac"] == 1.0
+    assert st["t"] is None or st["t"] > 0  # 零變異 t 無定義或極大
+
+
+def test_grid_search_ic_prefers_chip():
+    dates = [f"2026-{m:02d}-01" for m in range(1, 7)]
+    s = _samples_chip_predicts(dates)
+    out = bt.grid_search_ic(s, step=0.5)
+    assert out["best"]["w"]["chip"] >= out["best"]["w"]["struct"]
+    assert "mean_ic" in out["best"] and "t" in out["best"] and "pos_frac" in out["best"]
+
+
+def test_fold_means_splits_dates():
+    dates = [f"2026-{m:02d}-01" for m in range(1, 9)]  # 8 個日期
+    s = _samples_chip_predicts(dates)
+    w = {"chip": 1.0, "struct": 0.0, "fund": 0.0}
+    fm = bt.fold_means(s, w, k=4)
+    assert len(fm) == 4              # 4 折各一個平均 IC
+    assert all(x > 0.8 for x in fm)  # chip 主導 → 每折都高
