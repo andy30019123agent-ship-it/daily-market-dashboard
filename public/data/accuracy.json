@@ -1,11 +1,11 @@
 {
- "generated_at": "2026-07-03 08:01",
+ "generated_at": "2026-07-03 18:33",
  "tw": {
-  "hit_rate": 44.4,
+  "hit_rate": 40.0,
   "hit": 4,
-  "total": 9,
-  "recent30_rate": 44.4,
-  "recent30_total": 9,
+  "total": 10,
+  "recent30_rate": 40.0,
+  "recent30_total": 10,
   "detail": [
    {
     "date": "2026-06-18",
@@ -87,6 +87,15 @@
     "actual_pct": -0.58,
     "actual": "down",
     "hit": false
+   },
+   {
+    "date": "2026-07-02",
+    "next_date": "2026-07-03",
+    "stance": "中性偏空",
+    "predicted": "down",
+    "actual_pct": 0.08,
+    "actual": "up",
+    "hit": false
    }
   ]
  },
@@ -162,5 +171,14 @@
    }
   ],
   "index_used": "標普 500"
+ },
+ "regime": {
+  "hit_rate": null,
+  "hit": 0,
+  "total": 0,
+  "recent30_rate": null,
+  "recent30_total": 0,
+  "detail": [],
+  "window_days": 5
  }
 }
