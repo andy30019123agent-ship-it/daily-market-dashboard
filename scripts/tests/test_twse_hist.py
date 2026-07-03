@@ -34,3 +34,21 @@ def test_fetch_t86_cached_miss_writes(tmp_path):
     got = th.fetch_t86_cached("20260701", tmp_path, get=lambda url: json.dumps(payload))
     assert got == {"2317": 10000}
     assert (tmp_path / "t86-20260701.json").exists()
+
+
+def test_fetch_t86_network_failure_not_cached(tmp_path):
+    def _fail(url):
+        raise OSError("network")
+
+    got = th.fetch_t86_cached("20260702", tmp_path, get=_fail)
+    assert got == {}
+    # 網路失敗不得寫快取（否則永久把真交易日誤存成空）
+    assert not (tmp_path / "t86-20260702.json").exists()
+
+
+def test_fetch_t86_non_trading_cached(tmp_path):
+    # 官方回「非交易日」→ 可解析回應 → 應快取為空（正確）
+    got = th.fetch_t86_cached("20260627", tmp_path,
+                              get=lambda url: '{"stat":"很抱歉，沒有符合條件的資料!"}')
+    assert got == {}
+    assert (tmp_path / "t86-20260627.json").exists()

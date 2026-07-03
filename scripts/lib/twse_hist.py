@@ -40,9 +40,14 @@ def fetch_t86_cached(date: str, cache_dir, get=_curl) -> dict:
     if fp.exists():
         return json.loads(fp.read_text(encoding="utf-8"))
     try:
-        payload = json.loads(get(T86_URL.format(date=date)) or "{}")
+        raw = get(T86_URL.format(date=date))
+        payload = json.loads(raw) if raw else None
     except Exception:
-        payload = {}
+        payload = None
+    # 抓取/解析失敗（payload None）→ 不快取，下次重試，避免把「網路失敗」誤存成
+    # 「非交易日空白」永久污染。只有拿到可解析回應（stat OK 或官方回非交易日）才快取。
+    if payload is None:
+        return {}
     parsed = parse_t86(payload)
     fp.write_text(json.dumps(parsed, ensure_ascii=False), encoding="utf-8")
     return parsed

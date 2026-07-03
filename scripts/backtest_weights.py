@@ -48,11 +48,12 @@ def trading_days(start, end, sleep):
     while d <= endd:
         if d.weekday() < 5:  # 週末直接跳過，省呼叫
             ymd = d.strftime("%Y%m%d")
-            t86 = th.fetch_t86_cached(ymd, CACHE, )
+            cached = (CACHE / f"t86-{ymd}.json").exists()
+            t86 = th.fetch_t86_cached(ymd, CACHE)
             if t86:
                 days.append((d.isoformat(), t86))
-                if not (CACHE / f"t86-{ymd}.json").exists():
-                    time.sleep(sleep)
+            if not cached:
+                time.sleep(sleep)  # 只在真的新抓時睡，避免撞 TWSE 限流
         d += datetime.timedelta(days=1)
     return days
 
@@ -127,10 +128,11 @@ def build_samples(args):
                 if not m or m["price_pos"] > DEFAULTS["pos_max"]:
                     continue
                 struct_s = structure_score(m, DEFAULTS["vol_hi"], DEFAULTS["pos_ref"])
-                # fund：月營收 YoY（截止 D）
+                # fund：月營收 YoY（截止 D）。**禁前視**：月營收約次月 10 日才公告，
+                # 故以 FinMind 的 create_time（公告日）≤ D 過濾，不能只看營收月份。
                 rev = revenue_rows(code, fin_start, args.sleep)
                 rev_upto = [r for r in rev
-                            if f"{r.get('revenue_year')}-{int(r.get('revenue_month', 0)):02d}" <= D[:7]]
+                            if (r.get("create_time") or r.get("date") or "") <= D]
                 fund_s = fundamental_score(revenue_yoy(rev_upto), DEFAULTS["yoy_full"])
                 # 未來報酬
                 ret = bt.forward_return(px, D, args.horizon)
