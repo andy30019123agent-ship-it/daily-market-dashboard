@@ -1,13 +1,18 @@
-"""回測「籌碼/價量結構/基本面」權重（離線研究工具）。
+"""回測「籌碼/價量結構/基本面」權重（離線研究工具，v2 方法論）。
 
 用 TWSE 官方 T86（法人）＋ FinMind（價量/月營收）重建過去 N 個月的低基期候選＋三子分，
-量測入選後未來 horizon 交易日報酬，網格搜尋最佳權重，出建議報告。
+量測入選後未來多個 horizon 報酬，以「每日 IC 時間序列」為主指標網格搜尋最佳權重，出建議報告。
+
+v2 重點（比 v1 更正確）：
+- 候選對齊線上：法人淨買超「億元」＋門檻（≥inst_min_yi、低基期 gate），非只用股數 top-K。
+- 主指標＝每個 as-of 日各自算 IC，取平均＋t 值＋為正比例（處理樣本不獨立）。
+- K-fold 穩定度；多 horizon（10/20/40）交叉印證。
+- 禁前視：計分只用 as-of 以前資料；月營收以 create_time（公告日）≤ as-of 過濾。
 
 用法：
-  python3 scripts/backtest_weights.py --start 2026-04-01 --end 2026-06-30 --topk 40 --grid-step 0.2
+  python3 scripts/backtest_weights.py --start 2025-07-01 --end 2026-06-05 --topk 300
 
-一律快取到 backtest/cache/（抓過不重抓）；禁前視（計分只用 as-of 日以前資料）。
-結果是「建議」，不自動改線上權重。
+結果是「建議」，不自動改線上權重。全部快取到 backtest/cache/。
 """
 from __future__ import annotations
 
@@ -29,70 +34,66 @@ CACHE = ROOT / "backtest" / "cache"
 OUTDIR = ROOT / "backtest"
 
 
-def _cache_json(path, produce):
-    """通用磁碟快取：有就讀、沒有就 produce() 存。"""
+def _cache_list(path, produce):
+    """磁碟快取，但**只快取非空結果**——FinMind 限流失敗回 []，若快取起來會永久
+    把該檔誤存成無資料。空結果不快取，下次重試。"""
     path = pathlib.Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists():
         return json.loads(path.read_text(encoding="utf-8"))
-    val = produce()
-    path.write_text(json.dumps(val, ensure_ascii=False), encoding="utf-8")
+    val = produce() or []
+    if val:
+        path.write_text(json.dumps(val, ensure_ascii=False), encoding="utf-8")
     return val
 
 
 def trading_days(start, end, sleep):
-    """逐日試抓 T86，回 [(date_iso, {code:shares}), ...] 只含交易日。"""
     days = []
     d = datetime.date.fromisoformat(start)
     endd = datetime.date.fromisoformat(end)
     while d <= endd:
-        if d.weekday() < 5:  # 週末直接跳過，省呼叫
+        if d.weekday() < 5:
             ymd = d.strftime("%Y%m%d")
             cached = (CACHE / f"t86-{ymd}.json").exists()
             t86 = th.fetch_t86_cached(ymd, CACHE)
             if t86:
                 days.append((d.isoformat(), t86))
             if not cached:
-                time.sleep(sleep)  # 只在真的新抓時睡，避免撞 TWSE 限流
+                time.sleep(sleep)
         d += datetime.timedelta(days=1)
     return days
 
 
-def price_rows(code, start_date, sleep):
-    rows = _cache_json(CACHE / f"px-{code}.json",
+def price_rows(code, start_date):
+    rows = _cache_list(CACHE / f"px-{code}.json",
                        lambda: finmind_history(code, start_date))
     if rows:
         rows.sort(key=lambda r: r.get("date", ""))
     return rows
 
 
-def revenue_rows(code, start_date, sleep):
-    return _cache_json(CACHE / f"rev-{code}.json",
+def revenue_rows(code, start_date):
+    return _cache_list(CACHE / f"rev-{code}.json",
                        lambda: finmind_revenue(code, start_date))
 
 
-def build_samples(args):
+def build_samples(args, horizons):
     days = trading_days(args.start, args.end, args.sleep)
     print(f"交易日數：{len(days)}")
-    empty_meta = {"trading_days": len(days), "asof_dates": 0,
-                  "unique_codes": 0, "samples": 0}
+    empty = {"trading_days": len(days), "asof_dates": 0, "unique_codes": 0, "samples": 0}
     if len(days) < args.window:
-        print("⚠️ 交易日不足（需 ≥ window），請拉長區間。")
-        return [], empty_meta
-
-    # as-of 日只需要 window 天前置（吸籌窗口）；未來 horizon 報酬由 FinMind 資料提供，
-    # 不受 T86 抓取區間限制（近 horizon 交易日內的 as-of 因無未來資料，會在 ret=None 時剔除）。
+        print("⚠️ 交易日不足（需 ≥ window）。")
+        return [], empty
     idxs = list(range(args.window - 1, len(days)))
-    asof_idxs = idxs[::args.rebalance]  # 每 rebalance 個交易日取一個 as-of
+    asof_idxs = idxs[::args.rebalance]
     fin_start = (datetime.date.fromisoformat(args.start)
                  - datetime.timedelta(days=420)).isoformat()
 
     samples = []
-    seen_codes = set()
+    seen = set()
     for ai in asof_idxs:
         D = days[ai][0]
-        win = days[ai - args.window + 1: ai + 1]  # 近 window 交易日（含 D）
-        # 聚合法人淨額股數
+        win = days[ai - args.window + 1: ai + 1]
         agg = {}
         bdays = {}
         for _, t86 in win:
@@ -103,93 +104,107 @@ def build_samples(args):
         cands = sorted((c for c in agg if agg[c] > 0), key=lambda c: agg[c], reverse=True)[:args.topk]
         for code in cands:
             try:
-                px = price_rows(code, fin_start, args.sleep)
-                if code not in seen_codes:
-                    seen_codes.add(code)
-                    time.sleep(args.sleep)  # 只在真的新抓時 sleep（快取命中不睡）
+                px = price_rows(code, fin_start)
+                if code not in seen:
+                    seen.add(code)
+                    time.sleep(args.sleep)
                 if not px:
                     continue
                 px_upto = [r for r in px if r.get("date", "") <= D]
                 if len(px_upto) < 60:
                     continue
                 close_by_date = {r["date"]: r.get("close") for r in px}
-                # chip：Σ 淨額股數×當日收盤/1e8（億）＋買超天數
+                # 億元法人淨買超（對齊線上）＋門檻
                 inst_yi = 0.0
                 for dd, t86 in win:
                     sh = t86.get(code, 0)
                     c = close_by_date.get(dd)
                     if sh and c:
                         inst_yi += sh * c / 1e8
+                if inst_yi < DEFAULTS["inst_min_yi"]:
+                    continue  # 對齊線上 pick_accumulators 門檻
                 chip_s = chip_score({"inst_net_yi": round(inst_yi, 2),
                                      "buy_days": bdays.get(code, 0)},
                                     args.window, DEFAULTS["chip_sat"])
-                # struct：低基期指標（截止 D）→ 過 gate
                 m = low_base_metrics(px_upto)
                 if not m or m["price_pos"] > DEFAULTS["pos_max"]:
                     continue
                 struct_s = structure_score(m, DEFAULTS["vol_hi"], DEFAULTS["pos_ref"])
-                # fund：月營收 YoY（截止 D）。**禁前視**：月營收約次月 10 日才公告，
-                # 故以 FinMind 的 create_time（公告日）≤ D 過濾，不能只看營收月份。
-                rev = revenue_rows(code, fin_start, args.sleep)
-                rev_upto = [r for r in rev
-                            if (r.get("create_time") or r.get("date") or "") <= D]
+                rev = revenue_rows(code, fin_start)
+                rev_upto = [r for r in rev if (r.get("create_time") or r.get("date") or "") <= D]
                 fund_s = fundamental_score(revenue_yoy(rev_upto), DEFAULTS["yoy_full"])
-                # 未來報酬
-                ret = bt.forward_return(px, D, args.horizon)
-                if ret is None:
+                ret_by_h = {h: bt.forward_return(px, D, h) for h in horizons}
+                if all(v is None for v in ret_by_h.values()):
                     continue
                 samples.append({"date": D, "code": code, "chip": chip_s,
-                                "struct": struct_s, "fund": fund_s, "ret": ret})
+                                "struct": struct_s, "fund": fund_s, "ret_by_h": ret_by_h})
             except Exception as e:
                 print(f"  跳過 {code}@{D}：{e}")
     meta = {"trading_days": len(days), "asof_dates": len(asof_idxs),
-            "unique_codes": len(seen_codes), "samples": len(samples)}
+            "unique_codes": len(seen), "samples": len(samples)}
     print(f"樣本：{meta}")
     return samples, meta
 
 
-def write_report(args, samples, meta, res, halves):
+def analyze_horizon(samples, h, step):
+    """單一 horizon：把 ret 攤平後跑 per-date IC 搜尋＋K-fold 穩定度。"""
+    sm = [{**s, "ret": s["ret_by_h"].get(h)} for s in samples if s["ret_by_h"].get(h) is not None]
+    res = bt.grid_search_ic(sm, step=step)
+    if res.get("best"):
+        w = res["best"]["w"]
+        res["best"]["folds"] = bt.fold_means(sm, w, k=4)
+    res["n_ret"] = len(sm)
+    return res
+
+
+def fmt_w(w):
+    return f"籌碼 {w['chip']:.0%}／價量結構 {w['struct']:.0%}／基本面 {w['fund']:.0%}"
+
+
+def write_report(args, meta, by_h, horizons):
     rundate = datetime.datetime.now().strftime("%Y%m%d-%H%M")
     OUTDIR.mkdir(parents=True, exist_ok=True)
-    js = {"args": vars(args), "meta": meta, "result": res, "halves": halves}
     (OUTDIR / f"report-{rundate}.json").write_text(
-        json.dumps(js, ensure_ascii=False, indent=1), encoding="utf-8")
-
-    def fmt_w(w):
-        return f"籌碼 {w['chip']:.0%}／價量結構 {w['struct']:.0%}／基本面 {w['fund']:.0%}"
-
-    lines = [f"# 權重回測報告 · {rundate}", ""]
-    lines.append(f"- 區間：{args.start} ～ {args.end}（僅上市、每 {args.rebalance} 交易日取一次）")
-    lines.append(f"- 未來報酬視窗：{args.horizon} 交易日｜吸籌窗口：{args.window} 交易日｜每次 top{args.topk}")
-    lines.append(f"- 樣本數：**{meta['samples']}**（as-of 日 {meta['asof_dates']} 個、個股 {meta['unique_codes']} 檔）")
-    lines.append("")
-    if res.get("best"):
-        b = res["best"]
-        lines.append(f"## 建議權重：{fmt_w(b['w'])}")
-        lines.append(f"- 排序 IC＝**{b['ic']}**（越接近 1 越能把贏家排前面）｜高分−低分五分位報酬差＝{b['spread']}")
-        lines.append(f"- 對照：目前線上（題材除外的三項相對比）約 籌碼 44%／價量結構 44%／基本面 12%")
-        lines.append("")
-        lines.append("### IC 前 10 名權重組合")
-        lines.append("| 籌碼 | 價量結構 | 基本面 | IC | 五分位差 |")
-        lines.append("|---|---|---|---|---|")
-        for r in res["top"]:
+        json.dumps({"args": vars(args), "meta": meta, "by_horizon": by_h},
+                   ensure_ascii=False, indent=1), encoding="utf-8")
+    L = [f"# 權重回測報告 v2 · {rundate}", ""]
+    L.append(f"- 區間：{args.start} ～ {args.end}（僅上市、每 {args.rebalance} 交易日一次、每次 top{args.topk}、億元門檻 {DEFAULTS['inst_min_yi']}）")
+    L.append(f"- 吸籌窗口：{args.window} 交易日｜樣本 **{meta['samples']}**（as-of {meta['asof_dates']} 個、個股 {meta['unique_codes']} 檔）")
+    L.append(f"- **主指標＝每日 IC 平均＋t 值**（t≳2 才算訊號可信）；多 horizon 交叉印證")
+    L.append("")
+    L.append("## 各持有天數的建議權重")
+    L.append("| Horizon | 建議權重 | 平均IC | t值 | 正IC日% | 前後折穩定 |")
+    L.append("|---|---|---|---|---|---|")
+    for h in horizons:
+        r = by_h[h]
+        b = r.get("best")
+        if not b:
+            L.append(f"| {h} 日 | 樣本不足 | — | — | — | — |")
+            continue
+        folds = "/".join(f"{x:.2f}" for x in (b.get("folds") or []))
+        L.append(f"| {h} 日 | {fmt_w(b['w'])} | {b['mean_ic']} | {b['t']} | "
+                 f"{int((b['pos_frac'] or 0)*100)}% | {folds} |")
+    L.append("")
+    # 以 20 日為主檔詳列 top 組合
+    main = by_h.get(20) or by_h.get(horizons[0])
+    if main and main.get("best"):
+        L.append(f"## 主 horizon（{20 if by_h.get(20) else horizons[0]} 日）IC 前 10")
+        L.append("| 籌碼 | 價量結構 | 基本面 | 平均IC | t值 | 正IC日% |")
+        L.append("|---|---|---|---|---|---|")
+        for r in main["top"]:
             w = r["w"]
-            lines.append(f"| {w['chip']:.0%} | {w['struct']:.0%} | {w['fund']:.0%} | {r['ic']} | {r['spread']} |")
-        lines.append("")
-    else:
-        lines.append("## ⚠️ 樣本不足，無法得出建議權重（請拉長區間或提高 topk）")
-        lines.append("")
-    if halves.get("first") and halves.get("second"):
-        lines.append("### 穩定度（前後兩半各自最佳）")
-        lines.append(f"- 前半最佳：{fmt_w(halves['first']['w'])}（IC {halves['first']['ic']}）")
-        lines.append(f"- 後半最佳：{fmt_w(halves['second']['w'])}（IC {halves['second']['ic']}）")
-        lines.append("- 前後半差異大＝過度配適風險高，權重別照抄。")
-        lines.append("")
-    lines.append("---")
-    lines.append("⚠️ 回測是過去統計、**僅研究參考，不保證未來**；題材分未進回測（維持固定加分）。")
-    lines.append("此為建議，需人工確認後才手動更新 `scripts/lib/potential.py` 的 DEFAULTS 權重。")
+            L.append(f"| {w['chip']:.0%} | {w['struct']:.0%} | {w['fund']:.0%} | "
+                     f"{r['mean_ic']} | {r['t']} | {int((r['pos_frac'] or 0)*100)}% |")
+        L.append("")
+    L.append("### 怎麼讀")
+    L.append("- **t 值**：各持有天數若 t 都 ≳2 且權重方向一致 → 訊號可信、可考慮微調線上權重；t 偏低或各 horizon 打架 → 別動，續蒐資料。")
+    L.append("- **前後折穩定**：4 段各自的平均 IC，差異大＝過度配適，權重別照抄。")
+    L.append("- 對照現行線上（題材除外）約 籌碼 44%／價量結構 44%／基本面 12%。")
+    L.append("")
+    L.append("---")
+    L.append("⚠️ 過去統計、**僅研究參考不保證未來**；題材分未進回測；倖存者偏誤/交易成本未建模。此為建議，需人工確認才手動改 DEFAULTS。")
     path = OUTDIR / f"report-{rundate}.md"
-    path.write_text("\n".join(lines), encoding="utf-8")
+    path.write_text("\n".join(L), encoding="utf-8")
     return path
 
 
@@ -197,32 +212,23 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--start", required=True)
     ap.add_argument("--end", required=True)
-    ap.add_argument("--horizon", type=int, default=20)
+    ap.add_argument("--horizons", default="10,20,40")
     ap.add_argument("--window", type=int, default=10)
-    ap.add_argument("--topk", type=int, default=60)
+    ap.add_argument("--topk", type=int, default=300)
     ap.add_argument("--rebalance", type=int, default=5)
     ap.add_argument("--grid-step", type=float, default=0.1)
     ap.add_argument("--sleep", type=float, default=0.4)
     args = ap.parse_args()
+    horizons = [int(x) for x in args.horizons.split(",")]
 
-    samples, meta = build_samples(args)
-    res = bt.grid_search_weights(samples, step=args.grid_step)
-    # 前後兩半交叉（依 as-of 日期切）
-    halves = {}
-    if samples:
-        dates = sorted({s["date"] for s in samples})
-        mid = dates[len(dates) // 2] if dates else None
-        first = [s for s in samples if s["date"] < mid]
-        second = [s for s in samples if s["date"] >= mid]
-        h1 = bt.grid_search_weights(first, step=args.grid_step)
-        h2 = bt.grid_search_weights(second, step=args.grid_step)
-        halves = {"first": h1.get("best"), "second": h2.get("best")}
-    path = write_report(args, samples, meta, res, halves)
+    samples, meta = build_samples(args, horizons)
+    by_h = {h: analyze_horizon(samples, h, args.grid_step) for h in horizons}
+    path = write_report(args, meta, by_h, horizons)
     print(f"報告：{path}")
-    if res.get("best"):
-        b = res["best"]
-        print(f"建議權重：籌碼{b['w']['chip']:.0%}/結構{b['w']['struct']:.0%}/基本面{b['w']['fund']:.0%}"
-              f"（IC {b['ic']}，樣本 {meta['samples']}）")
+    for h in horizons:
+        b = by_h[h].get("best")
+        if b:
+            print(f"  {h}日：{fmt_w(b['w'])}｜平均IC {b['mean_ic']}｜t {b['t']}｜正IC日 {int((b['pos_frac'] or 0)*100)}%")
 
 
 if __name__ == "__main__":
