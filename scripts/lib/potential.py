@@ -146,9 +146,10 @@ def finmind_history(code: str, start_date: str) -> list[dict]:
         return []
 
 
-def filter_low_base(cands: list[dict], start_date: str, pos_max: float,
-                    chg6m_max: float, fetch=finmind_history,
-                    sleep_s: float = 0.3) -> list[dict]:
+def filter_low_base(cands: list[dict], start_date: str, cfg: dict,
+                    fetch=finmind_history, sleep_s: float = 0.3) -> list[dict]:
+    """低基期 gate（price_pos ≤ pos_max）為唯一硬門檻；其餘（量能/季線/半年漲幅）
+    由結構分吸收，不再一票否決落難以外的股。"""
     out = []
     for c in cands:
         rows = fetch(c["code"], start_date)
@@ -159,8 +160,10 @@ def filter_low_base(cands: list[dict], start_date: str, pos_max: float,
         m = low_base_metrics(rows)
         if not m:
             continue
-        if m["price_pos"] <= pos_max and m["chg_6m"] <= chg6m_max:
-            out.append({**c, **m, "history": "ok"})
+        if m["price_pos"] > cfg["pos_max"]:
+            continue
+        struct_s = structure_score(m, cfg["vol_hi"], cfg["pos_ref"])
+        out.append({**c, **m, "struct_s": struct_s, "history": "ok"})
     return out
 
 
@@ -170,6 +173,7 @@ def build_potential(days: list[dict], start_date: str, cfg: dict | None = None,
     agg = aggregate_chips(days, cfg["window"])
     cands = pick_accumulators(agg, cfg["inst_min_yi"], cfg["pct_max"],
                               cfg["cand_max"])
-    stocks = filter_low_base(cands, start_date, cfg["pos_max"], cfg["chg6m_max"],
-                             fetch=fetch, sleep_s=sleep_s)
+    stocks = filter_low_base(cands, start_date, cfg, fetch=fetch, sleep_s=sleep_s)
+    for s in stocks:
+        s["chip_s"] = chip_score(s, cfg["window"], cfg["chip_sat"])
     return {"window_days": cfg["window"], "stocks": stocks}

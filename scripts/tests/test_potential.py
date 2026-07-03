@@ -97,8 +97,8 @@ def test_filter_low_base_keeps_only_low_base():
                      "max": 100, "min": 30} for i in range(30)]
         return []
 
-    out = potential.filter_low_base(cands, "2024-07-01", pos_max=0.4,
-                                    chg6m_max=0.15, fetch=fake_fetch, sleep_s=0)
+    out = potential.filter_low_base(cands, "2024-07-01", cfg=dict(potential.DEFAULTS),
+                                    fetch=fake_fetch, sleep_s=0)
     codes = [s["code"] for s in out]
     assert "LOW" in codes and "HIGH" not in codes and "MISS" not in codes
     low = next(s for s in out if s["code"] == "LOW")
@@ -170,3 +170,21 @@ def test_structure_score_pushes_down_falling_stock():
     laggard = potential.structure_score({"price_pos": 0.15, "vol_ratio": 0.8, "above_ma60": False})
     assert ready > laggard
     assert 0.0 <= laggard <= ready <= 1.0
+
+
+# --- Task 5: build_potential 掛子分（尚無 score）---
+def test_build_potential_attaches_subscores_no_score_yet():
+    days = [_radar([{"code": "2603", "name": "長榮", "pct": 0.0, "inst_net_yi": 1.0,
+                     "value_yi": 5.0, "sector": "航運"}])]
+
+    def fake_fetch(code, start):
+        return [{"date": f"2025-{(i // 28) + 1:02d}-{(i % 28) + 1:02d}",
+                 "close": 50 - i * 0.05, "max": 51 - i * 0.05,
+                 "min": 49 - i * 0.05,
+                 "Trading_Volume": 1000 + (400 if i >= 115 else 0)} for i in range(120)]
+
+    out = potential.build_potential(days, "2025-01-01",
+                                    cfg={"window": 5}, fetch=fake_fetch, sleep_s=0)
+    s = out["stocks"][0]
+    assert "chip_s" in s and "struct_s" in s and "spark" in s
+    assert "score" not in s  # 分數在 finalize 才算
