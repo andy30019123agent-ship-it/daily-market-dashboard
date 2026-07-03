@@ -197,3 +197,8 @@ def test_potential_lines_top3():
 
 def test_potential_lines_empty():
     assert notify._potential_lines({}) == []
+
+
+def test_build_breakout_text():
+    txt = notify.build_breakout_text([{"code": "2603", "name": "長榮", "pct": 6.2}])
+    assert "🚀" in txt and "長榮" in txt and "6.2" in txt

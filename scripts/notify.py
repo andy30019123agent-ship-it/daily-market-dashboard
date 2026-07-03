@@ -193,5 +193,18 @@ def build_summary_text(day: dict, url: str = SITE_URL) -> str:
     return "\n".join(lines)
 
 
+def build_breakout_text(alerts: list, url: str = SITE_URL) -> str:
+    """低基期潛力股發動提醒（獨立於每日戰報的即時推播）。"""
+    lines = ["🚀 低基期潛力股發動提醒", ""]
+    for a in alerts:
+        pct = a.get("pct")
+        pct_s = f"+{pct:.1f}%" if isinstance(pct, (int, float)) else ""
+        lines.append(f"• {a.get('name', '')} {a.get('code', '')}　今日 {pct_s}")
+    lines.append("")
+    lines.append("（追蹤中的潛力股今日放量急拉，跡象非保證，請自行研判）")
+    lines.append(f"🔗 {url}")
+    return "\n".join(lines)
+
+
 def build_failure_text(reason: str) -> str:
     return f"⚠️ 今天的台美股儀表板產製失敗\n\n原因：{reason}\n\n我會再嘗試或請你協助確認。"

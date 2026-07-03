@@ -30,3 +30,31 @@ def update_history(history: dict, today_stocks: list[dict], date: str) -> dict:
         rec["last_score"] = s.get("score")
         stocks[code] = rec
     return {"last_date": date, "stocks": stocks}
+
+
+def _within(days_str: str, date: str, n: int) -> bool:
+    try:
+        a = _dt.date.fromisoformat(days_str)
+        b = _dt.date.fromisoformat(date)
+        return 0 <= (b - a).days <= n
+    except Exception:
+        return False
+
+
+def detect_breakouts(history: dict, radar_stocks: list[dict], date: str,
+                     cfg: dict) -> list[dict]:
+    """近 track_days 內曾在榜、且今日漲幅 ≥ breakout_pct 的股＝發動；同一波只提醒一次。
+    原地在 history.stocks[code] 標記 alerted_date（呼叫端負責存檔）。"""
+    stocks = (history or {}).get("stocks") or {}
+    by_code = {s.get("code"): s for s in radar_stocks}
+    out = []
+    for code, rec in stocks.items():
+        if not _within(rec.get("last_date", ""), date, cfg["track_days"]):
+            continue
+        if rec.get("alerted_date") == date:
+            continue
+        q = by_code.get(code)
+        if q and (q.get("pct") or 0) >= cfg["breakout_pct"]:
+            rec["alerted_date"] = date
+            out.append({"code": code, "name": rec.get("name"), "pct": q.get("pct")})
+    return out

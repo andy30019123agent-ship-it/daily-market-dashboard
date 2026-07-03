@@ -25,6 +25,7 @@ from scripts.notify import build_summary_text, build_failure_text
 from scripts.regime import CHIPS_WINDOW, compute_regime
 
 STATE = DATA_DIR / "notify_state.json"
+HISTORY = DATA_DIR / "potential_history.json"
 CHAT = os.environ.get("TG_CHAT_ID", "-5127072553")
 
 # 明日法說會（跨專案互串）：讀 tw-earnings-calendar 專案的 GitHub Pages 公開資料。
@@ -316,6 +317,35 @@ def _attach_potential(day, date):
         print(f"⚠️ 低基期潛力雷達略過（不影響主戰報）：{e}")
 
 
+def _attach_potential_history(day, date, dry_run=False):
+    """進榜追蹤 + 發動偵測（獨立區塊，失敗不影響主戰報）。
+    把 streak/first_date 標回今日 potential.stocks；偵測到發動時**僅在 POTENTIAL_ALERTS=1**
+    才推播（預設關閉，避免未確認門檻就洗群組）；歷史寫回 potential_history.json。"""
+    try:
+        from scripts.lib.potential_history import update_history, detect_breakouts
+        from scripts.lib.potential import DEFAULTS as PD
+        from scripts.notify import build_breakout_text
+        stocks = (day.get("potential") or {}).get("stocks") or []
+        hist = {}
+        if HISTORY.exists():
+            hist = json.loads(HISTORY.read_text(encoding="utf-8"))
+        hist = update_history(hist, stocks, date)
+        for s in stocks:  # streak/first_date 標回今日 stocks 供前端顯示
+            rec = hist["stocks"].get(s.get("code")) or {}
+            s["streak"] = rec.get("streak")
+            s["first_date"] = rec.get("first_date")
+        alerts = detect_breakouts(hist, (day.get("radar") or {}).get("stocks") or [], date,
+                                  {"track_days": PD["track_days"], "breakout_pct": PD["breakout_pct"]})
+        HISTORY.write_text(json.dumps(hist, ensure_ascii=False), encoding="utf-8")
+        if alerts and not dry_run and os.environ.get("POTENTIAL_ALERTS") == "1":
+            send_tg(build_breakout_text(alerts))
+            print(f"🚀 發動提醒已推播：{[a['code'] for a in alerts]}")
+        elif alerts:
+            print(f"🚀 發動偵測（未推播，POTENTIAL_ALERTS≠1）：{[a['code'] for a in alerts]}")
+    except Exception as e:
+        print(f"⚠️ 潛力歷史/發動偵測略過（不影響主戰報）：{e}")
+
+
 def _run(dry_run):
     td, partial = pick_partial()
     date = report_date(td, partial)
@@ -342,6 +372,7 @@ def _run(dry_run):
         try:
             frozen = json.loads(fp.read_text(encoding="utf-8"))
             _attach_potential(frozen, date)
+            _attach_potential_history(frozen, date, dry_run=dry_run)
             _attach_regime(frozen, date)
             frozen["earnings_tomorrow"] = fetch_earnings_tomorrow()
             fp.write_text(json.dumps(frozen, ensure_ascii=False, indent=1),
@@ -396,6 +427,7 @@ def _run(dry_run):
     day["_warnings"] = collect_warnings(day)
 
     _attach_potential(day, date)
+    _attach_potential_history(day, date, dry_run=dry_run)
     _attach_regime(day, date)
     day["earnings_tomorrow"] = fetch_earnings_tomorrow()
     day["opportunities"] = fetch_opportunities()
