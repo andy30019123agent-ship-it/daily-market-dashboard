@@ -179,3 +179,21 @@ def test_earnings_line_absent_when_missing_or_empty():
     day["earnings_tomorrow"] = []
     txt2 = build_summary_text(day)
     assert "法說會" not in txt2
+
+
+# --- Phase A: 低基期潛力股 Top3 ---
+def test_potential_lines_top3():
+    day = {"potential": {"stocks": [
+        {"name": "龍德造船", "code": "6753", "score": 82, "theme": "無人船", "catalyst": "國防採購千艘無人艇"},
+        {"name": "長榮", "code": "2603", "score": 61, "theme": "航運", "catalyst": ""},
+        {"name": "統一", "code": "1216", "score": 55, "theme": "食品", "catalyst": ""},
+        {"name": "台中銀", "code": "2812", "score": 40, "theme": "金融", "catalyst": ""},
+    ]}}
+    lines = notify._potential_lines(day)
+    assert lines[0] == "🌱 今日潛力股 Top3"
+    assert "龍德造船" in lines[1] and "82" in lines[1]
+    assert sum(1 for l in lines if l.startswith("•")) == 3  # 只取 3 檔
+
+
+def test_potential_lines_empty():
+    assert notify._potential_lines({}) == []

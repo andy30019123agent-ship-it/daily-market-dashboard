@@ -67,6 +67,26 @@ def _opportunities_lines(day: dict):
     return lines
 
 
+def _potential_lines(day: dict):
+    """低基期潛力股 Top3（依分數）；無資料回空清單、靜默省略。"""
+    picks = ((day.get("potential") or {}).get("stocks")) or []
+    if not picks:
+        return []
+    top = sorted(picks, key=lambda s: s.get("score", 0), reverse=True)[:3]
+    lines = ["🌱 今日潛力股 Top3"]
+    for s in top:
+        row = f"• {s.get('name', '')} {s.get('score', '')} 分"
+        theme = (s.get("theme") or "").strip()
+        if theme:
+            row += f"｜{theme}"
+        lines.append(row)
+        cat = (s.get("catalyst") or "").strip()
+        if cat:
+            lines.append(f"　🌱 {cat}")
+    lines.append("")
+    return lines
+
+
 def _earnings_line(day: dict):
     """明日法說會一行（跨專案互串，來源讀不到/沒有場次就回 None，靜默跳過不影響其他推播內容）。"""
     events = day.get("earnings_tomorrow") or []
@@ -152,6 +172,9 @@ def build_summary_text(day: dict, url: str = SITE_URL) -> str:
 
     # ③機會股 Top 5（元件 C，跨專案 fetch；無資料靜默省略）
     lines += _opportunities_lines(day)
+
+    # 🌱 低基期潛力股 Top3（無資料靜默省略）
+    lines += _potential_lines(day)
 
     # ④明日法說會（既有）
     earn_line = _earnings_line(day)
