@@ -86,3 +86,20 @@ def test_fold_means_splits_dates():
     fm = bt.fold_means(s, w, k=4)
     assert len(fm) == 4              # 4 折各一個平均 IC
     assert all(x > 0.8 for x in fm)  # chip 主導 → 每折都高
+
+
+# ===== 分數校準（分數帶 → 歷史命中率/平均報酬）=====
+
+def test_score_calibration_bands():
+    # 分數越高報酬越好：低帶多負、高帶多正
+    scored = [(30, -0.05), (35, -0.02), (50, 0.01), (60, 0.03),
+              (75, 0.08), (80, 0.06), (90, 0.10)]
+    bands = bt.score_calibration(scored, edges=[40, 55, 70])
+    assert len(bands) == 4                      # 4 帶
+    assert bands[0]["hi"] == 40 and bands[-1]["lo"] == 70
+    lo_band = bands[0]
+    hi_band = bands[-1]
+    assert lo_band["hit_rate"] == 0.0           # <40 全負
+    assert hi_band["hit_rate"] == 1.0           # ≥70 全正
+    assert hi_band["avg_ret"] > lo_band["avg_ret"]
+    assert hi_band["n"] == 3

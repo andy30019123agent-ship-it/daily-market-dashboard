@@ -132,6 +132,25 @@ def fold_means(samples, w, k=4):
     return out[:k] if len(out) > k else out
 
 
+def score_calibration(scored, edges):
+    """分數帶校準：scored=[(分數0~100, 未來報酬)]，edges=分帶界（如 [40,55,70]）。
+    回每帶 {lo, hi, n, hit_rate(報酬>0比例), avg_ret}。把抽象分數變成『歷史命中率』。"""
+    bounds = [0] + list(edges) + [100]
+    bands = []
+    for i in range(len(bounds) - 1):
+        lo, hi = bounds[i], bounds[i + 1]
+        top = (i == len(bounds) - 2)
+        rets = [r for sc, r in scored
+                if r is not None and (lo <= sc <= hi if top else lo <= sc < hi)]
+        n = len(rets)
+        bands.append({
+            "lo": lo, "hi": hi, "n": n,
+            "hit_rate": round(sum(1 for r in rets if r > 0) / n, 3) if n else None,
+            "avg_ret": round(sum(rets) / n, 4) if n else None,
+        })
+    return bands
+
+
 def grid_search_weights(samples, step=0.1):
     """對權重網格算 IC/五分位差，依 IC 由高到低。samples=[{chip,struct,fund,ret}]。"""
     results = []

@@ -153,6 +153,9 @@ def analyze_horizon(samples, h, step):
     if res.get("best"):
         w = res["best"]["w"]
         res["best"]["folds"] = bt.fold_means(sm, w, k=4)
+        # 分數校準：用最佳權重把每檔算成 0~100 分 → 各分數帶的歷史命中率/平均報酬
+        scored = [(round(100 * bt.weighted_score(s, w)), s["ret"]) for s in sm]
+        res["best"]["calibration"] = bt.score_calibration(scored, edges=[40, 55, 70])
     res["n_ret"] = len(sm)
     return res
 
@@ -195,6 +198,17 @@ def write_report(args, meta, by_h, horizons):
             w = r["w"]
             L.append(f"| {w['chip']:.0%} | {w['struct']:.0%} | {w['fund']:.0%} | "
                      f"{r['mean_ic']} | {r['t']} | {int((r['pos_frac'] or 0)*100)}% |")
+        L.append("")
+    # 分數校準（主 horizon）：分數帶 → 歷史命中率/平均報酬
+    if main and main.get("best") and main["best"].get("calibration"):
+        L.append(f"## 分數校準（{20 if by_h.get(20) else horizons[0]} 日）——「幾分」代表什麼")
+        L.append("| 分數帶 | 樣本數 | 歷史命中率(報酬>0) | 平均報酬 |")
+        L.append("|---|---|---|---|")
+        for b in main["best"]["calibration"]:
+            hr = f"{int(b['hit_rate']*100)}%" if b["hit_rate"] is not None else "—"
+            ar = f"{b['avg_ret']*100:+.1f}%" if b["avg_ret"] is not None else "—"
+            L.append(f"| {b['lo']}–{b['hi']} 分 | {b['n']} | {hr} | {ar} |")
+        L.append("_註：以最佳權重回算的分數帶統計；讓「76 分」對應到歷史命中率/期望報酬。_")
         L.append("")
     L.append("### 怎麼讀")
     L.append("- **t 值**：各持有天數若 t 都 ≳2 且權重方向一致 → 訊號可信、可考慮微調線上權重；t 偏低或各 horizon 打架 → 別動，續蒐資料。")
