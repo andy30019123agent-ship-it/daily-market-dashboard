@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { aggregateRadar } from '../radar.js'
+import { aggregateRadar, radarSummary } from '../radar.js'
 
 const mk = (stocks, sectors = []) => ({ radar: { stocks, sectors } })
 
@@ -42,5 +42,21 @@ describe('aggregateRadar 近 N 日累加', () => {
     expect(sectors).toHaveLength(1)
     expect(sectors[0].inst_net_yi).toBe(30)
     expect(sectors[0].value_yi).toBe(800)
+  })
+})
+
+describe('radarSummary', () => {
+  it('組出總結句', () => {
+    const radar = { stocks: [
+      { pct: -1, inst_net_yi: 2 }, { pct: -1, inst_net_yi: 3 }, // 逆勢吸籌 x2
+      { pct: 1, inst_net_yi: -2 },                              // 漲高出貨 x1
+    ] }
+    const potential = { stocks: [{}, {}] }
+    const s = radarSummary(radar, potential)
+    expect(s).toContain('吸籌 2')
+    expect(s).toContain('潛力股 2')
+  })
+  it('無資料回空字串', () => {
+    expect(radarSummary(null, null)).toBe('')
   })
 })

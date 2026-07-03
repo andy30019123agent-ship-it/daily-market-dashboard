@@ -474,3 +474,8 @@ footer{color:var(--faint);font-size:11px;text-align:center;margin-top:30px;line-
 .pot-cat { margin-top: 6px; font-size: 13px; color: #4a3547; }
 .pot-note { font-size: 11px; color: #9a8b98; opacity: .8; }
 .pot-empty { padding: 24px; text-align: center; color: #9a8b98; }
+
+/* 資金雷達：頂部總結列 + 進階控制項收摺 */
+.radar-summary{ font:600 13px/1.5 var(--font, inherit); color:var(--gold,#CC5283); margin:2px 0 10px; }
+.radar-adv{ margin:6px 0 10px; }
+.radar-adv > summary{ cursor:pointer; font-size:13px; color:var(--muted,#938799); padding:6px 0; }

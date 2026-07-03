@@ -1,3 +1,21 @@
+// 頂部一句話總結：法人逆勢吸籌／撤離檔數 + 潛力股數（門檻用 1 億中性帶近似單日）。
+export function radarSummary(radar, potential) {
+  const stocks = radar?.stocks || []
+  if (!stocks.length && !(potential?.stocks || []).length) return ''
+  let acc = 0, dist = 0
+  for (const d of stocks) {
+    if (Math.abs(d.inst_net_yi ?? 0) < 1) continue
+    if (d.inst_net_yi > 0 && d.pct < 0) acc++
+    else if (d.inst_net_yi < 0 && d.pct > 0) dist++
+  }
+  const potN = (potential?.stocks || []).length
+  const parts = []
+  if (acc) parts.push(`法人逆勢吸籌 ${acc} 檔`)
+  if (dist) parts.push(`撤離 ${dist} 檔`)
+  if (potN) parts.push(`🌱潛力股 ${potN} 檔`)
+  return parts.join(' · ')
+}
+
 // 把多天的 radar 累加成「近 N 日」視圖：
 // 法人淨買超（inst_net_yi）加總、漲跌幅（pct）累計、成交值（value_yi）加總。
 // days：day 物件陣列，最新在前；只取有 radar 的天。名稱/代號/類別以最新一筆為準。

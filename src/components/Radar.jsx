@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { loadDay } from '../lib/loadDay.js'
-import { aggregateRadar } from '../lib/radar.js'
+import { aggregateRadar, radarSummary } from '../lib/radar.js'
 import PotentialRadar from './PotentialRadar.jsx'
 
 // 可選觀察天數（近 N 個交易日累加）
@@ -203,24 +203,30 @@ export default function Radar({ radar, potential, dates = [], date, onOpen }) {
           <button className={'seg-btn' + (level === 'stocks' ? ' on' : '')} onClick={() => setLevel('stocks')}>個股</button>
         </div>
       </div>
+      {radarSummary(radar, potential) && (
+        <div className="radar-summary">📌 {radarSummary(radar, potential)}</div>
+      )}
       <div className="pmode">
         <button className={'pmode-btn' + (mode === 'quad' ? ' on' : '')} onClick={() => setMode('quad')}>象限</button>
         <button className={'pmode-btn' + (mode === 'potential' ? ' on' : '')} onClick={() => setMode('potential')}>🌱 低基期潛力</button>
       </div>
       {mode === 'quad' ? (
       <>
-      {/* 觀察天數：單日 / 近 3・5・10 日累計 */}
-      <div className="radar-win">
-        <span className="rw-label">觀察區間</span>
-        <div className="seg">
-          {WINDOWS.map((w) => (
-            <button key={w} className={'seg-btn' + (windowN === w ? ' on' : '')} onClick={() => setWindowN(w)}>
-              {w === 1 ? '單日' : `近${w}日`}
-            </button>
-          ))}
+      {/* 觀察天數：單日 / 近 3・5・10 日累計（收進進階，預設收合）*/}
+      <details className="radar-adv">
+        <summary>進階：觀察區間</summary>
+        <div className="radar-win">
+          <span className="rw-label">觀察區間</span>
+          <div className="seg">
+            {WINDOWS.map((w) => (
+              <button key={w} className={'seg-btn' + (windowN === w ? ' on' : '')} onClick={() => setWindowN(w)}>
+                {w === 1 ? '單日' : `近${w}日`}
+              </button>
+            ))}
+          </div>
+          <span className="rw-note">{winLabel}</span>
         </div>
-        <span className="rw-note">{winLabel}</span>
-      </div>
+      </details>
       {busy ? (
         <div className="rk-empty" style={{ padding: '28px 0' }}>載入{winLabel}資料中…</div>
       ) : (
