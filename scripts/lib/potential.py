@@ -167,6 +167,35 @@ def filter_low_base(cands: list[dict], start_date: str, cfg: dict,
     return out
 
 
+def theme_score(stock: dict) -> float:
+    """題材分：有具體發酵點=1.0 / 有題材且≠產業別=0.5 / 否則 0。"""
+    if (stock.get("catalyst") or "").strip():
+        return 1.0
+    theme = (stock.get("theme") or "").strip()
+    if theme and theme != (stock.get("sector") or "").strip():
+        return 0.5
+    return 0.0
+
+
+def combine_score(chip_s: float, struct_s: float, theme_s: float, cfg: dict) -> int:
+    raw = cfg["w_chip"] * chip_s + cfg["w_struct"] * struct_s + cfg["w_theme"] * theme_s
+    return int(round(100 * raw))
+
+
+def finalize_scores(stocks: list[dict], cfg: dict) -> list[dict]:
+    """在 annotate（題材/發酵點）之後呼叫：算題材分＋合成分數＋分項，依分數排序。"""
+    for s in stocks:
+        t = theme_score(s)
+        s["score"] = combine_score(s.get("chip_s", 0.0), s.get("struct_s", 0.0), t, cfg)
+        s["score_parts"] = {
+            "chip": int(round(100 * s.get("chip_s", 0.0))),
+            "struct": int(round(100 * s.get("struct_s", 0.0))),
+            "theme": int(round(100 * t)),
+        }
+    stocks.sort(key=lambda s: s["score"], reverse=True)
+    return stocks
+
+
 def build_potential(days: list[dict], start_date: str, cfg: dict | None = None,
                     fetch=finmind_history, sleep_s: float = 0.3) -> dict:
     cfg = {**DEFAULTS, **(cfg or {})}

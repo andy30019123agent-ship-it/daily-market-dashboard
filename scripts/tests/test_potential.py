@@ -188,3 +188,23 @@ def test_build_potential_attaches_subscores_no_score_yet():
     s = out["stocks"][0]
     assert "chip_s" in s and "struct_s" in s and "spark" in s
     assert "score" not in s  # 分數在 finalize 才算
+
+
+# --- Task 4: 題材分 / 合成分數 / finalize_scores ---
+def test_theme_score_levels():
+    assert potential.theme_score({"catalyst": "國防採購千艘無人艇", "theme": "無人船", "sector": "航運"}) == 1.0
+    assert potential.theme_score({"catalyst": "", "theme": "矽光子", "sector": "電子零組件"}) == 0.5
+    assert potential.theme_score({"catalyst": "", "theme": "航運", "sector": "航運"}) == 0.0
+
+
+def test_finalize_scores_sorts_and_scores():
+    cfg = dict(potential.DEFAULTS)
+    stocks = [
+        {"code": "A", "chip_s": 0.9, "struct_s": 0.9, "catalyst": "轉單題材", "theme": "AI", "sector": "電子"},
+        {"code": "B", "chip_s": 0.2, "struct_s": 0.2, "catalyst": "", "theme": "食品", "sector": "食品"},
+    ]
+    out = potential.finalize_scores(stocks, cfg)
+    assert [s["code"] for s in out] == ["A", "B"]
+    assert out[0]["score"] > out[1]["score"]
+    assert 0 <= out[1]["score"] <= 100
+    assert set(out[0]["score_parts"]) == {"chip", "struct", "theme"}
