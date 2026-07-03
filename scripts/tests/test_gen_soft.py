@@ -4,7 +4,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from scripts.gen_soft_openai import _news_ok  # noqa: E402
+from scripts.gen_soft_openai import _news_ok, _hard_context  # noqa: E402
 
 RD = "2026-06-24"
 
@@ -44,6 +44,31 @@ def test_accepts_prev_trading_day_within_window():
 def test_keeps_when_date_missing_but_source_ok():
     # 沒給 date 時不因日期剔除（仍須通過來源檢查）
     assert _news_ok({"source_url": "https://udn.com/news/story/1/2"}, RD)
+
+
+# --- _hard_context 帶入市場寬度/融資餘額（2026-07-03 新增），供 AI 研判多一維度 ---
+
+def test_hard_context_includes_breadth_and_margin_when_present():
+    partial = {
+        "date": "2026-07-02",
+        "overview": {"tw": {"featured": {"close": 22000, "change_pct": 1.0}, "stats": []}, "us": [], "vix": {}},
+        "breadth": {"up": 649, "up_limit": 54, "down": 323, "down_limit": 1, "flat": 75},
+        "margin": {"listed": {"balance_yi": 6208.4, "change_yi": 113.3},
+                   "otc": {"balance_yi": 2103.4, "change_yi": 19.2},
+                   "total_yi": 8311.8, "total_change_yi": 132.5},
+    }
+    ctx = _hard_context(partial)
+    assert "市場寬度" in ctx and "上漲 649" in ctx and "下跌 323" in ctx
+    assert "融資餘額" in ctx and "8,311.8" in ctx
+
+
+def test_hard_context_omits_breadth_and_margin_when_absent():
+    # 舊版 partial 沒有這兩個新欄位時，_hard_context 不能出錯、也不應出現這些字樣
+    partial = {"date": "2026-07-02",
+               "overview": {"tw": {"featured": {"close": 22000, "change_pct": 1.0}, "stats": []}, "us": [], "vix": {}}}
+    ctx = _hard_context(partial)
+    assert "市場寬度" not in ctx
+    assert "融資餘額" not in ctx
 
 
 # --- annotate_potential（低基期潛力 AI 標註）---

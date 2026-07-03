@@ -32,6 +32,21 @@ def _hard_context(partial: dict) -> str:
     stats = "、".join(f"{s['name']} {s['value']}" for s in tw.get("stats", []))
     if stats:
         lines.append("台股: " + stats)
+    breadth = partial.get("breadth")
+    if breadth:
+        lines.append(
+            f"市場寬度(全市場漲跌家數): 上漲 {breadth.get('up')} 家（含漲停 {breadth.get('up_limit')}）、"
+            f"下跌 {breadth.get('down')} 家（含跌停 {breadth.get('down_limit')}）、持平 {breadth.get('flat')} 家"
+        )
+    margin = partial.get("margin")
+    if margin:
+        listed, otc = margin.get("listed") or {}, margin.get("otc") or {}
+        total = margin.get("total_yi", listed.get("balance_yi"))
+        chg = margin.get("total_change_yi", listed.get("change_yi"))
+        if total is not None:
+            lines.append(
+                f"融資餘額(全市場，億元): {total:,.1f}" + (f"（較前日 {chg:+.1f}）" if chg is not None else "")
+            )
     us = "、".join(
         f"{i.get('name')} {i.get('change_pct'):+}%" for i in ov.get("us", []) if i.get("change_pct") is not None
     )

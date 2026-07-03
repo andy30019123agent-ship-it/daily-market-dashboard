@@ -51,6 +51,24 @@ def test_merge_fills_sox_and_reasons():
     assert day["overview"]["vix"]["us"]["state"] == "低波動"  # 軟情報文字併入
 
 
+def test_merge_carries_breadth_and_margin_when_present():
+    partial = _partial()
+    partial["breadth"] = {"up": 649, "down": 323, "flat": 75}
+    partial["margin"] = {"listed": {"balance_yi": 6208.4, "change_yi": 113.3}}
+    day = merge_day(partial, _soft(), "2026-06-18")
+    assert day["breadth"]["up"] == 649
+    assert day["margin"]["listed"]["balance_yi"] == 6208.4
+    assert validate_day(day) == []
+
+
+def test_merge_ok_when_breadth_and_margin_absent():
+    # 舊版 partial（無 breadth/margin 欄位）不應讓 merge 出錯，day.json 對應鍵為 None
+    day = merge_day(_partial(), _soft(), "2026-06-18")
+    assert day["breadth"] is None
+    assert day["margin"] is None
+    assert validate_day(day) == []
+
+
 def test_update_index_dedup(tmp_path, monkeypatch):
     idx = tmp_path / "index.json"
     idx.write_text('{"dates":["2026-06-18"]}')

@@ -59,3 +59,52 @@ def test_is_complete_false_without_radar():
     assert _is_complete({"radar": None}) is False
     assert _is_complete({"radar": {"stocks": []}}) is False
     assert _is_complete({}) is False
+
+
+# --- 明日法說會（跨專案互串，2026-07-03 新增）：失敗安全測試 ---
+
+class _FakeResp:
+    def __init__(self, payload):
+        self._payload = payload
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *a):
+        return False
+
+    def read(self):
+        import json as _j
+        return _j.dumps(self._payload).encode()
+
+
+def test_fetch_earnings_tomorrow_filters_by_date_and_type(monkeypatch):
+    monkeypatch.setattr(ad, "_taipei_tomorrow", lambda: "2026-07-04")
+    payload = {"events": [
+        {"id": "2330", "name": "台積電", "industry": "半導體", "date": "2026-07-04", "type": "法說會"},
+        {"id": "1101", "name": "台泥", "industry": "水泥", "date": "2026-07-04", "type": "除權息"},  # 型別不符→濾掉
+        {"id": "2317", "name": "鴻海", "industry": "電子", "date": "2026-07-05", "type": "法說會"},  # 別天→濾掉
+    ]}
+    monkeypatch.setattr(ad.urllib.request, "urlopen", lambda req, timeout=10: _FakeResp(payload))
+    out = ad.fetch_earnings_tomorrow()
+    assert out == [{"id": "2330", "name": "台積電", "industry": "半導體"}]
+
+
+def test_fetch_earnings_tomorrow_network_failure_returns_empty(monkeypatch):
+    def _boom(req, timeout=10):
+        raise TimeoutError("連線逾時")
+    monkeypatch.setattr(ad.urllib.request, "urlopen", _boom)
+    assert ad.fetch_earnings_tomorrow() == []
+
+
+def test_fetch_earnings_tomorrow_bad_json_returns_empty(monkeypatch):
+    class _BadResp(_FakeResp):
+        def read(self):
+            return b"not json{"
+    monkeypatch.setattr(ad.urllib.request, "urlopen", lambda req, timeout=10: _BadResp({}))
+    assert ad.fetch_earnings_tomorrow() == []
+
+
+def test_fetch_earnings_tomorrow_missing_events_key_returns_empty(monkeypatch):
+    monkeypatch.setattr(ad.urllib.request, "urlopen", lambda req, timeout=10: _FakeResp({"foo": "bar"}))
+    assert ad.fetch_earnings_tomorrow() == []

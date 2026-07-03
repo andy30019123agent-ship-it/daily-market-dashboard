@@ -63,3 +63,32 @@ def test_accuracy_line_silently_skipped_when_missing(tmp_path, monkeypatch):
     assert "命中率" not in txt
     # 缺檔不應讓推播組字失敗，其餘內容仍正常
     assert "台股創高" in txt
+
+
+# --- 明日法說會（跨專案互串，2026-07-03 新增）---
+
+def test_earnings_line_appears_when_present():
+    day = _day()
+    day["earnings_tomorrow"] = [{"id": "2330", "name": "台積電", "industry": "半導體"}]
+    txt = build_summary_text(day)
+    assert "📅 明日法說會" in txt
+    assert "2330 台積電（半導體）" in txt
+
+
+def test_earnings_line_caps_at_five_and_shows_remainder():
+    day = _day()
+    day["earnings_tomorrow"] = [{"id": str(i), "name": f"公司{i}", "industry": ""} for i in range(7)]
+    txt = build_summary_text(day)
+    assert "等 7 場" in txt
+    assert "公司6" not in txt  # 只列前 5 筆
+
+
+def test_earnings_line_absent_when_missing_or_empty():
+    # 沒有 earnings_tomorrow 欄位（舊版 day.json）不應出錯，也不出現該行
+    txt = build_summary_text(_day())
+    assert "法說會" not in txt
+    # 有欄位但空陣列（抓不到/明日無場次）同樣靜默跳過
+    day = _day()
+    day["earnings_tomorrow"] = []
+    txt2 = build_summary_text(day)
+    assert "法說會" not in txt2

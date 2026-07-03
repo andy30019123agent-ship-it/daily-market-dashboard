@@ -43,13 +43,28 @@ function EventRow({ ev, field }) {
 
 const emptyStyle = { color: 'var(--muted)', fontSize: 13, lineHeight: 1.7, padding: '10px 2px' }
 
-export function UpcomingEvents({ events }) {
+// 明日法說會（跨專案讀 tw-earnings-calendar，欄位可能不存在/為空，靜默不顯示）
+function EarningsTomorrowRow({ earnings }) {
+  if (!earnings || earnings.length === 0) return null
+  const shown = earnings.slice(0, 5)
+    .map((e) => e.name + (e.industry ? `（${e.industry}）` : '')).join('、')
+  const more = earnings.length > 5 ? `　等 ${earnings.length} 場` : ''
+  return (
+    <div className="evt">
+      <div className="d"><div className="mm">明日</div><div className="dd">📅</div></div>
+      <div><div className="ti">法說會</div><div className="x">{shown}{more}</div></div>
+    </div>
+  )
+}
+
+export function UpcomingEvents({ events, earnings }) {
   return (
     <section className="card col-5" data-region="⑥ 本週重大日程">
       <div className="card-h"><span className="label">本週重大日程</span></div>
+      <EarningsTomorrowRow earnings={earnings} />
       {(events && events.length > 0)
         ? events.map((ev, i) => <EventRow ev={ev} field="analysis" key={i} />)
-        : <div style={emptyStyle}>本週暫無重大財經日程</div>}
+        : (!earnings || earnings.length === 0) && <div style={emptyStyle}>本週暫無重大財經日程</div>}
     </section>
   )
 }

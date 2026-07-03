@@ -24,6 +24,7 @@ from scripts.lib.parsers import (  # noqa: E402
     _f, parse_bfi82u, parse_t86_top,
     parse_rwd_index, parse_rwd_fmtqik, parse_rwd_gainers, parse_tpex_gainers, parse_rwd_sectors,
     build_sector_constituents, build_market_radar,
+    parse_market_breadth, parse_margin_twse, parse_margin_tpex,
 )
 from scripts.lib.us_holdings import US_HOLD  # noqa: E402
 
@@ -35,6 +36,10 @@ TWSE_AT = "https://www.twse.com.tw/rwd/zh/afterTrading"
 TWSE_RWD = "https://www.twse.com.tw/rwd/zh/fund"
 # 上櫃（OTC）全市場當日行情：免費、無額度，把熱門股掃描池從上市擴大到含上櫃
 TPEX_DAILY = "https://www.tpex.org.tw/openapi/v1/tpex_mainboard_daily_close_quotes"
+# 全市場信用交易（融資融券）：上市用舊版 exchangeReport（非 rwd，MI_MARGN 在 rwd 下無此端點）
+TWSE_EXR = "https://www.twse.com.tw/exchangeReport"
+# 上櫃融資融券餘額（含 summary 彙總列）
+TPEX_MARGIN = "https://www.tpex.org.tw/www/zh-tw/margin/balance"
 # 台指選擇權波動率指數（TAIWAN VIX）：TAIFEX 官方即時行情 MIS（取代人工沿用）
 TAIFEX_MIS = "https://mis.taifex.com.tw/futures/api/getQuoteDetail"
 # 美股指數/VIX 已改由 auto_daily 用 Yahoo 抓（FRED 在 CI timeout），這裡不再用 FRED
@@ -193,6 +198,38 @@ def fetch_hard_data(date: str) -> dict:
     except Exception as e:
         errors.append(f"RWD MI_INDEX: {e}")
 
+    # ---- 市場寬度（全市場漲跌家數，type=MS 只回大盤統計+漲跌家數，payload 很小）----
+    breadth = None
+    try:
+        ms = get_json(f"{TWSE_AT}/MI_INDEX?date={trade_ymd}&type=MS&response=json")
+        breadth = parse_market_breadth(ms)
+    except Exception as e:
+        errors.append(f"RWD MI_INDEX(MS) 市場寬度: {e}")
+        missing.append("市場寬度（漲跌家數）")
+
+    # ---- 融資餘額（上市 + 上櫃）----
+    margin_listed = None
+    try:
+        mg_twse = get_json(f"{TWSE_EXR}/MI_MARGN?response=json&date={trade_ymd}&selectType=MS")
+        margin_listed = parse_margin_twse(mg_twse)
+    except Exception as e:
+        errors.append(f"MI_MARGN 上市融資: {e}")
+        missing.append("融資餘額（上市）")
+    margin_otc = None
+    try:
+        mg_tpex = get_json(f"{TPEX_MARGIN}?date={trade_ymd}&response=json")
+        margin_otc = parse_margin_tpex(mg_tpex)
+    except Exception as e:
+        errors.append(f"TPEX 融資餘額（上櫃）: {e}")
+        missing.append("融資餘額（上櫃）")
+    margin = None
+    if margin_listed or margin_otc:
+        margin = {"listed": margin_listed, "otc": margin_otc}
+        if margin_listed and margin_otc:
+            margin["total_yi"] = round(margin_listed["balance_yi"] + margin_otc["balance_yi"], 1)
+            if margin_listed.get("change_yi") is not None and margin_otc.get("change_yi") is not None:
+                margin["total_change_yi"] = round(margin_listed["change_yi"] + margin_otc["change_yi"], 1)
+
     # ---- 台股漲幅榜熱門股（上市 Top5 + 上櫃 Top5 各自呈現，兩市場都看得到）----
     hot_listed, hot_otc = [], []
     sda = None
@@ -250,6 +287,15 @@ def fetch_hard_data(date: str) -> dict:
             stats.append({"name": label, "value": val, "dir": d})
         else:
             missing.append(label)
+    if breadth:
+        stats.append({"name": "漲跌家數", "value": f"{breadth['up']}▲ / {breadth['down']}▼",
+                      "note": f"持平 {breadth['flat']} 家"})
+    if margin:
+        m_total = margin.get("total_yi", (margin.get("listed") or {}).get("balance_yi"))
+        m_chg = margin.get("total_change_yi", (margin.get("listed") or {}).get("change_yi"))
+        if m_total is not None:
+            note = f"{'+' if (m_chg or 0) >= 0 else ''}{m_chg} 億" if m_chg is not None else "（含上市" + ("+上櫃）" if margin.get("otc") else "）")
+            stats.append({"name": "融資餘額", "value": f"{m_total:,.0f} 億", "note": note})
 
     # ---- 美股指數 ----
     # 註：FRED 在 GitHub Actions 會 read timeout（每檔重試數分鐘），且只給延遲值。
@@ -353,6 +399,8 @@ def fetch_hard_data(date: str) -> dict:
         "sectors_us": sectors_us,
         "inst_top": inst_top,
         "radar": radar,
+        "breadth": breadth,
+        "margin": margin,
         "_meta": {"errors": errors, "missing": missing, "fetched_at": taipei_today(), "trade_date": trade_ymd},
     }
     return partial

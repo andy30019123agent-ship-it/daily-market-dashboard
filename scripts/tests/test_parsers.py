@@ -8,6 +8,7 @@ from scripts.lib.parsers import (  # noqa: E402
     roc_to_iso, parse_twse_index, parse_fmtqik, twse_top_gainers, parse_fred_csv,
     parse_bfi82u, parse_t86_top, parse_rwd_sectors, build_sector_constituents,
     parse_rwd_index, parse_rwd_gainers, parse_tpex_gainers, build_market_radar,
+    parse_market_breadth, parse_margin_twse, parse_margin_tpex,
 )
 
 
@@ -203,6 +204,61 @@ def test_parse_fred_csv_skips_blanks():
     csv_text = "observation_date,VIXCLS\n2026-06-15,.\n2026-06-16,16.41\n2026-06-17,18.44\n"
     out = parse_fred_csv(csv_text)
     assert out["close"] == 18.44
+
+
+# 真實 RWD MI_INDEX(type=MS) 格式（2026-07-02 實測）：
+# tables 含「大盤統計資訊」與「漲跌證券數合計」，後者 fields=['類型','整體市場','股票']。
+def test_parse_market_breadth_real_shape():
+    payload = {"tables": [
+        {"title": "大盤統計資訊", "fields": ["成交統計", "成交金額(元)"], "data": [["1.一般股票", "1,003,604,616,579"]]},
+        {"title": "漲跌證券數合計", "fields": ["類型", "整體市場", "股票"], "data": [
+            ["上漲(漲停)", "5,870(231)", "649(54)"],
+            ["下跌(跌停)", "5,597(102)", "323(1)"],
+            ["持平", "740", "75"],
+            ["未成交", "15,583", "3"],
+            ["無比價", "2,670", "28"],
+        ]},
+    ]}
+    out = parse_market_breadth(payload)
+    assert out == {"up": 649, "up_limit": 54, "down": 323, "down_limit": 1, "flat": 75}
+
+
+def test_parse_market_breadth_missing_table_raises():
+    import pytest
+    with pytest.raises(ValueError):
+        parse_market_breadth({"tables": [{"fields": ["a"], "data": [["x"]]}]})
+
+
+# 真實 TWSE exchangeReport/MI_MARGN(selectType=MS) 格式（2026-07-02 實測）
+def test_parse_margin_twse_real_shape():
+    payload = {"tables": [{
+        "title": "信用交易統計",
+        "fields": ["項目", "買進", "賣出", "現金(券)償還", "前日餘額", "今日餘額"],
+        "data": [
+            ["融資(交易單位)", "472,181", "352,213", "4,894", "9,414,924", "9,529,998"],
+            ["融券(交易單位)", "26,132", "31,736", "1,725", "196,392", "200,271"],
+            ["融資金額(仟元)", "41,109,751", "29,379,996", "394,873", "609,502,407", "620,837,289"],
+        ],
+    }]}
+    out = parse_margin_twse(payload)
+    assert out["balance_yi"] == round(620837289 / 1e5, 1)
+    assert out["change_yi"] == round((620837289 - 609502407) / 1e5, 1)
+
+
+# 真實 TPEX www/zh-tw/margin/balance 格式（2026-07-02 實測，summary 區塊）
+def test_parse_margin_tpex_real_shape():
+    payload = {"tables": [{
+        "title": "上櫃股票融資融券餘額",
+        "fields": ["代號", "名稱"],
+        "data": [],
+        "summary": [
+            ["", "合計(張)", "2,434,479", "112,137", "88,054", "1,679", "2,456,883"],
+            ["", "融資金(仟元)", "208,415,540", "10,645,672", "8,603,526", "119,865", "210,337,821"],
+        ],
+    }]}
+    out = parse_margin_tpex(payload)
+    assert out["balance_yi"] == round(210337821 / 1e5, 1)
+    assert out["change_yi"] == round((210337821 - 208415540) / 1e5, 1)
 
 
 def test_build_sector_constituents():

@@ -28,6 +28,20 @@ def _accuracy_line():
         return None
 
 
+def _earnings_line(day: dict):
+    """明日法說會一行（跨專案互串，來源讀不到/沒有場次就回 None，靜默跳過不影響其他推播內容）。"""
+    events = day.get("earnings_tomorrow") or []
+    if not events:
+        return None
+    shown = events[:5]
+    parts = [f"{e.get('id', '')} {e.get('name', '')}" + (f"（{e['industry']}）" if e.get("industry") else "")
+             for e in shown]
+    line = "📅 明日法說會：" + "、".join(parts)
+    if len(events) > 5:
+        line += f"　等 {len(events)} 場"
+    return line
+
+
 def _pct(v):
     if not isinstance(v, (int, float)):
         return ""
@@ -93,6 +107,11 @@ def build_summary_text(day: dict, url: str = SITE_URL) -> str:
     acc_line = _accuracy_line()
     if acc_line:
         lines.append(acc_line)
+        lines.append("")
+
+    earn_line = _earnings_line(day)
+    if earn_line:
+        lines.append(earn_line)
         lines.append("")
 
     lines.append(f"🔗 完整儀表板：{url}")

@@ -8,6 +8,7 @@
 """
 import csv
 import io
+import re
 
 
 def roc_to_iso(roc: str) -> str:
@@ -291,6 +292,75 @@ def parse_rwd_sectors(payload: dict, n: int = 5) -> dict:
         return {"name": s["name"], "amount": f"{'+' if s['pct'] >= 0 else ''}{s['pct']:.2f}%",
                 "weight": round(abs(s["pct"]) / mx, 2)}
     return {"in": [row(s) for s in up], "out": [row(s) for s in down]}
+
+
+def parse_market_breadth(payload: dict) -> dict:
+    """RWD afterTrading/MI_INDEX(type=MS) -> 全市場漲跌家數（股票欄，不含權證/ETF等）。
+    來源表格「漲跌證券數合計」列如 ['上漲(漲停)','5,870(231)','649(54)']，
+    取第 3 欄（股票）'649(54)' -> up=649, up_limit=54。
+    """
+    rows = payload.get("data", [])
+    if not rows:
+        for t in payload.get("tables", []):
+            rows = rows + list(t.get("data", []))
+
+    def _split(cell):
+        s = str(cell or "").replace(",", "")
+        m = re.match(r"(\d+)(?:\((\d+)\))?", s)
+        if not m:
+            return None, None
+        return int(m.group(1)), (int(m.group(2)) if m.group(2) else 0)
+
+    out = {}
+    for r in rows:
+        if len(r) < 3:
+            continue
+        label = (r[0] or "").strip()
+        if label.startswith("上漲"):
+            out["up"], out["up_limit"] = _split(r[2])
+        elif label.startswith("下跌"):
+            out["down"], out["down_limit"] = _split(r[2])
+        elif label == "持平":
+            out["flat"], _flat_limit = _split(r[2])
+    if "up" not in out or "down" not in out:
+        raise ValueError("MI_INDEX(MS) 找不到漲跌證券數合計")
+    return out
+
+
+def parse_margin_twse(payload: dict) -> dict:
+    """TWSE exchangeReport/MI_MARGN(selectType=MS) -> 上市融資餘額（億元）與日變化。
+    表格「信用交易統計」列「融資金額(仟元)」含 買進/賣出/現金(券)償還/前日餘額/今日餘額。
+    """
+    for t in payload.get("tables", []):
+        fields = t.get("fields") or []
+        ci_prev = _col(fields, "前日餘額")
+        ci_today = _col(fields, "今日餘額")
+        if ci_prev is None or ci_today is None:
+            continue
+        for r in t.get("data", []):
+            if (r[0] or "").strip().startswith("融資金額"):
+                today, prev = _f(r[ci_today]), _f(r[ci_prev])
+                if today is None:
+                    continue
+                return {"balance_yi": round(today / 1e5, 1),
+                        "change_yi": round((today - prev) / 1e5, 1) if prev is not None else None}
+    raise ValueError("MI_MARGN 找不到融資金額")
+
+
+def parse_margin_tpex(payload: dict) -> dict:
+    """TPEX www/zh-tw/margin/balance -> 上櫃融資餘額（億元）與日變化。
+    summary 列 ['', '融資金(仟元)', 前資餘額, 資買, 資賣, 現償, 資餘額, ...]（單位：仟元）。
+    """
+    for t in payload.get("tables", []):
+        for r in t.get("summary", []) or []:
+            label = str(r[1] if len(r) > 1 else "").strip()
+            if label.startswith("融資金"):
+                prev, today = _f(r[2]) if len(r) > 2 else None, _f(r[6]) if len(r) > 6 else None
+                if today is None:
+                    continue
+                return {"balance_yi": round(today / 1e5, 1),
+                        "change_yi": round((today - prev) / 1e5, 1) if prev is not None else None}
+    raise ValueError("TPEX 融資融券餘額找不到融資金額")
 
 
 # TWSE 上市產業別代碼 → 名稱

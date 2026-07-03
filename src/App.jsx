@@ -141,7 +141,7 @@ export default function App() {
       <div className="grid">
         <MarketLinks markets={day.markets} />
         <News news={day.news} />
-        <UpcomingEvents events={day.upcoming_events} />
+        <UpcomingEvents events={day.upcoming_events} earnings={day.earnings_tomorrow} />
         <PastReview events={day.past_events_review} />
         <Verdict verdict={day.verdict} tab={tab} accuracy={accuracy} />
       </div>

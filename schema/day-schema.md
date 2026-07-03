@@ -94,3 +94,38 @@
 ```
 
 前端日期顯示用 `date` 解析出月/日；events 的月縮寫由前端產生（JUN…）。
+
+## breadth（市場寬度，選填・2026-07-03 新增）
+
+```jsonc
+"breadth": { "up": 649, "up_limit": 54, "down": 323, "down_limit": 1, "flat": 75 }
+```
+- 台股全市場（僅一般股票，不含 ETF/權證）當日漲跌家數。來源 TWSE RWD `MI_INDEX?type=MS`。
+- `up_limit`/`down_limit` 為其中漲停/跌停家數。
+- 抓不到時整欄為 `null`（`_meta.missing` 會記一筆），前端與 notify 皆須容忍缺欄。
+- 同步併入 `overview.tw.stats`（一筆「漲跌家數」tile），供既有台股總覽卡直接顯示，不需新前端元件。
+
+## margin（融資餘額，選填・2026-07-03 新增）
+
+```jsonc
+"margin": {
+  "listed": { "balance_yi": 6208.4, "change_yi": 113.3 },   // 上市，億元
+  "otc":    { "balance_yi": 2103.4, "change_yi": 19.2 },    // 上櫃，億元（若抓不到為 null）
+  "total_yi": 8311.8, "total_change_yi": 132.5              // 上市+上櫃合計（兩者皆有才算）
+}
+```
+- 上市來源 TWSE `exchangeReport/MI_MARGN?selectType=MS`（信用交易統計・融資金額列）。
+- 上櫃來源 TPEX `www/zh-tw/margin/balance`（summary 彙總列）。
+- 任一市場抓不到就該子欄位為 `null`、`total_yi`/`total_change_yi` 一併省略；不得讓流程掛掉。
+- 同步併入 `overview.tw.stats`（一筆「融資餘額」tile）。
+
+## earnings_tomorrow（明日法說會，選填・2026-07-03 新增）
+
+```jsonc
+"earnings_tomorrow": [ { "id": "2330", "name": "台積電", "industry": "半導體" }, ... ]
+```
+- 跨專案互串：讀 `tw-earnings-calendar` 專案 GitHub Pages 公開的
+  `https://andy30019123agent-ship-it.github.io/tw-earnings-calendar/data/latest.json`，
+  取 `date` 為「明天（台北時間）」且 `type` 為「法說會」的事件。
+- 失敗安全：連線/格式錯誤一律回空陣列 `[]`，不擋主流程、不擋部署，Telegram 與前端該段靜默跳過。
+- Telegram 推播最多列 5 筆，超過附「等 N 場」。

@@ -25,6 +25,32 @@ from scripts.notify import build_summary_text, build_failure_text
 STATE = DATA_DIR / "notify_state.json"
 CHAT = os.environ.get("TG_CHAT_ID", "-5127072553")
 
+# 明日法說會（跨專案互串）：讀 tw-earnings-calendar 專案的 GitHub Pages 公開資料。
+# 失敗安全：任何錯誤（連線/格式/缺欄位）一律回空陣列，靜默跳過，不影響本專案主流程。
+EARNINGS_URL = "https://andy30019123agent-ship-it.github.io/tw-earnings-calendar/data/latest.json"
+
+
+def _taipei_tomorrow():
+    now = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8)))
+    return (now.date() + datetime.timedelta(days=1)).isoformat()
+
+
+def fetch_earnings_tomorrow():
+    """明日（台北時間）法說會清單 [{id,name,industry}, ...]；抓不到/格式不符一律回 []。"""
+    try:
+        tomorrow = _taipei_tomorrow()
+        req = urllib.request.Request(EARNINGS_URL, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            data = json.load(r)
+        events = [
+            e for e in (data.get("events") or [])
+            if isinstance(e, dict) and e.get("date") == tomorrow and e.get("type") == "法說會"
+        ]
+        return [{"id": e.get("id", ""), "name": e.get("name", ""), "industry": e.get("industry", "")}
+                for e in events]
+    except Exception:
+        return []
+
 # 美股指數：FRED 在 GitHub Actions 會 timeout，改用 Yahoo（CI 連得到、回真實指數點數）
 YAHOO_US = {
     "道瓊": "%5EDJI",
@@ -259,6 +285,7 @@ def _run(dry_run):
         try:
             frozen = json.loads(fp.read_text(encoding="utf-8"))
             _attach_potential(frozen, date)
+            frozen["earnings_tomorrow"] = fetch_earnings_tomorrow()
             fp.write_text(json.dumps(frozen, ensure_ascii=False, indent=1),
                           encoding="utf-8")
         except Exception as e:
@@ -311,6 +338,7 @@ def _run(dry_run):
     day["_warnings"] = collect_warnings(day)
 
     _attach_potential(day, date)
+    day["earnings_tomorrow"] = fetch_earnings_tomorrow()
 
     (DATA_DIR / f"{date}.json").write_text(
         json.dumps(day, ensure_ascii=False, indent=1), encoding="utf-8"
