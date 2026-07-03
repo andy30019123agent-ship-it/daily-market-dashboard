@@ -42,6 +42,8 @@ export default function PotentialRadar({ potential, onOpen }) {
               <span>位置 {Math.round((s.price_pos ?? 0) * 100)}%</span>
               <span>近半年 {fmtPct(s.chg_6m)}</span>
               <span>法人 {(s.inst_net_yi ?? 0).toFixed(1)} 億</span>
+              {typeof s.fund_yoy === 'number' && <span>營收 YoY {fmtPct(s.fund_yoy)}</span>}
+              {s.streak != null && <span className="pot-streak">在榜 {s.streak} 天</span>}
             </div>
             {s.catalyst && <div className="pot-cat">🌱 {s.catalyst}</div>}
           </div>
