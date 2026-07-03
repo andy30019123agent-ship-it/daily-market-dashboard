@@ -155,3 +155,18 @@ def test_low_base_metrics_adds_vol_ma_spark():
     assert m["above_ma60"] is True       # 緩漲、收盤在季線上
     assert 2 <= len(m["spark"]) <= 52
     assert m["spark"][-1] == rows[-1]["close"]
+
+
+# --- Task 3: 籌碼分 / 價量結構分 ---
+def test_chip_score_rewards_amount_and_persistence():
+    strong = potential.chip_score({"inst_net_yi": 5.0, "buy_days": 5}, window=5)
+    weak = potential.chip_score({"inst_net_yi": 0.3, "buy_days": 1}, window=5)
+    assert strong > weak
+    assert 0.0 <= weak <= strong <= 1.0
+
+
+def test_structure_score_pushes_down_falling_stock():
+    ready = potential.structure_score({"price_pos": 0.15, "vol_ratio": 1.8, "above_ma60": True})
+    laggard = potential.structure_score({"price_pos": 0.15, "vol_ratio": 0.8, "above_ma60": False})
+    assert ready > laggard
+    assert 0.0 <= laggard <= ready <= 1.0

@@ -10,12 +10,16 @@ import time
 import urllib.request
 
 DEFAULTS = {
-    "window": 5,        # 籌碼累積天數
+    "window": 10,       # 籌碼累積天數（由 5 拉長，看得出趨勢）
     "inst_min_yi": 0.5, # 近N日法人淨買超門檻（億）。放低才抓得到「小量、悄悄」的吸籌
     "pct_max": 3.0,     # 當日/最新漲幅上限（%），還沒起漲
     "cand_max": 80,     # 吸籌候選上限。放大才不會被大買熱門股佔滿、擠掉低基期名單
-    "pos_max": 0.40,    # 股價位置上限（0~1，越低越低基期）
-    "chg6m_max": 0.15,  # 近半年漲幅上限
+    "pos_max": 0.40,    # 低基期 gate：股價位置上限（0~1，越低越低基期）
+    "chip_sat": 5.0,    # 淨買超飽和點（億）
+    "vol_hi": 1.8,      # 量增給滿倍數
+    "pos_ref": 0.5,     # 位置分基準
+    "score_min": 40,    # 進榜分數下限
+    "w_chip": 0.35, "w_struct": 0.40, "w_theme": 0.25,  # Phase A 權重（可調）
 }
 
 FINMIND_API = "https://api.finmindtrade.com/api/v4/data"
@@ -109,6 +113,25 @@ def low_base_metrics(rows: list[dict]) -> dict | None:
     return {"price_pos": price_pos, "chg_6m": chg_6m,
             "vol_ratio": vol_ratio, "above_ma60": above_ma60,
             "spark": [round(c, 2) for c in spark]}
+
+
+def _clamp01(x: float) -> float:
+    return max(0.0, min(1.0, x))
+
+
+def chip_score(cand: dict, window: int, chip_sat: float = 5.0) -> float:
+    """籌碼分：淨買超金額（飽和）0.6 + 買超天數佔比 0.4。"""
+    amount = _clamp01((cand.get("inst_net_yi") or 0) / chip_sat)
+    persistence = _clamp01((cand.get("buy_days") or 0) / max(1, window))
+    return round(0.6 * amount + 0.4 * persistence, 3)
+
+
+def structure_score(metrics: dict, vol_hi: float = 1.8, pos_ref: float = 0.5) -> float:
+    """價量結構分：位置低 0.4 + 量增 0.4 + 站季線 0.2。落難股（無量、破季線）分低。"""
+    pos_comp = _clamp01(1 - (metrics.get("price_pos") or 1) / pos_ref)
+    vol_comp = _clamp01(((metrics.get("vol_ratio") or 1) - 0.8) / (vol_hi - 0.8))
+    ma_comp = 1.0 if metrics.get("above_ma60") else 0.0
+    return round(0.4 * pos_comp + 0.4 * vol_comp + 0.2 * ma_comp, 3)
 
 
 def finmind_history(code: str, start_date: str) -> list[dict]:
