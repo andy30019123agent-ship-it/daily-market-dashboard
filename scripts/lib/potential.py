@@ -23,6 +23,7 @@ DEFAULTS = {
     "yoy_full": 0.30,   # 月營收 YoY 給滿分的門檻
     "track_days": 5,    # 發動偵測：近幾日曾在榜才追蹤
     "breakout_pct": 4.5,  # 發動偵測：當日漲幅門檻（%）
+    "min_value_yi": 2.0,  # 發動偵測：當日成交值下限（億），過濾雞蛋水餃假突破
 }
 
 FINMIND_API = "https://api.finmindtrade.com/api/v4/data"

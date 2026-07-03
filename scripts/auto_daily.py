@@ -335,7 +335,8 @@ def _attach_potential_history(day, date, dry_run=False):
             s["streak"] = rec.get("streak")
             s["first_date"] = rec.get("first_date")
         alerts = detect_breakouts(hist, (day.get("radar") or {}).get("stocks") or [], date,
-                                  {"track_days": PD["track_days"], "breakout_pct": PD["breakout_pct"]})
+                                  {"track_days": PD["track_days"], "breakout_pct": PD["breakout_pct"],
+                                   "min_value_yi": PD["min_value_yi"]})
         HISTORY.write_text(json.dumps(hist, ensure_ascii=False), encoding="utf-8")
         if alerts and not dry_run and os.environ.get("POTENTIAL_ALERTS") == "1":
             send_tg(build_breakout_text(alerts))

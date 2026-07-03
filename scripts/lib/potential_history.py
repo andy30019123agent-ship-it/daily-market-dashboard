@@ -57,7 +57,11 @@ def detect_breakouts(history: dict, radar_stocks: list[dict], date: str,
         if rec.get("alerted_date") == date:
             continue
         q = by_code.get(code)
-        if q and (q.get("pct") or 0) >= cfg["breakout_pct"]:
-            rec["alerted_date"] = date
-            out.append({"code": code, "name": rec.get("name"), "pct": q.get("pct")})
+        if not q or (q.get("pct") or 0) < cfg["breakout_pct"]:
+            continue
+        # 有量門檻：成交值太小的一日暴衝多是假突破/雞蛋水餃，過濾掉
+        if (q.get("value_yi") or 0) < cfg.get("min_value_yi", 0):
+            continue
+        rec["alerted_date"] = date
+        out.append({"code": code, "name": rec.get("name"), "pct": q.get("pct")})
     return out
