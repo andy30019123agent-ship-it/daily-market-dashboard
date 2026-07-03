@@ -124,3 +124,19 @@ def test_build_potential_end_to_end():
     assert out["window_days"] == potential.DEFAULTS["window"]
     codes = [s["code"] for s in out["stocks"]]
     assert "LOW" in codes and "HOT" not in codes
+
+
+# ===== Phase A（2026-07-04 升級）=====
+
+# --- Task 1: aggregate_chips buy_days ---
+def test_aggregate_chips_counts_buy_days():
+    days = [
+        _radar([{"code": "2603", "name": "長榮", "pct": -1.0, "inst_net_yi": 0.5,
+                 "value_yi": 3.0, "sector": "航運"}]),
+        _radar([{"code": "2603", "name": "長榮", "pct": 0.0, "inst_net_yi": -0.2,
+                 "value_yi": 3.0, "sector": "航運"}]),
+        _radar([{"code": "2603", "name": "長榮", "pct": 0.3, "inst_net_yi": 1.1,
+                 "value_yi": 4.0, "sector": "航運"}]),
+    ]
+    agg = potential.aggregate_chips(days, window=5)
+    assert agg["2603"]["buy_days"] == 2  # 第1、3天買超

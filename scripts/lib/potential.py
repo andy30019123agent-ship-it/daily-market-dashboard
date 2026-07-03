@@ -22,7 +22,7 @@ FINMIND_API = "https://api.finmindtrade.com/api/v4/data"
 
 
 def aggregate_chips(days: list[dict], window: int) -> dict[str, dict]:
-    """days 由舊到新；取最後 window 天，法人淨買超加總、其餘欄位取最新。"""
+    """days 由舊到新；取最後 window 天，法人淨買超加總、買超天數計數、其餘欄位取最新。"""
     recent = [d for d in days if d][-window:]
     agg: dict[str, dict] = {}
     for d in recent:
@@ -30,8 +30,11 @@ def aggregate_chips(days: list[dict], window: int) -> dict[str, dict]:
             code = s.get("code")
             if not code:
                 continue
-            a = agg.setdefault(code, {"code": code, "inst_net_yi": 0.0})
-            a["inst_net_yi"] = round(a["inst_net_yi"] + (s.get("inst_net_yi") or 0), 2)
+            a = agg.setdefault(code, {"code": code, "inst_net_yi": 0.0, "buy_days": 0})
+            net = s.get("inst_net_yi") or 0
+            a["inst_net_yi"] = round(a["inst_net_yi"] + net, 2)
+            if net > 0:
+                a["buy_days"] += 1
             a["name"] = s.get("name")
             a["pct"] = s.get("pct")
             a["value_yi"] = s.get("value_yi")
