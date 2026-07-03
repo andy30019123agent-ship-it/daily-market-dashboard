@@ -457,20 +457,20 @@ footer{color:var(--faint);font-size:11px;text-align:center;margin-top:30px;line-
   background: transparent; color: var(--ink, #6b5566); font-size: 13px; cursor: pointer; }
 .pmode-btn.on { background: var(--gold, #CC5283); color: #fff; border-color: transparent; }
 .pot-wrap { display: flex; flex-direction: column; gap: 10px; }
-.pot-scatter { width: 100%; height: 180px; background: rgba(150,90,140,.04); border-radius: 12px; }
-.pot-gold { fill: rgba(204,82,131,.10); }
-.pot-dot { fill: #9aa; cursor: pointer; }
-.pot-dot.on { fill: var(--gold, #CC5283); }
-.pot-axis { display: flex; justify-content: space-between; font-size: 11px; color: #9a8b98; opacity: .8; }
 .pot-list { display: grid; gap: 10px; }
 .pot-card { padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(150,90,140,.15); background: rgba(255,255,255,.5); }
-.pot-card.gold { border-color: var(--gold, #CC5283); }
+.pot-card.tier-hot { border-color: rgba(204,82,131,.35); }
 .pot-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .pot-name { background: none; border: none; font-weight: 700; cursor: pointer; color: var(--ink, #4a3547); }
 .pot-code { color: #9a8b98; font-weight: 400; font-size: 12px; }
+.pot-score { font: 600 12px/1 'IBM Plex Mono', monospace; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+.pot-score.tier-hot { background: rgba(204,82,131,.14); color: var(--gold, #CC5283); }
+.pot-score.tier-warm { background: rgba(204,82,131,.08); color: var(--gold, #CC5283); }
+.pot-score.tier-cool { background: rgba(0,0,0,.05); color: var(--muted, #938799); }
+.pot-spark { width: 100%; height: 22px; margin: 6px 0; display: block; }
+.pot-spark polyline { fill: none; stroke: var(--gold, #CC5283); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
 .pot-tag { font-size: 12px; color: var(--gold, #CC5283); }
-.pot-metrics { display: flex; gap: 12px; font-size: 12px; color: #6b5566; margin-top: 4px; }
+.pot-metrics { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: #6b5566; margin-top: 4px; }
 .pot-cat { margin-top: 6px; font-size: 13px; color: #4a3547; }
 .pot-note { font-size: 11px; color: #9a8b98; opacity: .8; }
 .pot-empty { padding: 24px; text-align: center; color: #9a8b98; }
-@media (max-width: 640px) { .pot-scatter { height: 150px; } }

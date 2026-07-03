@@ -1,8 +1,8 @@
-import { isGolden, fmtPct } from '../lib/potential.js'
+import { fmtPct, scoreTier, sparkPath } from '../lib/potential.js'
 
-// 低基期潛力視圖：散佈圖（X=股價位置、Y=法人吸籌）+ 候選卡片。
+// 低基期潛力視圖：依「發動信心分數」排序的候選卡片（分數 badge + 一年走勢縮圖）。
 export default function PotentialRadar({ potential, onOpen }) {
-  const stocks = potential?.stocks || []
+  const stocks = [...(potential?.stocks || [])].sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
   if (!stocks.length) {
     return (
       <div className="pot-empty">
@@ -11,38 +11,24 @@ export default function PotentialRadar({ potential, onOpen }) {
       </div>
     )
   }
-  const maxInst = Math.max(...stocks.map((s) => s.inst_net_yi || 0), 1)
   return (
     <div className="pot-wrap">
-      <svg className="pot-scatter" viewBox="0 0 100 60" preserveAspectRatio="none">
-        <rect x="0" y="0" width="40" height="30" className="pot-gold" />
-        {stocks.map((s) => {
-          const x = Math.min(1, Math.max(0, s.price_pos ?? 1)) * 100
-          const y = 60 - ((s.inst_net_yi || 0) / maxInst) * 58
-          return (
-            <circle
-              key={s.code}
-              cx={x}
-              cy={y}
-              r="1.6"
-              className={isGolden(s) ? 'pot-dot on' : 'pot-dot'}
-              onClick={() => onOpen && onOpen(s.code)}
-            />
-          )
-        })}
-      </svg>
-      <div className="pot-axis"><span>← 低基期</span><span>法人吸籌 ↑</span></div>
-
       <div className="pot-list">
         {stocks.map((s) => (
-          <div key={s.code} className={isGolden(s) ? 'pot-card gold' : 'pot-card'}>
+          <div key={s.code} className={'pot-card tier-' + scoreTier(s.score)}>
             <div className="pot-head">
               <button className="pot-name" onClick={() => onOpen && onOpen(s.code)}>
                 {s.name} <span className="pot-code">{s.code}</span>
               </button>
-              {s.theme && <span className="pot-tag">🏷️ {s.theme}</span>}
+              <span className={'pot-score tier-' + scoreTier(s.score)}>{s.score ?? '—'} 分</span>
             </div>
+            {s.spark && s.spark.length > 1 && (
+              <svg className="pot-spark" viewBox="0 0 100 22" preserveAspectRatio="none" aria-label="近一年走勢">
+                <polyline points={sparkPath(s.spark, 100, 22)} />
+              </svg>
+            )}
             <div className="pot-metrics">
+              {s.theme && <span className="pot-tag">🏷️ {s.theme}</span>}
               <span>位置 {Math.round((s.price_pos ?? 0) * 100)}%</span>
               <span>近半年 {fmtPct(s.chg_6m)}</span>
               <span>法人 {(s.inst_net_yi ?? 0).toFixed(1)} 億</span>
@@ -51,7 +37,7 @@ export default function PotentialRadar({ potential, onOpen }) {
           </div>
         ))}
       </div>
-      <div className="pot-note">跡象非保證，研究起點</div>
+      <div className="pot-note">分數＝籌碼＋價量結構＋題材綜合；跡象非保證，研究起點</div>
     </div>
   )
 }
