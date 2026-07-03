@@ -1,0 +1,166 @@
+{
+ "generated_at": "2026-07-03 08:01",
+ "tw": {
+  "hit_rate": 44.4,
+  "hit": 4,
+  "total": 9,
+  "recent30_rate": 44.4,
+  "recent30_total": 9,
+  "detail": [
+   {
+    "date": "2026-06-18",
+    "next_date": "2026-06-22",
+    "stance": "偏多",
+    "predicted": "up",
+    "actual_pct": 2.75,
+    "actual": "up",
+    "hit": true
+   },
+   {
+    "date": "2026-06-22",
+    "next_date": "2026-06-23",
+    "stance": "偏多",
+    "predicted": "up",
+    "actual_pct": -1.34,
+    "actual": "down",
+    "hit": false
+   },
+   {
+    "date": "2026-06-23",
+    "next_date": "2026-06-24",
+    "stance": "中性偏空",
+    "predicted": "down",
+    "actual_pct": -2.24,
+    "actual": "down",
+    "hit": true
+   },
+   {
+    "date": "2026-06-24",
+    "next_date": "2026-06-25",
+    "stance": "偏空",
+    "predicted": "down",
+    "actual_pct": 0.46,
+    "actual": "up",
+    "hit": false
+   },
+   {
+    "date": "2026-06-25",
+    "next_date": "2026-06-26",
+    "stance": "中性偏多",
+    "predicted": "up",
+    "actual_pct": -3.64,
+    "actual": "down",
+    "hit": false
+   },
+   {
+    "date": "2026-06-26",
+    "next_date": "2026-06-29",
+    "stance": "偏空",
+    "predicted": "down",
+    "actual_pct": 0.96,
+    "actual": "up",
+    "hit": false
+   },
+   {
+    "date": "2026-06-29",
+    "next_date": "2026-06-30",
+    "stance": "中性偏多",
+    "predicted": "up",
+    "actual_pct": 2.5,
+    "actual": "up",
+    "hit": true
+   },
+   {
+    "date": "2026-06-30",
+    "next_date": "2026-07-01",
+    "stance": "偏多",
+    "predicted": "up",
+    "actual_pct": 1.94,
+    "actual": "up",
+    "hit": true
+   },
+   {
+    "date": "2026-07-01",
+    "next_date": "2026-07-02",
+    "stance": "偏多",
+    "predicted": "up",
+    "actual_pct": -0.58,
+    "actual": "down",
+    "hit": false
+   }
+  ]
+ },
+ "us": {
+  "hit_rate": 42.9,
+  "hit": 3,
+  "total": 7,
+  "recent30_rate": 42.9,
+  "recent30_total": 7,
+  "detail": [
+   {
+    "date": "2026-06-18",
+    "next_date": "2026-06-22",
+    "stance": "中性偏多",
+    "predicted": "up",
+    "actual_pct": -0.37,
+    "actual": "down",
+    "hit": false
+   },
+   {
+    "date": "2026-06-22",
+    "next_date": "2026-06-23",
+    "stance": "中性偏多",
+    "predicted": "up",
+    "actual_pct": -0.95,
+    "actual": "down",
+    "hit": false
+   },
+   {
+    "date": "2026-06-23",
+    "next_date": "2026-06-24",
+    "stance": "中性偏空",
+    "predicted": "down",
+    "actual_pct": -0.12,
+    "actual": "down",
+    "hit": true
+   },
+   {
+    "date": "2026-06-24",
+    "next_date": "2026-06-25",
+    "stance": "中性偏空",
+    "predicted": "down",
+    "actual_pct": -0.01,
+    "actual": "down",
+    "hit": true
+   },
+   {
+    "date": "2026-06-29",
+    "next_date": "2026-06-30",
+    "stance": "中性偏空",
+    "predicted": "down",
+    "actual_pct": 1.18,
+    "actual": "up",
+    "hit": false
+   },
+   {
+    "date": "2026-06-30",
+    "next_date": "2026-07-01",
+    "stance": "偏多",
+    "predicted": "up",
+    "actual_pct": 0.79,
+    "actual": "up",
+    "hit": true
+   },
+   {
+    "date": "2026-07-01",
+    "next_date": "2026-07-02",
+    "stance": "偏多",
+    "predicted": "up",
+    "actual_pct": -0.22,
+    "actual": "down",
+    "hit": false
+   }
+  ],
+  "index_used": "標普 500"
+ }
+}

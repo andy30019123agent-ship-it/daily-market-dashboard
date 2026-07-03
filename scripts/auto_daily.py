@@ -14,6 +14,7 @@ import os
 import urllib.parse
 import urllib.request
 
+from scripts.accuracy import build_accuracy
 from scripts.gen_soft_openai import gen_soft, annotate_potential
 from scripts.lib.potential import build_potential
 from scripts.merge_day import DATA_DIR, merge_day, update_index
@@ -317,6 +318,16 @@ def _run(dry_run):
     update_index(date)
     print(f"已產出 {date}.json（news {len(day['news'])} 則，"
           f"台股研判 {day['verdict']['tw']['stance']}）")
+
+    # 資料已定版（寫檔完成）、尚未推播 TG 前，重算命中率成績單（獨立於主戰報，失敗不影響發布）。
+    try:
+        acc = build_accuracy()
+        (DATA_DIR / "accuracy.json").write_text(
+            json.dumps(acc, ensure_ascii=False, indent=1), encoding="utf-8"
+        )
+        print(f"研判命中率：台股 {acc['tw']['hit_rate']}%、美股 {acc['us']['hit_rate']}%")
+    except Exception as e:
+        print(f"⚠️ 命中率成績單計算略過（不影響主戰報）：{e}")
 
     if dry_run:
         print(f"[dry-run] 不發 TG。資料日期={date} 上次推={last}")

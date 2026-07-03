@@ -15,3 +15,14 @@ export async function loadDay(date) {
   if (!r.ok) throw new Error(`${date} 資料載入失敗 (${r.status})`)
   return r.json()
 }
+
+// 研判命中率成績單：非必要資料，讀不到（尚未產生 / 404）就回 null，不影響主戰報顯示。
+export async function loadAccuracy() {
+  try {
+    const r = await fetch(`${base}data/accuracy.json`)
+    if (!r.ok) return null
+    return await r.json()
+  } catch {
+    return null
+  }
+}

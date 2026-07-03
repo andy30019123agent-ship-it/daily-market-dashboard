@@ -32,7 +32,7 @@ jobs:
           AV_API_KEY: ${{ secrets.AV_API_KEY }}
         run: python scripts/fetch_hard_data.py
 
-      - name: 軟情報（OpenAI 上網）+ 合併驗證 + 推播（僅新交易日）
+      - name: 軟情報（OpenAI 上網）+ 合併驗證 + 命中率成績單 + 推播（僅新交易日）
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}

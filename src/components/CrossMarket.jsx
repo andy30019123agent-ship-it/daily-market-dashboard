@@ -65,8 +65,24 @@ export function PastReview({ events }) {
   )
 }
 
+// 研判成績單：命中率回測結果（accuracy.json 讀不到或該市場尚無樣本就不顯示）
+function AccuracyBox({ accuracy, tab }) {
+  const a = accuracy && accuracy[tab]
+  if (!a || !a.total) return null
+  return (
+    <div className="accuracy-box">
+      <div className="accuracy-h">📊 研判成績單</div>
+      <div>
+        命中率 <b className="mono">{a.hit_rate}%</b>（{a.hit}/{a.total} 次）
+        {a.recent30_rate != null && <>，近 30 次 <b className="mono">{a.recent30_rate}%</b></>}
+        {a.total < 20 && <span className="accuracy-note">樣本尚少，僅供參考</span>}
+      </div>
+    </div>
+  )
+}
+
 // 跟著上方台股/美股分頁切換，只顯示當前市場的研判
-export function Verdict({ verdict, tab = 'tw' }) {
+export function Verdict({ verdict, tab = 'tw', accuracy }) {
   const v = verdict[tab] || verdict.tw || verdict
   const market = tab === 'us' ? '美股' : '台股'
   const flag = tab === 'us' ? '🇺🇸' : '🇹🇼'
@@ -96,6 +112,7 @@ export function Verdict({ verdict, tab = 'tw' }) {
             </>
           )}
           {v.comment && <div className="stance-comment">{v.comment}</div>}
+          <AccuracyBox accuracy={accuracy} tab={tab} />
         </div>
       )}
       <div className="verdict">
@@ -106,6 +123,7 @@ export function Verdict({ verdict, tab = 'tw' }) {
           </div>
         ))}
       </div>
+      <div className="ai-disclaimer">本研判由 AI 自動彙整生成，僅供研究參考，不構成投資建議</div>
     </section>
   )
 }

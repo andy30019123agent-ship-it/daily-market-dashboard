@@ -3,8 +3,29 @@
 build_summary_text(day, url) -> str
 build_failure_text(reason) -> str
 """
+import json
+import pathlib
 
 SITE_URL = "https://andy30019123agent-ship-it.github.io/daily-market-dashboard/"
+DATA_DIR = pathlib.Path(__file__).resolve().parents[1] / "public" / "data"
+ACCURACY_PATH = DATA_DIR / "accuracy.json"
+
+
+def _accuracy_line():
+    """近 30 次研判命中率一行；accuracy.json 不存在或格式異常一律安靜跳過（不能讓推播炸掉）。"""
+    try:
+        acc = json.loads(ACCURACY_PATH.read_text(encoding="utf-8"))
+        tw, us = acc.get("tw", {}), acc.get("us", {})
+        tw_rate, tw_n = tw.get("recent30_rate"), tw.get("recent30_total") or 0
+        us_rate, us_n = us.get("recent30_rate"), us.get("recent30_total") or 0
+        if tw_rate is None and us_rate is None:
+            return None
+        tw_s = f"{tw_rate}%" if tw_rate is not None else "—"
+        us_s = f"{us_rate}%" if us_rate is not None else "—"
+        n = max(tw_n, us_n)  # 台美計分樣本數可能不同（中性研判不計分），取較大者代表區間規模
+        return f"📊 近 30 日研判命中率：台股 {tw_s}／美股 {us_s}（樣本 {n}）"
+    except Exception:
+        return None
 
 
 def _pct(v):
@@ -69,7 +90,13 @@ def build_summary_text(day: dict, url: str = SITE_URL) -> str:
         lines.append("⚠️ 今日缺（資料源異常）：" + "、".join(warns))
         lines.append("")
 
+    acc_line = _accuracy_line()
+    if acc_line:
+        lines.append(acc_line)
+        lines.append("")
+
     lines.append(f"🔗 完整儀表板：{url}")
+    lines.append("※ AI 自動生成，僅供參考，非投資建議")
     return "\n".join(lines)
 
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { loadIndex, loadDay } from './lib/loadDay.js'
+import { loadIndex, loadDay, loadAccuracy } from './lib/loadDay.js'
 import Ticker from './components/Ticker.jsx'
 import { OverviewTW, OverviewUS } from './components/Overview.jsx'
 import Vix from './components/Vix.jsx'
@@ -16,6 +16,7 @@ export default function App() {
   const [dates, setDates] = useState([])
   const [date, setDate] = useState(null)
   const [day, setDay] = useState(null)
+  const [accuracy, setAccuracy] = useState(null)
   const [tab, setTab] = useState(() =>
     typeof window !== 'undefined' && window.location.hash.includes('us') ? 'us' : 'tw')
 
@@ -42,6 +43,9 @@ export default function App() {
   }, [])
 
   useEffect(() => { boot() }, [boot])
+
+  // 研判成績單獨立於主戰報載入，失敗不影響戰報顯示
+  useEffect(() => { loadAccuracy().then(setAccuracy) }, [])
 
   // 標註模式：網址帶 ?annotate 顯示各區塊框線與名稱（方便溝通要調整哪一區）
   useEffect(() => {
@@ -139,12 +143,13 @@ export default function App() {
         <News news={day.news} />
         <UpcomingEvents events={day.upcoming_events} />
         <PastReview events={day.past_events_review} />
-        <Verdict verdict={day.verdict} tab={tab} />
+        <Verdict verdict={day.verdict} tab={tab} accuracy={accuracy} />
       </div>
 
       <footer>
         ※ 數據為每日 18:36 自動更新並 Telegram 推送 · 軟情報每條附來源連結<br />
         {day.summary}
+        <div className="ai-disclaimer">本內容由 AI 自動彙整生成，僅供研究參考，不構成投資建議</div>
       </footer>
 
       <ChartModal target={chartTarget} onClose={() => setChartTarget(null)} />
