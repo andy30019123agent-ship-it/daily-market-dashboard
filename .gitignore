@@ -13,3 +13,7 @@ scripts/secrets.json
 .env
 .env.local
 .env*.local
+
+# 回測快取與報告（勿入版控）
+backtest/cache/
+backtest/report-*
