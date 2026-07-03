@@ -209,7 +209,7 @@ def test_finalize_scores_sorts_and_scores():
     assert [s["code"] for s in out] == ["A", "B"]
     assert out[0]["score"] > out[1]["score"]
     assert 0 <= out[1]["score"] <= 100
-    assert set(out[0]["score_parts"]) == {"chip", "struct", "theme"}
+    assert set(out[0]["score_parts"]) == {"chip", "struct", "theme", "fund"}
 
 
 # ===== Phase B（2026-07-04）=====
