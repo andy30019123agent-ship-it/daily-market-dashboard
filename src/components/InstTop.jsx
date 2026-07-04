@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Building2 } from 'lucide-react'
 
 // 三大法人個股買超 / 賣超 Top 5（台股；單位：張）— 買超/賣超分頁切換
 const GROUPS = [
@@ -24,9 +25,9 @@ export default function InstTop({ instTop, onOpen }) {
   const tone = side === 'buy' ? 'up' : 'down'
 
   return (
-    <section className="card col-12" data-region="法人買賣超 Top5">
+    <section className="card col-span-2" data-region="法人買賣超 Top5">
       <div className="card-h">
-        <span className="label">三大法人個股 {side === 'buy' ? '買超' : '賣超'} Top 5</span>
+        <span className="badge-pill label"><Building2 size={14} strokeWidth={1.75} />三大法人個股 {side === 'buy' ? '買超' : '賣超'} Top 5</span>
         <div className="seg">
           <button className={'seg-btn' + (side === 'buy' ? ' on up' : '')} onClick={() => setSide('buy')}>買超</button>
           <button className={'seg-btn' + (side === 'sell' ? ' on down' : '')} onClick={() => setSide('sell')}>賣超</button>

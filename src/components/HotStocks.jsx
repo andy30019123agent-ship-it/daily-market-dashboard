@@ -1,3 +1,4 @@
+import { Flame } from 'lucide-react'
 import { dirClass } from '../lib/format.js'
 
 function Row({ s, onOpen }) {
@@ -18,8 +19,8 @@ export default function HotStocks({ stocks, onOpen }) {
   const otc = (stocks || []).filter((s) => s.mkt === '上櫃')
   const grouped = listed.length > 0 && otc.length > 0
   return (
-    <section className="card col-5" data-region="④ 熱門個股">
-      <div className="card-h"><span className="label">熱門個股</span><span className="meta">漲幅 Top</span></div>
+    <section className="card" data-region="④ 熱門個股">
+      <div className="card-h"><span className="badge-pill label"><Flame size={14} strokeWidth={1.75} />熱門個股</span><span className="meta">漲幅 Top</span></div>
       <div className="hot">
         {grouped ? (
           <>

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { Satellite, Sprout, X } from 'lucide-react'
 import { loadDay } from '../lib/loadDay.js'
 import { aggregateRadar, radarSummary } from '../lib/radar.js'
 import PotentialRadar from './PotentialRadar.jsx'
@@ -20,10 +21,10 @@ function quadKey(d, th = 0) {
 
 // 四象限定義（買方由大到小、賣方由大到小）
 const QUADS = [
-  { key: 'acc',  emoji: '🟢', name: '逆勢吸籌', hint: '法人買、股價還沒漲（準備發動）', buy: true },
-  { key: 'up',   emoji: '🟡', name: '同步買進', hint: '法人買、股價同步上漲',          buy: true },
-  { key: 'dist', emoji: '🔴', name: '漲高出貨', hint: '法人賣、股價卻漲（出貨嫌疑）',   buy: false },
-  { key: 'weak', emoji: '⚪', name: '賣壓失血', hint: '法人賣、股價也跌',              buy: false },
+  { key: 'acc',  name: '逆勢吸籌', hint: '法人買、股價還沒漲（準備發動）', buy: true },
+  { key: 'up',   name: '同步買進', hint: '法人買、股價同步上漲',          buy: true },
+  { key: 'dist', name: '漲高出貨', hint: '法人賣、股價卻漲（出貨嫌疑）',   buy: false },
+  { key: 'weak', name: '賣壓失血', hint: '法人賣、股價也跌',              buy: false },
 ]
 
 function Scatter({ items, onItem, activeQuad, th = 0 }) {
@@ -46,10 +47,10 @@ function Scatter({ items, onItem, activeQuad, th = 0 }) {
       <line x1={cx} y1={PAD} x2={cx} y2={H - PAD} className="radar-axis" />
       <line x1={PAD} y1={cy} x2={W - PAD} y2={cy} className="radar-axis" />
       {/* 象限標籤 */}
-      <text x={PAD + 4} y={PAD + 12} className="qlbl acc">🟢 逆勢吸籌</text>
-      <text x={W - PAD - 4} y={PAD + 12} className="qlbl up" textAnchor="end">🟡 同步買進</text>
-      <text x={W - PAD - 4} y={H - PAD - 5} className="qlbl dist" textAnchor="end">🔴 漲高出貨</text>
-      <text x={PAD + 4} y={H - PAD - 5} className="qlbl weak">⚪ 賣壓失血</text>
+      <text x={PAD + 4} y={PAD + 12} className="qlbl acc">逆勢吸籌</text>
+      <text x={W - PAD - 4} y={PAD + 12} className="qlbl up" textAnchor="end">同步買進</text>
+      <text x={W - PAD - 4} y={H - PAD - 5} className="qlbl dist" textAnchor="end">漲高出貨</text>
+      <text x={PAD + 4} y={H - PAD - 5} className="qlbl weak">賣壓失血</text>
       {/* 軸名 */}
       <text x={W - PAD} y={cy - 4} className="qaxname" textAnchor="end">漲→</text>
       <text x={cx + 4} y={PAD - 6} className="qaxname">法人買超↑</text>
@@ -90,13 +91,13 @@ function SectorStocksModal({ sector, stocks, onClose, onOpen }) {
   if (!sector) return null
   const list = (stocks || []).filter((s) => s.sector === sector)
     .sort((a, b) => b.inst_net_yi - a.inst_net_yi)
-  // 用 portal 渲染到 body，避開卡片 backdrop-filter 造成的 fixed 定位錯位
+  // 用 portal 渲染到 body，避開卡片內 fixed 定位錯位
   return createPortal((
     <div className="modal-back" onClick={onClose}>
       <div className="modal-box" onClick={(e) => e.stopPropagation()}>
         <div className="modal-head">
           <span className="modal-title">{sector}<span className="modal-sub">個股 · 依法人淨買超排序 · 共 {list.length} 檔</span></span>
-          <button className="modal-x" onClick={onClose} aria-label="關閉">✕</button>
+          <button className="modal-x" onClick={onClose} aria-label="關閉"><X size={16} strokeWidth={1.75} /></button>
         </div>
         {list.length ? (
           <div className="modal-list">
@@ -111,7 +112,7 @@ function SectorStocksModal({ sector, stocks, onClose, onOpen }) {
             ))}
           </div>
         ) : <div className="modal-empty">查無個股資料</div>}
-        <div className="modal-foot">🟢 吸籌（法人淨買超為正）在上、🔴 撤離在下 · 點個股看 K 線</div>
+        <div className="modal-foot">吸籌（法人淨買超為正）在上、撤離在下 · 點個股看 K 線</div>
       </div>
     </div>
   ), document.body)
@@ -166,11 +167,11 @@ export default function Radar({ radar, potential, dates = [], date, onOpen }) {
   // radar 缺資料時仍要能看/切到低基期潛力（potential 是獨立資料）
   if (!radar) {
     return (
-      <section className="card col-12" data-region="⑨ 資金流雷達">
-        <div className="card-h"><span className="label">🛰️ 資金流雷達</span></div>
+      <section className="card col-span-2" data-region="⑨ 資金流雷達">
+        <div className="card-h"><span className="badge-pill label"><Satellite size={14} strokeWidth={1.75} />資金流雷達</span></div>
         <div className="pmode">
           <button className={'pmode-btn' + (mode === 'quad' ? ' on' : '')} onClick={() => setMode('quad')}>象限</button>
-          <button className={'pmode-btn' + (mode === 'potential' ? ' on' : '')} onClick={() => setMode('potential')}>🌱 低基期潛力</button>
+          <button className={'pmode-btn' + (mode === 'potential' ? ' on' : '')} onClick={() => setMode('potential')}><Sprout size={14} strokeWidth={1.75} />低基期潛力</button>
         </div>
         {mode === 'quad'
           ? <div className="rk-empty" style={{ padding: '18px 0' }}>今日無資金流資料</div>
@@ -195,20 +196,20 @@ export default function Radar({ radar, potential, dates = [], date, onOpen }) {
     : (nDays && nDays < windowN ? `近 ${nDays} 日（僅 ${nDays} 日有資料）` : `近 ${windowN} 日累計`)
 
   return (
-    <section className="card col-12" data-region="⑨ 資金流雷達">
+    <section className="card col-span-2" data-region="⑨ 資金流雷達">
       <div className="card-h">
-        <span className="label">🛰️ 資金流雷達<span className="meta"> · 法人買超 × 漲幅</span></span>
+        <span className="badge-pill label"><Satellite size={14} strokeWidth={1.75} />資金流雷達<span className="meta"> · 法人買超 × 漲幅</span></span>
         <div className="seg">
           <button className={'seg-btn' + (level === 'sectors' ? ' on' : '')} onClick={() => setLevel('sectors')}>類股</button>
           <button className={'seg-btn' + (level === 'stocks' ? ' on' : '')} onClick={() => setLevel('stocks')}>個股</button>
         </div>
       </div>
       {radarSummary(radar, potential) && (
-        <div className="radar-summary">📌 {radarSummary(radar, potential)}</div>
+        <div className="radar-summary">{radarSummary(radar, potential)}</div>
       )}
       <div className="pmode">
         <button className={'pmode-btn' + (mode === 'quad' ? ' on' : '')} onClick={() => setMode('quad')}>象限</button>
-        <button className={'pmode-btn' + (mode === 'potential' ? ' on' : '')} onClick={() => setMode('potential')}>🌱 低基期潛力</button>
+        <button className={'pmode-btn' + (mode === 'potential' ? ' on' : '')} onClick={() => setMode('potential')}><Sprout size={14} strokeWidth={1.75} />低基期潛力</button>
       </div>
       {mode === 'quad' ? (
       <>
@@ -238,7 +239,7 @@ export default function Radar({ radar, potential, dates = [], date, onOpen }) {
               <div className="quad-sel">
                 {QUADS.map((q) => (
                   <button key={q.key} className={'quad-chip ' + q.key + (quad === q.key ? ' on' : '')} onClick={() => setQuad(q.key)}>
-                    <span className="qc-name">{q.emoji} {q.name}</span>
+                    <span className="qc-name"><span className={'quad-dot dot-' + q.key} />{q.name}</span>
                     <span className="qc-cnt">{data.counts[q.key]}</span>
                   </button>
                 ))}
@@ -250,7 +251,7 @@ export default function Radar({ radar, potential, dates = [], date, onOpen }) {
               </div>
             </div>
           </div>
-          <div className="radar-foot">🔮 資金面早期跡象、屬推測，非保證會漲跌；法人淨買超＝三大法人合計 × 收盤價，中性帶＝法人力道 {th} 億內視為不明顯。{level === 'sectors' ? '點類股看成分個股。' : '點個股看 K 線。'}</div>
+          <div className="radar-foot">資金面早期跡象、屬推測，非保證會漲跌；法人淨買超＝三大法人合計 × 收盤價，中性帶＝法人力道 {th} 億內視為不明顯。{level === 'sectors' ? '點類股看成分個股。' : '點個股看 K 線。'}</div>
           <SectorStocksModal sector={secSel} stocks={activeRadar.stocks} onClose={() => setSecSel(null)} onOpen={onOpen} />
         </>
       )}

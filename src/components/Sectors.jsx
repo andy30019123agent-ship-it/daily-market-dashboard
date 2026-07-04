@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
+import { Layers, X } from 'lucide-react'
 
 function Col({ rows, side, label, onPick }) {
   return (
@@ -21,13 +22,13 @@ function Col({ rows, side, label, onPick }) {
 function ConstituentModal({ sector, onClose }) {
   if (!sector) return null
   const list = sector.constituents || []
-  // 用 portal 渲染到 body，避開卡片 backdrop-filter 造成的 fixed 定位錯位
+  // 用 portal 渲染到 body，避開卡片內 fixed 定位錯位
   return createPortal((
     <div className="modal-back" onClick={onClose}>
       <div className="modal-box" onClick={(e) => e.stopPropagation()}>
         <div className="modal-head">
           <span className="modal-title">{sector.name}<span className="modal-sub">成分股 · {sector.amount}</span></span>
-          <button className="modal-x" onClick={onClose} aria-label="關閉">✕</button>
+          <button className="modal-x" onClick={onClose} aria-label="關閉"><X size={16} strokeWidth={1.75} /></button>
         </div>
         {list.length ? (
           <div className="modal-list">
@@ -52,8 +53,8 @@ function ConstituentModal({ sector, onClose }) {
 export default function Sectors({ sectors, title = '板塊資金流向', meta, inLabel = '▲ 資金流入 Top 5', outLabel = '▼ 資金流出 Top 5' }) {
   const [pick, setPick] = useState(typeof window !== 'undefined' && window.location.search.includes('demomodal') ? (sectors.in && sectors.in[0]) : null)
   return (
-    <section className="card col-7" data-region="③ 類股 / 資金流向">
-      <div className="card-h"><span className="label">{title}</span><span className="meta">{meta}</span></div>
+    <section className="card" data-region="③ 類股 / 資金流向">
+      <div className="card-h"><span className="badge-pill label"><Layers size={14} strokeWidth={1.75} />{title}</span><span className="meta">{meta}</span></div>
       <div className="flow2">
         <Col rows={sectors.in} side="in" label={inLabel} onPick={setPick} />
         <Col rows={sectors.out} side="out" label={outLabel} onPick={setPick} />

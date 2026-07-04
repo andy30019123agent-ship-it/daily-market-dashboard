@@ -1,3 +1,4 @@
+import { Tag, Sprout } from 'lucide-react'
 import { fmtPct, scoreTier, sparkPath } from '../lib/potential.js'
 
 // 低基期潛力視圖：依「發動信心分數」排序的候選卡片（分數 badge + 一年走勢縮圖）。
@@ -38,14 +39,14 @@ export default function PotentialRadar({ potential, onOpen }) {
               </svg>
             )}
             <div className="pot-metrics">
-              {s.theme && <span className="pot-tag">🏷️ {s.theme}</span>}
+              {s.theme && <span className="pot-tag"><Tag size={12} strokeWidth={1.75} />{s.theme}</span>}
               <span>位置 {Math.round((s.price_pos ?? 0) * 100)}%</span>
               <span>近半年 {fmtPct(s.chg_6m)}</span>
               <span>法人 {(s.inst_net_yi ?? 0).toFixed(1)} 億</span>
               {typeof s.fund_yoy === 'number' && <span>營收 YoY {fmtPct(s.fund_yoy)}</span>}
               {s.streak != null && <span className="pot-streak">在榜 {s.streak} 天</span>}
             </div>
-            {s.catalyst && <div className="pot-cat">🌱 {s.catalyst}</div>}
+            {s.catalyst && <div className="pot-cat"><Sprout size={14} strokeWidth={1.75} />{s.catalyst}</div>}
           </div>
           )
         })}

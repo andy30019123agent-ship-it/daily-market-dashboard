@@ -1,3 +1,4 @@
+import { Newspaper, CalendarClock, History, BarChart3 } from 'lucide-react'
 import { monthDay } from '../lib/format.js'
 
 const TAGS = { pos: '利多', neg: '利空', neu: '中性' }
@@ -7,8 +8,8 @@ const safeUrl = (u) => (/^https?:\/\//i.test(u || '') ? u : null)
 
 export function News({ news }) {
   return (
-    <section className="card col-7" data-region="⑤ 影響股市消息">
-      <div className="card-h"><span className="label">川普及影響股市消息</span></div>
+    <section className="card" data-region="⑤ 影響股市消息">
+      <div className="card-h"><span className="badge-pill label"><Newspaper size={14} strokeWidth={1.75} />川普及影響股市消息</span></div>
       <div className="news">
         {(news && news.length > 0) ? news.map((n, i) => (
           <div className="newsrow" key={i}>
@@ -22,7 +23,7 @@ export function News({ news }) {
             </div>
           </div>
         )) : (
-          <div style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.7, padding: '14px 2px' }}>
+          <div style={{ color: 'var(--ink-muted)', fontSize: 16, lineHeight: 1.7, padding: '14px 2px' }}>
             今日無符合條件的即時新聞<br />（寧缺勿錯：已濾掉別天舊聞與影片／社群來源）
           </div>
         )}
@@ -41,7 +42,7 @@ function EventRow({ ev, field }) {
   )
 }
 
-const emptyStyle = { color: 'var(--muted)', fontSize: 13, lineHeight: 1.7, padding: '10px 2px' }
+const emptyStyle = { color: 'var(--ink-muted)', fontSize: 16, lineHeight: 1.7, padding: '10px 2px' }
 
 // 明日法說會（跨專案讀 tw-earnings-calendar，欄位可能不存在/為空，靜默不顯示）
 function EarningsTomorrowRow({ earnings }) {
@@ -51,7 +52,7 @@ function EarningsTomorrowRow({ earnings }) {
   const more = earnings.length > 5 ? `　等 ${earnings.length} 場` : ''
   return (
     <div className="evt">
-      <div className="d"><div className="mm">明日</div><div className="dd">📅</div></div>
+      <div className="d"><div className="mm">明日</div><div className="dd"><CalendarClock size={18} strokeWidth={1.75} /></div></div>
       <div><div className="ti">法說會</div><div className="x">{shown}{more}</div></div>
     </div>
   )
@@ -59,8 +60,8 @@ function EarningsTomorrowRow({ earnings }) {
 
 export function UpcomingEvents({ events, earnings }) {
   return (
-    <section className="card col-5" data-region="⑥ 本週重大日程">
-      <div className="card-h"><span className="label">本週重大日程</span></div>
+    <section className="card" data-region="⑥ 本週重大日程">
+      <div className="card-h"><span className="badge-pill label"><CalendarClock size={14} strokeWidth={1.75} />本週重大日程</span></div>
       <EarningsTomorrowRow earnings={earnings} />
       {(events && events.length > 0)
         ? events.map((ev, i) => <EventRow ev={ev} field="analysis" key={i} />)
@@ -71,8 +72,8 @@ export function UpcomingEvents({ events, earnings }) {
 
 export function PastReview({ events }) {
   return (
-    <section className="card col-5" data-region="⑦ 昨日日程回顧">
-      <div className="card-h"><span className="label">昨日日程回顧</span></div>
+    <section className="card col-span-2" data-region="⑦ 昨日日程回顧">
+      <div className="card-h"><span className="badge-pill label"><History size={14} strokeWidth={1.75} />昨日日程回顧</span></div>
       {(events && events.length > 0)
         ? events.map((ev, i) => <EventRow ev={ev} field="result" key={i} />)
         : <div style={emptyStyle}>近日無已發生的重大日程回顧</div>}
@@ -86,7 +87,7 @@ function AccuracyBox({ accuracy, tab }) {
   if (!a || !a.total) return null
   return (
     <div className="accuracy-box">
-      <div className="accuracy-h">📊 研判成績單</div>
+      <div className="accuracy-h"><BarChart3 size={14} strokeWidth={1.75} />研判成績單</div>
       <div>
         命中率 <b className="mono">{a.hit_rate}%</b>（{a.hit}/{a.total} 次）
         {a.recent30_rate != null && <>，近 30 次 <b className="mono">{a.recent30_rate}%</b></>}
@@ -100,7 +101,6 @@ function AccuracyBox({ accuracy, tab }) {
 export function Verdict({ verdict, tab = 'tw', accuracy }) {
   const v = verdict[tab] || verdict.tw || verdict
   const market = tab === 'us' ? '美股' : '台股'
-  const flag = tab === 'us' ? '🇺🇸' : '🇹🇼'
   const cols = [
     { cls: 'good', ic: '＋', title: '利多', items: v.bullish },
     { cls: 'bad', ic: '－', title: '利空', items: v.bearish },
@@ -109,15 +109,15 @@ export function Verdict({ verdict, tab = 'tw', accuracy }) {
   const score = typeof v.score === 'number' ? Math.max(0, Math.min(100, v.score)) : null
   const tone = score == null ? '' : score >= 60 ? 'up' : score <= 40 ? 'down' : 'neu'
   return (
-    <section className="card col-12" data-region="⑧ 今日綜合研判">
+    <section className="card col-span-2" data-region="⑧ 今日綜合研判">
       <div className="card-h">
-        <span className="label">今日綜合研判 · {flag} {market}</span>
+        <span className="badge-pill label"><BarChart3 size={14} strokeWidth={1.75} />今日綜合研判 · {market}</span>
         <span className="meta">跟隨上方分頁切換</span>
       </div>
       {v.stance && (
         <div className="stance">
           <div className="stance-top">
-            <span className="stance-tag">{flag} {market}研判</span>
+            <span className="stance-tag">{market}研判</span>
             <span className={'stance-label ' + tone}>{v.stance}</span>
           </div>
           {score != null && (

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { Calendar, ChevronDown } from 'lucide-react'
 import { dateWithWeekday } from '../lib/format.js'
 
 const WD = ['日', '一', '二', '三', '四', '五', '六']
@@ -34,9 +35,9 @@ export default function DatePicker({ dates, selected, onSelect }) {
   return (
     <div ref={ref} style={{ position: 'relative' }}>
       <button className="datebtn" onClick={() => setOpen((o) => !o)}>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M3 9h18M8 2v4M16 2v4" /></svg>
+        <Calendar size={16} strokeWidth={1.75} />
         {dateWithWeekday(selected)}
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#76829A" strokeWidth="2.5"><path d="M6 9l6 6 6-6" /></svg>
+        <ChevronDown size={14} strokeWidth={2} />
       </button>
       {open && (
         <div className="calpop">

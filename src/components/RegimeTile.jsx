@@ -19,7 +19,7 @@ export default function RegimeTile({ regime }) {
   return (
     <section className="card regime-card" data-region="⓪ 市場紅綠燈">
       <button className="regime-main" onClick={() => setOpen((o) => !o)} aria-expanded={open}>
-        <span className="regime-dot" aria-hidden="true">{meta.emoji}</span>
+        <span className={'regime-dot ' + meta.cls} aria-hidden="true" />
         <span className="regime-title">市場紅綠燈</span>
         <span className={'regime-badge ' + meta.cls}>{meta.label}</span>
         <span className="regime-score mono">{regime.score} 分</span>
@@ -38,7 +38,7 @@ export default function RegimeTile({ regime }) {
           })}
         </div>
       )}
-      <div className="regime-foot">🔮 規則式量化訊號，非個股買賣建議</div>
+      <div className="regime-foot">規則式量化訊號，非個股買賣建議</div>
     </section>
   )
 }

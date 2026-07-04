@@ -12,7 +12,7 @@ export function radarSummary(radar, potential) {
   const parts = []
   if (acc) parts.push(`法人逆勢吸籌 ${acc} 檔`)
   if (dist) parts.push(`撤離 ${dist} 檔`)
-  if (potN) parts.push(`🌱潛力股 ${potN} 檔`)
+  if (potN) parts.push(`潛力股 ${potN} 檔`)
   return parts.join(' · ')
 }
 

@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { createChart } from 'lightweight-charts'
+import { AlertTriangle, X } from 'lucide-react'
+
+// 讀取 CSS token 的實際色值（lightweight-charts 是 canvas 繪圖，無法直接吃 CSS var()，
+// 但顏色本身仍要來自 styles.css 的 :root token，維持單一色彩來源）
+const cssVar = (name) => (typeof document !== 'undefined'
+  ? getComputedStyle(document.documentElement).getPropertyValue(name).trim() : '')
 
 // 台股 K 線：用免費 FinMind 抓日 K，TradingView 開源套件 lightweight-charts 直接畫在彈窗裡。
 // 美股 FinMind 無資料 → 維持外開看盤站；台股抓不到 → 退回外開連結當保險。
@@ -92,23 +98,28 @@ function TWKChart({ id, links }) {
         const host = wrapRef.current
         if (!host) return
         host.replaceChildren()
+        const inkMuted = cssVar('--ink-muted')
+        const border = cssVar('--border')
+        const up = cssVar('--up')
+        const down = cssVar('--down')
+        const accent = cssVar('--accent')
         chart = createChart(host, {
           autoSize: true,
-          layout: { background: { color: 'transparent' }, textColor: '#6b5566', fontFamily: 'inherit' },
-          grid: { vertLines: { color: 'rgba(150,90,140,.08)' }, horzLines: { color: 'rgba(150,90,140,.08)' } },
-          rightPriceScale: { borderColor: 'rgba(150,90,140,.18)' },
-          timeScale: { borderColor: 'rgba(150,90,140,.18)', timeVisible: false },
+          layout: { background: { color: 'transparent' }, textColor: inkMuted, fontFamily: 'inherit' },
+          grid: { vertLines: { color: border }, horzLines: { color: border } },
+          rightPriceScale: { borderColor: border },
+          timeScale: { borderColor: border, timeVisible: false },
           crosshair: { mode: 1 },
           localization: { locale: 'zh-TW' },
         })
         // 台股漲紅跌綠
         const candle = chart.addCandlestickSeries({
-          upColor: '#E23B4E', downColor: '#16A34A',
-          wickUpColor: '#E23B4E', wickDownColor: '#16A34A', borderVisible: false,
+          upColor: up, downColor: down,
+          wickUpColor: up, wickDownColor: down, borderVisible: false,
         })
         candle.setData(rows)
         if (rows.length >= 20) {
-          const ma = chart.addLineSeries({ color: '#D9881C', lineWidth: 2, priceLineVisible: false, lastValueVisible: false })
+          const ma = chart.addLineSeries({ color: accent, lineWidth: 2, priceLineVisible: false, lastValueVisible: false })
           ma.setData(sma(rows, 20))
         }
         chart.timeScale().fitContent()
@@ -124,7 +135,7 @@ function TWKChart({ id, links }) {
   if (state === 'error') {
     return (
       <div className="chart-links">
-        <div className="chart-links-hint">⚠️ 即時 K 線資料抓取失敗（可能是免費額度暫滿），改用外部看盤站：</div>
+        <div className="chart-links-hint"><AlertTriangle size={16} strokeWidth={1.75} />即時 K 線資料抓取失敗（可能是免費額度暫滿），改用外部看盤站：</div>
         <div className="chart-links-btns">
           {links.map((l) => (
             <a key={l.url} className="chart-link-btn" href={l.url} target="_blank" rel="noopener noreferrer">{l.label} ↗</a>
@@ -155,14 +166,14 @@ export default function ChartModal({ target, onClose }) {
             {target.code ? <span className="modal-sub">{target.code}</span> : null}
             <span className="modal-sub">日 K 線{drawable ? ' · 近 8 個月' : ''}</span>
           </span>
-          <button className="modal-x" onClick={onClose} aria-label="關閉">✕</button>
+          <button className="modal-x" onClick={onClose} aria-label="關閉"><X size={16} strokeWidth={1.75} /></button>
         </div>
         {drawable
           ? <TWKChart id={id} links={links} />
           : (links.length ? <LinksView links={links} /> : <div className="modal-empty">此標的暫無對應圖表</div>)}
         <div className="modal-foot">
           {drawable
-            ? <>資料來源：FinMind · 漲<b style={{ color: '#E23B4E' }}>紅</b>跌<b style={{ color: '#16A34A' }}>綠</b> · 橘線＝20 日均線</>
+            ? <>資料來源：FinMind · 漲<b style={{ color: 'var(--up)' }}>紅</b>跌<b style={{ color: 'var(--down)' }}>綠</b> · 橘線＝20 日均線</>
             : '外部看盤站皆為免費；美股／加權嵌入式即時 K 線受資料授權限制，故採外開。'}
         </div>
       </div>

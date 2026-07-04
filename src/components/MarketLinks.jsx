@@ -1,3 +1,4 @@
+import { Link2 } from 'lucide-react'
 import { dirClass } from '../lib/format.js'
 
 // 市場連動指標：美元/台幣、美10年債、黃金、原油、比特幣
@@ -12,9 +13,9 @@ function fmtVal(m) {
 export default function MarketLinks({ markets }) {
   if (!markets || markets.length === 0) return null
   return (
-    <section className="card col-12" data-region="⑨ 市場連動指標">
+    <section className="card col-span-2" data-region="⑨ 市場連動指標">
       <div className="card-h">
-        <span className="label">市場連動指標</span>
+        <span className="badge-pill label"><Link2 size={14} strokeWidth={1.75} />市場連動指標</span>
         <span className="meta">匯率 / 公債 / 商品 / 加密</span>
       </div>
       <div className="mktgrid">

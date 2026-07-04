@@ -1,20 +1,19 @@
+import { TrendingUp, LineChart } from 'lucide-react'
 import Sparkline from './Sparkline.jsx'
 import { fmtNum, dirClass, pctText } from '../lib/format.js'
 
-const ChartIcon = () => (
-  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" strokeWidth="2"><path d="M3 3v18h18" /><path d="M7 14l4-4 3 3 5-6" /></svg>
-)
+const ChartIcon = () => <LineChart size={14} strokeWidth={1.75} />
 
-const COL = { up: '#FF4D5E', down: '#16C784' }
+const COL = { up: 'var(--up)', down: 'var(--down)' }
 
 // 台股：主指數 hero + 子數據 tile
 export function OverviewTW({ tw, onOpen }) {
   const f = tw.featured
   const fd = dirClass(f.change_pct)
   return (
-    <section className="card col-8" data-region="① 今日總覽">
-      <div className="card-h"><span className="label">台股今日總覽</span><span className="meta">收盤</span></div>
-      <div className="hero" onClick={() => onOpen?.({ name: f.name, type: 'index' })}>
+    <section className="card col-span-2" data-region="① 今日總覽">
+      <div className="card-h"><span className="badge-pill label"><TrendingUp size={14} strokeWidth={1.75} />台股今日總覽</span><span className="meta">收盤</span></div>
+      <div className="ov-hero" onClick={() => onOpen?.({ name: f.name, type: 'index' })}>
         <div className="lead">
           <div className="t">{f.name}</div>
           <div className="v mono">{fmtNum(Math.trunc(f.close))}<small>.{String(f.close.toFixed(2)).split('.')[1]}</small></div>
@@ -51,8 +50,8 @@ export function OverviewTW({ tw, onOpen }) {
 // 美股：四指數 tile
 export function OverviewUS({ us, onOpen }) {
   return (
-    <section className="card col-8" data-region="① 今日總覽">
-      <div className="card-h"><span className="label">美股今日總覽</span><span className="meta">收盤</span></div>
+    <section className="card col-span-2" data-region="① 今日總覽">
+      <div className="card-h"><span className="badge-pill label"><TrendingUp size={14} strokeWidth={1.75} />美股今日總覽</span><span className="meta">收盤</span></div>
       <div className="idx4">
         {us.map((u, i) => {
           const d = dirClass(u.change_pct)

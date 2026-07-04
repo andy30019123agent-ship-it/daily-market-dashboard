@@ -1,5 +1,5 @@
 // 迷你走勢線（平滑面積 + 收尾點）
-export default function Sparkline({ points = [], color = '#FF4D5E', width = 220, height = 86 }) {
+export default function Sparkline({ points = [], color = 'var(--up)', width = 220, height = 86 }) {
   if (!points.length) return null
   const min = Math.min(...points)
   const max = Math.max(...points)
@@ -8,7 +8,7 @@ export default function Sparkline({ points = [], color = '#FF4D5E', width = 220,
   const Y = (v) => pad + ((max - v) / (max - min || 1)) * (height - pad * 2)
   const line = 'M' + points.map((v, i) => `${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(' L')
   const area = `${line} L${width},${height} L0,${height} Z`
-  const gid = `spk-${color.replace('#', '')}-${points.length}`
+  const gid = `spk-${points.length}-${Math.round(min)}-${Math.round(max)}`
   return (
     <svg className="spark" width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
       <defs>
