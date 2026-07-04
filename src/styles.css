@@ -493,7 +493,8 @@ footer .foot-main{font-size:.9375rem;opacity:.85}
 .pmode-btn.on{background:var(--primary);color:var(--on-primary);border-color:transparent}
 .pot-wrap{display:flex;flex-direction:column;gap:12px}
 .pot-list{display:grid;gap:12px}
-.pot-card{padding:14px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--surface)}
+.pot-list>*{min-width:0}
+.pot-card{padding:14px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--surface);min-width:0;overflow-wrap:anywhere}
 .pot-card.tier-hot{border-color:var(--primary)}
 .pot-card.clk{cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .15s}
 .pot-card.clk:hover{border-color:var(--primary);box-shadow:var(--shadow-sm);transform:translateY(-1px)}
@@ -508,7 +509,8 @@ footer .foot-main{font-size:.9375rem;opacity:.85}
 .pot-spark polyline{fill:none;stroke:var(--primary);stroke-width:1.2;vector-effect:non-scaling-stroke}
 .pot-tag{display:inline-flex;align-items:center;gap:4px;font-size:.875rem;color:var(--primary-strong)}
 .pot-metrics{display:flex;flex-wrap:wrap;gap:14px;font-size:.875rem;color:var(--ink-body);margin-top:6px}
-.pot-cat{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:.9375rem;color:var(--ink-body)}
+.pot-cat{display:flex;align-items:flex-start;gap:6px;margin-top:8px;font-size:.9375rem;color:var(--ink-body);overflow-wrap:anywhere}
+.pot-cat svg{flex-shrink:0;margin-top:3px}
 .pot-note{font-size:.875rem;color:var(--ink-muted)}
 .pot-empty{padding:28px;text-align:center;color:var(--ink-muted);font-size:1rem}
 

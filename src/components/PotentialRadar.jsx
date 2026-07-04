@@ -1,6 +1,14 @@
 import { Tag, Sprout } from 'lucide-react'
 import { fmtPct, scoreTier, sparkPath } from '../lib/potential.js'
 
+// 題材文字可能夾帶產生器留下的 markdown 連結或裸網址，畫面上只留來源名稱，避免長網址撐爆卡片
+const cleanCatalyst = (t) =>
+  t
+    .replace(/\[([^\]]+)\]\(https?:\/\/[^)]*\)/g, '$1')
+    .replace(/https?:\/\/\S+/g, '')
+    .replace(/[（(]\s*[)）]/g, '')
+    .trim()
+
 // 低基期潛力視圖：依「發動信心分數」排序的候選卡片（分數 badge + 一年走勢縮圖）。
 export default function PotentialRadar({ potential, onOpen }) {
   const stocks = [...(potential?.stocks || [])].sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
@@ -46,7 +54,7 @@ export default function PotentialRadar({ potential, onOpen }) {
               {typeof s.fund_yoy === 'number' && <span>營收 YoY {fmtPct(s.fund_yoy)}</span>}
               {s.streak != null && <span className="pot-streak">在榜 {s.streak} 天</span>}
             </div>
-            {s.catalyst && <div className="pot-cat"><Sprout size={14} strokeWidth={1.75} />{s.catalyst}</div>}
+            {s.catalyst && <div className="pot-cat"><Sprout size={14} strokeWidth={1.75} />{cleanCatalyst(s.catalyst)}</div>}
           </div>
           )
         })}
