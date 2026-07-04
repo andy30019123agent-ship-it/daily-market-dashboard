@@ -134,7 +134,7 @@ body.annotate [data-region]::before{
   font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;min-height:44px;box-shadow:var(--shadow-sm)}
 .datebtn:hover{border-color:var(--border-strong)}
 .datebtn svg{color:var(--primary)}
-.calpop{position:absolute;top:52px;right:0;z-index:90;width:288px;
+.calpop{position:fixed;z-index:90;width:368px;max-width:calc(100vw - 24px);
   background:var(--surface);border:1px solid var(--border);
   border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow-lg)}
 .calhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
@@ -144,7 +144,7 @@ body.annotate [data-region]::before{
 .calhead button:disabled{opacity:.35;cursor:not-allowed}
 .calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
 .calgrid .w{font-size:.875rem;color:var(--ink-muted);text-align:center;padding:4px 0;font-weight:700}
-.calday{aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+.calday{aspect-ratio:1;min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;
   font-size:.875rem;border-radius:var(--r-sm);font-family:'Manrope',sans-serif;color:var(--ink);position:relative}
 .calday.has{cursor:pointer;background:var(--surface-tint);border:1px solid var(--border)}
 .calday.has:hover{border-color:var(--primary)}
@@ -436,7 +436,6 @@ footer .foot-main{font-size:.9375rem;opacity:.85}
   .inst3{grid-template-columns:1fr;gap:24px}
   .verdict{grid-template-columns:1fr}
   .verdict2{grid-template-columns:1fr}
-  .calpop{right:auto;left:0}
 }
 @media(max-width:640px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
