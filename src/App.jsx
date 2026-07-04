@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
+import { AlertTriangle, Globe2 } from 'lucide-react'
 import { loadIndex, loadDay, loadAccuracy } from './lib/loadDay.js'
-import Ticker from './components/Ticker.jsx'
+import Hero from './components/Hero.jsx'
 import { OverviewTW, OverviewUS } from './components/Overview.jsx'
 import Vix from './components/Vix.jsx'
 import Sectors from './components/Sectors.jsx'
@@ -11,7 +12,6 @@ import WarRoom from './components/WarRoom.jsx'
 import MarketLinks from './components/MarketLinks.jsx'
 import RegimeTile from './components/RegimeTile.jsx'
 import { News, UpcomingEvents, PastReview, Verdict } from './components/CrossMarket.jsx'
-import DatePicker from './components/DatePicker.jsx'
 import ChartModal from './components/ChartModal.jsx'
 
 export default function App() {
@@ -83,7 +83,8 @@ export default function App() {
     return (
       <div className="wrap"><div className="center-state">
         <div>
-          <div style={{ fontSize: 15, color: 'var(--ink)' }}>⚠️ 資料載入失敗</div>
+          <div className="icon-lg"><AlertTriangle size={32} strokeWidth={1.75} /></div>
+          <div style={{ fontSize: 16, color: 'var(--ink)', fontWeight: 700 }}>資料載入失敗</div>
           <div style={{ marginTop: 8 }}>{err}</div>
           <button className="retry" onClick={boot}>重試</button>
         </div>
@@ -95,20 +96,7 @@ export default function App() {
 
   return (
     <div className="wrap">
-      <header className="masthead" data-region="標題列 / 日期選單">
-        <div>
-          <div className="eyebrow">Market Briefing · 盤後戰報</div>
-          <h1>每日台美股<b>戰略</b>儀表板</h1>
-          <div className="subtitle">收盤後由 AI 分身彙整 · 一頁掌握台美兩地戰況</div>
-        </div>
-        <div className="head-right">
-          <span className="status"><span className="live" />更新於 {day.updated_at}</span>
-          <DatePicker dates={dates} selected={date} onSelect={pick} />
-        </div>
-      </header>
-      <div className="hairline" />
-
-      <Ticker day={day} />
+      <Hero day={day} dates={dates} date={date} onSelect={pick} />
 
       <RegimeTile regime={day.regime} />
 
@@ -125,9 +113,9 @@ export default function App() {
             <Sectors sectors={day.sectors.tw} title="類股漲跌幅" meta="各產業類指數"
               inLabel="▲ 強勢類股 Top 5" outLabel="▼ 弱勢類股 Top 5" />
             <HotStocks stocks={day.hot_stocks.tw} onOpen={openChart} />
+            <WarRoom potential={day.potential} date={date} onOpen={openChart} />
             <InstTop instTop={day.inst_top} onOpen={openChart} />
             <Radar radar={day.radar} potential={day.potential} dates={dates} date={date} onOpen={openChart} />
-            <WarRoom potential={day.potential} date={date} onOpen={openChart} />
           </div>
         </div>
       ) : (
@@ -137,12 +125,15 @@ export default function App() {
             <Vix vix={ov.vix.us} label="美股情緒" />
             <Sectors sectors={day.sectors.us} title="類股漲跌幅" meta="11 大類股 ETF"
               inLabel="▲ 強勢類股 Top 5" outLabel="▼ 弱勢類股 Top 5" />
-            <HotStocks stocks={day.hot_stocks.us} onOpen={openChart} />
+            <div className="col-span-2"><HotStocks stocks={day.hot_stocks.us} onOpen={openChart} /></div>
           </div>
         </div>
       )}
 
-      <div className="divider"><span className="tx">跨市場戰略 · Cross-Market</span></div>
+      <div className="section-head" data-region="跨市場戰略">
+        <span className="badge-pill"><Globe2 size={14} strokeWidth={1.75} />Cross-Market</span>
+        <h2>跨市場戰略</h2>
+      </div>
       <div className="grid">
         <MarketLinks markets={day.markets} />
         <News news={day.news} />
@@ -152,8 +143,10 @@ export default function App() {
       </div>
 
       <footer>
-        ※ 數據為每日 18:36 自動更新並 Telegram 推送 · 軟情報每條附來源連結<br />
-        {day.summary}
+        <div className="foot-main">
+          ※ 數據為每日 18:36 自動更新並 Telegram 推送 · 軟情報每條附來源連結<br />
+          {day.summary}
+        </div>
         <div className="ai-disclaimer">本內容由 AI 自動彙整生成，僅供研究參考，不構成投資建議</div>
       </footer>
 
