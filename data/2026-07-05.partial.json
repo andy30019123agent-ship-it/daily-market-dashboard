@@ -104,6 +104,41 @@
         "change_pct": 9.97,
         "mkt": "上市",
         "reason": ""
+      },
+      {
+        "code": "5314",
+        "name": "世紀*",
+        "change_pct": 10.0,
+        "mkt": "上櫃",
+        "reason": ""
+      },
+      {
+        "code": "6907",
+        "name": "雅特力-KY",
+        "change_pct": 10.0,
+        "mkt": "上櫃",
+        "reason": ""
+      },
+      {
+        "code": "7717",
+        "name": "萊德光電-KY",
+        "change_pct": 9.99,
+        "mkt": "上櫃",
+        "reason": ""
+      },
+      {
+        "code": "4743",
+        "name": "合一",
+        "change_pct": 9.98,
+        "mkt": "上櫃",
+        "reason": ""
+      },
+      {
+        "code": "4541",
+        "name": "晟田",
+        "change_pct": 9.96,
+        "mkt": "上櫃",
+        "reason": ""
       }
     ],
     "us": [
@@ -10094,9 +10129,7 @@
     "total_change_yi": 125.3
   },
   "_meta": {
-    "errors": [
-      "TPEX 上櫃漲幅榜: Expecting value: line 1 column 1 (char 0)"
-    ],
+    "errors": [],
     "missing": [],
     "fetched_at": "2026-07-05",
     "trade_date": "20260703"
