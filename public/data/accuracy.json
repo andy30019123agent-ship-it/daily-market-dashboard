@@ -1,11 +1,11 @@
 {
- "generated_at": "2026-07-06 18:37",
+ "generated_at": "2026-07-07 18:37",
  "tw": {
-  "hit_rate": 36.4,
-  "hit": 4,
-  "total": 11,
-  "recent30_rate": 36.4,
-  "recent30_total": 11,
+  "hit_rate": 41.7,
+  "hit": 5,
+  "total": 12,
+  "recent30_rate": 41.7,
+  "recent30_total": 12,
   "detail": [
    {
     "date": "2026-06-18",
@@ -105,6 +105,15 @@
     "actual_pct": -0.48,
     "actual": "down",
     "hit": false
+   },
+   {
+    "date": "2026-07-06",
+    "next_date": "2026-07-07",
+    "stance": "中性偏空",
+    "predicted": "down",
+    "actual_pct": -2.31,
+    "actual": "down",
+    "hit": true
    }
   ]
  },
