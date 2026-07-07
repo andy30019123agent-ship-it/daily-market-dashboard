@@ -10404,7 +10404,7 @@
     "fund_yoy": null,
     "fund_s": 0.0,
     "theme": "AI 伺服器",
-    "catalyst": "併購日本 Lincstech，切入高階 PCB 領域，訂單已排到 2027 年上半年。",
+    "catalyst": "併購日本 Lincstech，切入高階高層板與半導體探針卡領域，訂單已排到 2027 年上半年。",
     "score": 71,
     "score_parts": {
      "chip": 88,
@@ -10487,7 +10487,7 @@
     "chip_s": 0.84,
     "fund_yoy": null,
     "fund_s": 0.0,
-    "theme": "筆記型電腦",
+    "theme": "工業電腦",
     "catalyst": "",
     "score": 69,
     "score_parts": {
@@ -10571,7 +10571,7 @@
     "chip_s": 0.84,
     "fund_yoy": 0.0053,
     "fund_s": 0.018,
-    "theme": "紡織成衣",
+    "theme": "機能性服飾",
     "catalyst": "",
     "score": 57,
     "score_parts": {
@@ -10655,7 +10655,7 @@
     "chip_s": 0.88,
     "fund_yoy": null,
     "fund_s": 0.0,
-    "theme": "輪胎製造",
+    "theme": "電動車輪胎",
     "catalyst": "",
     "score": 54,
     "score_parts": {
@@ -10713,28 +10713,13 @@
  },
  "earnings_tomorrow": [
   {
-   "id": "2308",
-   "name": "台達電",
-   "industry": "電子零組件業"
+   "id": "3008",
+   "name": "大立光",
+   "industry": "光電業"
   },
   {
-   "id": "3518",
-   "name": "柏騰",
-   "industry": "其他電子業"
-  },
-  {
-   "id": "4904",
-   "name": "遠傳",
-   "industry": "通信網路業"
-  },
-  {
-   "id": "7823",
-   "name": "奧義賽博-KY創",
-   "industry": "數位雲端"
-  },
-  {
-   "id": "8016",
-   "name": "矽創",
+   "id": "5236",
+   "name": "凌陽創新",
    "industry": "半導體業"
   }
  ],
