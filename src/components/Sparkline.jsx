@@ -1,6 +1,7 @@
 // 迷你走勢線（平滑面積 + 收尾點）
 export default function Sparkline({ points = [], color = 'var(--up)', width = 220, height = 86 }) {
-  if (!points.length) return null
+  points = (points || []).filter((v) => Number.isFinite(v))
+  if (points.length < 2) return null // 少於兩點無法連線，硬畫會產生 NaN 路徑
   const min = Math.min(...points)
   const max = Math.max(...points)
   const pad = 8

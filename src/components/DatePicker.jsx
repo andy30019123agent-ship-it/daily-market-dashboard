@@ -1,6 +1,6 @@
 import { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import { Calendar, ChevronDown } from 'lucide-react'
-import { dateWithWeekday } from '../lib/format.js'
+import { dateWithWeekday, activate } from '../lib/format.js'
 
 const WD = ['日', '一', '二', '三', '四', '五', '六']
 const POP_MARGIN = 12 // popover 與視窗邊緣至少保留的距離
@@ -83,14 +83,15 @@ export default function DatePicker({ dates, selected, onSelect }) {
             {cells.map((d, i) => {
               if (d == null) return <div className="calday" key={i} />
               const dayIso = iso(d)
+              const clickable = has.has(dayIso)
               let cls = 'calday'
-              if (has.has(dayIso)) cls += ' has'
-              else cls += ' muted'
+              cls += clickable ? ' has' : ' muted'
               if (dayIso === selected) cls += ' sel'
               if (dayIso === todayIso) cls += ' today'
+              if (!clickable) return <div className={cls} key={i} aria-disabled="true">{d}</div>
               return (
                 <div className={cls} key={i}
-                  onClick={() => { if (has.has(dayIso)) { onSelect(dayIso); setOpen(false) } }}>
+                  {...activate(() => { onSelect(dayIso); setOpen(false) }, `查看 ${dateWithWeekday(dayIso)} 戰報`)}>
                   {d}
                 </div>
               )

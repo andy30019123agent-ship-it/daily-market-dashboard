@@ -59,7 +59,7 @@ body{
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
 .wrap{max-width:1200px;margin:0 auto;padding:0 32px}
 .mono{font-family:'Manrope',sans-serif;font-variant-numeric:tabular-nums}
-.up{color:var(--up)} .down{color:var(--down)}
+.up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--flat)}
 button{font-family:inherit}
 a{color:inherit}
 h1,h2,h3{font-family:'Manrope',sans-serif;color:var(--ink)}
@@ -126,6 +126,7 @@ body.annotate [data-region]::before{
   border-radius:var(--r-pill);padding:3px 10px;margin-top:10px}
 .stat-chip.up{color:var(--up);background:var(--up-bg)}
 .stat-chip.down{color:var(--down);background:var(--down-bg)}
+.stat-chip.flat{color:var(--flat);background:var(--surface-tint)}
 @media(max-width:640px){.stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 /* ===== date popover ===== */
@@ -368,8 +369,9 @@ body.annotate [data-region]::before{
 .newsrow a:hover{text-decoration:underline}
 .tag{flex:none;font-size:.875rem;font-weight:700;padding:4px 10px;border-radius:var(--r-pill);height:fit-content;
   font-family:'Manrope',sans-serif}
-.tag.neg{background:var(--up-bg);color:var(--up)}
-.tag.pos{background:var(--down-bg);color:var(--down)}
+/* 統一色彩語意：利多＝紅（呼應台股漲色）、利空＝綠（跌色），與指數/研判同一套語言 */
+.tag.pos{background:var(--up-bg);color:var(--up)}
+.tag.neg{background:var(--down-bg);color:var(--down)}
 .tag.neu{background:var(--surface-tint);color:var(--ink-muted)}
 
 /* events */
@@ -407,8 +409,8 @@ body.annotate [data-region]::before{
 .vc{border-radius:var(--r-md);padding:16px;border:1px solid var(--border)}
 .vc h3{font-size:.9375rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .vc h3 .ic{width:24px;height:24px;border-radius:var(--r-sm);display:grid;place-items:center;flex:none}
-.vc.good{background:var(--down-bg)}.vc.good h3{color:var(--down)}.vc.good .ic{background:rgba(15,138,95,.16);color:var(--down)}
-.vc.bad{background:var(--up-bg)}.vc.bad h3{color:var(--up)}.vc.bad .ic{background:rgba(208,48,60,.16);color:var(--up)}
+.vc.good{background:var(--up-bg)}.vc.good h3{color:var(--up)}.vc.good .ic{background:rgba(208,48,60,.16);color:var(--up)}
+.vc.bad{background:var(--down-bg)}.vc.bad h3{color:var(--down)}.vc.bad .ic{background:rgba(15,138,95,.16);color:var(--down)}
 .vc.risk{background:rgba(255,194,75,.14)}.vc.risk h3{color:var(--on-accent)}.vc.risk .ic{background:rgba(255,194,75,.32);color:var(--on-accent)}
 .vc li{list-style:none;font-size:.9375rem;color:var(--ink-body);padding:6px 0 6px 18px;position:relative;line-height:1.6}
 .vc li::before{content:"";position:absolute;left:0;top:14px;width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.55}

@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { Satellite, Sprout, X } from 'lucide-react'
 import { loadDay } from '../lib/loadDay.js'
 import { aggregateRadar, radarSummary } from '../lib/radar.js'
+import { activate } from '../lib/format.js'
 import PotentialRadar from './PotentialRadar.jsx'
 
 // 可選觀察天數（近 N 個交易日累加）
@@ -14,6 +15,8 @@ const NEUTRAL_PER_DAY = 1
 // 中性帶（A 案）：|法人淨買超| < 門檻 = 中性·不分類（只看法人力道，不誤殺逆勢吸籌）
 // 左上 pct<0,inst>0 = 逆勢吸籌(準備發動) | 右上 = 同步買進 | 右下 = 漲高出貨 | 左下 = 賣壓失血
 function quadKey(d, th = 0) {
+  // 缺法人淨買超或漲跌幅的資料無法定位象限，一律歸中性，避免被誤分類成吸籌/出貨
+  if (!Number.isFinite(d.inst_net_yi) || !Number.isFinite(d.pct)) return 'neutral'
   if (Math.abs(d.inst_net_yi) < th) return 'neutral'       // 法人力道不足 → 中性
   if (d.inst_net_yi > 0) return d.pct < 0 ? 'acc' : 'up'   // 買超：跌=吸籌 / 漲=已動
   return d.pct > 0 ? 'dist' : 'weak'                       // 賣超：漲=出貨 / 跌=失血
@@ -29,6 +32,8 @@ const QUADS = [
 
 function Scatter({ items, onItem, activeQuad, th = 0 }) {
   const W = 320, H = 210, PAD = 26
+  // 只畫有完整座標的點，避免單一壞資料讓 Math.max 變 NaN、整張圖崩掉
+  items = (items || []).filter((d) => Number.isFinite(d.pct) && Number.isFinite(d.inst_net_yi))
   const maxX = Math.max(5, ...items.map((d) => Math.abs(d.pct)))
   const maxY = Math.max(1, ...items.map((d) => Math.abs(d.inst_net_yi)))
   const cx = PAD + (W - 2 * PAD) / 2
@@ -76,7 +81,7 @@ function Scatter({ items, onItem, activeQuad, th = 0 }) {
 function RankRow({ d, onItem }) {
   return (
     <div className={'rk-row' + (onItem ? ' clk' : '')}
-         onClick={onItem ? () => onItem(d) : undefined}>
+         {...(onItem ? activate(() => onItem(d), `${d.name} 詳情`) : {})}>
       <span className="rk-nm">{d.name}{d.code && <span className="rk-code">{d.code}</span>}</span>
       <span className="rk-vals mono">
         <span className={d.inst_net_yi >= 0 ? 'up' : 'down'}>{d.inst_net_yi >= 0 ? '+' : ''}{d.inst_net_yi}億</span>
@@ -102,7 +107,7 @@ function SectorStocksModal({ sector, stocks, onClose, onOpen }) {
         {list.length ? (
           <div className="modal-list">
             {list.map((s, i) => (
-              <div className="modal-row clk" key={i} onClick={() => onOpen({ code: s.code, name: s.name })}>
+              <div className="modal-row clk" key={i} {...activate(() => onOpen({ code: s.code, name: s.name, type: 'stock' }), `${s.name} 看 K 線`)}>
                 <span className="mr-nm">{s.name}<span className="mr-code">{s.code}</span></span>
                 <span className="rk-vals mono">
                   <span className={s.inst_net_yi >= 0 ? 'up' : 'down'}>{s.inst_net_yi >= 0 ? '+' : ''}{s.inst_net_yi}億</span>
@@ -183,7 +188,7 @@ export default function Radar({ radar, potential, dates = [], date, onOpen }) {
   // 類股模式：點擊下鑽看成分個股；個股模式：點擊看 K 線
   const onItem = level === 'sectors'
     ? (d) => setSecSel(d.name)
-    : (d) => onOpen({ code: d.code, name: d.name })
+    : (d) => onOpen({ code: d.code, name: d.name, type: 'stock' })
   const cur = QUADS.find((q) => q.key === quad)
   const list = data
     ? data.pick.filter((d) => quadKey(d, th) === quad)

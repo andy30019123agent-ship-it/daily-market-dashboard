@@ -1,6 +1,6 @@
 import { TrendingUp, LineChart } from 'lucide-react'
 import Sparkline from './Sparkline.jsx'
-import { fmtNum, dirClass, pctText } from '../lib/format.js'
+import { fmtNum, dirClass, pctText, activate } from '../lib/format.js'
 
 const ChartIcon = () => <LineChart size={14} strokeWidth={1.75} />
 
@@ -8,12 +8,13 @@ const COL = { up: 'var(--up)', down: 'var(--down)' }
 
 // 台股：主指數 hero + 子數據 tile
 export function OverviewTW({ tw, onOpen }) {
-  const f = tw.featured
+  const f = tw?.featured
+  if (!f || !Number.isFinite(f.close)) return null
   const fd = dirClass(f.change_pct)
   return (
     <section className="card col-span-2" data-region="① 今日總覽">
       <div className="card-h"><span className="badge-pill label"><TrendingUp size={14} strokeWidth={1.75} />台股今日總覽</span><span className="meta">收盤</span></div>
-      <div className="ov-hero" onClick={() => onOpen?.({ name: f.name, type: 'index' })}>
+      <div className="ov-hero" {...activate(() => onOpen?.({ name: f.name, type: 'index' }), `${f.name} 看 K 線`)}>
         <div className="lead">
           <div className="t">{f.name}</div>
           <div className="v mono">{fmtNum(Math.trunc(f.close))}<small>.{String(f.close.toFixed(2)).split('.')[1]}</small></div>
@@ -25,10 +26,10 @@ export function OverviewTW({ tw, onOpen }) {
         <Sparkline points={f.spark || []} color={COL[fd]} />
       </div>
       <div className="tiles">
-        {tw.stats.map((s, i) => {
+        {(tw.stats || []).map((s, i) => {
           const d = dirClass(s.change_pct, s.dir)
           return (
-            <div className="tile" key={i} onClick={() => onOpen?.({ name: s.name, type: 'index' })}>
+            <div className="tile" key={i} {...activate(() => onOpen?.({ name: s.name, type: 'index' }), `${s.name} 看 K 線`)}>
               <div className="t">{s.name}</div>
               <div className={'v mono ' + (s.dir ? d : '')}>{s.value}</div>
               <div className={'c mono ' + d}>
@@ -53,10 +54,10 @@ export function OverviewUS({ us, onOpen }) {
     <section className="card col-span-2" data-region="① 今日總覽">
       <div className="card-h"><span className="badge-pill label"><TrendingUp size={14} strokeWidth={1.75} />美股今日總覽</span><span className="meta">收盤</span></div>
       <div className="idx4">
-        {us.map((u, i) => {
+        {(us || []).map((u, i) => {
           const d = dirClass(u.change_pct)
           return (
-            <div className="tile" key={i} onClick={() => onOpen?.({ name: u.name, type: 'index' })}>
+            <div className="tile" key={i} {...activate(() => onOpen?.({ name: u.name, type: 'index' }), `${u.name} 看 K 線`)}>
               <div className="t">{u.name}</div>
               <div className="v mono">{fmtNum(u.close)}</div>
               <div className={'c mono ' + d}>{pctText(u.change_pct)}</div>

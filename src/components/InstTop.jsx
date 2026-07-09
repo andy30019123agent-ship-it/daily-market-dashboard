@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Building2 } from 'lucide-react'
+import { activate } from '../lib/format.js'
 
 // 三大法人個股買超 / 賣超 Top 5（台股；單位：張）— 買超/賣超分頁切換
 const GROUPS = [
@@ -40,9 +41,9 @@ export default function InstTop({ instTop, onOpen }) {
             <div className="instcol" key={g.key}>
               <h3>{g.label}</h3>
               {rows.length ? rows.map((s, i) => (
-                <div className="instrow" key={i} onClick={() => onOpen?.({ name: s.name, code: s.code, type: 'stock' })}>
+                <div className="instrow" key={i} {...activate(() => onOpen?.({ name: s.name, code: s.code, type: 'stock' }), `${s.name} ${s.code} 看 K 線`)}>
                   <span className="nm">{s.name}<span className="code">{s.code}</span></span>
-                  <span className={'zh mono ' + tone}>{s.zhang.toLocaleString('en-US')}</span>
+                  <span className={'zh mono ' + tone}>{Number.isFinite(Number(s.zhang)) ? Number(s.zhang).toLocaleString('en-US') : '—'}</span>
                 </div>
               )) : <div className="inst-empty">—</div>}
             </div>

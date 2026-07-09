@@ -1,9 +1,11 @@
 // 市場紅綠燈（元件 A）前端用純函式，抽出方便單元測試（同 potential.js / radar.js 慣例）。
 
+// 標籤只講多空、不再寫「綠燈/紅燈」：本站行情鐵則為紅漲綠跌（偏多=紅、偏空=綠），
+// 若標籤寫「紅燈」卻上綠色會與全站顏色語意打架，故一律以多空文字＋對應漲跌色呈現。
 export const REGIME_LIGHT = {
-  green: { emoji: '🟢', label: '偏多．綠燈', cls: 'up' },
-  yellow: { emoji: '🟡', label: '中性．黃燈', cls: 'neu' },
-  red: { emoji: '🔴', label: '偏空．紅燈', cls: 'down' },
+  green: { label: '偏多', cls: 'up' },
+  yellow: { label: '中性', cls: 'neu' },
+  red: { label: '偏空', cls: 'down' },
 }
 
 // 未知/缺值燈號一律安全退回黃燈樣式，不讓畫面崩掉
@@ -20,7 +22,7 @@ export function scoreTone(score) {
 
 // 分項顯示文字：missing 或缺物件一律顯示「資料缺」，不顯示 undefined/NaN
 export function scoreText(component) {
-  if (!component || component.missing) return '資料缺'
+  if (!component || component.missing || !Number.isFinite(component.score)) return '資料缺'
   const s = component.score
   return (s > 0 ? '+' : '') + s + ' 分'
 }

@@ -21,7 +21,7 @@ export default function WarRoom({ potential, date, onOpen }) {
       <div className="wr-title"><Icon size={14} strokeWidth={1.75} />{title}</div>
       <div className="wr-rows">
         {items.map((s) => (
-          <button key={s.code} className="wr-row" onClick={() => onOpen && onOpen({ code: s.code, name: s.name })}>
+          <button key={s.code} className="wr-row" onClick={() => onOpen && onOpen({ code: s.code, name: s.name, type: 'stock' })}>
             <span className="wr-nm">{s.name}<span className="wr-code">{s.code}</span></span>
             <span className="wr-meta">{tag(s)}</span>
           </button>

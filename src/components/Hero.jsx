@@ -12,6 +12,7 @@ function buildStats(day) {
   }
   for (const u of day?.overview?.us || []) items.push({ n: u.name, p: fmtNum(u.close), pct: u.change_pct })
   const vus = day?.overview?.vix?.us
+  // 美股 VIX 的 change 由 _yahoo_quote 產生，實為「當日漲跌百分比」（非點數），故直接當 % 顯示才正確
   if (vus) items.push({ n: 'VIX', p: vus.value, pct: vus.change })
   return items
 }
@@ -40,8 +41,8 @@ export default function Hero({ day, dates, date, onSelect }) {
             <div className="stat-tile" key={i}>
               <div className="st-name">{it.n}</div>
               <div className="st-value mono">{it.p}</div>
-              <span className={'stat-chip ' + (it.pct >= 0 ? 'up' : 'down')}>
-                {it.pct >= 0 ? '+' : ''}{typeof it.pct === 'number' ? it.pct.toFixed(2) : it.pct}%
+              <span className={'stat-chip ' + (Number.isFinite(it.pct) ? (it.pct >= 0 ? 'up' : 'down') : 'flat')}>
+                {Number.isFinite(it.pct) ? `${it.pct >= 0 ? '+' : ''}${it.pct.toFixed(2)}%` : '—'}
               </span>
             </div>
           ))}

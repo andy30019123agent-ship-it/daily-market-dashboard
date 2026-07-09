@@ -99,6 +99,7 @@ function AccuracyBox({ accuracy, tab }) {
 
 // 跟著上方台股/美股分頁切換，只顯示當前市場的研判
 export function Verdict({ verdict, tab = 'tw', accuracy }) {
+  if (!verdict) return null
   const v = verdict[tab] || verdict.tw || verdict
   const market = tab === 'us' ? '美股' : '台股'
   const cols = [

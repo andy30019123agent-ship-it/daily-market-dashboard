@@ -24,7 +24,7 @@ export default function PotentialRadar({ potential, onOpen }) {
     <div className="pot-wrap">
       <div className="pot-list">
         {stocks.map((s) => {
-          const open = () => onOpen && onOpen({ code: s.code, name: s.name })
+          const open = () => onOpen && onOpen({ code: s.code, name: s.name, type: 'stock' })
           return (
           <div
             key={s.code}
@@ -48,9 +48,9 @@ export default function PotentialRadar({ potential, onOpen }) {
             )}
             <div className="pot-metrics">
               {s.theme && <span className="pot-tag"><Tag size={12} strokeWidth={1.75} />{s.theme}</span>}
-              <span>位置 {Math.round((s.price_pos ?? 0) * 100)}%</span>
-              <span>近半年 {fmtPct(s.chg_6m)}</span>
-              <span>法人 {(s.inst_net_yi ?? 0).toFixed(1)} 億</span>
+              <span>位置 {Number.isFinite(s.price_pos) ? Math.round(s.price_pos * 100) + '%' : '—'}</span>
+              <span>近半年 {Number.isFinite(s.chg_6m) ? fmtPct(s.chg_6m) : '—'}</span>
+              <span>法人 {Number.isFinite(s.inst_net_yi) ? s.inst_net_yi.toFixed(1) + ' 億' : '—'}</span>
               {typeof s.fund_yoy === 'number' && <span>營收 YoY {fmtPct(s.fund_yoy)}</span>}
               {s.streak != null && <span className="pot-streak">在榜 {s.streak} 天</span>}
             </div>

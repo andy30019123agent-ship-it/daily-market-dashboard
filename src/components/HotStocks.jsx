@@ -1,13 +1,13 @@
 import { Flame } from 'lucide-react'
-import { dirClass } from '../lib/format.js'
+import { dirClass, activate } from '../lib/format.js'
 
 function Row({ s, onOpen }) {
   const d = dirClass(s.change_pct)
   return (
-    <div className="hotrow" onClick={() => onOpen?.({ name: s.name, code: s.code, type: 'stock' })}>
+    <div className="hotrow" {...activate(() => onOpen?.({ name: s.name, code: s.code, type: 'stock' }), `${s.name} ${s.code} 看 K 線`)}>
       <span className="nm">{s.name}<span className="code">{s.code}</span></span>
       <span className="rt">
-        <span className={'pct ' + d}>{s.change_pct >= 0 ? '+' : ''}{s.change_pct}%</span>
+        <span className={'pct ' + d}>{Number.isFinite(s.change_pct) ? `${s.change_pct >= 0 ? '+' : ''}${s.change_pct}%` : '—'}</span>
         {s.reason ? <span className="rs">{s.reason}</span> : null}
       </span>
     </div>
