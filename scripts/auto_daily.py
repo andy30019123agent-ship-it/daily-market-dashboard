@@ -23,6 +23,7 @@ from scripts.lib.schema import validate_day
 from scripts.lib.sanity import check_consistency, check_news_consistency, collect_warnings
 from scripts.notify import build_summary_text, build_failure_text
 from scripts.regime import CHIPS_WINDOW, compute_regime
+from scripts.lib.flows import inst_flow_streaks
 
 STATE = DATA_DIR / "notify_state.json"
 HISTORY = DATA_DIR / "potential_history.json"
@@ -289,6 +290,33 @@ def _attach_regime(day, date):
         print(f"⚠️ 市場紅綠燈計算略過（不影響主戰報）：{e}")
 
 
+def _attach_inst_flow(day, date, lookback=10):
+    """三大法人「連續買賣超天數」（獨立區塊，失敗不影響主戰報）：原地寫入 day['inst_flow']。
+    只讀報告日以前的日檔＋今日 day（look-ahead 安全）。"""
+    try:
+        import re
+        nets = []
+        for p in sorted(DATA_DIR.glob("*.json")):
+            if not re.fullmatch(r"\d{4}-\d{2}-\d{2}\.json", p.name) or p.stem >= date:
+                continue
+            try:
+                dd = json.loads(p.read_text(encoding="utf-8"))
+                if isinstance(dd.get("inst_net_yi"), dict):
+                    nets.append((dd.get("date", ""), dd["inst_net_yi"]))
+            except Exception:
+                pass
+        nets.sort(key=lambda x: x[0])
+        seq = [n for _, n in nets[-(lookback - 1):]]
+        if isinstance(day.get("inst_net_yi"), dict):
+            seq.append(day["inst_net_yi"])
+        day["inst_flow"] = inst_flow_streaks(seq)
+        parts = [f"{k}連{v['streak']}{'買' if v['side'] == 'buy' else '賣'}"
+                 for k, v in day["inst_flow"].items() if v["streak"] >= 2 and v["side"]]
+        print("法人連續買賣超：" + ("、".join(parts) if parts else "無明顯連續方向"))
+    except Exception as e:
+        print(f"⚠️ 法人連續買賣超計算略過（不影響主戰報）：{e}")
+
+
 def _attach_potential(day, date):
     """低基期潛力雷達（獨立區塊，失敗不影響主戰報）：原地寫入 day['potential']。
     可在正常流程或『凍結日』重覆呼叫——glob 一律排除當日檔、只用 day 自帶 radar，避免重複計。"""
@@ -378,6 +406,7 @@ def _run(dry_run):
             _attach_potential(frozen, date)
             _attach_potential_history(frozen, date, dry_run=dry_run)
             _attach_regime(frozen, date)
+            _attach_inst_flow(frozen, date)
             frozen["earnings_tomorrow"] = fetch_earnings_tomorrow()
             fp.write_text(json.dumps(frozen, ensure_ascii=False, indent=1),
                           encoding="utf-8")
@@ -433,6 +462,7 @@ def _run(dry_run):
     _attach_potential(day, date)
     _attach_potential_history(day, date, dry_run=dry_run)
     _attach_regime(day, date)
+    _attach_inst_flow(day, date)
     day["earnings_tomorrow"] = fetch_earnings_tomorrow()
     day["opportunities"] = fetch_opportunities()
 

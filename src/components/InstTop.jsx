@@ -15,7 +15,28 @@ function sides(g) {
   return Array.isArray(g) ? { buy: g, sell: [] } : { buy: g.buy || [], sell: g.sell || [] }
 }
 
-export default function InstTop({ instTop, onOpen }) {
+const FLOW_ORDER = ['外資', '投信', '自營']
+
+// 三大法人「連續買賣超天數」摘要：買=紅、賣=綠（與全站紅漲綠跌一致），只顯示連 2 天以上
+function FlowStrip({ flow }) {
+  if (!flow) return null
+  const chips = FLOW_ORDER
+    .map((k) => [k, flow[k]])
+    .filter(([, v]) => v && v.side && v.streak >= 2)
+  if (!chips.length) return null
+  return (
+    <div className="inst-flow">
+      {chips.map(([k, v]) => (
+        <span key={k} className={'ifchip ' + (v.side === 'buy' ? 'up' : 'down')}>
+          {k} 連 {v.streak} {v.side === 'buy' ? '買' : '賣'}
+        </span>
+      ))}
+      <span className="inst-flow-note">連續同向天數</span>
+    </div>
+  )
+}
+
+export default function InstTop({ instTop, flow, onOpen }) {
   const [side, setSide] = useState('buy')
   if (!instTop) return null
   const hasAny = GROUPS.some((g) => {
@@ -34,6 +55,7 @@ export default function InstTop({ instTop, onOpen }) {
           <button className={'seg-btn' + (side === 'sell' ? ' on down' : '')} onClick={() => setSide('sell')}>賣超</button>
         </div>
       </div>
+      <FlowStrip flow={flow} />
       <div className="inst3">
         {GROUPS.map((g) => {
           const rows = sides(instTop[g.key])[side]
