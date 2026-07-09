@@ -276,7 +276,9 @@ def _recent_inst_entries(day, date, n=CHIPS_WINDOW):
 def _attach_regime(day, date):
     """市場紅綠燈（元件 A，獨立區塊，失敗不影響主戰報）：原地寫入 day['regime']。"""
     try:
-        closes = [h["close"] for h in load_history() if isinstance(h.get("close"), (int, float))]
+        # 只用「報告日(含)以前」的收盤，避免回補/凍結日重跑時把未來收盤算進趨勢（look-ahead bias）
+        closes = [h["close"] for h in load_history()
+                  if isinstance(h.get("close"), (int, float)) and h.get("date", "") <= date]
         breadth = day.get("breadth")
         vix_tw = (day.get("overview", {}).get("vix", {}) or {}).get("tw")
         chips_entries = _recent_inst_entries(day, date)
@@ -293,7 +295,8 @@ def _attach_potential(day, date):
     try:
         history = []
         for p in sorted(DATA_DIR.glob("[0-9]*.json")):
-            if p.name == f"{date}.json":
+            # 只用報告日以前的檔；排除當日與「未來日」（回補舊日時才不會用到未來籌碼＝look-ahead）
+            if p.stem >= date:
                 continue
             try:
                 dd = json.loads(p.read_text(encoding="utf-8"))

@@ -45,6 +45,29 @@ def test_build_market_radar_two_levels():
     assert out["sectors"][0]["name"] == "半導體"  # 法人淨買超最多排前
 
 
+def test_build_market_radar_excludes_4digit_etf():
+    """4 碼 ETF（00 開頭，如 0050）不得混進個股資金流雷達。"""
+    basic = [{"公司代號": "2330", "產業別": "24"}]
+    sda = {
+        "fields": ["證券代號", "證券名稱", "收盤價", "漲跌價差", "成交金額"],
+        "data": [
+            ["2330", "台積電", "1000", "5", "10000000000"],
+            ["0050", "元大台灣50", "180", "1", "8000000000"],   # 4 碼 ETF → 應濾掉
+        ],
+    }
+    t86 = {
+        "fields": ["證券代號", "證券名稱", "外陸資買賣超股數(不含外資自營商)",
+                   "外資自營商買賣超股數", "投信買賣超股數", "自營商買賣超股數"],
+        "data": [
+            ["2330", "台積電", "1000000", "0", "0", "0"],
+            ["0050", "元大台灣50", "2000000", "0", "0", "0"],
+        ],
+    }
+    codes = {s["code"] for s in build_market_radar(t86, sda, basic)["stocks"]}
+    assert "2330" in codes
+    assert "0050" not in codes
+
+
 def test_parse_tpex_gainers_filters_and_ranks():
     rows = [
         {"SecuritiesCompanyCode": "4716", "CompanyName": "大立", "Close": "55.0",

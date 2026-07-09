@@ -31,6 +31,13 @@ def _f(x):
         return None
 
 
+def _is_common_stock(code: str) -> bool:
+    """普通股判定：4 碼、純數字、非 00 開頭。
+    台股 00 開頭為 ETF/ETN（0050、0056…），過去只檢查 len==4 會讓 4 碼 ETF 混進
+    個股資金流雷達／法人買賣超榜／漲幅榜，污染「個股錢流」語意，這裡一併排除。"""
+    return len(code) == 4 and code.isdigit() and not code.startswith("00")
+
+
 def parse_twse_index(rows: list, name: str = "發行量加權股價指數") -> dict:
     """從 MI_INDEX 取指定指數的收盤與漲跌幅。"""
     for r in rows:
@@ -72,7 +79,7 @@ def twse_top_gainers(rows: list, n: int = 5, min_value_yi: float = 5) -> list:
             continue
         if value < min_value_yi * 1e8:
             continue
-        if len(code) != 4:  # 只取上市普通股（4 碼），濾掉 ETF/權證等
+        if not _is_common_stock(code):  # 只取普通股，濾掉 ETF（00 開頭）／權證等
             continue
         prev = close - change
         if prev <= 0:
@@ -157,7 +164,7 @@ def parse_rwd_gainers(payload: dict, n: int = 5, min_value_yi: float = 5) -> lis
     out = []
     for r in payload.get("data", []):
         code = (r[ci_code] or "").strip()
-        if len(code) != 4:
+        if not _is_common_stock(code):
             continue
         close, chg, val = _f(r[ci_close]), _f(r[ci_chg]), _f(r[ci_val])
         if None in (close, chg, val) or val < min_value_yi * 1e8:
@@ -177,7 +184,7 @@ def parse_tpex_gainers(rows: list, n: int = 5, min_value_yi: float = 1.0) -> lis
     out = []
     for r in rows or []:
         code = str(r.get("SecuritiesCompanyCode", "")).strip()
-        if len(code) != 4 or not code.isdigit():
+        if not _is_common_stock(code):
             continue
         close, chg, val = _f(r.get("Close")), _f(r.get("Change")), _f(r.get("TransactionAmount"))
         if None in (close, chg, val) or val < min_value_yi * 1e8:
@@ -244,7 +251,7 @@ def parse_t86_top(payload: dict, n: int = 5) -> dict:
     groups = {"foreign": [], "trust": [], "dealer": []}
     for r in rows:
         code = (r[idx["code"]] or "").strip()
-        if len(code) != 4:                      # 只取上市普通股
+        if not _is_common_stock(code):          # 只取普通股（濾 ETF/權證）
             continue
         name = (r[idx["name"]] or "").strip()
         foreign = (_f(r[idx["foreign_main"]]) or 0) + (_f(r[idx.get("foreign_dealer", -1)]) or 0 if "foreign_dealer" in idx else 0)
@@ -404,7 +411,7 @@ def build_sector_constituents(sector_names: list, sda_payload: dict, basic_list:
     rows = []
     for r in sda_payload.get("data", []):
         code = (r[ci_code] or "").strip()
-        if len(code) != 4:
+        if not _is_common_stock(code):
             continue
         close, chg, val = _f(r[ci_close]), _f(r[ci_chg]), _f(r[ci_val])
         if None in (close, chg, val) or close == 0:
@@ -441,7 +448,7 @@ def build_market_radar(t86_payload: dict, sda_payload: dict, basic_list: list) -
     sda = {}
     for r in sda_payload.get("data", []):
         code = (r[ci_code] or "").strip()
-        if len(code) != 4:
+        if not _is_common_stock(code):
             continue
         close, chg, val = _f(r[ci_close]), _f(r[ci_chg]), _f(r[ci_val])
         if None in (close, chg, val) or close == 0:
@@ -457,7 +464,7 @@ def build_market_radar(t86_payload: dict, sda_payload: dict, basic_list: list) -
     inst_shares = {}
     for r in t86_payload.get("data", []):
         code = (r[idx["code"]] or "").strip()
-        if len(code) != 4:
+        if not _is_common_stock(code):
             continue
         net = ((_f(r[idx.get("foreign_main", -1)]) or 0)
                + ((_f(r[idx.get("foreign_dealer", -1)]) or 0) if "foreign_dealer" in idx else 0)
