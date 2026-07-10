@@ -128,7 +128,7 @@ export default function App() {
             <HotStocks stocks={day.hot_stocks.tw} onOpen={openChart} />
             <WarRoom potential={day.potential} date={date} onOpen={openChart} />
             <InstTop instTop={day.inst_top} flow={day.inst_flow} concentration={day.buy_concentration} onOpen={openChart} />
-            <Radar radar={day.radar} potential={day.potential} dates={dates} date={date} onOpen={openChart} />
+            <Radar radar={day.radar} potential={day.potential} volumeAnomalies={day.volume_anomalies} dates={dates} date={date} onOpen={openChart} />
           </div>
         </div>
       ) : (

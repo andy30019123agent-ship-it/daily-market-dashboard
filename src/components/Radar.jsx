@@ -107,6 +107,27 @@ function SectorFlow({ sectors }) {
   )
 }
 
+// 爆量個股：今日成交值相對近期均值放大（>=2x）。價漲量增=紅(轉強)、價跌量增=綠(出貨/恐慌)。
+function VolumeSpikes({ items, onOpen }) {
+  if (!items || !items.length) return null
+  const tagText = (d) => (d === 'up' ? '價漲量增' : d === 'down' ? '價跌量增' : '量增')
+  return (
+    <div className="vspike">
+      <div className="vspike-h">爆量個股 <span className="vspike-sub">· 成交值放大 ≥2 倍</span></div>
+      <div className="vspike-list">
+        {items.slice(0, 6).map((s, i) => (
+          <button key={i} className="vspike-row"
+                  onClick={() => onOpen && onOpen({ code: s.code, name: s.name, type: 'stock' })}>
+            <span className="vspike-nm">{s.name}<span className="vspike-code">{s.code}</span></span>
+            <span className="vspike-ratio mono">{s.ratio}× 量</span>
+            <span className={'vspike-tag ' + s.direction}>{tagText(s.direction)}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function RankRow({ d, onItem }) {
   return (
     <div className={'rk-row' + (onItem ? ' clk' : '')}
@@ -152,7 +173,7 @@ function SectorStocksModal({ sector, stocks, onClose, onOpen }) {
   ), document.body)
 }
 
-export default function Radar({ radar, potential, dates = [], date, onOpen }) {
+export default function Radar({ radar, potential, volumeAnomalies, dates = [], date, onOpen }) {
   const [mode, setMode] = useState(radar ? 'quad' : 'potential') // quad | potential
   const [level, setLevel] = useState('sectors') // sectors | stocks
   const [quad, setQuad] = useState('acc')        // 選中的象限
@@ -242,6 +263,7 @@ export default function Radar({ radar, potential, dates = [], date, onOpen }) {
         <div className="radar-summary">{radarSummary(radar, potential)}</div>
       )}
       <SectorFlow sectors={radar.sectors} />
+      <VolumeSpikes items={volumeAnomalies} onOpen={onOpen} />
       <div className="pmode">
         <button className={'pmode-btn' + (mode === 'quad' ? ' on' : '')} onClick={() => setMode('quad')}>象限</button>
         <button className={'pmode-btn' + (mode === 'potential' ? ' on' : '')} onClick={() => setMode('potential')}><Sprout size={14} strokeWidth={1.75} />低基期潛力</button>

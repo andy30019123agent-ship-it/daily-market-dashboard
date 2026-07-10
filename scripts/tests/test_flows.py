@@ -4,7 +4,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from scripts.lib.flows import inst_flow_streaks, buy_concentration  # noqa: E402
+from scripts.lib.flows import inst_flow_streaks, buy_concentration, volume_anomalies  # noqa: E402
 
 
 def test_streak_basic_directions():
@@ -51,3 +51,28 @@ def test_buy_concentration():
 def test_buy_concentration_none_when_no_buys():
     assert buy_concentration([{"inst_net_yi": -5}, {"inst_net_yi": 0}]) is None
     assert buy_concentration([]) is None
+
+
+def test_volume_anomalies_flags_and_direction():
+    today = [
+        {"code": "2330", "name": "台積電", "value_yi": 300, "pct": 3.0},   # 均值100→3x, 漲
+        {"code": "2317", "name": "鴻海", "value_yi": 250, "pct": -2.0},    # 均值100→2.5x, 跌
+        {"code": "1101", "name": "台泥", "value_yi": 120, "pct": 1.0},     # 均值100→1.2x, 未達門檻
+        {"code": "9999", "name": "新股", "value_yi": 500, "pct": 5.0},     # 無歷史→不計
+        {"code": "0050", "name": "ETF", "value_yi": 1, "pct": 1.0},        # 成交值過低→濾
+    ]
+    hist = {
+        "2330": [100, 100, 100],
+        "2317": [100, 100, 100, 100],
+        "1101": [100, 100, 100],
+        "9999": [],
+    }
+    out = volume_anomalies(today, hist, min_ratio=2.0, min_days=3, min_value_yi=2.0)
+    codes = [s["code"] for s in out]
+    assert codes == ["2330", "2317"]           # 依 ratio 由高到低
+    assert out[0]["ratio"] == 3.0 and out[0]["direction"] == "up"
+    assert out[1]["direction"] == "down"
+
+
+def test_volume_anomalies_empty():
+    assert volume_anomalies([], {}) == []

@@ -55,3 +55,37 @@ def buy_concentration(stocks: list[dict], top_n: int = 10) -> dict | None:
     top = sum(buys[:top_n])
     return {"top_yi": round(top, 1), "total_yi": round(total, 1),
             "ratio": round(top / total * 100), "n": min(top_n, len(buys))}
+
+
+def volume_anomalies(today_stocks, hist_value_by_code, *,
+                     min_ratio=2.0, min_days=3, min_value_yi=2.0, top=8):
+    """今日成交值相對近期均值明顯放大的個股（爆量）。
+
+    today_stocks：今日 radar.stocks（含 code/name/value_yi/pct）。
+    hist_value_by_code：{code: [過去各日 value_yi]}（不含今日）。
+    ratio = 今日成交值 ÷ 近期均值；>= min_ratio 才算爆量。
+    direction：up=價漲量增(轉強)、down=價跌量增(出貨/恐慌)、flat=量增價平。
+    回依 ratio 由高到低、限 top 檔。
+    """
+    out = []
+    for s in today_stocks or []:
+        code, v, pct = s.get("code"), s.get("value_yi"), s.get("pct")
+        if not code or not isinstance(v, (int, float)) or v < min_value_yi:
+            continue
+        hist = [h for h in hist_value_by_code.get(code, [])
+                if isinstance(h, (int, float)) and h > 0]
+        if len(hist) < min_days:
+            continue
+        avg = sum(hist) / len(hist)
+        if avg <= 0:
+            continue
+        ratio = v / avg
+        if ratio < min_ratio:
+            continue
+        direction = ("up" if isinstance(pct, (int, float)) and pct > 0.5
+                     else "down" if isinstance(pct, (int, float)) and pct < -0.5
+                     else "flat")
+        out.append({"code": code, "name": s.get("name"), "ratio": round(ratio, 1),
+                    "pct": pct, "value_yi": round(v, 1), "direction": direction})
+    out.sort(key=lambda x: x["ratio"], reverse=True)
+    return out[:top]

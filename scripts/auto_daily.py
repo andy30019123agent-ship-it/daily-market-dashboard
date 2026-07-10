@@ -23,7 +23,7 @@ from scripts.lib.schema import validate_day
 from scripts.lib.sanity import check_consistency, check_news_consistency, collect_warnings
 from scripts.notify import build_summary_text, build_failure_text
 from scripts.regime import CHIPS_WINDOW, compute_regime
-from scripts.lib.flows import inst_flow_streaks, buy_concentration
+from scripts.lib.flows import inst_flow_streaks, buy_concentration, volume_anomalies
 
 STATE = DATA_DIR / "notify_state.json"
 HISTORY = DATA_DIR / "potential_history.json"
@@ -322,6 +322,34 @@ def _attach_inst_flow(day, date, lookback=10):
         print(f"⚠️ 法人連續買賣超計算略過（不影響主戰報）：{e}")
 
 
+def _attach_volume_anomalies(day, date, lookback=6):
+    """爆量偵測（獨立區塊，失敗不影響主戰報）：今日成交值相對近期均值放大的個股。
+    用報告日以前日檔的 radar.stocks value_yi 當基準（look-ahead 安全）。"""
+    try:
+        import re
+        today = ((day.get("radar") or {}).get("stocks")) or []
+        if not today:
+            return
+        hist = {}
+        files = [p for p in sorted(DATA_DIR.glob("*.json"))
+                 if re.fullmatch(r"\d{4}-\d{2}-\d{2}\.json", p.name) and p.stem < date]
+        for p in files[-lookback:]:
+            try:
+                dd = json.loads(p.read_text(encoding="utf-8"))
+                for s in ((dd.get("radar") or {}).get("stocks")) or []:
+                    c, v = s.get("code"), s.get("value_yi")
+                    if c and isinstance(v, (int, float)):
+                        hist.setdefault(c, []).append(v)
+            except Exception:
+                pass
+        anomalies = volume_anomalies(today, hist)
+        if anomalies:
+            day["volume_anomalies"] = anomalies
+            print(f"爆量偵測：{len(anomalies)} 檔（前：{anomalies[0]['name']} {anomalies[0]['ratio']}x）")
+    except Exception as e:
+        print(f"⚠️ 爆量偵測略過（不影響主戰報）：{e}")
+
+
 def _attach_potential(day, date):
     """低基期潛力雷達（獨立區塊，失敗不影響主戰報）：原地寫入 day['potential']。
     可在正常流程或『凍結日』重覆呼叫——glob 一律排除當日檔、只用 day 自帶 radar，避免重複計。"""
@@ -412,6 +440,7 @@ def _run(dry_run):
             _attach_potential_history(frozen, date, dry_run=dry_run)
             _attach_regime(frozen, date)
             _attach_inst_flow(frozen, date)
+            _attach_volume_anomalies(frozen, date)
             frozen["earnings_tomorrow"] = fetch_earnings_tomorrow()
             fp.write_text(json.dumps(frozen, ensure_ascii=False, indent=1),
                           encoding="utf-8")
@@ -468,6 +497,7 @@ def _run(dry_run):
     _attach_potential_history(day, date, dry_run=dry_run)
     _attach_regime(day, date)
     _attach_inst_flow(day, date)
+    _attach_volume_anomalies(day, date)
     day["earnings_tomorrow"] = fetch_earnings_tomorrow()
     day["opportunities"] = fetch_opportunities()
 
