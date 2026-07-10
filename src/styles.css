@@ -358,6 +358,14 @@ body.annotate [data-region]::before{
 .ifchip.up{color:var(--up);background:var(--up-bg)}
 .ifchip.down{color:var(--down);background:var(--down-bg)}
 .inst-flow-note{font-size:.8125rem;color:var(--ink-muted)}
+.sflow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px}
+.sflow-col{background:var(--surface-tint);border-radius:var(--r-md);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.sflow-h{font-size:.8125rem;font-weight:700}
+.sflow-h.up{color:var(--up)} .sflow-h.down{color:var(--down)}
+.sflow-item{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.9375rem}
+.sflow-item b{font-weight:600;color:var(--ink)}
+.sflow-none{color:var(--ink-muted)}
+@media(max-width:640px){.sflow{grid-template-columns:1fr}}
 .inst-empty{color:var(--ink-muted);font-size:1rem;padding:10px 0}
 
 /* section header（跨市場戰略等區塊標題）*/

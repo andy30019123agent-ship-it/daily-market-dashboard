@@ -78,6 +78,35 @@ function Scatter({ items, onItem, activeQuad, th = 0 }) {
   )
 }
 
+// 類股資金流向 Top：直接用 radar.sectors 的法人淨買超（已排序），
+// 免點象限就能一眼看「錢流入/流出哪些產業」。流入=紅、流出=綠（與紅漲綠跌一致）。
+function SectorFlow({ sectors }) {
+  const list = (sectors || []).filter((s) => Number.isFinite(s.inst_net_yi))
+  const inflow = list.filter((s) => s.inst_net_yi > 0).slice(0, 3)
+  const outflow = list.filter((s) => s.inst_net_yi < 0).slice(-3).reverse()
+  if (!inflow.length && !outflow.length) return null
+  const Item = ({ s }) => (
+    <span className="sflow-item">
+      <b>{s.name}</b>
+      <span className={'mono ' + (s.inst_net_yi >= 0 ? 'up' : 'down')}>
+        {s.inst_net_yi >= 0 ? '+' : ''}{s.inst_net_yi} 億
+      </span>
+    </span>
+  )
+  return (
+    <div className="sflow">
+      <div className="sflow-col">
+        <span className="sflow-h up">▲ 資金流入產業</span>
+        {inflow.length ? inflow.map((s, i) => <Item s={s} key={i} />) : <span className="sflow-none">—</span>}
+      </div>
+      <div className="sflow-col">
+        <span className="sflow-h down">▼ 資金流出產業</span>
+        {outflow.length ? outflow.map((s, i) => <Item s={s} key={i} />) : <span className="sflow-none">—</span>}
+      </div>
+    </div>
+  )
+}
+
 function RankRow({ d, onItem }) {
   return (
     <div className={'rk-row' + (onItem ? ' clk' : '')}
@@ -212,6 +241,7 @@ export default function Radar({ radar, potential, dates = [], date, onOpen }) {
       {radarSummary(radar, potential) && (
         <div className="radar-summary">{radarSummary(radar, potential)}</div>
       )}
+      <SectorFlow sectors={radar.sectors} />
       <div className="pmode">
         <button className={'pmode-btn' + (mode === 'quad' ? ' on' : '')} onClick={() => setMode('quad')}>象限</button>
         <button className={'pmode-btn' + (mode === 'potential' ? ' on' : '')} onClick={() => setMode('potential')}><Sprout size={14} strokeWidth={1.75} />低基期潛力</button>
