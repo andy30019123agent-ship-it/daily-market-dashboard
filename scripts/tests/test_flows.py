@@ -90,3 +90,17 @@ def test_trend_signal_backtest_perfect_uptrend():
 
 def test_trend_signal_backtest_insufficient():
     assert trend_signal_backtest([1, 2, 3], horizon=5, ma_period=20) is None
+
+
+def test_trend_signal_backtest_flat_on_ma_is_neutral():
+    # 收盤恆等於均線（持平序列）→ 每點都在均線上、無方向 → 不計樣本 → None
+    assert trend_signal_backtest([5] * 8, horizon=1, ma_period=3) is None
+
+
+def test_buy_concentration_bad_top_n():
+    assert buy_concentration([{"inst_net_yi": 10}], top_n=0) is None
+
+
+def test_volume_anomalies_none_hist_ok():
+    # hist 傳 None 不應炸；因無歷史 → 無爆量
+    assert volume_anomalies([{"code": "2330", "value_yi": 100, "pct": 3}], None) == []

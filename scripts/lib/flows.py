@@ -42,8 +42,10 @@ def buy_concentration(stocks: list[dict], top_n: int = 10) -> dict | None:
 
     stocks：radar.stocks（每檔含 inst_net_yi，單位億元）。
     ratio 高＝買盤集中在少數個股（多為權值股撐盤）、低＝廣泛買盤。
-    回 {"top_yi", "total_yi", "ratio"(%), "n"}；無任何買超時回 None。
+    回 {"top_yi", "total_yi", "ratio"(%), "n"}；無任何買超或 top_n<1 時回 None。
     """
+    if top_n < 1:
+        return None
     buys = sorted(
         (s["inst_net_yi"] for s in (stocks or [])
          if isinstance(s.get("inst_net_yi"), (int, float)) and s["inst_net_yi"] > 0),
@@ -72,7 +74,7 @@ def volume_anomalies(today_stocks, hist_value_by_code, *,
         code, v, pct = s.get("code"), s.get("value_yi"), s.get("pct")
         if not code or not isinstance(v, (int, float)) or v < min_value_yi:
             continue
-        hist = [h for h in hist_value_by_code.get(code, [])
+        hist = [h for h in (hist_value_by_code or {}).get(code, [])
                 if isinstance(h, (int, float)) and h > 0]
         if len(hist) < min_days:
             continue
@@ -105,6 +107,8 @@ def trend_signal_backtest(closes, horizon=5, ma_period=20):
     total = hit = 0
     for i in range(ma_period - 1, n - horizon):
         ma = sum(vals[i - ma_period + 1:i + 1]) / ma_period
+        if vals[i] == ma:            # 恰在均線上＝中性、無方向，不計樣本
+            continue
         sig = 1 if vals[i] > ma else -1
         fwd = vals[i + horizon] - vals[i]
         if fwd == 0:

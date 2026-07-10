@@ -308,13 +308,13 @@ def _attach_inst_flow(day, date, lookback=10):
             except Exception:
                 pass
         nets.sort(key=lambda x: x[0])
-        seq = [n for _, n in nets[-(lookback - 1):]]
+        # 只有「當日真的有法人資料」才算連續買賣超，否則會把前一交易日的值誤標成今天
         if isinstance(day.get("inst_net_yi"), dict):
-            seq.append(day["inst_net_yi"])
-        day["inst_flow"] = inst_flow_streaks(seq)
-        parts = [f"{k}連{v['streak']}{'買' if v['side'] == 'buy' else '賣'}"
-                 for k, v in day["inst_flow"].items() if v["streak"] >= 2 and v["side"]]
-        print("法人連續買賣超：" + ("、".join(parts) if parts else "無明顯連續方向"))
+            seq = [n for _, n in nets[-(lookback - 1):]] + [day["inst_net_yi"]]
+            day["inst_flow"] = inst_flow_streaks(seq)
+            parts = [f"{k}連{v['streak']}{'買' if v['side'] == 'buy' else '賣'}"
+                     for k, v in day["inst_flow"].items() if v["streak"] >= 2 and v["side"]]
+            print("法人連續買賣超：" + ("、".join(parts) if parts else "無明顯連續方向"))
         # 買超集中度：前 10 大買超個股佔全市場買超金額比重（高＝少數權值撐盤）
         conc = buy_concentration((day.get("radar") or {}).get("stocks"))
         if conc:
