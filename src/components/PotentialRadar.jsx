@@ -1,5 +1,15 @@
-import { Tag, Sprout } from 'lucide-react'
+import { Tag, Sprout, AlertTriangle } from 'lucide-react'
 import { fmtPct, scoreTier, sparkPath } from '../lib/potential.js'
+
+// 潛力股風險提示：用既有欄位標出「值得留意」處，幫使用者別只看分數就追。
+// 位階偏高＝已離低基期；法人未同步＝籌碼沒跟上；營收衰退＝基本面轉弱。
+function riskFlags(s) {
+  const f = []
+  if (Number.isFinite(s.price_pos) && s.price_pos >= 0.7) f.push('位階偏高')
+  if (Number.isFinite(s.inst_net_yi) && s.inst_net_yi <= 0) f.push('法人未同步')
+  if (Number.isFinite(s.fund_yoy) && s.fund_yoy < 0) f.push('營收衰退')
+  return f
+}
 
 // 題材文字可能夾帶產生器留下的 markdown 連結或裸網址，畫面上只留來源名稱，避免長網址撐爆卡片
 const cleanCatalyst = (t) =>
@@ -54,6 +64,12 @@ export default function PotentialRadar({ potential, onOpen }) {
               {typeof s.fund_yoy === 'number' && <span>營收 YoY {fmtPct(s.fund_yoy)}</span>}
               {s.streak != null && <span className="pot-streak">在榜 {s.streak} 天</span>}
             </div>
+            {riskFlags(s).length > 0 && (
+              <div className="pot-risks">
+                <AlertTriangle size={13} strokeWidth={2} />
+                {riskFlags(s).map((f, i) => <span className="pot-riskf" key={i}>{f}</span>)}
+              </div>
+            )}
             {s.catalyst && <div className="pot-cat"><Sprout size={14} strokeWidth={1.75} />{cleanCatalyst(s.catalyst)}</div>}
           </div>
           )
