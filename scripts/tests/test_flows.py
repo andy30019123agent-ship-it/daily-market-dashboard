@@ -4,7 +4,9 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from scripts.lib.flows import inst_flow_streaks, buy_concentration, volume_anomalies  # noqa: E402
+from scripts.lib.flows import (  # noqa: E402
+    inst_flow_streaks, buy_concentration, volume_anomalies, trend_signal_backtest,
+)
 
 
 def test_streak_basic_directions():
@@ -76,3 +78,15 @@ def test_volume_anomalies_flags_and_direction():
 
 def test_volume_anomalies_empty():
     assert volume_anomalies([], {}) == []
+
+
+def test_trend_signal_backtest_perfect_uptrend():
+    # 單調上升：收盤永遠站上均線、且未來永遠更高 → 命中率 100%
+    closes = list(range(1, 40))
+    out = trend_signal_backtest(closes, horizon=3, ma_period=5)
+    assert out["rate"] == 100.0 and out["total"] > 0
+    assert out["horizon"] == 3 and out["ma"] == 5
+
+
+def test_trend_signal_backtest_insufficient():
+    assert trend_signal_backtest([1, 2, 3], horizon=5, ma_period=20) is None

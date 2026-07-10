@@ -23,7 +23,9 @@ from scripts.lib.schema import validate_day
 from scripts.lib.sanity import check_consistency, check_news_consistency, collect_warnings
 from scripts.notify import build_summary_text, build_failure_text
 from scripts.regime import CHIPS_WINDOW, compute_regime
-from scripts.lib.flows import inst_flow_streaks, buy_concentration, volume_anomalies
+from scripts.lib.flows import (
+    inst_flow_streaks, buy_concentration, volume_anomalies, trend_signal_backtest,
+)
 
 STATE = DATA_DIR / "notify_state.json"
 HISTORY = DATA_DIR / "potential_history.json"
@@ -322,6 +324,26 @@ def _attach_inst_flow(day, date, lookback=10):
         print(f"⚠️ 法人連續買賣超計算略過（不影響主戰報）：{e}")
 
 
+def _attach_signal_backtest(day, date):
+    """趨勢訊號歷史勝率（獨立區塊，失敗不影響主戰報）：用報告日以前的加權收盤回測
+    「站上/跌破 MA20」訊號的 N 日後方向命中率，寫入 day['signal_backtest']。"""
+    try:
+        closes = [h["close"] for h in load_history()
+                  if isinstance(h.get("close"), (int, float)) and h.get("date", "") <= date]
+        res = {}
+        for hz in (5, 20):
+            r = trend_signal_backtest(closes, horizon=hz, ma_period=20)
+            if r:
+                res[str(hz)] = r
+        if res:
+            day["signal_backtest"] = res
+            r5 = res.get("5")
+            if r5:
+                print(f"趨勢訊號回測：5日 {r5['rate']}%（{r5['hit']}/{r5['total']}）")
+    except Exception as e:
+        print(f"⚠️ 趨勢訊號回測略過（不影響主戰報）：{e}")
+
+
 def _attach_volume_anomalies(day, date, lookback=6):
     """爆量偵測（獨立區塊，失敗不影響主戰報）：今日成交值相對近期均值放大的個股。
     用報告日以前日檔的 radar.stocks value_yi 當基準（look-ahead 安全）。"""
@@ -441,6 +463,7 @@ def _run(dry_run):
             _attach_regime(frozen, date)
             _attach_inst_flow(frozen, date)
             _attach_volume_anomalies(frozen, date)
+            _attach_signal_backtest(frozen, date)
             frozen["earnings_tomorrow"] = fetch_earnings_tomorrow()
             fp.write_text(json.dumps(frozen, ensure_ascii=False, indent=1),
                           encoding="utf-8")
@@ -498,6 +521,7 @@ def _run(dry_run):
     _attach_regime(day, date)
     _attach_inst_flow(day, date)
     _attach_volume_anomalies(day, date)
+    _attach_signal_backtest(day, date)
     day["earnings_tomorrow"] = fetch_earnings_tomorrow()
     day["opportunities"] = fetch_opportunities()
 

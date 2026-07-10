@@ -89,3 +89,30 @@ def volume_anomalies(today_stocks, hist_value_by_code, *,
                     "pct": pct, "value_yi": round(v, 1), "direction": direction})
     out.sort(key=lambda x: x["ratio"], reverse=True)
     return out[:top]
+
+
+def trend_signal_backtest(closes, horizon=5, ma_period=20):
+    """回測「加權收盤 vs MA」趨勢訊號的 N 日後方向命中率（紅綠燈的趨勢分邏輯）。
+
+    closes：由舊到新的收盤價 list。對每個有足夠歷史且有 horizon 日後資料的點：
+    站上均線→看多、跌破→看空；命中＝N 日後收盤方向與訊號一致（平盤不計）。
+    回 {total, hit, rate(%), horizon, ma}；樣本不足回 None。
+    """
+    vals = [c for c in closes if isinstance(c, (int, float))]
+    n = len(vals)
+    if n < ma_period + horizon:
+        return None
+    total = hit = 0
+    for i in range(ma_period - 1, n - horizon):
+        ma = sum(vals[i - ma_period + 1:i + 1]) / ma_period
+        sig = 1 if vals[i] > ma else -1
+        fwd = vals[i + horizon] - vals[i]
+        if fwd == 0:
+            continue
+        total += 1
+        if (sig > 0 and fwd > 0) or (sig < 0 and fwd < 0):
+            hit += 1
+    if total == 0:
+        return None
+    return {"total": total, "hit": hit, "rate": round(hit / total * 100, 1),
+            "horizon": horizon, "ma": ma_period}

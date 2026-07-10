@@ -177,6 +177,14 @@ body.annotate [data-region]::before{
 .regime-item .v{font-size:1.125rem;font-weight:700;margin-top:6px;color:var(--ink)}
 .regime-item .v.up{color:var(--up)} .regime-item .v.down{color:var(--down)} .regime-item .v.neu{color:var(--on-accent)}
 .regime-foot{margin-top:12px;font-size:.875rem;color:var(--ink-muted)}
+.regime-bt{grid-column:1/-1;background:var(--surface-tint);border:1px solid var(--border);border-radius:var(--r-md);padding:12px 14px}
+.regime-bt-h{font-size:.875rem;font-weight:700;color:var(--ink);display:flex;flex-wrap:wrap;align-items:baseline;gap:8px}
+.regime-bt-sub{font-size:.8125rem;font-weight:500;color:var(--ink-muted)}
+.regime-bt-rows{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 18px;margin-top:8px}
+.regime-bt-item{display:inline-flex;align-items:baseline;gap:6px}
+.regime-bt-k{font-size:.8125rem;color:var(--ink-muted)}
+.regime-bt-item b{font-size:1.125rem;color:var(--primary)}
+.regime-bt-n{font-size:.8125rem;color:var(--ink-muted);margin-left:auto}
 @media(max-width:640px){
   .regime-toggle{margin-left:0}
   .regime-detail{grid-template-columns:repeat(2,minmax(0,1fr))}

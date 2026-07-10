@@ -111,7 +111,7 @@ export default function App() {
 
       <DataHealth warnings={day._warnings} />
 
-      <RegimeTile regime={day.regime} />
+      <RegimeTile regime={day.regime} backtest={day.signal_backtest} />
 
       <div className="tabbar" data-region="台股 / 美股 分頁">
         <button className={'tab' + (tab === 'tw' ? ' active' : '')} onClick={() => switchTab('tw')}>台股</button>
