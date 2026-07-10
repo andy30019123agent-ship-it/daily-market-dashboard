@@ -358,6 +358,10 @@ body.annotate [data-region]::before{
 .ifchip.up{color:var(--up);background:var(--up-bg)}
 .ifchip.down{color:var(--down);background:var(--down-bg)}
 .inst-flow-note{font-size:.8125rem;color:var(--ink-muted)}
+.conc{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin:0 0 16px;padding:10px 14px;background:var(--surface-tint);border-radius:var(--r-md)}
+.conc-k{font-size:.875rem;font-weight:700;color:var(--ink)}
+.conc-v{font-size:1.125rem;font-weight:800;color:var(--primary)}
+.conc-note{font-size:.8125rem;color:var(--ink-muted)}
 .sflow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px}
 .sflow-col{background:var(--surface-tint);border-radius:var(--r-md);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
 .sflow-h{font-size:.8125rem;font-weight:700}

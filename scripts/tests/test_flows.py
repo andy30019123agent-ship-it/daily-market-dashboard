@@ -4,7 +4,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from scripts.lib.flows import inst_flow_streaks  # noqa: E402
+from scripts.lib.flows import inst_flow_streaks, buy_concentration  # noqa: E402
 
 
 def test_streak_basic_directions():
@@ -36,3 +36,18 @@ def test_streak_breaks_on_zero_and_missing():
 def test_streak_empty():
     out = inst_flow_streaks([])
     assert out["外資"] == {"streak": 0, "side": None, "today_yi": None}
+
+
+def test_buy_concentration():
+    # 買超：100,50,30,20（合計 200），賣超與 0 不計
+    stocks = [
+        {"inst_net_yi": 100}, {"inst_net_yi": 50}, {"inst_net_yi": 30},
+        {"inst_net_yi": 20}, {"inst_net_yi": -40}, {"inst_net_yi": 0},
+    ]
+    out = buy_concentration(stocks, top_n=2)
+    assert out == {"top_yi": 150.0, "total_yi": 200.0, "ratio": 75, "n": 2}
+
+
+def test_buy_concentration_none_when_no_buys():
+    assert buy_concentration([{"inst_net_yi": -5}, {"inst_net_yi": 0}]) is None
+    assert buy_concentration([]) is None

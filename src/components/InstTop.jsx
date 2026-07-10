@@ -36,7 +36,20 @@ function FlowStrip({ flow }) {
   )
 }
 
-export default function InstTop({ instTop, flow, onOpen }) {
+// 買超集中度：前 N 大買超個股佔全市場法人買超金額比重（高＝少數權值撐盤、低＝廣泛買盤）
+function Concentration({ c }) {
+  if (!c || !Number.isFinite(c.ratio)) return null
+  const tone = c.ratio >= 60 ? '集中在少數權值股' : c.ratio <= 35 ? '買盤相當廣泛' : '買盤分布中等'
+  return (
+    <div className="conc">
+      <span className="conc-k">買超集中度</span>
+      <span className="conc-v mono">{c.ratio}%</span>
+      <span className="conc-note">前 {c.n} 大個股佔全市場法人買超金額 · {tone}</span>
+    </div>
+  )
+}
+
+export default function InstTop({ instTop, flow, concentration, onOpen }) {
   const [side, setSide] = useState('buy')
   if (!instTop) return null
   const hasAny = GROUPS.some((g) => {
@@ -56,6 +69,7 @@ export default function InstTop({ instTop, flow, onOpen }) {
         </div>
       </div>
       <FlowStrip flow={flow} />
+      <Concentration c={concentration} />
       <div className="inst3">
         {GROUPS.map((g) => {
           const rows = sides(instTop[g.key])[side]

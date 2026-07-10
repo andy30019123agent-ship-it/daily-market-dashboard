@@ -23,7 +23,7 @@ from scripts.lib.schema import validate_day
 from scripts.lib.sanity import check_consistency, check_news_consistency, collect_warnings
 from scripts.notify import build_summary_text, build_failure_text
 from scripts.regime import CHIPS_WINDOW, compute_regime
-from scripts.lib.flows import inst_flow_streaks
+from scripts.lib.flows import inst_flow_streaks, buy_concentration
 
 STATE = DATA_DIR / "notify_state.json"
 HISTORY = DATA_DIR / "potential_history.json"
@@ -313,6 +313,11 @@ def _attach_inst_flow(day, date, lookback=10):
         parts = [f"{k}連{v['streak']}{'買' if v['side'] == 'buy' else '賣'}"
                  for k, v in day["inst_flow"].items() if v["streak"] >= 2 and v["side"]]
         print("法人連續買賣超：" + ("、".join(parts) if parts else "無明顯連續方向"))
+        # 買超集中度：前 10 大買超個股佔全市場買超金額比重（高＝少數權值撐盤）
+        conc = buy_concentration((day.get("radar") or {}).get("stocks"))
+        if conc:
+            day["buy_concentration"] = conc
+            print(f"買超集中度：前 {conc['n']} 大佔 {conc['ratio']}%")
     except Exception as e:
         print(f"⚠️ 法人連續買賣超計算略過（不影響主戰報）：{e}")
 

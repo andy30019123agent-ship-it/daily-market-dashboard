@@ -2,7 +2,9 @@
 
 目前提供：
 - inst_flow_streaks：三大法人「連續買超／賣超天數」，判斷資金是否有持續性方向。
+- buy_concentration：法人買超集中度（前 N 大佔全市場買超比重）。
 """
+from __future__ import annotations
 
 INSTS = ("外資", "投信", "自營")
 
@@ -33,3 +35,23 @@ def inst_flow_streaks(daily_nets: list[dict]) -> dict:
         out[inst] = {"streak": streak, "side": side,
                      "today_yi": vals[-1] if vals else None}
     return out
+
+
+def buy_concentration(stocks: list[dict], top_n: int = 10) -> dict | None:
+    """法人買超集中度：前 N 大買超個股的法人淨買超金額 ÷ 全部買超個股合計。
+
+    stocks：radar.stocks（每檔含 inst_net_yi，單位億元）。
+    ratio 高＝買盤集中在少數個股（多為權值股撐盤）、低＝廣泛買盤。
+    回 {"top_yi", "total_yi", "ratio"(%), "n"}；無任何買超時回 None。
+    """
+    buys = sorted(
+        (s["inst_net_yi"] for s in (stocks or [])
+         if isinstance(s.get("inst_net_yi"), (int, float)) and s["inst_net_yi"] > 0),
+        reverse=True,
+    )
+    total = sum(buys)
+    if total <= 0:
+        return None
+    top = sum(buys[:top_n])
+    return {"top_yi": round(top, 1), "total_yi": round(total, 1),
+            "ratio": round(top / total * 100), "n": min(top_n, len(buys))}
