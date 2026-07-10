@@ -292,8 +292,14 @@ body.annotate [data-region]::before{
   border-radius:var(--r-lg);box-shadow:var(--shadow-lg);overflow:hidden}
 .chart-frame{flex:1;width:100%;border:none;background:var(--surface)}
 .chart-box-draw{width:860px;height:74vh;max-height:640px}
-.chart-canvas-wrap{flex:1;position:relative;min-height:0;padding:8px 10px 4px}
-.chart-canvas{position:absolute;inset:8px 10px 4px}
+.chart-canvas-wrap{flex:1;display:flex;flex-direction:column;min-height:0;padding:8px 10px 4px}
+.chart-canvas-area{flex:1;position:relative;min-height:0}
+.chart-canvas{position:absolute;inset:0}
+.klevels{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;padding:10px 4px 2px;margin-top:6px;border-top:1px solid var(--border)}
+.kl-item{display:inline-flex;align-items:baseline;gap:6px}
+.kl-k{font-size:.8125rem;color:var(--ink-muted)}
+.kl-v{font-size:.9375rem;font-weight:700;color:var(--ink)}
+.kl-note{font-size:.75rem;color:var(--ink-muted);margin-left:auto}
 .chart-loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
   justify-content:center;gap:10px;color:var(--ink-muted);font-size:1rem;z-index:2}
 .chart-box-links{width:420px;height:auto;max-height:none}

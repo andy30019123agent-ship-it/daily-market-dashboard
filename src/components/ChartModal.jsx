@@ -76,14 +76,49 @@ function LinksView({ links }) {
 }
 
 // 台股：抓 FinMind → 畫蠟燭圖
+// 從日 K OHLC 算「技術位階參考」：近 3 月(60 交易日)前高=壓力、前低=支撐，MA20/MA60。
+// 純由歷史 OHLC 計算、非預測；壓力/支撐用中性色，不佔用紅漲綠跌語意。
+function calcLevels(rows) {
+  if (!rows || rows.length < 2) return null
+  const closes = rows.map((r) => r.close)
+  const recent = rows.slice(-60)
+  const ma = (n) => (closes.length >= n
+    ? Math.round(closes.slice(-n).reduce((a, b) => a + b, 0) / n * 100) / 100 : null)
+  const r2 = (v) => Math.round(v * 100) / 100
+  return {
+    last: r2(closes[closes.length - 1]),
+    high: r2(Math.max(...recent.map((r) => r.high))),
+    low: r2(Math.min(...recent.map((r) => r.low))),
+    ma20: ma(20), ma60: ma(60),
+  }
+}
+
+function Levels({ lv }) {
+  if (!lv) return null
+  const Item = ({ k, v }) => (
+    <span className="kl-item"><span className="kl-k">{k}</span><span className="kl-v mono">{v ?? '—'}</span></span>
+  )
+  return (
+    <div className="klevels">
+      <Item k="壓力·近3月高" v={lv.high} />
+      <Item k="MA60" v={lv.ma60} />
+      <Item k="MA20" v={lv.ma20} />
+      <Item k="支撐·近3月低" v={lv.low} />
+      <span className="kl-note">技術位階參考，非買賣建議</span>
+    </div>
+  )
+}
+
 function TWKChart({ id, links }) {
   const wrapRef = useRef(null)
   const [state, setState] = useState('loading') // loading | ready | error
+  const [levels, setLevels] = useState(null)
 
   useEffect(() => {
     let chart, cancelled = false
     async function run() {
       setState('loading')
+      setLevels(null)
       try {
         const url = `https://api.finmindtrade.com/api/v4/data?dataset=TaiwanStockPrice&data_id=${id}&start_date=${startDate()}`
         const res = await fetch(url)
@@ -123,6 +158,7 @@ function TWKChart({ id, links }) {
           ma.setData(sma(rows, 20))
         }
         chart.timeScale().fitContent()
+        if (!cancelled) setLevels(calcLevels(rows))
         setState('ready')
       } catch (e) {
         if (!cancelled) setState('error')
@@ -146,8 +182,11 @@ function TWKChart({ id, links }) {
   }
   return (
     <div className="chart-canvas-wrap">
-      {state === 'loading' && <div className="chart-loading"><div className="spin" />載入 K 線中…</div>}
-      <div className="chart-canvas" ref={wrapRef} />
+      <div className="chart-canvas-area">
+        {state === 'loading' && <div className="chart-loading"><div className="spin" />載入 K 線中…</div>}
+        <div className="chart-canvas" ref={wrapRef} />
+      </div>
+      {state === 'ready' && <Levels lv={levels} />}
     </div>
   )
 }
