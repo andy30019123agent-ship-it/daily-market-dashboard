@@ -11313,5 +11313,87 @@
   "total_yi": 538.5,
   "ratio": 55,
   "n": 10
+ },
+ "volume_anomalies": [
+  {
+   "code": "3090",
+   "name": "日電貿",
+   "ratio": 11.6,
+   "pct": -5.6,
+   "value_yi": 45.2,
+   "direction": "down"
+  },
+  {
+   "code": "2465",
+   "name": "麗臺",
+   "ratio": 8.6,
+   "pct": 9.95,
+   "value_yi": 6.5,
+   "direction": "up"
+  },
+  {
+   "code": "2913",
+   "name": "農林",
+   "ratio": 8.6,
+   "pct": 5.86,
+   "value_yi": 2.9,
+   "direction": "up"
+  },
+  {
+   "code": "6715",
+   "name": "嘉基",
+   "ratio": 6.5,
+   "pct": -10.0,
+   "value_yi": 5.5,
+   "direction": "down"
+  },
+  {
+   "code": "2356",
+   "name": "英業達",
+   "ratio": 5.5,
+   "pct": 5.44,
+   "value_yi": 101.6,
+   "direction": "up"
+  },
+  {
+   "code": "6202",
+   "name": "盛群",
+   "ratio": 4.7,
+   "pct": 7.79,
+   "value_yi": 22.8,
+   "direction": "up"
+  },
+  {
+   "code": "6285",
+   "name": "啟碁",
+   "ratio": 3.9,
+   "pct": 3.58,
+   "value_yi": 72.5,
+   "direction": "up"
+  },
+  {
+   "code": "5471",
+   "name": "松翰",
+   "ratio": 3.8,
+   "pct": 7.47,
+   "value_yi": 11.3,
+   "direction": "up"
+  }
+ ],
+ "signal_backtest": {
+  "5": {
+   "total": 121,
+   "hit": 75,
+   "rate": 62.0,
+   "horizon": 5,
+   "ma": 20
+  },
+  "20": {
+   "total": 106,
+   "hit": 77,
+   "rate": 72.6,
+   "horizon": 20,
+   "ma": 20
+  }
  }
 }

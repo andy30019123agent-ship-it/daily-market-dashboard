@@ -10823,5 +10823,28 @@
     "risk_flags": []
    }
   ]
+ },
+ "inst_flow": {
+  "外資": {
+   "streak": 1,
+   "side": "sell",
+   "today_yi": -777.8
+  },
+  "投信": {
+   "streak": 1,
+   "side": "buy",
+   "today_yi": 76.0
+  },
+  "自營": {
+   "streak": 1,
+   "side": "sell",
+   "today_yi": -32.6
+  }
+ },
+ "buy_concentration": {
+  "top_yi": 172.6,
+  "total_yi": 518.4,
+  "ratio": 33,
+  "n": 10
  }
 }
