@@ -14,6 +14,17 @@ import RegimeTile from './components/RegimeTile.jsx'
 import { News, UpcomingEvents, PastReview, Verdict } from './components/CrossMarket.jsx'
 import ChartModal from './components/ChartModal.jsx'
 
+// 資料完整度：只在「有缺漏」時顯示提示條（完整就不干擾），誠實告知哪塊沒抓到、勿當市場訊號
+function DataHealth({ warnings }) {
+  if (!Array.isArray(warnings) || !warnings.length) return null
+  return (
+    <div className="datahealth" role="status">
+      <AlertTriangle size={16} strokeWidth={1.75} />
+      <span>今日部分資料缺漏：<b>{warnings.join('、')}</b> · 其餘照常，缺漏處以「—」顯示，請勿當市場訊號解讀</span>
+    </div>
+  )
+}
+
 export default function App() {
   const [dates, setDates] = useState([])
   const [date, setDate] = useState(null)
@@ -97,6 +108,8 @@ export default function App() {
   return (
     <div className="wrap">
       <Hero day={day} dates={dates} date={date} onSelect={pick} />
+
+      <DataHealth warnings={day._warnings} />
 
       <RegimeTile regime={day.regime} />
 

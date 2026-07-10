@@ -362,6 +362,10 @@ body.annotate [data-region]::before{
 .conc-k{font-size:.875rem;font-weight:700;color:var(--ink)}
 .conc-v{font-size:1.125rem;font-weight:800;color:var(--primary)}
 .conc-note{font-size:.8125rem;color:var(--ink-muted)}
+.datahealth{display:flex;align-items:center;gap:10px;margin:0 0 20px;padding:12px 18px;
+  background:var(--accent);color:var(--on-accent);border-radius:var(--r-md);font-size:.9375rem;font-weight:500}
+.datahealth b{font-weight:700}
+.datahealth svg{flex:none}
 .sflow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 16px}
 .sflow-col{background:var(--surface-tint);border-radius:var(--r-md);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
 .sflow-h{font-size:.8125rem;font-weight:700}
