@@ -420,8 +420,8 @@
   "_meta": {
     "errors": [
       "RWD FMTQIK: Expecting value: line 1 column 1 (char 0)",
-      "RWD MI_INDEX: Expecting value: line 1 column 1 (char 0)",
-      "RWD MI_INDEX(MS) 市場寬度: MI_INDEX(MS) 找不到漲跌證券數合計",
+      "RWD MI_INDEX: 'RWD MI_INDEX 找不到 發行量加權股價指數'",
+      "RWD MI_INDEX(MS) 市場寬度: Expecting value: line 1 column 1 (char 0)",
       "MI_MARGN 上市融資: Expecting value: line 1 column 1 (char 0)",
       "BFI82U 三大法人: Expecting value: line 1 column 1 (char 0)",
       "T86 個股法人: Expecting value: line 1 column 1 (char 0)",
