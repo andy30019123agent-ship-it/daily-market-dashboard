@@ -1,0 +1,1519 @@
+{
+ "date": "2026-07-13",
+ "updated_at": "2026-07-13 18:36",
+ "overview": {
+  "tw": {
+   "featured": {
+    "name": "發行量加權股價指數",
+    "close": 45380.52,
+    "change": 25.91,
+    "change_pct": 0.06,
+    "note": "較昨收",
+    "spark": [
+     47018.99,
+     46744.16,
+     46780.62,
+     46556.39,
+     45479.11,
+     45734.41,
+     45354.61,
+     45380.52
+    ]
+   },
+   "stats": [
+    {
+     "name": "成交金額",
+     "value": "10,677 億"
+    },
+    {
+     "name": "漲跌家數",
+     "value": "356▲ / 653▼",
+     "note": "持平 54 家"
+    }
+   ]
+  },
+  "us": [
+   {
+    "name": "道瓊",
+    "close": 52637.01,
+    "change_pct": 0.29
+   },
+   {
+    "name": "標普 500",
+    "close": 7575.39,
+    "change_pct": 0.42
+   },
+   {
+    "name": "那斯達克",
+    "close": 26281.61,
+    "change_pct": 0.29
+   },
+   {
+    "name": "費城半導體",
+    "close": 12967.16,
+    "change_pct": 0.06
+   }
+  ],
+  "vix": {
+   "tw": {
+    "value": 36.57,
+    "change": -0.52,
+    "change_pct": -1.4,
+    "gauge": 0.11433333333333329,
+    "state": "波動偏高",
+    "source_date": "2026-07-13",
+    "note": "台指 VIX（TAIFEX 官方・2026-07-13）"
+   },
+   "us": {
+    "state": "穩定",
+    "note": "美股VIX指數維持穩定，市場波動性低",
+    "value": 16.24,
+    "change": 8.05,
+    "gauge": 0.792
+   }
+  }
+ },
+ "sectors": {
+  "tw": {
+   "in": [
+    {
+     "name": "塑膠",
+     "amount": "+8.94%",
+     "weight": 1.0
+    },
+    {
+     "name": "油電燃氣",
+     "amount": "+5.22%",
+     "weight": 0.58
+    },
+    {
+     "name": "綠能環保",
+     "amount": "+3.99%",
+     "weight": 0.45
+    },
+    {
+     "name": "塑膠化工",
+     "amount": "+3.86%",
+     "weight": 0.43
+    },
+    {
+     "name": "居家生活",
+     "amount": "+1.91%",
+     "weight": 0.21
+    }
+   ],
+   "out": [
+    {
+     "name": "造紙",
+     "amount": "-3.36%",
+     "weight": 0.38
+    },
+    {
+     "name": "生技醫療",
+     "amount": "-2.39%",
+     "weight": 0.27
+    },
+    {
+     "name": "化學生技醫療",
+     "amount": "-2.01%",
+     "weight": 0.22
+    },
+    {
+     "name": "數位雲端",
+     "amount": "-1.97%",
+     "weight": 0.22
+    },
+    {
+     "name": "化學",
+     "amount": "-1.13%",
+     "weight": 0.13
+    }
+   ]
+  },
+  "us": {
+   "in": [
+    {
+     "name": "原物料",
+     "amount": "+1.25%",
+     "weight": 1.0,
+     "constituents": [
+      {
+       "code": "LIN",
+       "name": "Linde"
+      },
+      {
+       "code": "SHW",
+       "name": "宣偉"
+      },
+      {
+       "code": "FCX",
+       "name": "自由港"
+      },
+      {
+       "code": "ECL",
+       "name": "藝康"
+      },
+      {
+       "code": "NEM",
+       "name": "Newmont"
+      },
+      {
+       "code": "APD",
+       "name": "空氣化工"
+      }
+     ]
+    },
+    {
+     "name": "必需消費",
+     "amount": "+1.11%",
+     "weight": 0.89,
+     "constituents": [
+      {
+       "code": "COST",
+       "name": "好市多"
+      },
+      {
+       "code": "WMT",
+       "name": "沃爾瑪"
+      },
+      {
+       "code": "PG",
+       "name": "寶僑"
+      },
+      {
+       "code": "KO",
+       "name": "可口可樂"
+      },
+      {
+       "code": "PEP",
+       "name": "百事"
+      },
+      {
+       "code": "PM",
+       "name": "菲利普莫里斯"
+      }
+     ]
+    },
+    {
+     "name": "通訊服務",
+     "amount": "+1.02%",
+     "weight": 0.82,
+     "constituents": [
+      {
+       "code": "META",
+       "name": "Meta"
+      },
+      {
+       "code": "GOOGL",
+       "name": "Alphabet"
+      },
+      {
+       "code": "NFLX",
+       "name": "Netflix"
+      },
+      {
+       "code": "DIS",
+       "name": "迪士尼"
+      },
+      {
+       "code": "TMUS",
+       "name": "T-Mobile"
+      },
+      {
+       "code": "VZ",
+       "name": "Verizon"
+      }
+     ]
+    },
+    {
+     "name": "公用事業",
+     "amount": "+0.62%",
+     "weight": 0.5,
+     "constituents": [
+      {
+       "code": "NEE",
+       "name": "NextEra"
+      },
+      {
+       "code": "SO",
+       "name": "Southern"
+      },
+      {
+       "code": "DUK",
+       "name": "Duke 能源"
+      },
+      {
+       "code": "CEG",
+       "name": "Constellation"
+      },
+      {
+       "code": "AEP",
+       "name": "AEP"
+      },
+      {
+       "code": "D",
+       "name": "Dominion"
+      }
+     ]
+    },
+    {
+     "name": "房地產",
+     "amount": "+0.50%",
+     "weight": 0.4,
+     "constituents": []
+    }
+   ],
+   "out": [
+    {
+     "name": "醫療保健",
+     "amount": "-0.82%",
+     "weight": 0.66,
+     "constituents": [
+      {
+       "code": "LLY",
+       "name": "禮來"
+      },
+      {
+       "code": "UNH",
+       "name": "聯合健康"
+      },
+      {
+       "code": "JNJ",
+       "name": "嬌生"
+      },
+      {
+       "code": "ABBV",
+       "name": "艾伯維"
+      },
+      {
+       "code": "MRK",
+       "name": "默克"
+      },
+      {
+       "code": "TMO",
+       "name": "賽默飛"
+      }
+     ]
+    },
+    {
+     "name": "科技",
+     "amount": "+0.23%",
+     "weight": 0.18,
+     "constituents": [
+      {
+       "code": "AAPL",
+       "name": "蘋果"
+      },
+      {
+       "code": "MSFT",
+       "name": "微軟"
+      },
+      {
+       "code": "NVDA",
+       "name": "輝達"
+      },
+      {
+       "code": "AVGO",
+       "name": "博通"
+      },
+      {
+       "code": "ORCL",
+       "name": "甲骨文"
+      },
+      {
+       "code": "CRM",
+       "name": "Salesforce"
+      }
+     ]
+    },
+    {
+     "name": "金融",
+     "amount": "+0.31%",
+     "weight": 0.25,
+     "constituents": [
+      {
+       "code": "BRK.B",
+       "name": "波克夏"
+      },
+      {
+       "code": "JPM",
+       "name": "摩根大通"
+      },
+      {
+       "code": "V",
+       "name": "Visa"
+      },
+      {
+       "code": "MA",
+       "name": "萬事達"
+      },
+      {
+       "code": "BAC",
+       "name": "美銀"
+      },
+      {
+       "code": "WFC",
+       "name": "富國"
+      }
+     ]
+    },
+    {
+     "name": "非必需消費",
+     "amount": "+0.33%",
+     "weight": 0.26,
+     "constituents": [
+      {
+       "code": "AMZN",
+       "name": "亞馬遜"
+      },
+      {
+       "code": "TSLA",
+       "name": "特斯拉"
+      },
+      {
+       "code": "HD",
+       "name": "家得寶"
+      },
+      {
+       "code": "MCD",
+       "name": "麥當勞"
+      },
+      {
+       "code": "NKE",
+       "name": "Nike"
+      },
+      {
+       "code": "SBUX",
+       "name": "星巴克"
+      }
+     ]
+    },
+    {
+     "name": "工業",
+     "amount": "+0.45%",
+     "weight": 0.36,
+     "constituents": [
+      {
+       "code": "GE",
+       "name": "奇異"
+      },
+      {
+       "code": "CAT",
+       "name": "開拓重工"
+      },
+      {
+       "code": "RTX",
+       "name": "雷神"
+      },
+      {
+       "code": "HON",
+       "name": "霍尼韋爾"
+      },
+      {
+       "code": "BA",
+       "name": "波音"
+      },
+      {
+       "code": "UBER",
+       "name": "Uber"
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "hot_stocks": {
+  "tw": [
+   {
+    "code": "2634",
+    "name": "漢翔",
+    "change_pct": 10.0,
+    "mkt": "上市",
+    "reason": ""
+   },
+   {
+    "code": "3008",
+    "name": "大立光",
+    "change_pct": 10.0,
+    "mkt": "上市",
+    "reason": ""
+   },
+   {
+    "code": "1303",
+    "name": "南亞",
+    "change_pct": 9.92,
+    "mkt": "上市",
+    "reason": ""
+   },
+   {
+    "code": "3532",
+    "name": "台勝科",
+    "change_pct": 9.92,
+    "mkt": "上市",
+    "reason": ""
+   },
+   {
+    "code": "3704",
+    "name": "合勤控",
+    "change_pct": 9.92,
+    "mkt": "上市",
+    "reason": ""
+   },
+   {
+    "code": "4541",
+    "name": "晟田",
+    "change_pct": 10.0,
+    "mkt": "上櫃",
+    "reason": ""
+   },
+   {
+    "code": "6488",
+    "name": "環球晶",
+    "change_pct": 10.0,
+    "mkt": "上櫃",
+    "reason": ""
+   },
+   {
+    "code": "5483",
+    "name": "中美晶",
+    "change_pct": 9.98,
+    "mkt": "上櫃",
+    "reason": ""
+   },
+   {
+    "code": "5511",
+    "name": "德昌",
+    "change_pct": 9.95,
+    "mkt": "上櫃",
+    "reason": ""
+   },
+   {
+    "code": "6538",
+    "name": "倉和",
+    "change_pct": 9.93,
+    "mkt": "上櫃",
+    "reason": ""
+   }
+  ],
+  "us": [
+   {
+    "code": "NVDA",
+    "name": "輝達",
+    "change_pct": 4.03,
+    "reason": ""
+   },
+   {
+    "code": "AMD",
+    "name": "超微",
+    "change_pct": 2.04,
+    "reason": ""
+   },
+   {
+    "code": "TSM",
+    "name": "台積電 ADR",
+    "change_pct": -0.65,
+    "reason": ""
+   },
+   {
+    "code": "TSLA",
+    "name": "特斯拉",
+    "change_pct": 0.3,
+    "reason": ""
+   },
+   {
+    "code": "AVGO",
+    "name": "博通",
+    "change_pct": -0.28,
+    "reason": ""
+   }
+  ]
+ },
+ "inst_top": {
+  "foreign": {
+   "buy": [
+    {
+     "code": "2618",
+     "name": "長榮航",
+     "zhang": 58020
+    },
+    {
+     "code": "2891",
+     "name": "中信金",
+     "zhang": 41021
+    },
+    {
+     "code": "2332",
+     "name": "友訊",
+     "zhang": 22426
+    },
+    {
+     "code": "2610",
+     "name": "華航",
+     "zhang": 21428
+    },
+    {
+     "code": "4958",
+     "name": "臻鼎-KY",
+     "zhang": 21045
+    }
+   ],
+   "sell": [
+    {
+     "code": "2409",
+     "name": "友達",
+     "zhang": 106993
+    },
+    {
+     "code": "2834",
+     "name": "臺企銀",
+     "zhang": 31523
+    },
+    {
+     "code": "2408",
+     "name": "南亞科",
+     "zhang": 29029
+    },
+    {
+     "code": "2356",
+     "name": "英業達",
+     "zhang": 26602
+    },
+    {
+     "code": "1402",
+     "name": "遠東新",
+     "zhang": 18749
+    }
+   ]
+  },
+  "trust": {
+   "buy": [
+    {
+     "code": "2887",
+     "name": "台新新光金",
+     "zhang": 9617
+    },
+    {
+     "code": "1303",
+     "name": "南亞",
+     "zhang": 9372
+    },
+    {
+     "code": "2886",
+     "name": "兆豐金",
+     "zhang": 8661
+    },
+    {
+     "code": "4904",
+     "name": "遠傳",
+     "zhang": 6109
+    },
+    {
+     "code": "1402",
+     "name": "遠東新",
+     "zhang": 5302
+    }
+   ],
+   "sell": [
+    {
+     "code": "2303",
+     "name": "聯電",
+     "zhang": 8771
+    },
+    {
+     "code": "2327",
+     "name": "國巨*",
+     "zhang": 4365
+    },
+    {
+     "code": "2618",
+     "name": "長榮航",
+     "zhang": 2893
+    },
+    {
+     "code": "6285",
+     "name": "啟碁",
+     "zhang": 2384
+    },
+    {
+     "code": "3090",
+     "name": "日電貿",
+     "zhang": 2312
+    }
+   ]
+  },
+  "dealer": {
+   "buy": [
+    {
+     "code": "1303",
+     "name": "南亞",
+     "zhang": 1509
+    },
+    {
+     "code": "2610",
+     "name": "華航",
+     "zhang": 1450
+    },
+    {
+     "code": "2027",
+     "name": "大成鋼",
+     "zhang": 1352
+    },
+    {
+     "code": "2425",
+     "name": "承啟",
+     "zhang": 1261
+    },
+    {
+     "code": "2313",
+     "name": "華通",
+     "zhang": 1203
+    }
+   ],
+   "sell": [
+    {
+     "code": "2891",
+     "name": "中信金",
+     "zhang": 15363
+    },
+    {
+     "code": "2409",
+     "name": "友達",
+     "zhang": 9859
+    },
+    {
+     "code": "3481",
+     "name": "群創",
+     "zhang": 7108
+    },
+    {
+     "code": "2347",
+     "name": "聯強",
+     "zhang": 3649
+    },
+    {
+     "code": "1402",
+     "name": "遠東新",
+     "zhang": 3363
+    }
+   ]
+  }
+ },
+ "inst_net_yi": null,
+ "radar": null,
+ "breadth": {
+  "up": 356,
+  "up_limit": 27,
+  "down": 653,
+  "down_limit": 16,
+  "flat": 54
+ },
+ "margin": {
+  "listed": null,
+  "otc": {
+   "balance_yi": 2123.9,
+   "change_yi": 8.8
+  }
+ },
+ "news": [
+  {
+   "tag": "pos",
+   "title": "台股盤後：韓股熔斷影響，指數震盪逾千點，終場小漲25點",
+   "impact": "台股受韓股熔斷影響，盤中震盪劇烈，終場小幅收漲",
+   "date": "2026-07-13",
+   "source_name": "鉅亨網",
+   "source_url": "https://news.cnyes.com/news/id/6532372"
+  },
+  {
+   "tag": "pos",
+   "title": "美股“超级周”来袭：财报季邂逅通胀数据，油价大幅飙升，中东战火再起搅动市场",
+   "impact": "美股迎來財報季與通膨數據，市場關注度提升",
+   "date": "2026-07-13",
+   "source_name": "智通财经",
+   "source_url": "https://cn.investing.com/news/stock-market-news/article-3456990"
+  },
+  {
+   "tag": "pos",
+   "title": "台股盤後：終場小漲，光學與台塑四寶表現亮眼",
+   "impact": "光學與台塑四寶類股表現強勢，支撐大盤",
+   "date": "2026-07-13",
+   "source_name": "PChome Online 股市",
+   "source_url": "https://pchome.megatime.com.tw/news/cat8/20260713/17839248795159822003.html"
+  },
+  {
+   "tag": "neg",
+   "title": "台股上沖下洗小漲25點，外資連七賣，三大法人賣超210.66億元",
+   "impact": "外資連續七日賣超，三大法人合計賣超210.66億元",
+   "date": "2026-07-13",
+   "source_name": "鉅亨網",
+   "source_url": "https://news.cnyes.com/news/id/6532435"
+  }
+ ],
+ "upcoming_events": [
+  {
+   "date": "2026-07-16",
+   "name": "台積電法說會",
+   "analysis": "市場關注台積電第二季財報及下半年展望，預期內容偏向正面"
+  },
+  {
+   "date": "2026-07-17",
+   "name": "美國CPI數據公布",
+   "analysis": "通膨數據將影響市場對聯準會貨幣政策的預期"
+  }
+ ],
+ "past_events_review": [],
+ "verdict": {
+  "tw": {
+   "stance": "中性偏多",
+   "score": 55,
+   "comment": "加權指數小幅上漲0.06%，但外資連續七日賣超，市場呈現中性偏多格局",
+   "bullish": [
+    "加權指數上漲0.06%",
+    "光學與台塑四寶類股表現強勢"
+   ],
+   "bearish": [
+    "外資連續七日賣超",
+    "三大法人合計賣超210.66億元"
+   ],
+   "risks": [
+    "韓股熔斷影響亞股波動",
+    "市場高檔賣壓湧現"
+   ]
+  },
+  "us": {
+   "stance": "中性偏多",
+   "score": 60,
+   "comment": "美股主要指數全面收紅，市場情緒偏多",
+   "bullish": [
+    "道瓊指數上漲0.29%",
+    "標普500指數上漲0.42%"
+   ],
+   "bearish": [
+    "中東地緣政治風險升高",
+    "油價大幅飆升可能影響企業成本"
+   ],
+   "risks": [
+    "即將公布的通膨數據可能影響市場預期",
+    "財報季可能帶來個股波動"
+   ]
+  }
+ },
+ "summary": "台股今日震盪劇烈，終場小漲0.06%，光學與台塑四寶類股表現亮眼，但外資連續七日賣超。美股主要指數全面收紅，市場情緒偏多，投資人關注即將公布的通膨數據與財報季。",
+ "markets": [
+  {
+   "name": "美元/台幣",
+   "value": 32.08,
+   "change_pct": -0.04,
+   "unit": "",
+   "dec": 2
+  },
+  {
+   "name": "美10年債",
+   "value": 4.57,
+   "change_pct": 0.66,
+   "unit": "%",
+   "dec": 2
+  },
+  {
+   "name": "黃金",
+   "value": 4074.7,
+   "change_pct": -0.72,
+   "unit": "$",
+   "dec": 0
+  },
+  {
+   "name": "原油 WTI",
+   "value": 73.61,
+   "change_pct": 3.08,
+   "unit": "$",
+   "dec": 1
+  },
+  {
+   "name": "比特幣",
+   "value": 63044.0,
+   "change_pct": -1.12,
+   "unit": "$",
+   "dec": 0
+  }
+ ],
+ "_warnings": [],
+ "potential": {
+  "window_days": 10,
+  "stocks": [
+   {
+    "code": "2603",
+    "inst_net_yi": 28.91,
+    "buy_days": 6,
+    "name": "長榮",
+    "pct": -0.77,
+    "value_yi": 10.47,
+    "sector": "航運",
+    "price_pos": 0.274,
+    "chg_6m": -0.0026,
+    "vol_ratio": 0.57,
+    "above_ma60": false,
+    "spark": [
+     246.5,
+     205.5,
+     201.0,
+     198.0,
+     201.0,
+     197.5,
+     199.5,
+     196.0,
+     197.0,
+     192.5,
+     188.0,
+     183.0,
+     185.5,
+     183.5,
+     180.5,
+     177.5,
+     179.0,
+     184.5,
+     187.5,
+     188.0,
+     180.0,
+     179.5,
+     180.5,
+     181.5,
+     178.5,
+     183.5,
+     186.0,
+     190.0,
+     193.5,
+     195.0,
+     192.5,
+     190.0,
+     187.0,
+     188.5,
+     216.5,
+     205.5,
+     218.0,
+     203.0,
+     199.5,
+     203.0,
+     201.5,
+     201.0,
+     202.0,
+     211.5,
+     200.5,
+     219.0,
+     213.0,
+     232.0,
+     228.0,
+     193.0,
+     184.0,
+     195.5,
+     195.0
+    ],
+    "struct_s": 0.181,
+    "history": "ok",
+    "chip_s": 0.84,
+    "fund_yoy": 0.2999,
+    "fund_s": 1.0,
+    "theme": "航運",
+    "catalyst": "長榮海運對2026年第二、三季市場營運持正面看法，預期供需結構相對平衡。",
+    "score": 66,
+    "score_parts": {
+     "chip": 84,
+     "struct": 18,
+     "theme": 100,
+     "fund": 100
+    },
+    "streak": 2,
+    "first_date": "2026-07-09"
+   },
+   {
+    "code": "1476",
+    "inst_net_yi": 7.23,
+    "buy_days": 7,
+    "name": "儒鴻",
+    "pct": -0.3,
+    "value_yi": 4.86,
+    "sector": "紡織纖維",
+    "price_pos": 0.206,
+    "chg_6m": -0.1538,
+    "vol_ratio": 1.04,
+    "above_ma60": true,
+    "spark": [
+     422.0,
+     405.5,
+     416.5,
+     417.5,
+     394.5,
+     393.0,
+     391.5,
+     383.0,
+     383.5,
+     396.0,
+     409.0,
+     405.0,
+     402.0,
+     444.0,
+     434.0,
+     438.5,
+     443.5,
+     425.0,
+     433.5,
+     405.5,
+     426.5,
+     426.0,
+     420.0,
+     431.0,
+     398.5,
+     387.0,
+     387.5,
+     384.5,
+     404.0,
+     414.5,
+     419.0,
+     406.0,
+     413.0,
+     437.5,
+     405.0,
+     372.0,
+     371.0,
+     348.0,
+     330.0,
+     330.0,
+     346.0,
+     333.0,
+     334.5,
+     344.0,
+     339.5,
+     342.5,
+     342.5,
+     355.5,
+     344.5,
+     317.0,
+     325.5,
+     323.0,
+     341.0
+    ],
+    "struct_s": 0.531,
+    "history": "ok",
+    "chip_s": 0.88,
+    "fund_yoy": 0.1442,
+    "fund_s": 0.481,
+    "theme": "紡織纖維",
+    "catalyst": "",
+    "score": 54,
+    "score_parts": {
+     "chip": 88,
+     "struct": 53,
+     "theme": 0,
+     "fund": 48
+    },
+    "streak": 3,
+    "first_date": "2026-07-08"
+   },
+   {
+    "code": "1477",
+    "inst_net_yi": 6.53,
+    "buy_days": 6,
+    "name": "聚陽",
+    "pct": -0.67,
+    "value_yi": 4.34,
+    "sector": "紡織纖維",
+    "price_pos": 0.163,
+    "chg_6m": -0.2791,
+    "vol_ratio": 1.05,
+    "above_ma60": true,
+    "spark": [
+     240.5,
+     235.5,
+     252.5,
+     251.5,
+     250.0,
+     266.5,
+     266.5,
+     265.0,
+     262.0,
+     263.0,
+     263.5,
+     281.0,
+     290.0,
+     294.5,
+     294.5,
+     280.0,
+     278.5,
+     284.0,
+     282.0,
+     270.0,
+     285.0,
+     298.0,
+     308.5,
+     318.0,
+     295.0,
+     298.5,
+     298.5,
+     288.5,
+     309.5,
+     338.5,
+     326.5,
+     313.0,
+     319.0,
+     322.0,
+     315.0,
+     287.5,
+     287.0,
+     270.0,
+     227.5,
+     222.5,
+     216.5,
+     220.0,
+     211.5,
+     221.5,
+     218.0,
+     219.0,
+     216.5,
+     228.0,
+     224.0,
+     213.5,
+     222.0,
+     230.0,
+     226.0
+    ],
+    "struct_s": 0.57,
+    "history": "ok",
+    "chip_s": 0.84,
+    "fund_yoy": 0.0053,
+    "fund_s": 0.018,
+    "theme": "紡織纖維",
+    "catalyst": "",
+    "score": 50,
+    "score_parts": {
+     "chip": 84,
+     "struct": 57,
+     "theme": 0,
+     "fund": 2
+    },
+    "streak": 4,
+    "first_date": "2026-07-07"
+   },
+   {
+    "code": "2105",
+    "inst_net_yi": 12.39,
+    "buy_days": 8,
+    "name": "正新",
+    "pct": 0.62,
+    "value_yi": 1.93,
+    "sector": "橡膠",
+    "price_pos": 0.324,
+    "chg_6m": 0.077,
+    "vol_ratio": 0.4,
+    "above_ma60": true,
+    "spark": [
+     39.85,
+     38.35,
+     38.55,
+     39.6,
+     39.5,
+     41.65,
+     40.6,
+     40.45,
+     38.8,
+     39.95,
+     38.1,
+     37.6,
+     37.95,
+     38.2,
+     38.3,
+     36.8,
+     35.95,
+     33.3,
+     32.15,
+     31.35,
+     31.45,
+     31.65,
+     31.9,
+     32.15,
+     31.05,
+     30.8,
+     29.85,
+     29.5,
+     30.4,
+     30.85,
+     31.15,
+     30.8,
+     30.75,
+     30.95,
+     29.6,
+     28.2,
+     30.05,
+     30.4,
+     31.1,
+     31.95,
+     32.7,
+     32.55,
+     31.2,
+     32.1,
+     32.4,
+     31.9,
+     32.4,
+     34.1,
+     34.25,
+     30.05,
+     30.25,
+     32.55,
+     32.85
+    ],
+    "struct_s": 0.341,
+    "history": "ok",
+    "chip_s": 0.92,
+    "fund_yoy": 0.1501,
+    "fund_s": 0.5,
+    "theme": "橡膠",
+    "catalyst": "",
+    "score": 49,
+    "score_parts": {
+     "chip": 92,
+     "struct": 34,
+     "theme": 0,
+     "fund": 50
+    },
+    "streak": 6,
+    "first_date": "2026-07-03"
+   },
+   {
+    "code": "6191",
+    "inst_net_yi": 14.21,
+    "buy_days": 6,
+    "name": "精成科",
+    "pct": 0.0,
+    "value_yi": 7.25,
+    "sector": "電子零組件",
+    "price_pos": 0.323,
+    "chg_6m": -0.1288,
+    "vol_ratio": 0.62,
+    "above_ma60": true,
+    "spark": [
+     82.0,
+     82.0,
+     90.8,
+     93.7,
+     89.6,
+     108.0,
+     114.0,
+     109.0,
+     105.0,
+     101.5,
+     119.5,
+     146.5,
+     137.5,
+     121.0,
+     124.5,
+     118.0,
+     112.5,
+     105.5,
+     108.5,
+     120.5,
+     115.5,
+     106.0,
+     122.0,
+     124.0,
+     120.0,
+     116.0,
+     117.5,
+     112.0,
+     108.5,
+     115.5,
+     117.5,
+     111.0,
+     106.5,
+     107.5,
+     105.0,
+     94.2,
+     101.0,
+     91.3,
+     88.1,
+     95.3,
+     105.0,
+     107.0,
+     98.4,
+     95.5,
+     90.8,
+     96.8,
+     97.0,
+     100.5,
+     93.8,
+     103.5,
+     106.0,
+     107.0,
+     101.5
+    ],
+    "struct_s": 0.342,
+    "history": "ok",
+    "chip_s": 0.84,
+    "fund_yoy": 0.1028,
+    "fund_s": 0.343,
+    "theme": "電子零組件",
+    "catalyst": "",
+    "score": 45,
+    "score_parts": {
+     "chip": 84,
+     "struct": 34,
+     "theme": 0,
+     "fund": 34
+    },
+    "streak": 4,
+    "first_date": "2026-07-07"
+   },
+   {
+    "code": "2615",
+    "inst_net_yi": 10.69,
+    "buy_days": 4,
+    "name": "萬海",
+    "pct": 1.26,
+    "value_yi": 7.96,
+    "sector": "航運",
+    "price_pos": 0.194,
+    "chg_6m": -0.005,
+    "vol_ratio": 0.81,
+    "above_ma60": false,
+    "spark": [
+     103.0,
+     95.3,
+     92.0,
+     91.4,
+     93.3,
+     91.2,
+     90.5,
+     87.8,
+     90.1,
+     86.5,
+     83.4,
+     80.7,
+     80.9,
+     80.2,
+     76.8,
+     73.3,
+     76.2,
+     79.3,
+     77.8,
+     82.1,
+     79.1,
+     83.3,
+     78.5,
+     80.8,
+     78.7,
+     78.1,
+     78.5,
+     78.8,
+     79.2,
+     78.7,
+     76.6,
+     74.3,
+     74.8,
+     76.3,
+     87.0,
+     79.2,
+     79.3,
+     74.0,
+     77.1,
+     78.3,
+     76.9,
+     73.9,
+     74.6,
+     76.5,
+     74.2,
+     84.3,
+     82.0,
+     86.1,
+     85.0,
+     80.5,
+     78.6,
+     80.0,
+     79.2
+    ],
+    "struct_s": 0.249,
+    "history": "ok",
+    "chip_s": 0.76,
+    "fund_yoy": 0.3244,
+    "fund_s": 1.0,
+    "theme": "航運",
+    "catalyst": "",
+    "score": 45,
+    "score_parts": {
+     "chip": 76,
+     "struct": 25,
+     "theme": 0,
+     "fund": 100
+    },
+    "streak": 2,
+    "first_date": "2026-07-09"
+   }
+  ]
+ },
+ "regime": {
+  "light": "red",
+  "score": -1,
+  "components": {
+   "trend": {
+    "score": 2,
+    "missing": false,
+    "detail": {
+     "close": 45380.52,
+     "ma20": 45980.2605,
+     "ma60": 43022.37183333333,
+     "close_gt_ma20": false,
+     "ma20_gt_ma60": true,
+     "close_gt_ma60": true
+    }
+   },
+   "breadth": {
+    "score": -1,
+    "missing": false,
+    "detail": {
+     "ratio": 0.3528,
+     "up": 356,
+     "down": 653
+    }
+   },
+   "vix": {
+    "score": -1,
+    "missing": false,
+    "detail": {
+     "value": 36.57
+    }
+   },
+   "chips": {
+    "score": -1,
+    "missing": false,
+    "detail": {
+     "net_yi": -2053.2,
+     "days_used": 4
+    }
+   }
+  }
+ },
+ "signal_backtest": {
+  "5": {
+   "total": 122,
+   "hit": 75,
+   "rate": 61.5,
+   "horizon": 5,
+   "ma": 20
+  },
+  "20": {
+   "total": 107,
+   "hit": 77,
+   "rate": 72.0,
+   "horizon": 20,
+   "ma": 20
+  }
+ },
+ "earnings_tomorrow": [
+  {
+   "id": "2328",
+   "name": "廣宇",
+   "industry": "電子零組件業"
+  },
+  {
+   "id": "6414",
+   "name": "樺漢",
+   "industry": "電腦及週邊設備業"
+  },
+  {
+   "id": "7721",
+   "name": "微程式",
+   "industry": "數位雲端"
+  }
+ ],
+ "opportunities": {
+  "date": "2026-07-13",
+  "picks": [
+   {
+    "id": "2889",
+    "name": "國票金",
+    "score": 15,
+    "reasons": [
+     "糾結轉強",
+     "爆量突破",
+     "縮口帶量突破",
+     "仙人指路",
+     "大量撐",
+     "外資連買",
+     "千張大戶↑"
+    ],
+    "close": 15.85,
+    "support_ma20": 15.13,
+    "recent_high20": 16.1,
+    "rs20": 0.85,
+    "revenue_yoy": 147.94,
+    "earnings_date": null,
+    "risk_flags": []
+   },
+   {
+    "id": "4949",
+    "name": "有成精密",
+    "score": 12,
+    "reasons": [
+     "破下軌翻紅",
+     "破底翻",
+     "千張大戶↑",
+     "同業低估"
+    ],
+    "close": 80.7,
+    "support_ma20": 82.34,
+    "recent_high20": 93.7,
+    "rs20": -15.5,
+    "revenue_yoy": 25.85,
+    "earnings_date": null,
+    "risk_flags": []
+   },
+   {
+    "id": "6146",
+    "name": "耕興",
+    "score": 11,
+    "reasons": [
+     "縮口帶量突破",
+     "破底翻",
+     "大量撐",
+     "同業低估"
+    ],
+    "close": 198.0,
+    "support_ma20": 195.2,
+    "recent_high20": 216.0,
+    "rs20": -3.89,
+    "revenue_yoy": 13.69,
+    "earnings_date": null,
+    "risk_flags": []
+   },
+   {
+    "id": "7769",
+    "name": "鴻勁",
+    "score": 11,
+    "reasons": [
+     "破下軌翻紅",
+     "破底翻",
+     "投信連買"
+    ],
+    "close": 6705.0,
+    "support_ma20": 6805.0,
+    "recent_high20": 7575.0,
+    "rs20": -10.13,
+    "revenue_yoy": 83.64,
+    "earnings_date": null,
+    "risk_flags": []
+   },
+   {
+    "id": "2025",
+    "name": "千興",
+    "score": 11,
+    "reasons": [
+     "破下軌翻紅",
+     "破底翻",
+     "千張大戶↑"
+    ],
+    "close": 11.85,
+    "support_ma20": 13.42,
+    "recent_high20": 15.0,
+    "rs20": -19.92,
+    "revenue_yoy": 562.38,
+    "earnings_date": null,
+    "risk_flags": []
+   }
+  ]
+ }
+}
