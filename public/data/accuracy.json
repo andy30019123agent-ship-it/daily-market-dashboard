@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-07-14 02:19",
+ "generated_at": "2026-07-14 18:37",
  "tw": {
   "hit_rate": 33.3,
   "hit": 5,
@@ -145,11 +145,11 @@
   ]
  },
  "us": {
-  "hit_rate": 44.4,
-  "hit": 4,
-  "total": 9,
-  "recent30_rate": 44.4,
-  "recent30_total": 9,
+  "hit_rate": 50.0,
+  "hit": 5,
+  "total": 10,
+  "recent30_rate": 50.0,
+  "recent30_total": 10,
   "detail": [
    {
     "date": "2026-06-18",
@@ -229,6 +229,15 @@
     "stance": "偏空",
     "predicted": "down",
     "actual_pct": -0.28,
+    "actual": "down",
+    "hit": true
+   },
+   {
+    "date": "2026-07-13",
+    "next_date": "2026-07-14",
+    "stance": "偏空",
+    "predicted": "down",
+    "actual_pct": -0.79,
     "actual": "down",
     "hit": true
    }
