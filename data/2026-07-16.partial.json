@@ -33,7 +33,7 @@
         },
         {
           "name": "投信買賣超",
-          "value": "+114.8 億",
+          "value": "+125.4 億",
           "dir": "up"
         },
         {
@@ -45,6 +45,11 @@
           "name": "漲跌家數",
           "value": "893▲ / 125▼",
           "note": "持平 42 家"
+        },
+        {
+          "name": "融資餘額",
+          "value": "8,259 億",
+          "note": "+154.4 億"
         }
       ]
     },
@@ -1193,14 +1198,14 @@
           "zhang": 5422
         },
         {
+          "code": "2303",
+          "name": "聯電",
+          "zhang": 3027
+        },
+        {
           "code": "2337",
           "name": "旺宏",
           "zhang": 2675
-        },
-        {
-          "code": "2449",
-          "name": "京元電子",
-          "zhang": 2630
         }
       ],
       "sell": [
@@ -1215,9 +1220,9 @@
           "zhang": 8706
         },
         {
-          "code": "2303",
-          "name": "聯電",
-          "zhang": 3645
+          "code": "2492",
+          "name": "華新科",
+          "zhang": 3007
         },
         {
           "code": "2618",
@@ -1227,7 +1232,7 @@
         {
           "code": "2891",
           "name": "中信金",
-          "zhang": 2583
+          "zhang": 2695
         }
       ]
     },
@@ -1290,7 +1295,7 @@
   },
   "inst_net_yi": {
     "外資": -14.2,
-    "投信": 114.8,
+    "投信": 125.4,
     "自營": 101.3
   },
   "radar": {
@@ -3123,7 +3128,7 @@
         "code": "2059",
         "name": "川湖",
         "pct": 6.32,
-        "inst_net_yi": -3.45,
+        "inst_net_yi": -3.79,
         "value_yi": 58.37,
         "sector": "電子零組件"
       },
@@ -3411,7 +3416,7 @@
         "code": "2303",
         "name": "聯電",
         "pct": 9.93,
-        "inst_net_yi": -1.44,
+        "inst_net_yi": 9.64,
         "value_yi": 180.82,
         "sector": "半導體"
       },
@@ -3427,7 +3432,7 @@
         "code": "2308",
         "name": "台達電",
         "pct": 1.89,
-        "inst_net_yi": 7.75,
+        "inst_net_yi": 11.98,
         "value_yi": 166.99,
         "sector": "電子零組件"
       },
@@ -3523,7 +3528,7 @@
         "code": "2330",
         "name": "台積電",
         "pct": 0.83,
-        "inst_net_yi": -97.79,
+        "inst_net_yi": -87.06,
         "value_yi": 822.14,
         "sector": "半導體"
       },
@@ -3811,7 +3816,7 @@
         "code": "2382",
         "name": "廣達",
         "pct": 0.26,
-        "inst_net_yi": -10.56,
+        "inst_net_yi": -10.58,
         "value_yi": 94.87,
         "sector": "電腦及週邊設備"
       },
@@ -4171,7 +4176,7 @@
         "code": "2449",
         "name": "京元電子",
         "pct": 5.32,
-        "inst_net_yi": 11.43,
+        "inst_net_yi": 11.26,
         "value_yi": 73.18,
         "sector": "半導體"
       },
@@ -4203,7 +4208,7 @@
         "code": "2454",
         "name": "聯發科",
         "pct": 2.19,
-        "inst_net_yi": -17.65,
+        "inst_net_yi": -17.63,
         "value_yi": 273.51,
         "sector": "半導體"
       },
@@ -4435,7 +4440,7 @@
         "code": "2492",
         "name": "華新科",
         "pct": -2.82,
-        "inst_net_yi": 0.06,
+        "inst_net_yi": -11.5,
         "value_yi": 87.95,
         "sector": "電子零組件"
       },
@@ -5179,7 +5184,7 @@
         "code": "2885",
         "name": "元大金",
         "pct": 0.45,
-        "inst_net_yi": -3.23,
+        "inst_net_yi": -3.3,
         "value_yi": 22.86,
         "sector": "金融保險"
       },
@@ -5187,7 +5192,7 @@
         "code": "2886",
         "name": "兆豐金",
         "pct": -2.13,
-        "inst_net_yi": -1.12,
+        "inst_net_yi": -0.98,
         "value_yi": 12.21,
         "sector": "金融保險"
       },
@@ -5219,7 +5224,7 @@
         "code": "2891",
         "name": "中信金",
         "pct": -2.31,
-        "inst_net_yi": -2.77,
+        "inst_net_yi": -2.84,
         "value_yi": 50.57,
         "sector": "金融保險"
       },
@@ -5403,7 +5408,7 @@
         "code": "3008",
         "name": "大立光",
         "pct": -5.28,
-        "inst_net_yi": -43.38,
+        "inst_net_yi": -42.8,
         "value_yi": 150.91,
         "sector": "光電"
       },
@@ -5659,7 +5664,7 @@
         "code": "3044",
         "name": "健鼎",
         "pct": 1.07,
-        "inst_net_yi": -0.69,
+        "inst_net_yi": -0.91,
         "value_yi": 9.89,
         "sector": "電子零組件"
       },
@@ -5795,7 +5800,7 @@
         "code": "3090",
         "name": "日電貿",
         "pct": -3.23,
-        "inst_net_yi": 1.26,
+        "inst_net_yi": -1.57,
         "value_yi": 23.17,
         "sector": "電子零組件"
       },
@@ -6067,7 +6072,7 @@
         "code": "3443",
         "name": "創意",
         "pct": 2.49,
-        "inst_net_yi": -5.67,
+        "inst_net_yi": -8.31,
         "value_yi": 66.57,
         "sector": "半導體"
       },
@@ -7875,7 +7880,7 @@
         "code": "6278",
         "name": "台表科",
         "pct": 2.61,
-        "inst_net_yi": 0.64,
+        "inst_net_yi": -1.2,
         "value_yi": 9.83,
         "sector": "光電"
       },
@@ -9219,7 +9224,7 @@
         "code": "8046",
         "name": "南電",
         "pct": 9.69,
-        "inst_net_yi": -24.39,
+        "inst_net_yi": -20.67,
         "value_yi": 266.86,
         "sector": "電子零組件"
       },
@@ -9956,7 +9961,7 @@
       {
         "name": "半導體",
         "pct": 4.8,
-        "inst_net_yi": 117.94,
+        "inst_net_yi": 136.96,
         "value_yi": 3727.2
       },
       {
@@ -9980,7 +9985,7 @@
       {
         "name": "電腦及週邊設備",
         "pct": 1.53,
-        "inst_net_yi": 22.53,
+        "inst_net_yi": 22.51,
         "value_yi": 457.6
       },
       {
@@ -10136,13 +10141,13 @@
       {
         "name": "光電",
         "pct": 0.2,
-        "inst_net_yi": -63.77,
+        "inst_net_yi": -65.03,
         "value_yi": 496.8
       },
       {
         "name": "電子零組件",
         "pct": 3.26,
-        "inst_net_yi": -139.74,
+        "inst_net_yi": -146.74,
         "value_yi": 2599.1
       }
     ]
@@ -10155,20 +10160,21 @@
     "flat": 42
   },
   "margin": {
-    "listed": null,
+    "listed": {
+      "balance_yi": 6153.7,
+      "change_yi": 113.3
+    },
     "otc": {
-      "balance_yi": 2064.2,
-      "change_yi": -61.1
-    }
+      "balance_yi": 2105.2,
+      "change_yi": 41.1
+    },
+    "total_yi": 8258.9,
+    "total_change_yi": 154.4
   },
   "_meta": {
-    "errors": [
-      "MI_MARGN 上市融資: MI_MARGN 找不到融資金額"
-    ],
-    "missing": [
-      "融資餘額（上市）"
-    ],
-    "fetched_at": "2026-07-15",
+    "errors": [],
+    "missing": [],
+    "fetched_at": "2026-07-16",
     "trade_date": "20260715"
   }
 }
