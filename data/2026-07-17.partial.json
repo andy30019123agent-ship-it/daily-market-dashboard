@@ -30,12 +30,12 @@
         },
         {
           "name": "外資買賣超",
-          "value": "−1,890.4 億",
+          "value": "−1,883.1 億",
           "dir": "down"
         },
         {
           "name": "投信買賣超",
-          "value": "+95.0 億",
+          "value": "+73.5 億",
           "dir": "up"
         },
         {
@@ -1061,7 +1061,7 @@
         {
           "code": "1303",
           "name": "南亞",
-          "zhang": 46749
+          "zhang": 48782
         },
         {
           "code": "2887",
@@ -1086,6 +1086,11 @@
       ],
       "sell": [
         {
+          "code": "3481",
+          "name": "群創",
+          "zhang": 27059
+        },
+        {
           "code": "2618",
           "name": "長榮航",
           "zhang": 10375
@@ -1104,11 +1109,6 @@
           "code": "2347",
           "name": "聯強",
           "zhang": 5269
-        },
-        {
-          "code": "3231",
-          "name": "緯創",
-          "zhang": 5245
         }
       ]
     },
@@ -1170,8 +1170,8 @@
     }
   },
   "inst_net_yi": {
-    "外資": -1890.4,
-    "投信": 95.0,
+    "外資": -1883.1,
+    "投信": 73.5,
     "自營": -821.8
   },
   "radar": {
@@ -1396,7 +1396,7 @@
         "code": "1303",
         "name": "南亞",
         "pct": -9.95,
-        "inst_net_yi": -13.53,
+        "inst_net_yi": -9.49,
         "value_yi": 238.52,
         "sector": "塑膠"
       },
@@ -2988,7 +2988,7 @@
         "code": "2059",
         "name": "川湖",
         "pct": -8.84,
-        "inst_net_yi": -0.93,
+        "inst_net_yi": 0.41,
         "value_yi": 69.79,
         "sector": "電子零組件"
       },
@@ -3676,7 +3676,7 @@
         "code": "2382",
         "name": "廣達",
         "pct": -7.53,
-        "inst_net_yi": 8.27,
+        "inst_net_yi": 8.24,
         "value_yi": 111.72,
         "sector": "電腦及週邊設備"
       },
@@ -4036,7 +4036,7 @@
         "code": "2449",
         "name": "京元電子",
         "pct": -9.91,
-        "inst_net_yi": -56.34,
+        "inst_net_yi": -64.54,
         "value_yi": 110.63,
         "sector": "半導體"
       },
@@ -4068,7 +4068,7 @@
         "code": "2454",
         "name": "聯發科",
         "pct": -8.92,
-        "inst_net_yi": -25.83,
+        "inst_net_yi": -25.82,
         "value_yi": 378.33,
         "sector": "半導體"
       },
@@ -5660,7 +5660,7 @@
         "code": "3090",
         "name": "日電貿",
         "pct": -6.94,
-        "inst_net_yi": 8.12,
+        "inst_net_yi": 4.66,
         "value_yi": 33.07,
         "sector": "電子零組件"
       },
@@ -5932,7 +5932,7 @@
         "code": "3443",
         "name": "創意",
         "pct": -8.36,
-        "inst_net_yi": 7.99,
+        "inst_net_yi": 6.53,
         "value_yi": 92.21,
         "sector": "半導體"
       },
@@ -5956,7 +5956,7 @@
         "code": "3481",
         "name": "群創",
         "pct": -8.2,
-        "inst_net_yi": 29.31,
+        "inst_net_yi": 15.11,
         "value_yi": 184.22,
         "sector": "光電"
       },
@@ -6028,7 +6028,7 @@
         "code": "3533",
         "name": "嘉澤",
         "pct": -7.67,
-        "inst_net_yi": -2.01,
+        "inst_net_yi": -2.0,
         "value_yi": 30.43,
         "sector": "電子零組件"
       },
@@ -6204,7 +6204,7 @@
         "code": "3665",
         "name": "貿聯-KY",
         "pct": -9.72,
-        "inst_net_yi": -8.03,
+        "inst_net_yi": -3.65,
         "value_yi": 62.01,
         "sector": "其他電子"
       },
@@ -7748,7 +7748,7 @@
         "code": "6278",
         "name": "台表科",
         "pct": -7.32,
-        "inst_net_yi": 0.24,
+        "inst_net_yi": -0.57,
         "value_yi": 8.65,
         "sector": "光電"
       },
@@ -7820,7 +7820,7 @@
         "code": "6415",
         "name": "矽力*-KY",
         "pct": -8.03,
-        "inst_net_yi": 0.89,
+        "inst_net_yi": -1.97,
         "value_yi": 37.22,
         "sector": "半導體"
       },
@@ -8956,7 +8956,7 @@
         "code": "7788",
         "name": "松川精密",
         "pct": -9.96,
-        "inst_net_yi": 1.05,
+        "inst_net_yi": 8.1,
         "value_yi": 12.93,
         "sector": "電子零組件"
       },
@@ -9092,7 +9092,7 @@
         "code": "8046",
         "name": "南電",
         "pct": -9.8,
-        "inst_net_yi": 12.8,
+        "inst_net_yi": 12.86,
         "value_yi": 192.77,
         "sector": "電子零組件"
       },
@@ -9845,12 +9845,6 @@
         "value_yi": 284.4
       },
       {
-        "name": "光電",
-        "pct": -7.06,
-        "inst_net_yi": 17.73,
-        "value_yi": 486.0
-      },
-      {
         "name": "食品",
         "pct": 1.07,
         "inst_net_yi": 12.18,
@@ -9917,6 +9911,12 @@
         "value_yi": 14.5
       },
       {
+        "name": "光電",
+        "pct": -7.06,
+        "inst_net_yi": 2.72,
+        "value_yi": 486.0
+      },
+      {
         "name": "資訊服務",
         "pct": -2.4,
         "inst_net_yi": 1.12,
@@ -9973,7 +9973,7 @@
       {
         "name": "電腦及週邊設備",
         "pct": -4.79,
-        "inst_net_yi": -5.62,
+        "inst_net_yi": -5.65,
         "value_yi": 700.7
       },
       {
@@ -9997,25 +9997,25 @@
       {
         "name": "塑膠",
         "pct": -8.08,
-        "inst_net_yi": -24.18,
+        "inst_net_yi": -20.14,
         "value_yi": 353.5
       },
       {
         "name": "其他電子",
         "pct": -6.15,
-        "inst_net_yi": -36.16,
+        "inst_net_yi": -31.78,
         "value_yi": 484.5
       },
       {
         "name": "電子零組件",
         "pct": -8.58,
-        "inst_net_yi": -131.16,
+        "inst_net_yi": -126.16,
         "value_yi": 2170.5
       },
       {
         "name": "半導體",
         "pct": -8.17,
-        "inst_net_yi": -1361.33,
+        "inst_net_yi": -1373.84,
         "value_yi": 5233.3
       }
     ]
