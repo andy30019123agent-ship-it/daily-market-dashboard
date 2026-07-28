@@ -1,11 +1,11 @@
 {
- "generated_at": "2026-07-27 18:37",
+ "generated_at": "2026-07-28 18:37",
  "tw": {
-  "hit_rate": 39.1,
+  "hit_rate": 37.5,
   "hit": 9,
-  "total": 23,
-  "recent30_rate": 39.1,
-  "recent30_total": 23,
+  "total": 24,
+  "recent30_rate": 37.5,
+  "recent30_total": 24,
   "detail": [
    {
     "date": "2026-06-18",
@@ -213,15 +213,24 @@
     "actual_pct": -0.05,
     "actual": "down",
     "hit": true
+   },
+   {
+    "date": "2026-07-27",
+    "next_date": "2026-07-28",
+    "stance": "中性偏多",
+    "predicted": "up",
+    "actual_pct": -4.65,
+    "actual": "down",
+    "hit": false
    }
   ]
  },
  "us": {
-  "hit_rate": 47.4,
+  "hit_rate": 45.0,
   "hit": 9,
-  "total": 19,
-  "recent30_rate": 47.4,
-  "recent30_total": 19,
+  "total": 20,
+  "recent30_rate": 45.0,
+  "recent30_total": 20,
   "detail": [
    {
     "date": "2026-06-18",
@@ -391,6 +400,15 @@
     "stance": "偏空",
     "predicted": "down",
     "actual_pct": 0.05,
+    "actual": "up",
+    "hit": false
+   },
+   {
+    "date": "2026-07-27",
+    "next_date": "2026-07-28",
+    "stance": "中性偏空",
+    "predicted": "down",
+    "actual_pct": 0.02,
     "actual": "up",
     "hit": false
    }
