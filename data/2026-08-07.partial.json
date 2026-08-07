@@ -28,7 +28,7 @@
         },
         {
           "name": "投信買賣超",
-          "value": "−25.6 億",
+          "value": "−12.0 億",
           "dir": "down"
         },
         {
@@ -152,21 +152,15 @@
         "reason": ""
       },
       {
-        "code": "TSLA",
-        "name": "特斯拉",
-        "change_pct": -0.63,
-        "reason": ""
-      },
-      {
         "code": "AVGO",
         "name": "博通",
         "change_pct": 0.55,
         "reason": ""
       },
       {
-        "code": "AAPL",
-        "name": "蘋果",
-        "change_pct": 0.45,
+        "code": "NVDA",
+        "name": "輝達",
+        "change_pct": -0.1,
         "reason": ""
       }
     ]
@@ -788,295 +782,8 @@
     ]
   },
   "sectors_us": {
-    "in": [
-      {
-        "name": "能源",
-        "amount": "+1.48%",
-        "weight": 1.0,
-        "constituents": [
-          {
-            "code": "XOM",
-            "name": "艾克森美孚"
-          },
-          {
-            "code": "CVX",
-            "name": "雪佛龍"
-          },
-          {
-            "code": "COP",
-            "name": "康菲"
-          },
-          {
-            "code": "WMB",
-            "name": "Williams"
-          },
-          {
-            "code": "SLB",
-            "name": "斯倫貝謝"
-          },
-          {
-            "code": "EOG",
-            "name": "EOG"
-          }
-        ]
-      },
-      {
-        "name": "通訊服務",
-        "amount": "+0.28%",
-        "weight": 0.19,
-        "constituents": [
-          {
-            "code": "META",
-            "name": "Meta"
-          },
-          {
-            "code": "GOOGL",
-            "name": "Alphabet"
-          },
-          {
-            "code": "NFLX",
-            "name": "Netflix"
-          },
-          {
-            "code": "DIS",
-            "name": "迪士尼"
-          },
-          {
-            "code": "TMUS",
-            "name": "T-Mobile"
-          },
-          {
-            "code": "VZ",
-            "name": "Verizon"
-          }
-        ]
-      },
-      {
-        "name": "醫療保健",
-        "amount": "+0.18%",
-        "weight": 0.12,
-        "constituents": [
-          {
-            "code": "LLY",
-            "name": "禮來"
-          },
-          {
-            "code": "UNH",
-            "name": "聯合健康"
-          },
-          {
-            "code": "JNJ",
-            "name": "嬌生"
-          },
-          {
-            "code": "ABBV",
-            "name": "艾伯維"
-          },
-          {
-            "code": "MRK",
-            "name": "默克"
-          },
-          {
-            "code": "TMO",
-            "name": "賽默飛"
-          }
-        ]
-      },
-      {
-        "name": "必需消費",
-        "amount": "-0.26%",
-        "weight": 0.18,
-        "constituents": [
-          {
-            "code": "COST",
-            "name": "好市多"
-          },
-          {
-            "code": "WMT",
-            "name": "沃爾瑪"
-          },
-          {
-            "code": "PG",
-            "name": "寶僑"
-          },
-          {
-            "code": "KO",
-            "name": "可口可樂"
-          },
-          {
-            "code": "PEP",
-            "name": "百事"
-          },
-          {
-            "code": "PM",
-            "name": "菲利普莫里斯"
-          }
-        ]
-      },
-      {
-        "name": "科技",
-        "amount": "-0.31%",
-        "weight": 0.21,
-        "constituents": [
-          {
-            "code": "AAPL",
-            "name": "蘋果"
-          },
-          {
-            "code": "MSFT",
-            "name": "微軟"
-          },
-          {
-            "code": "NVDA",
-            "name": "輝達"
-          },
-          {
-            "code": "AVGO",
-            "name": "博通"
-          },
-          {
-            "code": "ORCL",
-            "name": "甲骨文"
-          },
-          {
-            "code": "CRM",
-            "name": "Salesforce"
-          }
-        ]
-      }
-    ],
-    "out": [
-      {
-        "name": "原物料",
-        "amount": "-0.89%",
-        "weight": 0.6,
-        "constituents": [
-          {
-            "code": "LIN",
-            "name": "Linde"
-          },
-          {
-            "code": "SHW",
-            "name": "宣偉"
-          },
-          {
-            "code": "FCX",
-            "name": "自由港"
-          },
-          {
-            "code": "ECL",
-            "name": "藝康"
-          },
-          {
-            "code": "NEM",
-            "name": "Newmont"
-          },
-          {
-            "code": "APD",
-            "name": "空氣化工"
-          }
-        ]
-      },
-      {
-        "name": "房地產",
-        "amount": "-0.86%",
-        "weight": 0.58,
-        "constituents": []
-      },
-      {
-        "name": "工業",
-        "amount": "-0.85%",
-        "weight": 0.57,
-        "constituents": [
-          {
-            "code": "GE",
-            "name": "奇異"
-          },
-          {
-            "code": "CAT",
-            "name": "開拓重工"
-          },
-          {
-            "code": "RTX",
-            "name": "雷神"
-          },
-          {
-            "code": "HON",
-            "name": "霍尼韋爾"
-          },
-          {
-            "code": "BA",
-            "name": "波音"
-          },
-          {
-            "code": "UBER",
-            "name": "Uber"
-          }
-        ]
-      },
-      {
-        "name": "公用事業",
-        "amount": "-0.64%",
-        "weight": 0.43,
-        "constituents": [
-          {
-            "code": "NEE",
-            "name": "NextEra"
-          },
-          {
-            "code": "SO",
-            "name": "Southern"
-          },
-          {
-            "code": "DUK",
-            "name": "Duke 能源"
-          },
-          {
-            "code": "CEG",
-            "name": "Constellation"
-          },
-          {
-            "code": "AEP",
-            "name": "AEP"
-          },
-          {
-            "code": "D",
-            "name": "Dominion"
-          }
-        ]
-      },
-      {
-        "name": "非必需消費",
-        "amount": "-0.46%",
-        "weight": 0.31,
-        "constituents": [
-          {
-            "code": "AMZN",
-            "name": "亞馬遜"
-          },
-          {
-            "code": "TSLA",
-            "name": "特斯拉"
-          },
-          {
-            "code": "HD",
-            "name": "家得寶"
-          },
-          {
-            "code": "MCD",
-            "name": "麥當勞"
-          },
-          {
-            "code": "NKE",
-            "name": "Nike"
-          },
-          {
-            "code": "SBUX",
-            "name": "星巴克"
-          }
-        ]
-      }
-    ]
+    "in": [],
+    "out": []
   },
   "inst_top": {
     "foreign": {
@@ -1182,12 +889,12 @@
         {
           "code": "2327",
           "name": "國巨*",
-          "zhang": 1520
+          "zhang": 1516
         },
         {
-          "code": "3665",
-          "name": "貿聯-KY",
-          "zhang": 1215
+          "code": "2357",
+          "name": "華碩",
+          "zhang": 1179
         }
       ]
     },
@@ -1250,7 +957,7 @@
   },
   "inst_net_yi": {
     "外資": -407.2,
-    "投信": -25.6,
+    "投信": -12.0,
     "自營": -9.7
   },
   "radar": {
@@ -2347,7 +2054,7 @@
         "code": "1590",
         "name": "亞德客-KY",
         "pct": -0.96,
-        "inst_net_yi": 1.43,
+        "inst_net_yi": -0.69,
         "value_yi": 15.48,
         "sector": "電機機械"
       },
@@ -3371,7 +3078,7 @@
         "code": "2308",
         "name": "台達電",
         "pct": -1.79,
-        "inst_net_yi": -26.59,
+        "inst_net_yi": -29.7,
         "value_yi": 173.17,
         "sector": "電子零組件"
       },
@@ -3443,7 +3150,7 @@
         "code": "2327",
         "name": "國巨*",
         "pct": -5.26,
-        "inst_net_yi": -57.92,
+        "inst_net_yi": -57.89,
         "value_yi": 243.31,
         "sector": "電子零組件"
       },
@@ -3627,7 +3334,7 @@
         "code": "2360",
         "name": "致茂",
         "pct": 2.78,
-        "inst_net_yi": 3.24,
+        "inst_net_yi": 3.14,
         "value_yi": 65.28,
         "sector": "其他電子"
       },
@@ -3819,7 +3526,7 @@
         "code": "2395",
         "name": "研華",
         "pct": 1.93,
-        "inst_net_yi": 4.67,
+        "inst_net_yi": 4.66,
         "value_yi": 39.91,
         "sector": "電腦及週邊設備"
       },
@@ -5339,7 +5046,7 @@
         "code": "3008",
         "name": "大立光",
         "pct": -5.19,
-        "inst_net_yi": -7.51,
+        "inst_net_yi": -7.73,
         "value_yi": 74.58,
         "sector": "光電"
       },
@@ -6003,7 +5710,7 @@
         "code": "3443",
         "name": "創意",
         "pct": 1.45,
-        "inst_net_yi": 1.45,
+        "inst_net_yi": 4.66,
         "value_yi": 87.16,
         "sector": "半導體"
       },
@@ -6275,7 +5982,7 @@
         "code": "3665",
         "name": "貿聯-KY",
         "pct": -7.17,
-        "inst_net_yi": -36.7,
+        "inst_net_yi": -24.75,
         "value_yi": 122.86,
         "sector": "其他電子"
       },
@@ -7683,7 +7390,7 @@
         "code": "6213",
         "name": "聯茂",
         "pct": 3.73,
-        "inst_net_yi": 21.37,
+        "inst_net_yi": 25.7,
         "value_yi": 196.68,
         "sector": "電子零組件"
       },
@@ -8043,7 +7750,7 @@
         "code": "6531",
         "name": "愛普*",
         "pct": 5.67,
-        "inst_net_yi": 1.01,
+        "inst_net_yi": 1.52,
         "value_yi": 21.41,
         "sector": "半導體"
       },
@@ -8979,7 +8686,7 @@
         "code": "7750",
         "name": "新代",
         "pct": -1.48,
-        "inst_net_yi": -0.41,
+        "inst_net_yi": -1.32,
         "value_yi": 11.21,
         "sector": "電機機械"
       },
@@ -9011,7 +8718,7 @@
         "code": "7769",
         "name": "鴻勁",
         "pct": -2.39,
-        "inst_net_yi": -1.97,
+        "inst_net_yi": -2.1,
         "value_yi": 34.81,
         "sector": "半導體"
       },
@@ -9960,12 +9667,6 @@
         "value_yi": 14.0
       },
       {
-        "name": "電機機械",
-        "pct": 0.54,
-        "inst_net_yi": 2.17,
-        "value_yi": 218.8
-      },
-      {
         "name": "綠能環保",
         "pct": 1.79,
         "inst_net_yi": 1.84,
@@ -10034,7 +9735,7 @@
       {
         "name": "電腦及週邊設備",
         "pct": -2.25,
-        "inst_net_yi": -0.06,
+        "inst_net_yi": -0.07,
         "value_yi": 738.7
       },
       {
@@ -10042,6 +9743,12 @@
         "pct": -1.94,
         "inst_net_yi": -0.75,
         "value_yi": 22.6
+      },
+      {
+        "name": "電機機械",
+        "pct": 0.54,
+        "inst_net_yi": -0.86,
+        "value_yi": 218.8
       },
       {
         "name": "玻璃陶瓷",
@@ -10070,7 +9777,7 @@
       {
         "name": "光電",
         "pct": -3.06,
-        "inst_net_yi": -36.47,
+        "inst_net_yi": -36.69,
         "value_yi": 364.5
       },
       {
@@ -10082,19 +9789,19 @@
       {
         "name": "其他電子",
         "pct": -2.44,
-        "inst_net_yi": -62.51,
+        "inst_net_yi": -50.66,
         "value_yi": 524.0
       },
       {
         "name": "半導體",
         "pct": -1.67,
-        "inst_net_yi": -134.93,
+        "inst_net_yi": -131.34,
         "value_yi": 3064.6
       },
       {
         "name": "電子零組件",
         "pct": -1.33,
-        "inst_net_yi": -142.44,
+        "inst_net_yi": -141.19,
         "value_yi": 1778.5
       }
     ]
@@ -10115,10 +9822,24 @@
   },
   "_meta": {
     "errors": [
-      "MI_MARGN 上市融資: MI_MARGN 找不到融資金額"
+      "MI_MARGN 上市融資: MI_MARGN 找不到融資金額",
+      "AV AAPL: AV 無 AAPL 報價（可能限流）",
+      "AV TSLA: AV 無 TSLA 報價（可能限流）",
+      "AV XLK: AV 無 XLK 報價（可能限流）",
+      "AV XLF: AV 無 XLF 報價（可能限流）",
+      "AV XLV: AV 無 XLV 報價（可能限流）",
+      "AV XLY: AV 無 XLY 報價（可能限流）",
+      "AV XLC: AV 無 XLC 報價（可能限流）",
+      "AV XLI: AV 無 XLI 報價（可能限流）",
+      "AV XLP: AV 無 XLP 報價（可能限流）",
+      "AV XLE: AV 無 XLE 報價（可能限流）",
+      "AV XLU: AV 無 XLU 報價（可能限流）",
+      "AV XLRE: AV 無 XLRE 報價（可能限流）",
+      "AV XLB: AV 無 XLB 報價（可能限流）"
     ],
     "missing": [
-      "融資餘額（上市）"
+      "融資餘額（上市）",
+      "美股類股表現"
     ],
     "fetched_at": "2026-08-07",
     "trade_date": "20260807"
