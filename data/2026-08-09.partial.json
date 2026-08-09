@@ -43,8 +43,8 @@
         },
         {
           "name": "融資餘額",
-          "value": "5,377 億",
-          "note": "+48.6 億"
+          "value": "7,129 億",
+          "note": "+57.6 億"
         }
       ]
     },
@@ -105,41 +105,6 @@
         "name": "承啟",
         "change_pct": 9.87,
         "mkt": "上市",
-        "reason": ""
-      },
-      {
-        "code": "6584",
-        "name": "南俊國際",
-        "change_pct": 10.0,
-        "mkt": "上櫃",
-        "reason": ""
-      },
-      {
-        "code": "6617",
-        "name": "共信-KY",
-        "change_pct": 9.93,
-        "mkt": "上櫃",
-        "reason": ""
-      },
-      {
-        "code": "6693",
-        "name": "廣閎科",
-        "change_pct": 9.76,
-        "mkt": "上櫃",
-        "reason": ""
-      },
-      {
-        "code": "8050",
-        "name": "廣積",
-        "change_pct": 9.35,
-        "mkt": "上櫃",
-        "reason": ""
-      },
-      {
-        "code": "4163",
-        "name": "鐿鈦",
-        "change_pct": 7.06,
-        "mkt": "上櫃",
         "reason": ""
       }
     ],
@@ -10141,15 +10106,18 @@
       "balance_yi": 5376.6,
       "change_yi": 48.6
     },
-    "otc": null
+    "otc": {
+      "balance_yi": 1752.1,
+      "change_yi": 9.0
+    },
+    "total_yi": 7128.7,
+    "total_change_yi": 57.6
   },
   "_meta": {
     "errors": [
-      "TPEX 融資餘額（上櫃）: Expecting value: line 1 column 1 (char 0)"
+      "TPEX 上櫃漲幅榜: Expecting value: line 1 column 1 (char 0)"
     ],
-    "missing": [
-      "融資餘額（上櫃）"
-    ],
+    "missing": [],
     "fetched_at": "2026-08-09",
     "trade_date": "20260807"
   }
