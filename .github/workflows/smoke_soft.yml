@@ -1,0 +1,43 @@
+# 軟情報（OpenAI 上網查新聞）連線煙霧測試。
+# 只手動觸發、只呼叫 OpenAI 印結果：不推播 Telegram、不部署、不 commit 回 main。
+# 用途：本機沒有可用的 OPENAI_API_KEY，改動 gen_soft_openai.py 後在雲端拿真證據。
+name: 煙霧測試（軟情報）
+
+on:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 抓硬數據（產生 partial 供軟情報使用）
+        env:
+          AV_API_KEY: ${{ secrets.AV_API_KEY }}
+        run: python scripts/fetch_hard_data.py
+
+      - name: 呼叫 OpenAI 產軟情報（不推播）
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python scripts/gen_soft_openai.py
+
+      - name: 印出結果供人工檢視
+        run: |
+          f=$(ls -t public/data/*.soft.json | head -1)
+          echo "=== $f ==="
+          python - "$f" <<'PY'
+          import json, sys
+          d = json.load(open(sys.argv[1], encoding="utf-8"))
+          print("news 則數:", len(d.get("news", [])))
+          for n in d.get("news", []):
+              print(f"  [{n.get('tag')}] {n.get('date')} {n.get('title')} — {n.get('source_name')} {n.get('source_url')}")
+          v = d.get("verdict", {})
+          print("台股研判:", v.get("tw", {}).get("stance"), v.get("tw", {}).get("score"))
+          print("美股研判:", v.get("us", {}).get("stance"), v.get("us", {}).get("score"))
+          print("摘要:", d.get("summary", "")[:200])
+          PY

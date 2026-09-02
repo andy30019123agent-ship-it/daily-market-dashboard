@@ -12,11 +12,73 @@ import json
 import os
 import pathlib
 import re
+import urllib.error
 import urllib.request
 
 DATA_DIR = pathlib.Path(__file__).resolve().parents[1] / "public" / "data"
-MODEL = os.environ.get("OPENAI_SOFT_MODEL", "gpt-4o-search-preview")
-API = "https://api.openai.com/v1/chat/completions"
+# 上網查新聞的模型。原本用 chat/completions 的 gpt-4o-search-preview，OpenAI 已於
+# 2026-07-23 關閉該模型（呼叫回 404 model_not_found，2026-08-20 起每日排程全掛）。
+# 官方現行做法＝Responses API 掛 web_search 工具，官方指定接班機型 gpt-5.6-terra。
+MODEL = os.environ.get("OPENAI_SOFT_MODEL", "gpt-5.6-terra")
+API = "https://api.openai.com/v1/responses"
+
+
+def _scrub(text: str) -> str:
+    """錯誤訊息會被推到 Telegram，先把任何疑似金鑰的字串遮掉。"""
+    return re.sub(r"sk-[A-Za-z0-9_\-]{8,}", "sk-***", text)
+
+
+def _post(key: str, prompt: str, timeout: int) -> str:
+    """呼叫 Responses API（開 web_search）並回傳模型輸出的純文字。
+
+    失敗時把 OpenAI 回應的 body 一併帶進例外訊息——否則只會看到
+    「HTTP Error 404: Not Found」，查不出是哪個模型或哪個參數出問題。
+    """
+    body = {
+        "model": MODEL,
+        "tools": [{"type": "web_search"}],
+        "input": prompt,
+    }
+    req = urllib.request.Request(
+        API,
+        data=json.dumps(body).encode(),
+        headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            resp = json.load(r)
+    except urllib.error.HTTPError as e:
+        detail = ""
+        try:
+            detail = e.read().decode("utf-8", "replace")[:400]
+        except Exception:
+            pass
+        raise RuntimeError(
+            _scrub(f"OpenAI {API} 回 HTTP {e.code}（model={MODEL}）：{detail}")
+        ) from None
+    return _responses_text(resp)
+
+
+def _responses_text(resp: dict) -> str:
+    """從 Responses API 的 output 陣列取出模型文字。
+
+    output 是混合陣列：web_search_call、reasoning、message 都在裡面，順序不固定，
+    所以不能寫死 output[0]，要掃過所有 message 把 output_text 串起來。
+    """
+    parts = []
+    for item in resp.get("output") or []:
+        if item.get("type") != "message":
+            continue
+        for c in item.get("content") or []:
+            if c.get("type") == "output_text" and c.get("text"):
+                parts.append(c["text"])
+    text = "\n".join(parts).strip()
+    if not text:
+        raise RuntimeError(
+            f"OpenAI 回應沒有可用文字（status={resp.get('status')}、"
+            f"incomplete={resp.get('incomplete_details')}）"
+        )
+    return text
 
 
 def _hard_context(partial: dict) -> str:
@@ -166,21 +228,8 @@ def gen_soft(partial: dict) -> dict:
     key = os.environ.get("OPENAI_API_KEY")
     if not key:
         raise SystemExit("缺少環境變數 OPENAI_API_KEY")
-    body = {
-        "model": MODEL,
-        "web_search_options": {},
-        "messages": [
-            {"role": "user", "content": PROMPT.format(hard=_hard_context(partial))}
-        ],
-    }
-    req = urllib.request.Request(
-        API,
-        data=json.dumps(body).encode(),
-        headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
-    )
-    with urllib.request.urlopen(req, timeout=120) as r:
-        resp = json.load(r)
-    content = resp["choices"][0]["message"]["content"]
+    # 逾時放寬到 300 秒：新模型會先跑多輪 web_search 再作答，比舊的單次搜尋慢。
+    content = _post(key, PROMPT.format(hard=_hard_context(partial)), timeout=300)
     soft = _extract_json(content)
     # 新聞過濾：http(s) + 正規媒體單篇 + 發布日期落在報告日 ±2 天（擋注入、影片/社群、別天舊聞）
     soft["news"] = [n for n in soft.get("news", []) if _news_ok(n, partial.get("date", ""))]
@@ -230,19 +279,7 @@ def annotate_potential(stocks: list) -> None:
         listing = "\n".join(
             f"{s['code']} {s.get('name', '')}（{s.get('sector', '')}）" for s in stocks
         )
-        body = {
-            "model": MODEL,
-            "web_search_options": {},
-            "messages": [{"role": "user", "content": POTENTIAL_PROMPT + listing}],
-        }
-        req = urllib.request.Request(
-            API, data=json.dumps(body).encode(),
-            headers={"Authorization": f"Bearer {key}",
-                     "Content-Type": "application/json"},
-        )
-        with urllib.request.urlopen(req, timeout=120) as r:
-            resp = json.load(r)
-        content = resp["choices"][0]["message"]["content"]
+        content = _post(key, POTENTIAL_PROMPT + listing, timeout=300)
         notes = _extract_json_array(content)
         by_code = {n.get("code"): n for n in notes} if isinstance(notes, list) else {}
         for s in stocks:
