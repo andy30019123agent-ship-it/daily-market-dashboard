@@ -26,6 +26,12 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: python scripts/gen_soft_openai.py
 
+      - name: 全管線試跑（--dry-run：不推播、不寫 state）
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+        run: python -m scripts.auto_daily --dry-run
+
       - name: 印出結果供人工檢視
         run: |
           f=$(ls -t public/data/*.soft.json | head -1)
