@@ -200,7 +200,14 @@ def _extract_json(text: str) -> dict:
     i, j = text.find("{"), text.rfind("}")
     if i == -1 or j == -1:
         raise ValueError(f"模型回傳不含 JSON: {text[:300]}")
-    return json.loads(text[i : j + 1])
+    try:
+        return json.loads(text[i : j + 1])
+    except json.JSONDecodeError as e:
+        # 出錯位置前後各 200 字帶進訊息：只講「JSON 壞了」查不出是哪裡壞
+        lo, hi = max(0, e.pos - 200), e.pos + 200
+        raise ValueError(
+            f"模型回傳的 JSON 解析失敗（{e.msg} @ char {e.pos}）；出錯處前後：…{text[lo:hi]}…"
+        ) from None
 
 
 def _carry_vix_tw(report_date):
@@ -229,8 +236,24 @@ def gen_soft(partial: dict) -> dict:
     if not key:
         raise SystemExit("缺少環境變數 OPENAI_API_KEY")
     # 逾時放寬到 300 秒：新模型會先跑多輪 web_search 再作答，比舊的單次搜尋慢。
-    content = _post(key, PROMPT.format(hard=_hard_context(partial)), timeout=300)
-    soft = _extract_json(content)
+    #
+    # 為什麼要重試：開了 web_search 就不能同時用 JSON mode 強制格式
+    # （OpenAI 回 400 "Web Search cannot be used with JSON mode."），
+    # 模型偶爾會吐出不合法的 JSON。實測失敗率約 1/3，重試 3 次可壓到 ~4%，
+    # 且全部失敗仍會拋錯（寧可大聲失敗，不要靜默產出殘缺報告）。
+    prompt = PROMPT.format(hard=_hard_context(partial))
+    last_err = None
+    for attempt in range(1, 4):
+        content = _post(key, prompt, timeout=300)
+        try:
+            soft = _extract_json(content)
+            break
+        except ValueError as e:
+            last_err = e
+            tail = "，重試中" if attempt < 3 else ""
+            print(f"⚠️ 第 {attempt}/3 次軟情報 JSON 解析失敗{tail}：{str(e)[:200]}")
+    else:
+        raise RuntimeError(f"軟情報連 3 次都解析不出 JSON。最後一次：{last_err}")
     # 新聞過濾：http(s) + 正規媒體單篇 + 發布日期落在報告日 ±2 天（擋注入、影片/社群、別天舊聞）
     soft["news"] = [n for n in soft.get("news", []) if _news_ok(n, partial.get("date", ""))]
     # 台指 VIX：硬數據(TAIFEX 官方)有抓到就用它；只有 fetch 失敗時才沿用前值（不讓模型臆造）。

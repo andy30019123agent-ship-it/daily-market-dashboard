@@ -1,4 +1,4 @@
-# 軟情報（OpenAI 上網查新聞）連線煙霧測試。
+# 軟情報（OpenAI 上網查新聞）煙霧測試。
 # 只手動觸發、不推播 Telegram、不部署、不 commit 回 main。
 # 用途：本機沒有可用的 OPENAI_API_KEY，改動 gen_soft_openai.py 後在雲端拿真證據。
 name: 煙霧測試（軟情報）
@@ -21,7 +21,8 @@ jobs:
           AV_API_KEY: ${{ secrets.AV_API_KEY }}
         run: python scripts/fetch_hard_data.py
 
-      - name: 診斷：比較「自由文字」與「強制 JSON 格式」兩種請求
+      - name: 全管線試跑（--dry-run：不推播、不寫 state）
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: python scripts/_diag_json_mode.py
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+        run: python -m scripts.auto_daily --dry-run
