@@ -50,8 +50,8 @@
     "us": [
       {
         "name": "費城半導體",
-        "close": 502.2,
-        "change_pct": 0.15,
+        "close": 519.86,
+        "change_pct": 3.52,
         "proxy": "SOXX",
         "spark": []
       }
@@ -146,31 +146,31 @@
       {
         "code": "TSLA",
         "name": "特斯拉",
-        "change_pct": 5.42,
+        "change_pct": -5.92,
         "reason": ""
       },
       {
-        "code": "AVGO",
-        "name": "博通",
-        "change_pct": -2.74,
-        "reason": ""
-      },
-      {
-        "code": "NVDA",
-        "name": "輝達",
-        "change_pct": 1.8,
-        "reason": ""
-      },
-      {
-        "code": "AAPL",
-        "name": "蘋果",
-        "change_pct": 1.0,
+        "code": "AMD",
+        "name": "超微",
+        "change_pct": 4.69,
         "reason": ""
       },
       {
         "code": "TSM",
         "name": "台積電 ADR",
-        "change_pct": 0.36,
+        "change_pct": 2.85,
+        "reason": ""
+      },
+      {
+        "code": "AAPL",
+        "name": "蘋果",
+        "change_pct": -2.51,
+        "reason": ""
+      },
+      {
+        "code": "NVDA",
+        "name": "輝達",
+        "change_pct": 0.84,
         "reason": ""
       }
     ]
@@ -829,71 +829,9 @@
   "sectors_us": {
     "in": [
       {
-        "name": "金融",
-        "amount": "+1.56%",
-        "weight": 1.0,
-        "constituents": [
-          {
-            "code": "BRK.B",
-            "name": "波克夏"
-          },
-          {
-            "code": "JPM",
-            "name": "摩根大通"
-          },
-          {
-            "code": "V",
-            "name": "Visa"
-          },
-          {
-            "code": "MA",
-            "name": "萬事達"
-          },
-          {
-            "code": "BAC",
-            "name": "美銀"
-          },
-          {
-            "code": "WFC",
-            "name": "富國"
-          }
-        ]
-      },
-      {
-        "name": "非必需消費",
-        "amount": "+1.39%",
-        "weight": 0.89,
-        "constituents": [
-          {
-            "code": "AMZN",
-            "name": "亞馬遜"
-          },
-          {
-            "code": "TSLA",
-            "name": "特斯拉"
-          },
-          {
-            "code": "HD",
-            "name": "家得寶"
-          },
-          {
-            "code": "MCD",
-            "name": "麥當勞"
-          },
-          {
-            "code": "NKE",
-            "name": "Nike"
-          },
-          {
-            "code": "SBUX",
-            "name": "星巴克"
-          }
-        ]
-      },
-      {
         "name": "科技",
-        "amount": "+1.29%",
-        "weight": 0.83,
+        "amount": "+0.70%",
+        "weight": 0.53,
         "constituents": [
           {
             "code": "AAPL",
@@ -922,15 +860,9 @@
         ]
       },
       {
-        "name": "房地產",
-        "amount": "+1.19%",
-        "weight": 0.76,
-        "constituents": []
-      },
-      {
         "name": "工業",
-        "amount": "+1.03%",
-        "weight": 0.66,
+        "amount": "+0.41%",
+        "weight": 0.31,
         "constituents": [
           {
             "code": "GE",
@@ -957,44 +889,42 @@
             "name": "Uber"
           }
         ]
-      }
-    ],
-    "out": [
+      },
       {
-        "name": "能源",
-        "amount": "-0.74%",
-        "weight": 0.47,
+        "name": "公用事業",
+        "amount": "+0.12%",
+        "weight": 0.09,
         "constituents": [
           {
-            "code": "XOM",
-            "name": "艾克森美孚"
+            "code": "NEE",
+            "name": "NextEra"
           },
           {
-            "code": "CVX",
-            "name": "雪佛龍"
+            "code": "SO",
+            "name": "Southern"
           },
           {
-            "code": "COP",
-            "name": "康菲"
+            "code": "DUK",
+            "name": "Duke 能源"
           },
           {
-            "code": "WMB",
-            "name": "Williams"
+            "code": "CEG",
+            "name": "Constellation"
           },
           {
-            "code": "SLB",
-            "name": "斯倫貝謝"
+            "code": "AEP",
+            "name": "AEP"
           },
           {
-            "code": "EOG",
-            "name": "EOG"
+            "code": "D",
+            "name": "Dominion"
           }
         ]
       },
       {
         "name": "原物料",
-        "amount": "-0.62%",
-        "weight": 0.4,
+        "amount": "-0.34%",
+        "weight": 0.26,
         "constituents": [
           {
             "code": "LIN",
@@ -1023,40 +953,79 @@
         ]
       },
       {
-        "name": "必需消費",
-        "amount": "-0.32%",
-        "weight": 0.21,
+        "name": "房地產",
+        "amount": "-0.72%",
+        "weight": 0.54,
+        "constituents": []
+      }
+    ],
+    "out": [
+      {
+        "name": "非必需消費",
+        "amount": "-1.33%",
+        "weight": 1.0,
         "constituents": [
           {
-            "code": "COST",
-            "name": "好市多"
+            "code": "AMZN",
+            "name": "亞馬遜"
           },
           {
-            "code": "WMT",
-            "name": "沃爾瑪"
+            "code": "TSLA",
+            "name": "特斯拉"
           },
           {
-            "code": "PG",
-            "name": "寶僑"
+            "code": "HD",
+            "name": "家得寶"
           },
           {
-            "code": "KO",
-            "name": "可口可樂"
+            "code": "MCD",
+            "name": "麥當勞"
           },
           {
-            "code": "PEP",
-            "name": "百事"
+            "code": "NKE",
+            "name": "Nike"
           },
           {
-            "code": "PM",
-            "name": "菲利普莫里斯"
+            "code": "SBUX",
+            "name": "星巴克"
+          }
+        ]
+      },
+      {
+        "name": "通訊服務",
+        "amount": "-1.19%",
+        "weight": 0.89,
+        "constituents": [
+          {
+            "code": "META",
+            "name": "Meta"
+          },
+          {
+            "code": "GOOGL",
+            "name": "Alphabet"
+          },
+          {
+            "code": "NFLX",
+            "name": "Netflix"
+          },
+          {
+            "code": "DIS",
+            "name": "迪士尼"
+          },
+          {
+            "code": "TMUS",
+            "name": "T-Mobile"
+          },
+          {
+            "code": "VZ",
+            "name": "Verizon"
           }
         ]
       },
       {
         "name": "醫療保健",
-        "amount": "+0.18%",
-        "weight": 0.12,
+        "amount": "-1.04%",
+        "weight": 0.78,
         "constituents": [
           {
             "code": "LLY",
@@ -1085,33 +1054,64 @@
         ]
       },
       {
-        "name": "公用事業",
-        "amount": "+0.84%",
-        "weight": 0.54,
+        "name": "能源",
+        "amount": "-0.87%",
+        "weight": 0.65,
         "constituents": [
           {
-            "code": "NEE",
-            "name": "NextEra"
+            "code": "XOM",
+            "name": "艾克森美孚"
           },
           {
-            "code": "SO",
-            "name": "Southern"
+            "code": "CVX",
+            "name": "雪佛龍"
           },
           {
-            "code": "DUK",
-            "name": "Duke 能源"
+            "code": "COP",
+            "name": "康菲"
           },
           {
-            "code": "CEG",
-            "name": "Constellation"
+            "code": "WMB",
+            "name": "Williams"
           },
           {
-            "code": "AEP",
-            "name": "AEP"
+            "code": "SLB",
+            "name": "斯倫貝謝"
           },
           {
-            "code": "D",
-            "name": "Dominion"
+            "code": "EOG",
+            "name": "EOG"
+          }
+        ]
+      },
+      {
+        "name": "必需消費",
+        "amount": "-0.80%",
+        "weight": 0.6,
+        "constituents": [
+          {
+            "code": "COST",
+            "name": "好市多"
+          },
+          {
+            "code": "WMT",
+            "name": "沃爾瑪"
+          },
+          {
+            "code": "PG",
+            "name": "寶僑"
+          },
+          {
+            "code": "KO",
+            "name": "可口可樂"
+          },
+          {
+            "code": "PEP",
+            "name": "百事"
+          },
+          {
+            "code": "PM",
+            "name": "菲利普莫里斯"
           }
         ]
       }
@@ -10176,7 +10176,7 @@
   "_meta": {
     "errors": [],
     "missing": [],
-    "fetched_at": "2026-09-04",
+    "fetched_at": "2026-09-05",
     "trade_date": "20260904"
   }
 }
