@@ -1,9 +1,9 @@
 {
- "generated_at": "2026-09-07 18:39",
+ "generated_at": "2026-09-08 18:39",
  "tw": {
-  "hit_rate": 47.7,
+  "hit_rate": 46.7,
   "hit": 21,
-  "total": 44,
+  "total": 45,
   "recent30_rate": 53.3,
   "recent30_total": 30,
   "detail": [
@@ -402,13 +402,22 @@
     "actual_pct": 1.67,
     "actual": "up",
     "hit": true
+   },
+   {
+    "date": "2026-09-07",
+    "next_date": "2026-09-08",
+    "stance": "偏多",
+    "predicted": "up",
+    "actual_pct": -0.47,
+    "actual": "down",
+    "hit": false
    }
   ]
  },
  "us": {
-  "hit_rate": 50.0,
-  "hit": 20,
-  "total": 40,
+  "hit_rate": 51.2,
+  "hit": 21,
+  "total": 41,
   "recent30_rate": 50.0,
   "recent30_total": 30,
   "detail": [
@@ -771,6 +780,15 @@
     "actual_pct": -0.38,
     "actual": "down",
     "hit": false
+   },
+   {
+    "date": "2026-09-07",
+    "next_date": "2026-09-08",
+    "stance": "中性偏空",
+    "predicted": "down",
+    "actual_pct": -0.38,
+    "actual": "down",
+    "hit": true
    }
   ],
   "index_used": "標普 500"
