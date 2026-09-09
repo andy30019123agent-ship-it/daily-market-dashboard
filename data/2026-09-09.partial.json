@@ -30,7 +30,7 @@
         },
         {
           "name": "投信買賣超",
-          "value": "+30.4 億",
+          "value": "+20.8 億",
           "dir": "up"
         },
         {
@@ -42,6 +42,11 @@
           "name": "漲跌家數",
           "value": "607▲ / 370▼",
           "note": "持平 99 家"
+        },
+        {
+          "name": "融資餘額",
+          "value": "7,878 億",
+          "note": "+14.2 億"
         }
       ]
     },
@@ -1209,7 +1214,7 @@
         {
           "code": "2313",
           "name": "華通",
-          "zhang": 4529
+          "zhang": 4433
         },
         {
           "code": "1402",
@@ -1292,7 +1297,7 @@
   },
   "inst_net_yi": {
     "外資": 209.2,
-    "投信": 30.4,
+    "投信": 20.8,
     "自營": -18.8
   },
   "radar": {
@@ -2397,7 +2402,7 @@
         "code": "1590",
         "name": "亞德客-KY",
         "pct": -0.37,
-        "inst_net_yi": -0.34,
+        "inst_net_yi": -0.33,
         "value_yi": 16.35,
         "sector": "電機機械"
       },
@@ -3125,7 +3130,7 @@
         "code": "2059",
         "name": "川湖",
         "pct": -0.96,
-        "inst_net_yi": 2.3,
+        "inst_net_yi": -1.04,
         "value_yi": 58.99,
         "sector": "電子零組件"
       },
@@ -3453,7 +3458,7 @@
         "code": "2313",
         "name": "華通",
         "pct": -1.3,
-        "inst_net_yi": -9.65,
+        "inst_net_yi": -9.43,
         "value_yi": 48.08,
         "sector": "電子零組件"
       },
@@ -3533,7 +3538,7 @@
         "code": "2330",
         "name": "台積電",
         "pct": -0.2,
-        "inst_net_yi": -67.68,
+        "inst_net_yi": -67.07,
         "value_yi": 440.36,
         "sector": "半導體"
       },
@@ -3597,7 +3602,7 @@
         "code": "2345",
         "name": "智邦",
         "pct": 3.07,
-        "inst_net_yi": 16.73,
+        "inst_net_yi": 16.74,
         "value_yi": 95.67,
         "sector": "通信網路"
       },
@@ -4213,7 +4218,7 @@
         "code": "2454",
         "name": "聯發科",
         "pct": -1.8,
-        "inst_net_yi": -28.31,
+        "inst_net_yi": -28.1,
         "value_yi": 252.61,
         "sector": "半導體"
       },
@@ -4221,7 +4226,7 @@
         "code": "2455",
         "name": "全新",
         "pct": 3.5,
-        "inst_net_yi": 5.17,
+        "inst_net_yi": 5.54,
         "value_yi": 13.48,
         "sector": "通信網路"
       },
@@ -7933,7 +7938,7 @@
         "code": "6409",
         "name": "旭隼",
         "pct": -3.34,
-        "inst_net_yi": -0.46,
+        "inst_net_yi": -0.35,
         "value_yi": 7.7,
         "sector": "其他電子"
       },
@@ -9261,7 +9266,7 @@
         "code": "8046",
         "name": "南電",
         "pct": 8.29,
-        "inst_net_yi": 35.63,
+        "inst_net_yi": 27.8,
         "value_yi": 135.15,
         "sector": "電子零組件"
       },
@@ -10004,7 +10009,7 @@
       {
         "name": "電子零組件",
         "pct": 2.0,
-        "inst_net_yi": 71.68,
+        "inst_net_yi": 60.73,
         "value_yi": 1777.2
       },
       {
@@ -10016,19 +10021,19 @@
       {
         "name": "電機機械",
         "pct": 3.17,
-        "inst_net_yi": 39.85,
+        "inst_net_yi": 39.86,
         "value_yi": 248.3
       },
       {
         "name": "通信網路",
         "pct": 1.85,
-        "inst_net_yi": 29.59,
+        "inst_net_yi": 29.97,
         "value_yi": 244.5
       },
       {
         "name": "其他電子",
         "pct": 1.85,
-        "inst_net_yi": 20.48,
+        "inst_net_yi": 20.59,
         "value_yi": 326.2
       },
       {
@@ -10184,7 +10189,7 @@
       {
         "name": "半導體",
         "pct": 0.08,
-        "inst_net_yi": -71.94,
+        "inst_net_yi": -71.12,
         "value_yi": 2813.8
       }
     ]
@@ -10197,19 +10202,20 @@
     "flat": 99
   },
   "margin": {
-    "listed": null,
+    "listed": {
+      "balance_yi": 5871.7,
+      "change_yi": 9.0
+    },
     "otc": {
-      "balance_yi": 2000.7,
-      "change_yi": -3.9
-    }
+      "balance_yi": 2005.8,
+      "change_yi": 5.2
+    },
+    "total_yi": 7877.5,
+    "total_change_yi": 14.2
   },
   "_meta": {
-    "errors": [
-      "MI_MARGN 上市融資: MI_MARGN 找不到融資金額"
-    ],
-    "missing": [
-      "融資餘額（上市）"
-    ],
+    "errors": [],
+    "missing": [],
     "fetched_at": "2026-09-09",
     "trade_date": "20260909"
   }
