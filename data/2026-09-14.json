@@ -10268,90 +10268,6 @@
   "window_days": 10,
   "stocks": [
    {
-    "code": "2812",
-    "inst_net_yi": 9.99,
-    "buy_days": 7,
-    "name": "台中銀",
-    "pct": -0.26,
-    "value_yi": 3.22,
-    "sector": "金融保險",
-    "price_pos": 0.26,
-    "chg_6m": -0.0558,
-    "vol_ratio": 1.59,
-    "above_ma60": false,
-    "spark": [
-     21.45,
-     21.45,
-     21.5,
-     21.7,
-     22.15,
-     23.15,
-     22.6,
-     21.95,
-     22.4,
-     21.85,
-     21.5,
-     21.55,
-     21.05,
-     21.0,
-     20.75,
-     21.0,
-     21.25,
-     21.35,
-     20.8,
-     20.8,
-     20.8,
-     20.4,
-     20.1,
-     20.5,
-     20.75,
-     20.75,
-     20.3,
-     20.55,
-     20.35,
-     20.55,
-     21.05,
-     20.65,
-     20.15,
-     19.85,
-     19.75,
-     18.75,
-     18.95,
-     18.45,
-     19.3,
-     19.5,
-     19.65,
-     19.95,
-     20.55,
-     20.5,
-     20.45,
-     20.75,
-     18.9,
-     18.5,
-     19.0,
-     18.95,
-     19.1,
-     19.4,
-     19.45
-    ],
-    "struct_s": 0.508,
-    "history": "ok",
-    "chip_s": 0.88,
-    "fund_yoy": 0.0176,
-    "fund_s": 0.059,
-    "theme": "綠色金融",
-    "catalyst": "企業授信正提高AI、半導體、綠能與生技等策略產業比重，並推進跨境金融布局。",
-    "score": 69,
-    "score_parts": {
-     "chip": 88,
-     "struct": 51,
-     "theme": 100,
-     "fund": 6
-    },
-    "streak": 7,
-    "first_date": "2026-09-04"
-   },
-   {
     "code": "3090",
     "inst_net_yi": 8.3,
     "buy_days": 5,
@@ -10424,7 +10340,7 @@
     "fund_yoy": 0.3845,
     "fund_s": 1.0,
     "theme": "AI被動元件",
-    "catalyst": "AI伺服器帶動高階MLCC、固態與鋁電容供需偏緊，部分高階MLCC交期已拉長至24至36週。",
+    "catalyst": "高容值、高可靠度MLCC與鋁質／鉭質電容已切入多家資料中心與AI運算客戶，產品組合升級仍是後續觀察線索。 ([finmoconf.diveinvest.net](https://finmoconf.diveinvest.net/presentation/6a0c6384bab52fb5c8fd4308?utm_source=openai))",
     "score": 63,
     "score_parts": {
      "chip": 80,
@@ -10507,8 +10423,8 @@
     "chip_s": 0.72,
     "fund_yoy": 0.4554,
     "fund_s": 1.0,
-    "theme": "AI被動元件",
-    "catalyst": "AI機櫃對高容量高壓MLCC及高精度電阻用量提升，公司持續調整高階產品與AI應用布局。",
+    "theme": "AI電源",
+    "catalyst": "公司聚焦AI伺服器BBU與12kW以上電源所需的高壓大容量MLCC、高精度及大電流電阻，若高階電源規格持續升級可望放大量價值。 ([finmoconf.diveinvest.net](https://finmoconf.diveinvest.net/presentation/6a16fd94bab52fb5c80d27a7?utm_source=openai))",
     "score": 61,
     "score_parts": {
      "chip": 72,
@@ -10591,8 +10507,8 @@
     "chip_s": 0.394,
     "fund_yoy": -0.295,
     "fund_s": 0.0,
-    "theme": "半導體特化",
-    "catalyst": "半導體與先進封裝新建廠帶動氟素樹脂設備及化學品槽車需求，近期在手訂單明顯增加。",
+    "theme": "半導體擴廠",
+    "catalyst": "新增產能開出後可望迅速滿載，先進製程帶動槽車與桶槽需求，晶圓廠及特化廠持續詢價使在手訂單攀升。 ([ec.ltn.com.tw](https://ec.ltn.com.tw/article/breakingnews/5556959?utm_source=openai))",
     "score": 60,
     "score_parts": {
      "chip": 39,
@@ -10602,6 +10518,90 @@
     },
     "streak": 1,
     "first_date": "2026-09-14"
+   },
+   {
+    "code": "2812",
+    "inst_net_yi": 9.99,
+    "buy_days": 7,
+    "name": "台中銀",
+    "pct": -0.26,
+    "value_yi": 3.22,
+    "sector": "金融保險",
+    "price_pos": 0.26,
+    "chg_6m": -0.0558,
+    "vol_ratio": 1.59,
+    "above_ma60": false,
+    "spark": [
+     21.45,
+     21.45,
+     21.5,
+     21.7,
+     22.15,
+     23.15,
+     22.6,
+     21.95,
+     22.4,
+     21.85,
+     21.5,
+     21.55,
+     21.05,
+     21.0,
+     20.75,
+     21.0,
+     21.25,
+     21.35,
+     20.8,
+     20.8,
+     20.8,
+     20.4,
+     20.1,
+     20.5,
+     20.75,
+     20.75,
+     20.3,
+     20.55,
+     20.35,
+     20.55,
+     21.05,
+     20.65,
+     20.15,
+     19.85,
+     19.75,
+     18.75,
+     18.95,
+     18.45,
+     19.3,
+     19.5,
+     19.65,
+     19.95,
+     20.55,
+     20.5,
+     20.45,
+     20.75,
+     18.9,
+     18.5,
+     19.0,
+     18.95,
+     19.1,
+     19.4,
+     19.45
+    ],
+    "struct_s": 0.508,
+    "history": "ok",
+    "chip_s": 0.88,
+    "fund_yoy": 0.0176,
+    "fund_s": 0.059,
+    "theme": "數位金融",
+    "catalyst": "",
+    "score": 59,
+    "score_parts": {
+     "chip": 88,
+     "struct": 51,
+     "theme": 50,
+     "fund": 6
+    },
+    "streak": 7,
+    "first_date": "2026-09-04"
    },
    {
     "code": "2478",
@@ -10675,8 +10675,8 @@
     "chip_s": 0.726,
     "fund_yoy": 0.4363,
     "fund_s": 1.0,
-    "theme": "AI被動元件",
-    "catalyst": "高階薄膜、保護及感測元件占比已升逾五成，AI高階需求與供需結構改變帶動價格調整效應。",
+    "theme": "AI電源",
+    "catalyst": "2026年第二季毛利率升至29%，反映高價值產品轉型的效益；後續高階電阻產品組合能否延續為觀察重點。 ([poorstock.com](https://poorstock.com/earningcall/2478?utm_source=openai))",
     "score": 59,
     "score_parts": {
      "chip": 73,
@@ -10759,8 +10759,8 @@
     "chip_s": 0.593,
     "fund_yoy": 0.2722,
     "fund_s": 0.907,
-    "theme": "AI航空貨運",
-    "catalyst": "AI、高效能運算與雲端產品出口持續支撐北美及歐洲貨運需求，公司正以777F汰換舊747貨機並規劃導入777-8F。",
+    "theme": "航空貨運",
+    "catalyst": "貨機汰換正由744F轉向擴充777F，並規劃引進次世代777-8F，長線可提升高科技與跨境貨運承載能力。 ([finmoconf.diveinvest.net](https://finmoconf.diveinvest.net/presentation/69bbf804bab52fb5c847eff5?utm_source=openai))",
     "score": 54,
     "score_parts": {
      "chip": 59,
@@ -10843,8 +10843,8 @@
     "chip_s": 0.482,
     "fund_yoy": 0.5119,
     "fund_s": 1.0,
-    "theme": "AI被動元件",
-    "catalyst": "泰國新廠預計第四季量產，將強化非中非台供應能力，承接AI伺服器與車用高階電容需求。",
+    "theme": "AI伺服器",
+    "catalyst": "車用需求維持成長外，管理層指出伺服器與網通應用回溫、下半年訂單能見度優於原先預期。 ([vocus.cc](https://vocus.cc/article/6a5af794fd89780001bec7c6?utm_source=openai))",
     "score": 52,
     "score_parts": {
      "chip": 48,
@@ -10927,7 +10927,7 @@
     "chip_s": 0.849,
     "fund_yoy": 0.0482,
     "fund_s": 0.161,
-    "theme": "零售數位轉型",
+    "theme": "智慧零售",
     "catalyst": "",
     "score": 49,
     "score_parts": {
@@ -11011,8 +11011,8 @@
     "chip_s": 0.635,
     "fund_yoy": 0.0893,
     "fund_s": 0.298,
-    "theme": "重電",
-    "catalyst": "台電強韌電網、離岸風電3.2至3.3期、半導體擴廠與AI機房建置同步推升GIS需求，模組化機房合作案仍在評估。",
+    "theme": "強韌電網",
+    "catalyst": "台電強韌電網、離岸風電3.2至3.3期、半導體擴廠及AI／IDC建置持續帶動GIS需求，系統公司整併效益預期於第三季更明顯。 ([finmoconf.diveinvest.net](https://finmoconf.diveinvest.net/presentation/69ea1c84bab52fb5c864c22c?utm_source=openai))",
     "score": 49,
     "score_parts": {
      "chip": 64,
@@ -11095,7 +11095,7 @@
     "chip_s": 0.506,
     "fund_yoy": -0.0279,
     "fund_s": 0.0,
-    "theme": "運動鞋供應鏈",
+    "theme": "智慧製造",
     "catalyst": "",
     "score": 48,
     "score_parts": {
@@ -11106,90 +11106,6 @@
     },
     "streak": 5,
     "first_date": "2026-09-08"
-   },
-   {
-    "code": "9941",
-    "inst_net_yi": 2.48,
-    "buy_days": 7,
-    "name": "裕融",
-    "pct": 1.62,
-    "value_yi": 1.27,
-    "sector": "其他",
-    "price_pos": 0.267,
-    "chg_6m": 0.0625,
-    "vol_ratio": 0.62,
-    "above_ma60": false,
-    "spark": [
-     106.5,
-     106.0,
-     98.8,
-     96.9,
-     97.5,
-     101.0,
-     98.1,
-     97.9,
-     98.4,
-     100.0,
-     94.3,
-     90.9,
-     92.4,
-     95.1,
-     92.5,
-     92.6,
-     92.1,
-     91.2,
-     85.6,
-     81.4,
-     80.4,
-     78.9,
-     78.0,
-     78.7,
-     75.2,
-     74.2,
-     76.3,
-     76.8,
-     78.1,
-     77.0,
-     75.6,
-     77.8,
-     79.0,
-     77.1,
-     75.7,
-     73.1,
-     73.5,
-     73.1,
-     81.9,
-     84.3,
-     81.8,
-     79.5,
-     83.1,
-     81.0,
-     83.4,
-     82.2,
-     81.1,
-     85.4,
-     84.2,
-     86.8,
-     80.0,
-     81.0,
-     81.6
-    ],
-    "struct_s": 0.186,
-    "history": "ok",
-    "chip_s": 0.578,
-    "fund_yoy": 0.0187,
-    "fund_s": 0.062,
-    "theme": "MaaS",
-    "catalyst": "企業金融資產持續成長、東南亞業務擴張，加上中國大陸資產品質改善，海外與企金可望成為消金以外的成長來源。",
-    "score": 47,
-    "score_parts": {
-     "chip": 58,
-     "struct": 19,
-     "theme": 100,
-     "fund": 6
-    },
-    "streak": 2,
-    "first_date": "2026-09-11"
    }
   ]
  },
@@ -11342,18 +11258,13 @@
  },
  "earnings_tomorrow": [
   {
-   "id": "1110",
-   "name": "東泥",
-   "industry": "水泥工業"
+   "id": "1307",
+   "name": "三芳",
+   "industry": "塑膠工業"
   },
   {
-   "id": "1419",
-   "name": "新紡",
-   "industry": "紡織纖維"
-  },
-  {
-   "id": "1464",
-   "name": "得力",
+   "id": "1477",
+   "name": "聚陽",
    "industry": "紡織纖維"
   },
   {
@@ -11362,59 +11273,59 @@
    "industry": "電機機械"
   },
   {
-   "id": "1582",
-   "name": "信錦",
-   "industry": "電子零組件業"
-  },
-  {
    "id": "1590",
    "name": "亞德客-KY",
    "industry": "電機機械"
   },
   {
-   "id": "2301",
-   "name": "光寶科",
-   "industry": "電腦及週邊設備業"
+   "id": "1736",
+   "name": "喬山",
+   "industry": "運動休閒"
   },
   {
-   "id": "2312",
-   "name": "金寶",
-   "industry": "其他電子業"
+   "id": "1762",
+   "name": "中化生",
+   "industry": "生技醫療業"
   },
   {
-   "id": "2317",
-   "name": "鴻海",
-   "industry": "其他電子業"
+   "id": "2006",
+   "name": "東和鋼鐵",
+   "industry": "鋼鐵工業"
   },
   {
-   "id": "2353",
-   "name": "宏碁",
-   "industry": "電腦及週邊設備業"
-  },
-  {
-   "id": "2360",
-   "name": "致茂",
-   "industry": "其他電子業"
-  },
-  {
-   "id": "2379",
-   "name": "瑞昱",
-   "industry": "半導體業"
-  },
-  {
-   "id": "2385",
-   "name": "群光",
+   "id": "2327",
+   "name": "國巨*",
    "industry": "電子零組件業"
   },
   {
-   "id": "2408",
-   "name": "南亞科",
-   "industry": "半導體業"
+   "id": "2382",
+   "name": "廣達",
+   "industry": "電腦及週邊設備業"
   },
   {
-   "id": "3023",
-   "name": "信邦",
-   "industry": "電子零組件業"
+   "id": "2409",
+   "name": "友達",
+   "industry": "光電業"
+  },
+  {
+   "id": "2474",
+   "name": "可成",
+   "industry": "其他電子業"
+  },
+  {
+   "id": "2836",
+   "name": "高雄銀",
+   "industry": "金融保險業"
+  },
+  {
+   "id": "3017",
+   "name": "奇鋐",
+   "industry": "電腦及週邊設備業"
+  },
+  {
+   "id": "3035",
+   "name": "智原",
+   "industry": "半導體業"
   },
   {
    "id": "3037",
@@ -11422,49 +11333,14 @@
    "industry": "電子零組件業"
   },
   {
-   "id": "3038",
-   "name": "全台",
-   "industry": "光電業"
+   "id": "3515",
+   "name": "華擎",
+   "industry": "電腦及週邊設備業"
   },
   {
-   "id": "3054",
-   "name": "立萬利",
-   "industry": "電子通路業"
-  },
-  {
-   "id": "3443",
-   "name": "創意",
-   "industry": "半導體業"
-  },
-  {
-   "id": "3596",
-   "name": "智易",
-   "industry": "通信網路業"
-  },
-  {
-   "id": "3702",
-   "name": "大聯大",
-   "industry": "電子通路業"
-  },
-  {
-   "id": "3711",
-   "name": "日月光投控",
-   "industry": "半導體業"
-  },
-  {
-   "id": "4104",
-   "name": "佳醫",
+   "id": "4142",
+   "name": "國光生",
    "industry": "生技醫療業"
-  },
-  {
-   "id": "4807",
-   "name": "日成-KY",
-   "industry": "貿易百貨業"
-  },
-  {
-   "id": "5284",
-   "name": "jpp-KY",
-   "industry": "其他業"
   },
   {
    "id": "6213",
@@ -11472,89 +11348,54 @@
    "industry": "電子零組件業"
   },
   {
-   "id": "6239",
-   "name": "力成",
+   "id": "6415",
+   "name": "矽力*-KY",
    "industry": "半導體業"
   },
   {
-   "id": "6282",
-   "name": "康舒",
-   "industry": "電子零組件業"
-  },
-  {
-   "id": "6757",
-   "name": "台灣虎航",
-   "industry": "航運業"
-  },
-  {
-   "id": "6862",
-   "name": "三集瑞-KY",
-   "industry": "電子零組件業"
-  },
-  {
-   "id": "7711",
-   "name": "永擎",
+   "id": "6669",
+   "name": "緯穎",
    "industry": "電腦及週邊設備業"
   },
   {
-   "id": "8103",
-   "name": "瀚荃",
+   "id": "6805",
+   "name": "富世達",
    "industry": "電子零組件業"
   },
   {
-   "id": "8150",
-   "name": "南茂",
-   "industry": "半導體業"
+   "id": "3363",
+   "name": "上詮",
+   "industry": "通信網路業"
   },
   {
-   "id": "8462",
-   "name": "柏文",
-   "industry": "運動休閒"
+   "id": "3611",
+   "name": "鼎翰",
+   "industry": "電腦及週邊設備業"
   },
   {
-   "id": "9939",
-   "name": "宏全",
-   "industry": "其他業"
-  },
-  {
-   "id": "4138",
-   "name": "曜亞",
+   "id": "4105",
+   "name": "東洋",
    "industry": "生技醫療業"
   },
   {
-   "id": "4173",
-   "name": "久裕",
-   "industry": "生技醫療業"
-  },
-  {
-   "id": "4417",
-   "name": "金洲",
+   "id": "4442",
+   "name": "竣邦-KY",
    "industry": "紡織纖維"
   },
   {
-   "id": "4749",
-   "name": "新應材",
+   "id": "5903",
+   "name": "全家",
+   "industry": "居家生活"
+  },
+  {
+   "id": "6261",
+   "name": "久元",
    "industry": "半導體業"
   },
   {
-   "id": "6143",
-   "name": "振曜",
-   "industry": "通信網路業"
-  },
-  {
-   "id": "6523",
-   "name": "達爾膚",
-   "industry": "生技醫療業"
-  },
-  {
-   "id": "7717",
-   "name": "萊德光電-KY",
-   "industry": "通信網路業"
-  },
-  {
-   "id": "8299",
-   "name": "群聯",
-   "industry": "半導體業"
+   "id": "6840",
+   "name": "東研信超",
+   "industry": "其他電子業"
   }
  ],
  "opportunities": {
