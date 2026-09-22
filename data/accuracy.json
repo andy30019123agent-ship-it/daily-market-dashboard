@@ -1,9 +1,9 @@
 {
- "generated_at": "2026-09-21 18:39",
+ "generated_at": "2026-09-22 18:39",
  "tw": {
-  "hit_rate": 50.0,
-  "hit": 27,
-  "total": 54,
+  "hit_rate": 50.9,
+  "hit": 28,
+  "total": 55,
   "recent30_rate": 60.0,
   "recent30_total": 30,
   "detail": [
@@ -492,14 +492,23 @@
     "actual_pct": 1.14,
     "actual": "up",
     "hit": true
+   },
+   {
+    "date": "2026-09-21",
+    "next_date": "2026-09-22",
+    "stance": "偏多",
+    "predicted": "up",
+    "actual_pct": 0.17,
+    "actual": "up",
+    "hit": true
    }
   ]
  },
  "us": {
-  "hit_rate": 54.0,
-  "hit": 27,
-  "total": 50,
-  "recent30_rate": 60.0,
+  "hit_rate": 54.9,
+  "hit": 28,
+  "total": 51,
+  "recent30_rate": 63.3,
   "recent30_total": 30,
   "detail": [
    {
@@ -949,6 +958,15 @@
     "stance": "偏多",
     "predicted": "up",
     "actual_pct": 0.17,
+    "actual": "up",
+    "hit": true
+   },
+   {
+    "date": "2026-09-21",
+    "next_date": "2026-09-22",
+    "stance": "中性偏多",
+    "predicted": "up",
+    "actual_pct": 1.49,
     "actual": "up",
     "hit": true
    }
