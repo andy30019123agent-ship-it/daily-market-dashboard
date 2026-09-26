@@ -10342,7 +10342,7 @@
     "fund_yoy": 0.3841,
     "fund_s": 1.0,
     "theme": "AI PC",
-    "catalyst": "宏碁近期發表搭載 NVIDIA RTX Spark、面向混合式代理 AI 工作負載的迷你工作站，並擴大 Copilot+ PC 產品線。",
+    "catalyst": "宏碁持續推出具 AI 效能與可維修設計的 Vero 16 等新品，若企業換機與永續採購需求同步升溫，可能帶動產品組合改善。 ([news.acer.com](https://news.acer.com/zh?utm_source=openai))",
     "score": 74,
     "score_parts": {
      "chip": 83,
@@ -10426,7 +10426,7 @@
     "fund_yoy": 0.5922,
     "fund_s": 1.0,
     "theme": "CDMO",
-    "catalyst": "大分子 CDMO 的 2,000 公升擴產案持續推進，且馬里蘭無菌針劑廠新充填系統陸續到位，可承接高活性與標靶注射劑訂單。",
+    "catalyst": "公司近期揭露與全球前二十大藥廠簽訂「10+2年」商業化合約，新簽分子後續轉入美加與竹南廠量產的時點值得追蹤。 ([cmoney.tw](https://www.cmoney.tw/forum/article/183357006?utm_source=openai))",
     "score": 74,
     "score_parts": {
      "chip": 78,
@@ -10509,8 +10509,8 @@
     "chip_s": 0.758,
     "fund_yoy": -0.6222,
     "fund_s": 0.0,
-    "theme": "硼中子治療",
-    "catalyst": "BPA 含硼治療藥物與 FBPA 核醫診斷藥物臨床試驗已完成，後續藥證推進及北榮 BNCT 中心建置為關鍵觀察點。",
+    "theme": "BNCT",
+    "catalyst": "B10 L-BPA 用於復發型腦膜瘤的 I/II 期試驗已公布初步安全性與有效性結果，另局部晚期口腔癌術前輔助治療試驗剛取得 TFDA IND。 ([heron-neutron.com](https://www.heron-neutron.com/news/news?keyword=&page=2&utm_source=openai))",
     "score": 72,
     "score_parts": {
      "chip": 76,
@@ -10593,8 +10593,8 @@
     "chip_s": 0.736,
     "fund_yoy": -0.1149,
     "fund_s": 0.0,
-    "theme": "重電",
-    "catalyst": "AIDC 自建 POC 原規劃於 9 月完成且已取得 Edge AI 訂單；觀音新廠投產後將釋放既有廠區空間建置電力級變壓器產線。",
+    "theme": "儲能電網",
+    "catalyst": "大同智能已在日本九州啟動 2MW／10MWh 儲能案場規劃，並擬帶動變壓器與配電盤外銷，海外案場落地進度可望成為後續驗證。 ([tatungforeverenergy.com](https://www.tatungforeverenergy.com/News/Index/2?utm_source=openai))",
     "score": 69,
     "score_parts": {
      "chip": 74,
@@ -10677,8 +10677,8 @@
     "chip_s": 0.734,
     "fund_yoy": 0.1839,
     "fund_s": 0.613,
-    "theme": "邊緣AI",
-    "catalyst": "Getac 持續擴充強固型 Copilot+ PC／AI 裝置，V120、F120、S510AD 等產品切入國防、公用事業與現場維運的離線邊緣 AI 應用。",
+    "theme": "軍工強固電腦",
+    "catalyst": "強固型電腦已切入美國空軍與荷蘭皇家海軍等應用，且公司預期國防及商用專案下半年交付加快。 ([m.moneydj.com](https://m.moneydj.com/f1a.aspx?a=7a0dc011-c2f6-4c2f-b8d7-d60e906b440b&c=MB06&utm_source=openai))",
     "score": 66,
     "score_parts": {
      "chip": 73,
@@ -10762,7 +10762,7 @@
     "fund_yoy": 0.2722,
     "fund_s": 0.907,
     "theme": "航空貨運",
-    "catalyst": "華航規劃自 2027 年起陸續導入 A350-900，並以新世代機隊優化長程航網，同步爭取 AI、半導體、醫藥冷鏈等高價貨運商機。",
+    "catalyst": "華航規劃逐步引進 777F 與新世代 777-8F 貨機，在地緣政治壓縮客機腹艙運能、貨物轉向全貨機的環境下，機隊更新與貨運調度效益值得追蹤。 ([blog.jesselin.com](https://blog.jesselin.com/archives/187934/china-airlines-2026-investor-conference/?utm_source=openai))",
     "score": 61,
     "score_parts": {
      "chip": 65,
@@ -10846,7 +10846,7 @@
     "fund_yoy": -0.2313,
     "fund_s": 0.0,
     "theme": "機器人視覺",
-    "catalyst": "群光近期宣布切入美國機器人新創供應鏈，將量身打造核心影像與資料收集設備，拓展機器人感知應用。",
+    "catalyst": "群光已宣布切入美國機器人新創供應鏈、提供核心影像與數據收集設備；後續量產時程與營收貢獻將是關鍵驗證。 ([tw.stock.yahoo.com](https://tw.stock.yahoo.com/quote/2385.TWO/news?utm_source=openai))",
     "score": 56,
     "score_parts": {
      "chip": 66,
@@ -10929,13 +10929,13 @@
     "chip_s": 0.722,
     "fund_yoy": -0.03,
     "fund_s": 0.0,
-    "theme": "功率半導體",
-    "catalyst": "",
-    "score": 42,
+    "theme": "AI電源",
+    "catalyst": "富鼎正開發 DrMOS、雙面散熱 MOSFET 與高壓產品，AI伺服器及高壓應用若放量，將是產品組合升級的觀察點。 ([moneyweekly.com.tw](https://www.moneyweekly.com.tw/ArticleData/Info/Article/240334?utm_source=openai))",
+    "score": 52,
     "score_parts": {
      "chip": 72,
      "struct": 20,
-     "theme": 50,
+     "theme": 100,
      "fund": 0
     },
     "streak": 3,
