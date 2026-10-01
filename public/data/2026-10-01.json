@@ -10198,7 +10198,7 @@
     "fund_yoy": 0.5922,
     "fund_s": 1.0,
     "theme": "CDMO",
-    "catalyst": "Rockville廠已自2026年第三季開始貢獻營收，Maple Grove大型藥廠長約已啟動技轉，商業化貢獻目標落在2027年第三季。",
+    "catalyst": "Rockville廠新增12,000公升產能與3個量產案自7月起挹注，後續排產及在手訂單轉營收為觀察重點。",
     "score": 74,
     "score_parts": {
      "chip": 84,
@@ -10282,7 +10282,7 @@
     "fund_yoy": null,
     "fund_s": 0.0,
     "theme": "先進封裝檢測",
-    "catalyst": "公司表示PLP檢測已有3家客戶洽談，且檢測項目由CoWoS的2項擴至4項，預期2027年首季迎來出貨高峰。",
+    "catalyst": "PLP檢測已有客戶洽談，管理層表示2027年首季可望迎來出貨高峰。",
     "score": 66,
     "score_parts": {
      "chip": 61,
@@ -10365,8 +10365,8 @@
     "chip_s": 0.8,
     "fund_yoy": 0.2722,
     "fund_s": 0.907,
-    "theme": "航空貨運",
-    "catalyst": "公司目標於2026年底交付2架波音787-9、2027年再交12架，機隊更新可望改善油耗並增加航網調度彈性。",
+    "theme": "機隊更新",
+    "catalyst": "787新機與A350客艙升級將自2027年起陸續導入，可提高中長程航網調度彈性與產品競爭力。",
     "score": 65,
     "score_parts": {
      "chip": 80,
@@ -10532,7 +10532,7 @@
     "chip_s": 0.674,
     "fund_yoy": 0.1839,
     "fund_s": 0.613,
-    "theme": "邊緣AI",
+    "theme": "國防強固電腦",
     "catalyst": "",
     "score": 52,
     "score_parts": {
@@ -10693,23 +10693,7 @@
    "ma": 20
   }
  },
- "earnings_tomorrow": [
-  {
-   "id": "2329",
-   "name": "華泰",
-   "industry": "半導體業"
-  },
-  {
-   "id": "2399",
-   "name": "映泰",
-   "industry": "電腦及週邊設備業"
-  },
-  {
-   "id": "9908",
-   "name": "大台北",
-   "industry": "油電燃氣業"
-  }
- ],
+ "earnings_tomorrow": [],
  "opportunities": {
   "date": "2026-09-30",
   "picks": [
