@@ -28,7 +28,7 @@
         },
         {
           "name": "投信買賣超",
-          "value": "−4.2 億",
+          "value": "−33.2 億",
           "dir": "down"
         },
         {
@@ -40,6 +40,11 @@
           "name": "漲跌家數",
           "value": "588▲ / 387▼",
           "note": "持平 99 家"
+        },
+        {
+          "name": "融資餘額",
+          "value": "8,690 億",
+          "note": "+51.5 億"
         }
       ]
     },
@@ -1013,19 +1018,19 @@
         {
           "code": "2327",
           "name": "國巨*",
-          "zhang": 3038
+          "zhang": 3451
         },
         {
-          "code": "1605",
-          "name": "華新",
-          "zhang": 2594
+          "code": "2492",
+          "name": "華新科",
+          "zhang": 2669
         }
       ],
       "sell": [
         {
           "code": "2303",
           "name": "聯電",
-          "zhang": 17653
+          "zhang": 19779
         },
         {
           "code": "2344",
@@ -1040,7 +1045,7 @@
         {
           "code": "2455",
           "name": "全新",
-          "zhang": 2424
+          "zhang": 3508
         },
         {
           "code": "3231",
@@ -1108,7 +1113,7 @@
   },
   "inst_net_yi": {
     "外資": -130.4,
-    "投信": -4.2,
+    "投信": -33.2,
     "自營": -78.0
   },
   "radar": {
@@ -2149,7 +2154,7 @@
         "code": "1560",
         "name": "中砂",
         "pct": -0.97,
-        "inst_net_yi": 3.09,
+        "inst_net_yi": 1.69,
         "value_yi": 9.87,
         "sector": "電機機械"
       },
@@ -3221,7 +3226,7 @@
         "code": "2303",
         "name": "聯電",
         "pct": 0.68,
-        "inst_net_yi": -49.51,
+        "inst_net_yi": -52.67,
         "value_yi": 219.74,
         "sector": "半導體"
       },
@@ -3237,7 +3242,7 @@
         "code": "2308",
         "name": "台達電",
         "pct": -2.93,
-        "inst_net_yi": -41.89,
+        "inst_net_yi": -39.41,
         "value_yi": 216.87,
         "sector": "電子零組件"
       },
@@ -3293,7 +3298,7 @@
         "code": "2327",
         "name": "國巨*",
         "pct": 3.52,
-        "inst_net_yi": 33.31,
+        "inst_net_yi": 35.98,
         "value_yi": 612.33,
         "sector": "電子零組件"
       },
@@ -3317,7 +3322,7 @@
         "code": "2330",
         "name": "台積電",
         "pct": 0.0,
-        "inst_net_yi": -16.64,
+        "inst_net_yi": -16.79,
         "value_yi": 436.44,
         "sector": "半導體"
       },
@@ -4005,7 +4010,7 @@
         "code": "2455",
         "name": "全新",
         "pct": -1.41,
-        "inst_net_yi": -3.39,
+        "inst_net_yi": -9.45,
         "value_yi": 86.14,
         "sector": "通信網路"
       },
@@ -4229,7 +4234,7 @@
         "code": "2492",
         "name": "華新科",
         "pct": 9.88,
-        "inst_net_yi": 41.13,
+        "inst_net_yi": 52.56,
         "value_yi": 225.59,
         "sector": "電子零組件"
       },
@@ -5189,7 +5194,7 @@
         "code": "3008",
         "name": "大立光",
         "pct": -0.15,
-        "inst_net_yi": -16.73,
+        "inst_net_yi": -17.55,
         "value_yi": 147.58,
         "sector": "光電"
       },
@@ -5245,7 +5250,7 @@
         "code": "3017",
         "name": "奇鋐",
         "pct": -3.8,
-        "inst_net_yi": -35.93,
+        "inst_net_yi": -39.23,
         "value_yi": 124.7,
         "sector": "電腦及週邊設備"
       },
@@ -5805,7 +5810,7 @@
         "code": "3406",
         "name": "玉晶光",
         "pct": 3.83,
-        "inst_net_yi": -3.33,
+        "inst_net_yi": 1.39,
         "value_yi": 65.25,
         "sector": "光電"
       },
@@ -5869,7 +5874,7 @@
         "code": "3450",
         "name": "聯鈞",
         "pct": 0.75,
-        "inst_net_yi": -3.36,
+        "inst_net_yi": -8.32,
         "value_yi": 65.85,
         "sector": "半導體"
       },
@@ -6125,7 +6130,7 @@
         "code": "3665",
         "name": "貿聯-KY",
         "pct": -0.43,
-        "inst_net_yi": 1.89,
+        "inst_net_yi": -0.77,
         "value_yi": 80.12,
         "sector": "其他電子"
       },
@@ -7869,7 +7874,7 @@
         "code": "6515",
         "name": "穎崴",
         "pct": -9.95,
-        "inst_net_yi": -42.19,
+        "inst_net_yi": -68.85,
         "value_yi": 124.1,
         "sector": "半導體"
       },
@@ -8357,7 +8362,7 @@
         "code": "6805",
         "name": "富世達",
         "pct": 1.66,
-        "inst_net_yi": -1.28,
+        "inst_net_yi": -2.16,
         "value_yi": 22.89,
         "sector": "電子零組件"
       },
@@ -9766,7 +9771,7 @@
       {
         "name": "電子零組件",
         "pct": 1.68,
-        "inst_net_yi": 113.16,
+        "inst_net_yi": 128.86,
         "value_yi": 2942.6
       },
       {
@@ -9790,7 +9795,7 @@
       {
         "name": "電機機械",
         "pct": 1.33,
-        "inst_net_yi": 15.0,
+        "inst_net_yi": 13.6,
         "value_yi": 126.1
       },
       {
@@ -9928,31 +9933,31 @@
       {
         "name": "通信網路",
         "pct": 1.27,
-        "inst_net_yi": -6.85,
+        "inst_net_yi": -12.91,
         "value_yi": 371.5
       },
       {
         "name": "其他電子",
         "pct": 0.37,
-        "inst_net_yi": -12.41,
+        "inst_net_yi": -15.07,
         "value_yi": 450.5
       },
       {
         "name": "光電",
         "pct": 1.93,
-        "inst_net_yi": -24.55,
+        "inst_net_yi": -20.65,
         "value_yi": 686.8
       },
       {
         "name": "電腦及週邊設備",
         "pct": -1.81,
-        "inst_net_yi": -98.79,
+        "inst_net_yi": -102.09,
         "value_yi": 544.8
       },
       {
         "name": "半導體",
         "pct": -0.49,
-        "inst_net_yi": -287.2,
+        "inst_net_yi": -322.13,
         "value_yi": 2877.6
       }
     ]
@@ -9965,20 +9970,21 @@
     "flat": 99
   },
   "margin": {
-    "listed": null,
+    "listed": {
+      "balance_yi": 6400.0,
+      "change_yi": 23.4
+    },
     "otc": {
-      "balance_yi": 2261.5,
-      "change_yi": 19.8
-    }
+      "balance_yi": 2289.6,
+      "change_yi": 28.1
+    },
+    "total_yi": 8689.6,
+    "total_change_yi": 51.5
   },
   "_meta": {
-    "errors": [
-      "MI_MARGN 上市融資: MI_MARGN 找不到融資金額"
-    ],
-    "missing": [
-      "融資餘額（上市）"
-    ],
-    "fetched_at": "2026-10-07",
+    "errors": [],
+    "missing": [],
+    "fetched_at": "2026-10-08",
     "trade_date": "20261007"
   }
 }
