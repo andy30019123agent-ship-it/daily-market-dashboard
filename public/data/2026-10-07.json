@@ -10212,13 +10212,13 @@
     "chip_s": 0.84,
     "fund_yoy": 0.2405,
     "fund_s": 0.802,
-    "theme": "機能運動服飾",
-    "catalyst": "",
-    "score": 66,
+    "theme": "運動機能服飾",
+    "catalyst": "印尼、孟加拉與薩爾瓦多新增產能規劃開出，且日系客戶印尼包廠訂單與美系客戶庫存回補，可能成為後續接單放大的觀察點。 ([moneydj.com](https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=152e2a0f-851c-40c2-800b-f6252234132f&utm_source=openai))",
+    "score": 76,
     "score_parts": {
      "chip": 84,
      "struct": 53,
-     "theme": 50,
+     "theme": 100,
      "fund": 80
     },
     "streak": 1,
@@ -10296,13 +10296,13 @@
     "chip_s": 0.644,
     "fund_yoy": 0.0828,
     "fund_s": 0.276,
-    "theme": "機能布料",
-    "catalyst": "",
-    "score": 56,
+    "theme": "機能紡織",
+    "catalyst": "印尼三期規劃直接導入全自動化工廠，預計2026年第三至第四季動工、2027年第四季起逐步開出約每月200萬件產能，為人均產值提升與擴產的中期觀察點。 ([moneydj.com](https://www.moneydj.com/KMDJ/News/NewsViewer.aspx?a=8a56f3c9-19f9-4cd7-a0be-4f4b24476fdb&utm_source=openai))",
+    "score": 66,
     "score_parts": {
      "chip": 64,
      "struct": 59,
-     "theme": 50,
+     "theme": 100,
      "fund": 28
     },
     "streak": 1,
@@ -10380,13 +10380,13 @@
     "chip_s": 0.757,
     "fund_yoy": -0.2499,
     "fund_s": 0.0,
-    "theme": "AI PC",
-    "catalyst": "",
-    "score": 50,
+    "theme": "機器人視覺",
+    "catalyst": "Edge AI Vision業務已與美國新創合作切入機器人視覺辨識與動作導引，若專案擴大，可能成為影像產品從安防／視訊會議延伸至Physical AI的新動能。 ([esg.chicony.com](https://esg.chicony.com/chicony/en/news-detail/2026Q2_EPS/?utm_source=openai))",
+    "score": 60,
     "score_parts": {
      "chip": 76,
      "struct": 40,
-     "theme": 50,
+     "theme": 100,
      "fund": 0
     },
     "streak": 3,
@@ -10465,7 +10465,7 @@
     "fund_yoy": null,
     "fund_s": 0.0,
     "theme": "AI航空貨運",
-    "catalyst": "華航規劃自2027年起推出整新A350-900客艙，並持續以777F貨機承接高科技貨運需求，航網與機隊效率改善可望逐步反映。",
+    "catalyst": "公司持續鎖定AI、半導體、資通訊及醫藥冷鏈等高價值貨源，並透過貨機增班與航網優化提高運能效益；AI貨物在主要出口據點的承攬比重已達5%至20%。 ([blog.jesselin.com](https://blog.jesselin.com/archives/187934/china-airlines-2026-investor-conference/?utm_source=openai))",
     "score": 45,
     "score_parts": {
      "chip": 62,
@@ -10625,43 +10625,7 @@
    "ma": 20
   }
  },
- "earnings_tomorrow": [
-  {
-   "id": "2010",
-   "name": "春源",
-   "industry": "鋼鐵工業"
-  },
-  {
-   "id": "2603",
-   "name": "長榮",
-   "industry": "航運業"
-  },
-  {
-   "id": "2607",
-   "name": "榮運",
-   "industry": "航運業"
-  },
-  {
-   "id": "3008",
-   "name": "大立光",
-   "industry": "光電業"
-  },
-  {
-   "id": "2221",
-   "name": "大甲",
-   "industry": "其他業"
-  },
-  {
-   "id": "3354",
-   "name": "律勝",
-   "industry": "電子零組件業"
-  },
-  {
-   "id": "6126",
-   "name": "信音",
-   "industry": "電子零組件業"
-  }
- ],
+ "earnings_tomorrow": [],
  "opportunities": {
   "date": "2026-10-07",
   "picks": [
