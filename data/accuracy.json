@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-07 18:39",
+ "generated_at": "2026-10-08 18:39",
  "tw": {
   "hit_rate": 53.1,
   "hit": 34,
@@ -586,10 +586,10 @@
   ]
  },
  "us": {
-  "hit_rate": 58.3,
+  "hit_rate": 57.4,
   "hit": 35,
-  "total": 60,
-  "recent30_rate": 70.0,
+  "total": 61,
+  "recent30_rate": 66.7,
   "recent30_total": 30,
   "detail": [
    {
@@ -1131,6 +1131,15 @@
     "actual_pct": 0.58,
     "actual": "up",
     "hit": true
+   },
+   {
+    "date": "2026-10-07",
+    "next_date": "2026-10-08",
+    "stance": "偏多",
+    "predicted": "up",
+    "actual_pct": -0.22,
+    "actual": "down",
+    "hit": false
    }
   ],
   "index_used": "標普 500"
