@@ -29,7 +29,7 @@
         },
         {
           "name": "投信買賣超",
-          "value": "+46.9 億",
+          "value": "+30.1 億",
           "dir": "up"
         },
         {
@@ -41,6 +41,11 @@
           "name": "漲跌家數",
           "value": "425▲ / 540▼",
           "note": "持平 109 家"
+        },
+        {
+          "name": "融資餘額",
+          "value": "8,743 億",
+          "note": "+53.1 億"
         }
       ]
     },
@@ -1231,7 +1236,7 @@
   },
   "inst_net_yi": {
     "外資": -758.5,
-    "投信": 46.9,
+    "投信": 30.1,
     "自營": -187.3
   },
   "radar": {
@@ -3376,7 +3381,7 @@
         "code": "2308",
         "name": "台達電",
         "pct": -1.26,
-        "inst_net_yi": -16.38,
+        "inst_net_yi": -15.83,
         "value_yi": 108.81,
         "sector": "電子零組件"
       },
@@ -3464,7 +3469,7 @@
         "code": "2330",
         "name": "台積電",
         "pct": -1.35,
-        "inst_net_yi": -282.41,
+        "inst_net_yi": -280.51,
         "value_yi": 591.67,
         "sector": "半導體"
       },
@@ -3528,7 +3533,7 @@
         "code": "2345",
         "name": "智邦",
         "pct": 2.73,
-        "inst_net_yi": 10.15,
+        "inst_net_yi": 13.99,
         "value_yi": 91.91,
         "sector": "通信網路"
       },
@@ -4152,7 +4157,7 @@
         "code": "2455",
         "name": "全新",
         "pct": -0.18,
-        "inst_net_yi": 7.43,
+        "inst_net_yi": 4.33,
         "value_yi": 34.85,
         "sector": "通信網路"
       },
@@ -5392,7 +5397,7 @@
         "code": "3017",
         "name": "奇鋐",
         "pct": -2.96,
-        "inst_net_yi": -15.9,
+        "inst_net_yi": -18.96,
         "value_yi": 109.27,
         "sector": "電腦及週邊設備"
       },
@@ -6000,7 +6005,7 @@
         "code": "3443",
         "name": "創意",
         "pct": -1.18,
-        "inst_net_yi": 0.19,
+        "inst_net_yi": 0.7,
         "value_yi": 103.13,
         "sector": "半導體"
       },
@@ -6376,7 +6381,7 @@
         "code": "3711",
         "name": "日月光投控",
         "pct": 1.64,
-        "inst_net_yi": 3.35,
+        "inst_net_yi": 9.31,
         "value_yi": 117.17,
         "sector": "半導體"
       },
@@ -8000,7 +8005,7 @@
         "code": "6515",
         "name": "穎崴",
         "pct": 1.72,
-        "inst_net_yi": 30.62,
+        "inst_net_yi": 6.25,
         "value_yi": 61.77,
         "sector": "半導體"
       },
@@ -8240,7 +8245,7 @@
         "code": "6669",
         "name": "緯穎",
         "pct": 0.0,
-        "inst_net_yi": -5.26,
+        "inst_net_yi": -4.72,
         "value_yi": 55.0,
         "sector": "電腦及週邊設備"
       },
@@ -8488,7 +8493,7 @@
         "code": "6805",
         "name": "富世達",
         "pct": -3.46,
-        "inst_net_yi": -0.83,
+        "inst_net_yi": -0.31,
         "value_yi": 39.93,
         "sector": "電子零組件"
       },
@@ -9905,7 +9910,7 @@
       {
         "name": "通信網路",
         "pct": 0.46,
-        "inst_net_yi": 23.22,
+        "inst_net_yi": 23.96,
         "value_yi": 267.4
       },
       {
@@ -10067,13 +10072,13 @@
       {
         "name": "電腦及週邊設備",
         "pct": -0.66,
-        "inst_net_yi": -29.21,
+        "inst_net_yi": -31.73,
         "value_yi": 489.7
       },
       {
         "name": "電子零組件",
         "pct": -0.54,
-        "inst_net_yi": -39.35,
+        "inst_net_yi": -38.28,
         "value_yi": 2485.6
       },
       {
@@ -10091,7 +10096,7 @@
       {
         "name": "半導體",
         "pct": -0.07,
-        "inst_net_yi": -402.51,
+        "inst_net_yi": -418.51,
         "value_yi": 3094.7
       }
     ]
@@ -10104,20 +10109,21 @@
     "flat": 109
   },
   "margin": {
-    "listed": null,
+    "listed": {
+      "balance_yi": 6464.1,
+      "change_yi": 64.0
+    },
     "otc": {
-      "balance_yi": 2289.6,
-      "change_yi": 28.1
-    }
+      "balance_yi": 2278.7,
+      "change_yi": -10.9
+    },
+    "total_yi": 8742.8,
+    "total_change_yi": 53.1
   },
   "_meta": {
-    "errors": [
-      "MI_MARGN 上市融資: MI_MARGN 找不到融資金額"
-    ],
-    "missing": [
-      "融資餘額（上市）"
-    ],
-    "fetched_at": "2026-10-08",
+    "errors": [],
+    "missing": [],
+    "fetched_at": "2026-10-09",
     "trade_date": "20261008"
   }
 }
