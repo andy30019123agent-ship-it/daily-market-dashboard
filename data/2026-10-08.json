@@ -10356,8 +10356,8 @@
     "chip_s": 0.88,
     "fund_yoy": 0.2405,
     "fund_s": 0.802,
-    "theme": "運動機能服飾",
-    "catalyst": "9月營收年增24%，且因航運吃緊有部分旺季訂單遞延至10月出貨，短期營收與第三季獲利表現可望持續驗證。",
+    "theme": "機能運動服飾",
+    "catalyst": "2026年產能規劃由1,750萬打提升至1,840萬打，新增重心在印尼、孟加拉與薩爾瓦多，並聚焦高附加價值機能運動服。 ([finmoconf.diveinvest.net](https://finmoconf.diveinvest.net/presentation/69b80384bab52fb5c819040d?utm_source=openai))",
     "score": 79,
     "score_parts": {
      "chip": 88,
@@ -10440,8 +10440,8 @@
     "chip_s": 0.901,
     "fund_yoy": -0.2499,
     "fund_s": 0.0,
-    "theme": "機器人視覺",
-    "catalyst": "近期與美國機器人新創合作，提供結合VLM與多感測深度學習的多鏡頭邊緣AI視覺方案，後續專案量產進度值得追蹤。",
+    "theme": "邊緣AI視覺",
+    "catalyst": "Edge AI Vision的泰國廠已有新訂單支撐供應鏈調整，商用智慧視訊系統上半年營收年增逾20%，下半年Edge AI與商用市場被公司列為成長支柱。 ([esg.chicony.com](https://esg.chicony.com/chicony/en/news-detail/2026Q2_EPS/?utm_source=openai))",
     "score": 67,
     "score_parts": {
      "chip": 90,
@@ -10525,7 +10525,7 @@
     "fund_yoy": null,
     "fund_s": 0.0,
     "theme": "綠鋼",
-    "catalyst": "離岸風電區塊開發第3期已於9月底截止收件、政府規劃年底完成選商；若在地供應鏈要求落實，將是風電用鋼與綠鋼布局的潛在需求催化。",
+    "catalyst": "2026年條鋼產品通過UL2809 RC90高再生料驗證，若低碳鋼材客戶導入擴大，產品組合有升級空間。 ([finmoconf.diveinvest.net](https://finmoconf.diveinvest.net/presentation/6a3a9614a16a75b8133be6dd?utm_source=openai))",
     "score": 51,
     "score_parts": {
      "chip": 76,
@@ -10685,7 +10685,28 @@
    "ma": 20
   }
  },
- "earnings_tomorrow": [],
+ "earnings_tomorrow": [
+  {
+   "id": "2408",
+   "name": "南亞科",
+   "industry": "半導體業"
+  },
+  {
+   "id": "2881",
+   "name": "富邦金",
+   "industry": "金融保險業"
+  },
+  {
+   "id": "4934",
+   "name": "太極",
+   "industry": "光電業"
+  },
+  {
+   "id": "6281",
+   "name": "全國電",
+   "industry": "電子通路業"
+  }
+ ],
  "opportunities": {
   "date": "2026-10-08",
   "picks": [
