@@ -10356,8 +10356,8 @@
     "chip_s": 0.88,
     "fund_yoy": 0.2405,
     "fund_s": 0.802,
-    "theme": "運動機能服飾",
-    "catalyst": "客戶庫存仍偏低、通路商去庫存後開始回補，聚陽第四季將優先爭取高單價品牌與百貨通路訂單。",
+    "theme": "運動服飾",
+    "catalyst": "世足賽帶動運動品訂單升溫、運動產品占比已回到55%以上，美系客戶追加單與全年中個位數擴產，旺季出貨與產品組合改善仍待後續營收驗證。 ([moneydj.com](https://www.moneydj.com/KMDJ/News/NewsViewer.aspx?a=477f7b97-3bf7-4720-bac5-51e86801478d))",
     "score": 79,
     "score_parts": {
      "chip": 88,
@@ -10440,8 +10440,8 @@
     "chip_s": 0.901,
     "fund_yoy": -0.2499,
     "fund_s": 0.0,
-    "theme": "AI PC",
-    "catalyst": "商用Windows 11換機週期延續，AI PC規格升級可帶動鍵盤背光、影像模組與高瓦數電源的單價提升。",
+    "theme": "邊緣AI視覺",
+    "catalyst": "邊緣AI影像系統正由智慧安防延伸至視訊會議攝影機與車用售後市場；目前相關方案營收占比約10%至15%，公司目標維持中高個位數成長。 ([wealth.firstbank.com.tw](https://wealth.firstbank.com.tw/investment-tips/trend-insight/news/news-detail?id=%7B0654EC92-5FDA-4DA7-8CB9-B2BF48649F7C%7D))",
     "score": 67,
     "score_parts": {
      "chip": 90,
@@ -10524,8 +10524,8 @@
     "chip_s": 0.76,
     "fund_yoy": null,
     "fund_s": 0.0,
-    "theme": "機器人",
-    "catalyst": "中鋼已完成機器人馬達驗證與鐵芯量產示範線，0.1mm電磁鋼規劃自2027年起逐步放量供應無人機及機器人動力鏈。",
+    "theme": "綠鋼",
+    "catalyst": "中國持續減產及鋼品出口許可制度若抑制低價出口，加上台灣半導體廠房、商辦與公共工程需求支撐，鋼市供需與高值鋼品利差有改善空間。 ([csc.com.tw](https://www.csc.com.tw/csc/ss/pst/pdf/2026Mar31.pdf))",
     "score": 51,
     "score_parts": {
      "chip": 76,
@@ -10687,24 +10687,54 @@
  },
  "earnings_tomorrow": [
   {
-   "id": "2408",
-   "name": "南亞科",
+   "id": "1598",
+   "name": "岱宇",
+   "industry": "運動休閒"
+  },
+  {
+   "id": "1725",
+   "name": "元禎",
+   "industry": "化學工業"
+  },
+  {
+   "id": "2328",
+   "name": "廣宇",
+   "industry": "電子零組件業"
+  },
+  {
+   "id": "2412",
+   "name": "中華電",
+   "industry": "通信網路業"
+  },
+  {
+   "id": "4958",
+   "name": "臻鼎-KY",
+   "industry": "電子零組件業"
+  },
+  {
+   "id": "7769",
+   "name": "鴻勁",
    "industry": "半導體業"
   },
   {
-   "id": "2881",
-   "name": "富邦金",
-   "industry": "金融保險業"
+   "id": "7786",
+   "name": "東方風能",
+   "industry": "綠能環保"
   },
   {
-   "id": "4934",
-   "name": "太極",
-   "industry": "光電業"
+   "id": "7799",
+   "name": "禾榮科",
+   "industry": "生技醫療業"
   },
   {
-   "id": "6281",
-   "name": "全國電",
-   "industry": "電子通路業"
+   "id": "6725",
+   "name": "矽科宏晟",
+   "industry": "其他電子業"
+  },
+  {
+   "id": "6903",
+   "name": "巨漢",
+   "industry": "其他電子業"
   }
  ],
  "opportunities": {
