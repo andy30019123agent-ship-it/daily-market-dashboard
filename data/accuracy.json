@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-12 18:41",
+ "generated_at": "2026-10-13 18:39",
  "tw": {
   "hit_rate": 53.8,
   "hit": 35,
@@ -595,10 +595,10 @@
   ]
  },
  "us": {
-  "hit_rate": 56.5,
+  "hit_rate": 55.6,
   "hit": 35,
-  "total": 62,
-  "recent30_rate": 66.7,
+  "total": 63,
+  "recent30_rate": 63.3,
   "recent30_total": 30,
   "detail": [
    {
@@ -1158,16 +1158,25 @@
     "actual_pct": 0.59,
     "actual": "up",
     "hit": false
+   },
+   {
+    "date": "2026-10-12",
+    "next_date": "2026-10-13",
+    "stance": "中性偏多",
+    "predicted": "up",
+    "actual_pct": -0.06,
+    "actual": "down",
+    "hit": false
    }
   ],
   "index_used": "標普 500"
  },
  "regime": {
-  "hit_rate": 62.1,
+  "hit_rate": 60.0,
   "hit": 18,
-  "total": 29,
-  "recent30_rate": 62.1,
-  "recent30_total": 29,
+  "total": 30,
+  "recent30_rate": 60.0,
+  "recent30_total": 30,
   "detail": [
    {
     "date": "2026-07-07",
@@ -1429,6 +1438,15 @@
     "return_pct": 3.89,
     "actual": "up",
     "hit": true
+   },
+   {
+    "date": "2026-10-05",
+    "target_date": "2026-10-13",
+    "light": "green",
+    "predicted": "up",
+    "return_pct": -2.76,
+    "actual": "down",
+    "hit": false
    }
   ],
   "window_days": 5
