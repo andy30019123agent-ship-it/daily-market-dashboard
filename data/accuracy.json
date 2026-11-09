@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-09 18:40",
+ "generated_at": "2026-11-10 05:29",
  "tw": {
   "hit_rate": 52.4,
   "hit": 43,
@@ -1470,7 +1470,7 @@
     "next_date": "2026-11-09",
     "stance": "偏空",
     "predicted": "down",
-    "actual_pct": 0.31,
+    "actual_pct": 2.35,
     "actual": "up",
     "hit": false
    }
