@@ -33,7 +33,7 @@
         },
         {
           "name": "投信買賣超",
-          "value": "+82.4 億",
+          "value": "+95.4 億",
           "dir": "up"
         },
         {
@@ -45,6 +45,11 @@
           "name": "漲跌家數",
           "value": "811▲ / 199▼",
           "note": "持平 74 家"
+        },
+        {
+          "name": "融資餘額",
+          "value": "7,086 億",
+          "note": "+50.5 億"
         }
       ]
     },
@@ -1148,6 +1153,11 @@
           "zhang": 15568
         },
         {
+          "code": "1303",
+          "name": "南亞",
+          "zhang": 9431
+        },
+        {
           "code": "2881",
           "name": "富邦金",
           "zhang": 5398
@@ -1156,11 +1166,6 @@
           "code": "2882",
           "name": "國泰金",
           "zhang": 5050
-        },
-        {
-          "code": "1303",
-          "name": "南亞",
-          "zhang": 3986
         },
         {
           "code": "2603",
@@ -1255,7 +1260,7 @@
   },
   "inst_net_yi": {
     "外資": 288.4,
-    "投信": 82.4,
+    "投信": 95.4,
     "自營": 68.9
   },
   "radar": {
@@ -1488,7 +1493,7 @@
         "code": "1303",
         "name": "南亞",
         "pct": 3.75,
-        "inst_net_yi": -7.99,
+        "inst_net_yi": 8.57,
         "value_yi": 321.37,
         "sector": "塑膠"
       },
@@ -3448,7 +3453,7 @@
         "code": "2324",
         "name": "仁寶",
         "pct": 0.33,
-        "inst_net_yi": -3.49,
+        "inst_net_yi": -3.48,
         "value_yi": 9.91,
         "sector": "電腦及週邊設備"
       },
@@ -3832,7 +3837,7 @@
         "code": "2395",
         "name": "研華",
         "pct": 0.83,
-        "inst_net_yi": 2.24,
+        "inst_net_yi": 2.3,
         "value_yi": 10.45,
         "sector": "電腦及週邊設備"
       },
@@ -3872,7 +3877,7 @@
         "code": "2404",
         "name": "漢唐",
         "pct": 2.89,
-        "inst_net_yi": 0.71,
+        "inst_net_yi": 0.56,
         "value_yi": 13.11,
         "sector": "其他電子"
       },
@@ -4392,7 +4397,7 @@
         "code": "2492",
         "name": "華新科",
         "pct": 5.15,
-        "inst_net_yi": 9.78,
+        "inst_net_yi": 6.15,
         "value_yi": 80.48,
         "sector": "電子零組件"
       },
@@ -7872,7 +7877,7 @@
         "code": "6409",
         "name": "旭隼",
         "pct": 3.16,
-        "inst_net_yi": 0.26,
+        "inst_net_yi": 0.32,
         "value_yi": 1.39,
         "sector": "其他電子"
       },
@@ -8280,7 +8285,7 @@
         "code": "6669",
         "name": "緯穎",
         "pct": 4.14,
-        "inst_net_yi": 7.38,
+        "inst_net_yi": 7.39,
         "value_yi": 69.94,
         "sector": "電腦及週邊設備"
       },
@@ -9989,14 +9994,20 @@
       {
         "name": "電子零組件",
         "pct": 1.26,
-        "inst_net_yi": 38.37,
+        "inst_net_yi": 34.74,
         "value_yi": 2243.7
       },
       {
         "name": "電腦及週邊設備",
         "pct": 2.28,
-        "inst_net_yi": 28.0,
+        "inst_net_yi": 28.08,
         "value_yi": 607.1
+      },
+      {
+        "name": "塑膠",
+        "pct": 3.84,
+        "inst_net_yi": 22.24,
+        "value_yi": 363.5
       },
       {
         "name": "航運",
@@ -10019,14 +10030,8 @@
       {
         "name": "其他電子",
         "pct": 0.91,
-        "inst_net_yi": 8.5,
+        "inst_net_yi": 8.41,
         "value_yi": 271.7
-      },
-      {
-        "name": "塑膠",
-        "pct": 3.84,
-        "inst_net_yi": 5.68,
-        "value_yi": 363.5
       },
       {
         "name": "其他",
@@ -10176,20 +10181,21 @@
     "flat": 74
   },
   "margin": {
-    "listed": null,
+    "listed": {
+      "balance_yi": 5366.0,
+      "change_yi": 31.2
+    },
     "otc": {
-      "balance_yi": 1700.8,
-      "change_yi": -17.3
-    }
+      "balance_yi": 1720.2,
+      "change_yi": 19.3
+    },
+    "total_yi": 7086.2,
+    "total_change_yi": 50.5
   },
   "_meta": {
-    "errors": [
-      "MI_MARGN 上市融資: MI_MARGN 找不到融資金額"
-    ],
-    "missing": [
-      "融資餘額（上市）"
-    ],
-    "fetched_at": "2026-11-13",
+    "errors": [],
+    "missing": [],
+    "fetched_at": "2026-11-14",
     "trade_date": "20261113"
   }
 }
